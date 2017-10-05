@@ -1,6 +1,6 @@
 import { browser, by, element } from 'protractor';
 
-export class SmartHealthPage {
+export class SbAdminCliUpdatePage {
   navigateTo() {
     return browser.get('/');
   }
