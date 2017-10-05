@@ -8,7 +8,7 @@ import { routerTransition } from '../../router.animations';
     animations: [routerTransition()]
 })
 export class DashboardComponent implements OnInit {
-    public alerts: Array<any> = [];
+    public doctors: Array<any> = [];
     public sliders: Array<any> = [];
 
     constructor() {
@@ -26,28 +26,34 @@ export class DashboardComponent implements OnInit {
             text: 'Praesent commodo cursus magna, vel scelerisque nisl consectetur.'
         });
 
-        this.alerts.push({
+        this.doctors.push({
             id: 1,
-            type: 'success',
-            message: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Voluptates est animi quibusdam praesentium quam, et perspiciatis,
-                consectetur velit culpa molestias dignissimos
-                voluptatum veritatis quod aliquam! Rerum placeat necessitatibus, vitae dolorum`
+            name: 'Dr Rufus Mandude',
+            specialty: "Dentist",
+            address: "1221 Foggy Dr, Suite 300, 32746"
         }, {
             id: 2,
-            type: 'warning',
-            message: `Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Voluptates est animi quibusdam praesentium quam, et perspiciatis,
-                consectetur velit culpa molestias dignissimos
-                voluptatum veritatis quod aliquam! Rerum placeat necessitatibus, vitae dolorum`
+            name: 'Dr Tommy Gill',
+            specialty: "Plastic Surgeon",
+            address: "1223 Foggy Cir, Suite 2, 32746"
+        },{
+            id: 3,
+            name: 'Dr Lila Hunt',
+            specialty: "General Practice",
+            address: "341 Fist St,  22546"
+        },{
+            id: 4,
+            name: 'Dr Curt Russel',
+            specialty: "Orthodontist",
+            address: "1221 Teeth Rd, Suite 300, 64857"
+        },{
+            id: 5,
+            name: "Dr Sara O'Mally",
+            specialty: "Gynocologist",
+            address: "777 Turnpike Dr,  81142"
         });
     }
 
     ngOnInit() {
-    }
-
-    public closeAlert(alert: any) {
-        const index: number = this.alerts.indexOf(alert);
-        this.alerts.splice(index, 1);
     }
 }
