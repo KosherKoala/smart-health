@@ -1,5 +1,5 @@
 <div [@routerTransition]>
-    <h2 class="text-muted">Dashboard <small>Statistics Overview</small></h2>
+    <h2 class="text-muted">Welcome to Smart Health</h2>
     <div class="row">
         <div class="col-md-12">
             <ngb-carousel>
@@ -15,45 +15,41 @@
     </div>
     <hr>
     <div class="row">
-        <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'card-primary'" [icon]="'fa-comments'" [count]="26" [label]="'New Comments!'" ></app-stat>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'card-info'" [icon]="'fa-tasks'" [count]="12" [label]="'New task!'" ></app-stat>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'card-success'" [icon]="'fa-shopping-cart'" [count]="124" [label]="'New Orders!'" ></app-stat>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'card-danger'" [icon]="'fa-support'" [count]="13" [label]="'New Tickets!'"></app-stat>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12">
+                    <h2>Find a Doctor</h2>  
+                </div>
+            </div>
+            <form>
+                <div class="form-row">
+                    <div class="col-4">
+                        <input type="text" class="form-control form-control-lg" placeholder="Name">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control form-control-lg" placeholder="Specialty (ex. Dentist)">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control form-control-lg" placeholder="Service (ex. Root Canal)">
+                    </div>
+                    <div class="col">
+                         <input type="text" class="form-control form-control-lg" placeholder="Zip">
+                    </div>
+                </div>  
+            </form>
+            <hr>
         </div>
     </div>
-    <hr />
-    <ngb-alert [type]="alert.type" (close)="closeAlert(alert)" *ngFor="let alert of alerts">{{ alert.message }}</ngb-alert>
-    <hr />
     <div class="row">
-        <div class="col-lg-8">
-            <div class="card card-default">
-                <div class="card-header">
-                    <i class="fa fa-clock-o fa-fw"></i> Responsive Timeline
-                </div>
-                <!-- /.card-header -->
-                <app-timeline></app-timeline>
-                <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
+        <div class="col-xl-3 col-lg-6 mb-2" *ngFor="let doctor of doctors">
+            <app-stat [bgClass]="m" [icon]="'https://dummyimage.com/100x100/999/fff'" [name]="doctor.name" [specialty]= "doctor.specialty" [address]="doctor.address"></app-stat>
         </div>
+    </div>
+   
+    <div class="row d-none">
         <!-- /.col-lg-8 -->
         <div class="col-lg-4">
-            <div class="card card-default">
-                <div class="card-header">
-                    <i class="fa fa-bell fa-fw"></i> Notifications card
-                </div>
-                <!-- /.card-header -->
-                <app-notification></app-notification>
-                <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
+            
 
             <app-chat></app-chat>
             <!-- /.card .chat-card -->
