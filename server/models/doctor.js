@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 
+const Schema = mongoose.Schema;
+
 const Procedure = require('./procedure');
-const User = require('/user');
-const Calendar = require('./calendar');
+const User = require('./user');
+const Event = require('./event');
 const Insurance = require('./insurance');
 const Location = require('./location');
 
