@@ -11,7 +11,7 @@ const eventSchema = new Schema ({
     patient: { type: Schema.Types.ObjectId, ref: 'User' }, 
     timeIn: String,
     timeOut: String,
-    isCancelled: Boolean
+    isPending: Boolean
 });
 
 module.exports = mongoose.model('Event', eventSchema);
