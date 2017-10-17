@@ -14,7 +14,8 @@ const userSchema = new Schema({
 	health: { type: Schema.Types.ObjectId, ref: 'Health' },
 	insurance: {type:Schema.Types.ObjectId, ref: 'Insurance'},
 	history: [{type: Schema.Types.ObjectId, ref: 'History'}],
-	picture: String
+	picture: String,
+	isValidated: Boolean
 
 });
 
