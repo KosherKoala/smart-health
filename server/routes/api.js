@@ -17,7 +17,8 @@ const fs = require('fs');
 var secret		= 'harrypotter';
 
 
-const db ="mongodb://hunter:Envision1!@ds059185.mlab.com:59185/masterpad"
+//const db ="mongodb://hunter:Envision1!@ds059185.mlab.com:59185/masterpad"
+const db ='mongodb://admin:Yellow123!@health-shard-00-00-5vz0l.mongodb.net:27017,health-shard-00-01-5vz0l.mongodb.net:27017,health-shard-00-02-5vz0l.mongodb.net:27017/test?ssl=true&replicaSet=Health-shard-0&authSource=admin'
 mongoose.Promise = global.Promise;
 
 mongoose.connect(db, function(err){
