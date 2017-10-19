@@ -21,7 +21,8 @@
             "prefix": "app",
             "styles": [
                 "../node_modules/font-awesome/css/font-awesome.css",
-                "styles/app.scss"
+                "styles/app.scss",
+                "../node_modules/angular-calendar/dist/css/angular-calendar.css"
             ],
             "scripts": [
                 "../node_modules/chart.js/dist/Chart.js"

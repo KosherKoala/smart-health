@@ -1,0 +1,114 @@
+<div [@routerTransition]>  
+  <div class="row">
+    <div class="col-3">
+      <div class="card m-auto" style="width: 20rem;">
+        <img class="card-img-top" src="http://via.placeholder.com/350x350" alt="Card image cap">
+        <div class="card-body p-0">
+            <ul class="list-group">
+                <li class="list-group-item">Dentist</li>
+                <li class="list-group-item">1223 Main St, Lake Mona, FL</li>
+                <li class="list-group-item">Open 8am-5pm, MWF</li>
+            </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-9">
+      <div class="row">
+        <div class="col-8">
+          <h4>
+            Dr Toster Strudel 
+          </h4>
+          <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sollicitudin diam orci, eu mattis lectus consectetur eget. 
+              Curabitur ultricies non est a accumsan. Mauris efficitur id erat ut ultricies. Nunc id ex sollicitudin neque lobortis gravida a ut risus. 
+              Maecenas et leo dictum, hendrerit libero eget, blandit diam. Suspendisse potenti. Cras sit amet consequat mi. Sed sem ligula, blandit in orci in, 
+              luctus imperdiet nulla. Nullam sed cursus ipsum, a varius est. Nulla nec dolor vitae mi commodo mollis. Ut dignissim ipsum vel ipsum varius, 
+              fermentum pharetra metus auctor. Donec luctus pretium purus, pulvinar consequat erat sagittis accumsan. Pellentesque sagittis volutpat ligula ac placerat. 
+              Ut magna urna, malesuada et erat non, congue molestie dolor. Duis vitae porta sapien. Integer sodales interdum tristique.
+          </p>
+          <div class="d-flex px-4 justify-content-between">
+           <h3> <div class="badge badge-pill badge-primary"><i class="fa fa-phone pr-2"></i>407-455-3455</div> </h3>
+           <h3> <div class="badge badge-pill badge-primary"><i class="fa fa-envelope pr-2"></i>strudel@toster.com</div> </h3>
+           <h3> <div class="badge badge-pill badge-primary"><i class="fa fa-facebook pr-2"></i>Toster Strudel</div> </h3>
+          </div>
+          <hr class="thick">
+          <h3>Request an Appointment:</h3>
+          <br>
+          <div class="row text-center">
+            <div class="col-md-4">
+              <div class="btn-group">
+                <div
+                  class="btn btn-primary"
+                  mwlCalendarPreviousView
+                  [view]="view"
+                  [(viewDate)]="viewDate">
+                  Previous
+                </div>
+                <div
+                  class="btn btn-outline-secondary"
+                  mwlCalendarToday
+                  [(viewDate)]="viewDate">
+                  Today
+                </div>
+                <div
+                  class="btn btn-primary"
+                  mwlCalendarNextView
+                  [view]="view"
+                  [(viewDate)]="viewDate">
+                  Next
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+            </div>
+            <div class="col-md-4">
+              <div class="btn-group">
+                <div
+                  class="btn btn-primary"
+                  (click)="view = 'month'"
+                  [class.active]="view === 'month'">
+                  Month
+                </div>
+                <div
+                  class="btn btn-primary"
+                  (click)="view = 'week'"
+                  [class.active]="view === 'week'">
+                  Week
+                </div>
+                <div
+                  class="btn btn-primary"
+                  (click)="view = 'day'"
+                  [class.active]="view === 'day'">
+                  Day
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div id="calendar-col" class="col-12">
+              <div [ngSwitch]="view">
+                <mwl-calendar-month-view
+                  *ngSwitchCase="'month'"
+                  [viewDate]="viewDate"
+                  [events]="events"
+                  (dayClicked)="clickedDate = $event.day.date">
+                </mwl-calendar-month-view>
+                <mwl-calendar-week-view
+                  *ngSwitchCase="'week'"
+                  [viewDate]="viewDate"
+                  [events]="events"
+                  (dayHeaderClicked)="clickedDate = $event.day.date">
+                </mwl-calendar-week-view>
+                <mwl-calendar-day-view
+                  *ngSwitchCase="'day'"
+                  [viewDate]="viewDate"
+                  [events]="events">
+                </mwl-calendar-day-view>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
