@@ -21,16 +21,18 @@ var secret		= 'harrypotter';
 const db ='mongodb://admin:Yellow123!@health-shard-00-00-5vz0l.mongodb.net:27017,health-shard-00-01-5vz0l.mongodb.net:27017,health-shard-00-02-5vz0l.mongodb.net:27017/test?ssl=true&replicaSet=Health-shard-0&authSource=admin'
 mongoose.Promise = global.Promise;
 
-mongoose.connect(db, function(err){
-	
-	if(err){
+var promise = mongoose.connect(db,{
+	useMongoClient: true,	
+  	}, function(err) {
+	if(err)
+	{
 		console.error("Error: " + err);
 	}
 	else
 	{
 		console.log("connected");
 	}
-});
+  });
 
 
 /* GET api listing. */
@@ -38,28 +40,28 @@ router.get('/', (req, res) => {
   res.send('api works');
 });
 
-// //Authenticate
-// 	router.post('/authenticate', (req, res) => {
+//Authenticate
+	router.post('/authenticate', (req, res) => {
 		
 
-// 		User.findOne({'email': req.body.email, 'password': req.body.password})
-// 		.exec(function(err, user){
-// 			if(err){
-// 				console.log("Error retriving players.")
-// 			}else{
+		User.findOne({'email': req.body.email, 'password': req.body.password})
+		.exec(function(err, user){
+			if(err){
+				console.log("Error retriving players.")
+			}else{
 				
-// 				if(user)
-// 				{
-// 					var token = jwt.sign({_id: user._id, email: user.email}, secret);
-// 					res.json({success: true, message: "User authenticated", token: token, obj: {_id: user._id, username: user.username, email: user.email, friends: user.friends} });
-// 				}
-// 				else{
+				if(user)
+				{
+					var token = jwt.sign({_id: user._id, email: user.email}, secret);
+					res.json({success: true, message: "User authenticated", token: token, obj: {_id: user._id, username: user.username, email: user.email, friends: user.friends} });
+				}
+				else{
 
-// 					res.json({success: true, message: "Incorrect username or password"});
-// 				}
-// 			}
-// 		});
-// 	});
+					res.json({success: true, message: "Incorrect username or password"});
+				}
+			}
+		});
+	});
 
 // //Users
 // 	router.post('/user', (req, res) => {
