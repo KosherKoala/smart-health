@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-app.use('/user', require('./server/routes/user'));
+app.use('/patient', require('./server/routes/patient'));
 
 // Parsers for POST data
 app.use(bodyParser.json());
