@@ -6,7 +6,6 @@ const History = require('./history');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-	key: Number,
 	firstname: String,
 	lastname: String,
 	email: String,
