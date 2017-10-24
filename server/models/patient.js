@@ -5,7 +5,7 @@ const History = require('./history');
 
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const patientSchema = new Schema({
 	firstname: String,
 	lastname: String,
 	email: String,
@@ -18,4 +18,4 @@ const userSchema = new Schema({
 
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Patient', patientSchema);

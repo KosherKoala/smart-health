@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Procedure = require('./procedure');
-const User = require('./user');
+const Patient = require('./patient');
 const Event = require('./event');
 const Insurance = require('./insurance');
 const Location = require('./location');
@@ -14,7 +14,7 @@ const doctorSchema = new Schema ({
     firstName: String,
     lastName: String,
     procedures: [{ type: Schema.Types.ObjectId, ref: 'Procedure'}],
-    patientList: [{ type: Schema.Types.ObjectId, ref: 'User'}],
+    patientList: [{ type: Schema.Types.ObjectId, ref: 'Patient'}],
     practiceName: String,
     calendar: [{ type: Schema.Types.ObjectId, ref: 'Calendar'}],
     specialty: String,

@@ -1,1 +1,1 @@
-export * from './classes/user'
+export * from './classes/patient'

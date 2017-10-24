@@ -3,16 +3,16 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise';
-import { User } from '../../../server/models/index'
+import { Patient } from '../../../server/models/index'
 
 @Injectable()
-export class UserService {
+export class PatientService {
     
     constructor(private http: Http) { }
 
-    getAllUsers() {
+    getAllPatients() {
         return new Promise((resolve, reject) => {
-          this.http.get('/user')
+          this.http.get('/patient')
             .map(res => res.json())
             .subscribe(res => {
               resolve(res);
@@ -22,9 +22,9 @@ export class UserService {
         });
       }
     
-      showUser(id) {
+      getPatient(id) {
         return new Promise((resolve, reject) => {
-            this.http.get('/user/' + id)
+            this.http.get('/patient/' + id)
               .map(res => res.json())
               .subscribe(res => {
                 resolve(res)
@@ -34,9 +34,9 @@ export class UserService {
         });
       }
     
-      createUser(data) {
+      createPatient(data) {
         return new Promise((resolve, reject) => {
-            this.http.post('/user', data)
+            this.http.post('/patient', data)
               .map(res => res.json())
               .subscribe(res => {
                 resolve(res);
@@ -46,9 +46,9 @@ export class UserService {
         });
       }
     
-      updateUser(id, data) {
+      updatePatient(id, data) {
         return new Promise((resolve, reject) => {
-            this.http.put('/user/'+id, data)
+            this.http.put('/patient/'+id, data)
               .map(res => res.json())
               .subscribe(res => {
                 resolve(res);
@@ -58,9 +58,9 @@ export class UserService {
         });
       }
     
-      deleteUser(id) {
+      deletePatient(id) {
         return new Promise((resolve, reject) => {
-            this.http.delete('/user/'+id)
+            this.http.delete('/patient/'+id)
               .subscribe(res => {
                 resolve(res);
               }, (err) => {
