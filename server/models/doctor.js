@@ -13,6 +13,8 @@ const doctorSchema = new Schema ({
     doctorId: Number,
     firstName: String,
     lastName: String,
+    email: String,
+    password: String,
     procedures: [{ type: Schema.Types.ObjectId, ref: 'Procedure'}],
     patientList: [{ type: Schema.Types.ObjectId, ref: 'Patient'}],
     practiceName: String,

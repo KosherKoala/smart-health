@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 const app = express();
 
 app.use('/patient', require('./server/routes/patient'));
-
+app.use('/doctor', require('./server/routes/doctor'));
 // Parsers for POST data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

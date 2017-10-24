@@ -35,6 +35,7 @@ export class AuthenticationService {
                     return false;
                 }
             });
+            
     }
 
     logout(): void {
