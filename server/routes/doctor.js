@@ -45,9 +45,13 @@ router.post('/', function(req, res, next) {
 
 /* UPDATE DOCTOR */
 router.put('/:id', function(req, res, next) {
-  Doctor.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+  Doctor.findByIdAndUpdate(req.params.id, req.body, function (err, put) {
     if (err) return next(err);
-    res.json(post);
+    if(put){
+      res.json({success: true, doctor: put, message: "doctor updated"});
+  } else {
+      res.json({success: false, message: "ERROR: doctor not updated"});
+  }
   });
   console.log('patient api put response');
 });
