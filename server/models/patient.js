@@ -6,8 +6,8 @@ const History = require('./history');
 const Schema = mongoose.Schema;
 
 const patientSchema = new Schema({
-	firstname: String,
-	lastname: String,
+	firstName: String,
+	lastName: String,
 	email: String,
 	password: String,
 	health: { type: Schema.Types.ObjectId, ref: 'Health' },

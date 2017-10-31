@@ -20,17 +20,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var routes = [
     { path: '', component: __WEBPACK_IMPORTED_MODULE_2__doctor_page_component__["a" /* DoctorPageComponent */] }
 ];
-var DoctorPageRoutingModule = /** @class */ (function () {
+var DoctorPageRoutingModule = (function () {
     function DoctorPageRoutingModule() {
     }
-    DoctorPageRoutingModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forChild(routes)],
-            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
-        })
-    ], DoctorPageRoutingModule);
     return DoctorPageRoutingModule;
 }());
+DoctorPageRoutingModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forChild(routes)],
+        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
+    })
+], DoctorPageRoutingModule);
 
 //# sourceMappingURL=doctor-page-routing.module.js.map
 
@@ -83,7 +83,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var DoctorPageComponent = /** @class */ (function () {
+var DoctorPageComponent = (function () {
     function DoctorPageComponent(route, doctorService) {
         this.route = route;
         this.doctorService = doctorService;
@@ -133,19 +133,19 @@ var DoctorPageComponent = /** @class */ (function () {
         var event = _a.event;
         console.log('Event clicked', event);
     };
-    DoctorPageComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'app-doctor-page',
-            template: __webpack_require__("../../../../../src/app/layout/doctor-page/doctor-page.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/layout/doctor-page/doctor-page.component.scss")],
-            animations: [Object(__WEBPACK_IMPORTED_MODULE_1__router_animations__["a" /* routerTransition */])()]
-        }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services__["b" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["b" /* DoctorService */]) === "function" && _b || Object])
-    ], DoctorPageComponent);
     return DoctorPageComponent;
-    var _a, _b;
 }());
+DoctorPageComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'app-doctor-page',
+        template: __webpack_require__("../../../../../src/app/layout/doctor-page/doctor-page.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/layout/doctor-page/doctor-page.component.scss")],
+        animations: [Object(__WEBPACK_IMPORTED_MODULE_1__router_animations__["a" /* routerTransition */])()]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services__["c" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["c" /* DoctorService */]) === "function" && _b || Object])
+], DoctorPageComponent);
 
+var _a, _b;
 //# sourceMappingURL=doctor-page.component.js.map
 
 /***/ }),
@@ -176,23 +176,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var DoctorPageModule = /** @class */ (function () {
+var DoctorPageModule = (function () {
     function DoctorPageModule() {
     }
-    DoctorPageModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-            imports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
-                __WEBPACK_IMPORTED_MODULE_4_angular_calendar__["a" /* CalendarModule */].forRoot(),
-                __WEBPACK_IMPORTED_MODULE_3__doctor_page_routing_module__["a" /* DoctorPageRoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_5__shared__["e" /* StatModule */]
-            ],
-            declarations: [__WEBPACK_IMPORTED_MODULE_2__doctor_page_component__["a" /* DoctorPageComponent */]],
-            providers: [__WEBPACK_IMPORTED_MODULE_6__services__["b" /* DoctorService */]]
-        })
-    ], DoctorPageModule);
     return DoctorPageModule;
 }());
+DoctorPageModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+        imports: [
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
+            __WEBPACK_IMPORTED_MODULE_4_angular_calendar__["a" /* CalendarModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_3__doctor_page_routing_module__["a" /* DoctorPageRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_5__shared__["e" /* StatModule */]
+        ],
+        declarations: [__WEBPACK_IMPORTED_MODULE_2__doctor_page_component__["a" /* DoctorPageComponent */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_6__services__["c" /* DoctorService */]]
+    })
+], DoctorPageModule);
 
 //# sourceMappingURL=doctor-page.module.js.map
 

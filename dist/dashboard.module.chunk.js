@@ -20,17 +20,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var routes = [
     { path: '', component: __WEBPACK_IMPORTED_MODULE_2__dashboard_component__["a" /* DashboardComponent */] }
 ];
-var DashboardRoutingModule = /** @class */ (function () {
+var DashboardRoutingModule = (function () {
     function DashboardRoutingModule() {
     }
-    DashboardRoutingModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forChild(routes)],
-            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
-        })
-    ], DashboardRoutingModule);
     return DashboardRoutingModule;
 }());
+DashboardRoutingModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forChild(routes)],
+        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
+    })
+], DashboardRoutingModule);
 
 //# sourceMappingURL=dashboard-routing.module.js.map
 
@@ -81,7 +81,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var DashboardComponent = /** @class */ (function () {
+var DashboardComponent = (function () {
     function DashboardComponent(doctorService) {
         var _this = this;
         this.doctorService = doctorService;
@@ -112,19 +112,19 @@ var DashboardComponent = /** @class */ (function () {
     }
     DashboardComponent.prototype.ngOnInit = function () {
     };
-    DashboardComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'app-dashboard',
-            template: __webpack_require__("../../../../../src/app/layout/dashboard/dashboard.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/layout/dashboard/dashboard.component.scss")],
-            animations: [Object(__WEBPACK_IMPORTED_MODULE_1__router_animations__["a" /* routerTransition */])()]
-        }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__services__["b" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["b" /* DoctorService */]) === "function" && _a || Object])
-    ], DashboardComponent);
     return DashboardComponent;
-    var _a;
 }());
+DashboardComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'app-dashboard',
+        template: __webpack_require__("../../../../../src/app/layout/dashboard/dashboard.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/layout/dashboard/dashboard.component.scss")],
+        animations: [Object(__WEBPACK_IMPORTED_MODULE_1__router_animations__["a" /* routerTransition */])()]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__services__["c" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["c" /* DoctorService */]) === "function" && _a || Object])
+], DashboardComponent);
 
+var _a;
 //# sourceMappingURL=dashboard.component.js.map
 
 /***/ }),
@@ -159,28 +159,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var DashboardModule = /** @class */ (function () {
+var DashboardModule = (function () {
     function DashboardModule() {
     }
-    DashboardModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-            imports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
-                __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["b" /* NgbCarouselModule */].forRoot(),
-                __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["a" /* NgbAlertModule */].forRoot(),
-                __WEBPACK_IMPORTED_MODULE_5__dashboard_routing_module__["a" /* DashboardRoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_7__shared__["e" /* StatModule */],
-                __WEBPACK_IMPORTED_MODULE_4__angular_forms__["a" /* FormsModule */]
-            ],
-            declarations: [
-                __WEBPACK_IMPORTED_MODULE_6__dashboard_component__["a" /* DashboardComponent */],
-                __WEBPACK_IMPORTED_MODULE_3__shared_pipes_doctor_search_pipe__["a" /* DoctorSearchPipe */]
-            ],
-            providers: [__WEBPACK_IMPORTED_MODULE_8__services__["b" /* DoctorService */]]
-        })
-    ], DashboardModule);
     return DashboardModule;
 }());
+DashboardModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+        imports: [
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
+            __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["b" /* NgbCarouselModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["a" /* NgbAlertModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_5__dashboard_routing_module__["a" /* DashboardRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_7__shared__["e" /* StatModule */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_forms__["a" /* FormsModule */]
+        ],
+        declarations: [
+            __WEBPACK_IMPORTED_MODULE_6__dashboard_component__["a" /* DashboardComponent */],
+            __WEBPACK_IMPORTED_MODULE_3__shared_pipes_doctor_search_pipe__["a" /* DoctorSearchPipe */]
+        ],
+        providers: [__WEBPACK_IMPORTED_MODULE_8__services__["c" /* DoctorService */]]
+    })
+], DashboardModule);
 
 //# sourceMappingURL=dashboard.module.js.map
 

@@ -30,20 +30,22 @@ export class RegistrationComponent implements OnInit {
     if (this.model.password !== this.model.passwordConfirmation) {
       this.errors.password = 'Passwords don\'t match';
     } else {
-
+      console.log("Email",this.model.email)
       this.patientService.getPatient({email: this.model.email})
         .then((res: any) => {
-          console.log('logging', res);
-          if (res.success) {
-            this.created = true;
-          }
-        });
+          console.log('checking repeats', res);
+          if (!res.success) {
+            this.patientService.createPatient(this.model)
+              .then((r: any) => {
 
-      this.patientService.createPatient(this.model)
-        .then((res: any) => {
-          console.log('logging', res);
-          if (res.success) {
-            this.created = true;
+                console.log('registering', r);
+
+                if (res.success) {
+                  this.router.navigate(['/login']);
+                }
+              });
+          } else {
+            console.log('Patient email aready used');
           }
         });
     }

@@ -18,6 +18,11 @@ var map = {
 		"doctor-page.module",
 		"common"
 	],
+	"./doctor-portal/doctor-portal.module": [
+		"../../../../../src/app/doctor-portal/doctor-portal.module.ts",
+		"common",
+		"doctor-portal.module"
+	],
 	"./layout/layout.module": [
 		"../../../../../src/app/layout/layout.module.ts",
 		"common",
@@ -88,22 +93,23 @@ var routes = [
         canActivate: [__WEBPACK_IMPORTED_MODULE_2__shared__["a" /* AuthGuard */]]
     },
     { path: 'login', loadChildren: './login/login.module#LoginModule' },
+    { path: 'doctor-portal', loadChildren: './doctor-portal/doctor-portal.module#DoctorPortalModule' },
     { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },
     { path: 'not-found', loadChildren: './not-found/not-found.module#NotFoundModule' },
     { path: 'registration', loadChildren: './registration/registration.module#RegistrationModule' },
     { path: '**', redirectTo: 'not-found' }
 ];
-var AppRoutingModule = /** @class */ (function () {
+var AppRoutingModule = (function () {
     function AppRoutingModule() {
     }
-    AppRoutingModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forRoot(routes)],
-            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
-        })
-    ], AppRoutingModule);
     return AppRoutingModule;
 }());
+AppRoutingModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forRoot(routes)],
+        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
+    })
+], AppRoutingModule);
 
 //# sourceMappingURL=app-routing.module.js.map
 
@@ -152,7 +158,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-var AppComponent = /** @class */ (function () {
+var AppComponent = (function () {
     function AppComponent(translate) {
         this.translate = translate;
         translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa']);
@@ -160,18 +166,18 @@ var AppComponent = /** @class */ (function () {
         var browserLang = translate.getBrowserLang();
         translate.use(browserLang.match(/en|fr|ur|es|it|fa/) ? browserLang : 'en');
     }
-    AppComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'app-root',
-            template: __webpack_require__("../../../../../src/app/app.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/app.component.scss")]
-        }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__["c" /* TranslateService */]) === "function" && _a || Object])
-    ], AppComponent);
     return AppComponent;
-    var _a;
 }());
+AppComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'app-root',
+        template: __webpack_require__("../../../../../src/app/app.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/app.component.scss")]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__["c" /* TranslateService */]) === "function" && _a || Object])
+], AppComponent);
 
+var _a;
 //# sourceMappingURL=app.component.js.map
 
 /***/ }),
@@ -216,34 +222,34 @@ function HttpLoaderFactory(http) {
     // return new TranslateHttpLoader(http, '/start-angular/SB-Admin-BS4-Angular-4/master/dist/assets/i18n/', '.json');
     return new __WEBPACK_IMPORTED_MODULE_6__ngx_translate_http_loader__["a" /* TranslateHttpLoader */](http, '/assets/i18n/', '.json');
 }
-var AppModule = /** @class */ (function () {
+var AppModule = (function () {
     function AppModule() {
     }
-    AppModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-            declarations: [
-                __WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]
-            ],
-            imports: [
-                __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__["a" /* BrowserModule */],
-                __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
-                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */],
-                __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* HttpModule */],
-                __WEBPACK_IMPORTED_MODULE_7__app_routing_module__["a" /* AppRoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_5__ngx_translate_core__["b" /* TranslateModule */].forRoot({
-                    loader: {
-                        provide: __WEBPACK_IMPORTED_MODULE_5__ngx_translate_core__["a" /* TranslateLoader */],
-                        useFactory: HttpLoaderFactory,
-                        deps: [__WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Http */]]
-                    }
-                })
-            ],
-            providers: [__WEBPACK_IMPORTED_MODULE_9__shared__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_10__services__["c" /* PatientService */]],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]]
-        })
-    ], AppModule);
     return AppModule;
 }());
+AppModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+        declarations: [
+            __WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]
+        ],
+        imports: [
+            __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__["a" /* BrowserModule */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* HttpModule */],
+            __WEBPACK_IMPORTED_MODULE_7__app_routing_module__["a" /* AppRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_5__ngx_translate_core__["b" /* TranslateModule */].forRoot({
+                loader: {
+                    provide: __WEBPACK_IMPORTED_MODULE_5__ngx_translate_core__["a" /* TranslateLoader */],
+                    useFactory: HttpLoaderFactory,
+                    deps: [__WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Http */]]
+                }
+            })
+        ],
+        providers: [__WEBPACK_IMPORTED_MODULE_9__shared__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_10__services__["d" /* PatientService */], __WEBPACK_IMPORTED_MODULE_10__services__["b" /* CurrentUserService */]],
+        bootstrap: [__WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]]
+    })
+], AppModule);
 
 //# sourceMappingURL=app.module.js.map
 
@@ -270,16 +276,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var AuthenticationService = /** @class */ (function () {
+var AuthenticationService = (function () {
     function AuthenticationService(http) {
         this.http = http;
         // set token if saved in local storage
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.token = currentUser && currentUser.token;
     }
-    AuthenticationService.prototype.login = function (email, password) {
+    AuthenticationService.prototype.loginPatient = function (email, password) {
         var _this = this;
-        return this.http.post('/api/authenticate', { email: email, password: password })
+        return this.http.post('/api/patient/authenticate/', { email: email, password: password })
+            .map(function (response) {
+            // login successful if there's a jwt token in the response
+            var token = response.json() && response.json().token;
+            if (token) {
+                // set token property
+                _this.token = token;
+                // store email and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('currentUser', JSON.stringify({ _id: response.json().obj._id, type: 'patient', email: email, token: token }));
+                // return true to indicate successful login
+                return true;
+            }
+            else {
+                // return false to indicate failed login
+                console.log('not logged IN!');
+                return false;
+            }
+        });
+    };
+    AuthenticationService.prototype.logout = function () {
+        // clear token remove user from local storage to log user out
+        this.token = null;
+        localStorage.removeItem('currentUser');
+    };
+    AuthenticationService.prototype.loginDoctor = function (email, password) {
+        var _this = this;
+        return this.http.post('/api/doctor/authenticate', { email: email, password: password })
             .map(function (response) {
             // login successful if there's a jwt token in the response
             var token = response.json() && response.json().token;
@@ -298,20 +330,46 @@ var AuthenticationService = /** @class */ (function () {
             }
         });
     };
-    AuthenticationService.prototype.logout = function () {
-        // clear token remove user from local storage to log user out
-        this.token = null;
-        localStorage.removeItem('currentUser');
-    };
-    AuthenticationService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
-    ], AuthenticationService);
     return AuthenticationService;
-    var _a;
 }());
+AuthenticationService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
+], AuthenticationService);
 
+var _a;
 //# sourceMappingURL=authentication.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/services/current-user.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CurrentUserService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var CurrentUserService = (function () {
+    function CurrentUserService() {
+        this.currentUser = {};
+    }
+    return CurrentUserService;
+}());
+CurrentUserService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+    __metadata("design:paramtypes", [])
+], CurrentUserService);
+
+//# sourceMappingURL=current-user.service.js.map
 
 /***/ }),
 
@@ -339,14 +397,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var DoctorService = /** @class */ (function () {
+var DoctorService = (function () {
     function DoctorService(http) {
         this.http = http;
     }
     DoctorService.prototype.getAllDoctors = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.http.get('/doctor')
+            _this.http.get('/api/doctor')
                 .map(function (res) { return res.json(); })
                 .subscribe(function (res) {
                 console.log(res);
@@ -359,7 +417,7 @@ var DoctorService = /** @class */ (function () {
     DoctorService.prototype.getDoctor = function (params) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.http.get('/doctor/params', params)
+            _this.http.get('/api/doctor/params', params)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (res) {
                 resolve(res);
@@ -371,7 +429,7 @@ var DoctorService = /** @class */ (function () {
     DoctorService.prototype.getDoctorById = function (id) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.http.get('/doctor/' + id)
+            _this.http.get('/api/doctor/' + id)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (res) {
                 resolve(res);
@@ -383,7 +441,7 @@ var DoctorService = /** @class */ (function () {
     DoctorService.prototype.createDoctor = function (data) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.http.post('/doctor', data)
+            _this.http.post('/api/doctor', data)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (res) {
                 resolve(res);
@@ -395,7 +453,7 @@ var DoctorService = /** @class */ (function () {
     DoctorService.prototype.updateDoctor = function (id, data) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.http.put('/doctor/' + id, data)
+            _this.http.put('/api/doctor/' + id, data)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (res) {
                 resolve(res);
@@ -407,7 +465,7 @@ var DoctorService = /** @class */ (function () {
     DoctorService.prototype.deleteDoctor = function (id) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.http.delete('/doctor/' + id)
+            _this.http.delete('/api/doctor/' + id)
                 .subscribe(function (res) {
                 resolve(res);
             }, function (err) {
@@ -415,14 +473,14 @@ var DoctorService = /** @class */ (function () {
             });
         });
     };
-    DoctorService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
-    ], DoctorService);
     return DoctorService;
-    var _a;
 }());
+DoctorService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
+], DoctorService);
 
+var _a;
 //# sourceMappingURL=doctor.service.js.map
 
 /***/ }),
@@ -434,9 +492,12 @@ var DoctorService = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__authentication_service__ = __webpack_require__("../../../../../src/app/services/authentication.service.ts");
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__authentication_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__patient_service__ = __webpack_require__("../../../../../src/app/services/patient.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_1__patient_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_1__patient_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__doctor_service__ = __webpack_require__("../../../../../src/app/services/doctor.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2__doctor_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_2__doctor_service__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__current_user_service__ = __webpack_require__("../../../../../src/app/services/current-user.service.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_3__current_user_service__["a"]; });
+
 
 
 
@@ -468,14 +529,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var PatientService = /** @class */ (function () {
+var PatientService = (function () {
     function PatientService(http) {
         this.http = http;
     }
     PatientService.prototype.getAllPatients = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.http.get('/patient')
+            _this.http.get('/api/patient')
                 .map(function (res) { return res.json(); })
                 .subscribe(function (res) {
                 resolve(res);
@@ -487,7 +548,8 @@ var PatientService = /** @class */ (function () {
     PatientService.prototype.getPatient = function (params) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.http.get('/patient/params', params)
+            console.log("serv params", params);
+            _this.http.post('/api/patient/params', params)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (res) {
                 resolve(res);
@@ -499,7 +561,7 @@ var PatientService = /** @class */ (function () {
     PatientService.prototype.getPatientById = function (id) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.http.get('/patient/' + id)
+            _this.http.get('/api/patient/' + id)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (res) {
                 resolve(res);
@@ -511,7 +573,7 @@ var PatientService = /** @class */ (function () {
     PatientService.prototype.createPatient = function (data) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.http.post('/patient', data)
+            _this.http.post('/api/patient', data)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (res) {
                 resolve(res);
@@ -523,7 +585,7 @@ var PatientService = /** @class */ (function () {
     PatientService.prototype.updatePatient = function (id, data) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.http.put('/patient/' + id, data)
+            _this.http.put('/api/patient/' + id, data)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (res) {
                 resolve(res);
@@ -535,7 +597,7 @@ var PatientService = /** @class */ (function () {
     PatientService.prototype.deletePatient = function (id) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.http.delete('/patient/' + id)
+            _this.http.delete('/api/patient/' + id)
                 .subscribe(function (res) {
                 resolve(res);
             }, function (err) {
@@ -543,14 +605,14 @@ var PatientService = /** @class */ (function () {
             });
         });
     };
-    PatientService = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
-    ], PatientService);
     return PatientService;
-    var _a;
 }());
+PatientService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
+], PatientService);
 
+var _a;
 //# sourceMappingURL=patient.service.js.map
 
 /***/ }),
@@ -571,7 +633,7 @@ var PatientService = /** @class */ (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Patient; });
-var Patient = /** @class */ (function () {
+var Patient = (function () {
     function Patient(firstName, lastName, email, password, passwordConfirmation) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -589,7 +651,7 @@ var Patient = /** @class */ (function () {
 /***/ "../../../../../src/app/shared/components/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"pos-f-t fixed-top header\">\n    <nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\n        <button class=\"navbar-toggler navbar-toggler-right\" (click)=\"toggleSidebar()\">\n            <span class=\"navbar-toggler-icon\"></span>\n        </button>\n        <a class=\"navbar-brand\" href=\"javascript:void(0)\">Smart Health</a>\n        <div class=\"collapse navbar-collapse\">\n            <ul class=\"navbar-nav ml-auto mt-2 mt-md-0\">\n                <li class=\"nav-item dropdown\" ngbDropdown>\n                    <!-- <div class=\"dropdown\"> -->\n                    <a class=\"nav-link\" href=\"javascript:void(0)\" ngbDropdownToggle>\n                        <i class=\"fa fa-envelope\"></i> <b class=\"caret\"></b><span class=\"sr-only\">(current)</span>\n                    </a>\n                    <ul class=\"dropdown-menu dropdown-menu-right messages\">\n                        <li class=\"media\">\n                            <img class=\"d-flex align-self-center mr-3\" src=\"http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg\" alt=\"Generic placeholder image\">\n                            <div class=\"media-body\">\n                                <h5 class=\"mt-0 mb-1\">John Smith</h5>\n                                <p class=\"small text-muted\"><i class=\"fa fa-clock-o\"></i> Yesterday at 4:32 PM</p>\n                                <p class=\"last\"> Lorem ipsum dolor sit amet, consectetur...</p>\n                            </div>\n                        </li>\n                        <li class=\"media\">\n                            <img class=\"d-flex align-self-center mr-3\" src=\"http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg\" alt=\"Generic placeholder image\">\n                            <div class=\"media-body\">\n                                <h5 class=\"mt-0 mb-1\">John Smith</h5>\n                                <p class=\"small text-muted\"><i class=\"fa fa-clock-o\"></i> Yesterday at 4:32 PM</p>\n                                <p class=\"last\"> Lorem ipsum dolor sit amet, consectetur...</p>\n                            </div>\n                        </li>\n                        <li class=\"media\">\n                            <img class=\"d-flex align-self-center mr-3\" src=\"http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg\" alt=\"Generic placeholder image\">\n                            <div class=\"media-body\">\n                                <h5 class=\"mt-0 mb-1\">John Smith</h5>\n                                <p class=\"small text-muted\"><i class=\"fa fa-clock-o\"></i> Yesterday at 4:32 PM</p>\n                                <p class=\"last\"> Lorem ipsum dolor sit amet, consectetur...</p>\n                            </div>\n                        </li>\n                    </ul>\n                </li>\n                <li class=\"nav-item dropdown\" ngbDropdown>\n                    <a href=\"javascript:void(0)\" class=\"nav-link\" ngbDropdownToggle>\n                        <i class=\"fa fa-bell\"></i> <b class=\"caret\"></b><span class=\"sr-only\">(current)</span>\n                    </a>\n                    <ul class=\"dropdown-menu dropdown-menu-right\">\n                        <a href=\"javascript:void(0)\" class=\"dropdown-item\">Pending Task <span class=\"badge badge-info\">6</span></a>\n                        <a href=\"javascript:void(0)\" class=\"dropdown-item\">In queue <span class=\"badge badge-info\"> 13</span></a>\n                        <a href=\"javascript:void(0)\" class=\"dropdown-item\">Mail <span class=\"badge badge-info\"> 45</span></a>\n                        <li class=\"dropdown-divider\"></li>\n                        <a href=\"javascript:void(0)\" class=\"dropdown-item\">View All</a>\n                    </ul>\n                </li>\n                <li class=\"nav-item dropdown\" ngbDropdown>\n                    <a href=\"javascript:void(0)\" class=\"nav-link\" ngbDropdownToggle>\n                        <i class=\"fa fa-user\"></i> John Smith <b class=\"caret\"></b>\n                    </a>\n                    <div class=\"dropdown-menu dropdown-menu-right\">\n                        <a class=\"dropdown-item\" href=\"javascript:void(0)\"><i class=\"fa fa-fw fa-user\"></i> {{ 'Profile' | translate }}</a>\n                        <a class=\"dropdown-item\" href=\"javascript:void(0)\"><i class=\"fa fa-fw fa-envelope\"></i> {{ 'Inbox' | translate }}</a>\n                        <a class=\"dropdown-item\" href=\"javascript:void(0)\"><i class=\"fa fa-fw fa-gear\"></i> {{ 'Settings' | translate }}</a>\n                        <a class=\"dropdown-item\" [routerLink]=\"['/login']\" (click)=\"onLoggedout()\"><i class=\"fa fa-fw fa-power-off\"></i> {{ 'Log Out' | translate }} </a>\n                    </div>\n                </li>\n            </ul>\n        </div>\n    </nav>\n</div>\n"
+module.exports = "<div class=\"pos-f-t fixed-top header\">\n    <nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\n        <button class=\"navbar-toggler navbar-toggler-right\" (click)=\"toggleSidebar()\">\n            <span class=\"navbar-toggler-icon\"></span>\n        </button>\n        <a class=\"navbar-brand\" href=\"javascript:void(0)\">Smart Health</a>\n        <div class=\"collapse navbar-collapse\">\n            <ul class=\"navbar-nav ml-auto mt-2 mt-md-0\">\n                <li class=\"nav-item dropdown\" ngbDropdown>\n                    <!-- <div class=\"dropdown\"> -->\n                    <a class=\"nav-link\" href=\"javascript:void(0)\" ngbDropdownToggle>\n                        <i class=\"fa fa-envelope\"></i> <b class=\"caret\"></b><span class=\"sr-only\">(current)</span>\n                    </a>\n                    <ul class=\"dropdown-menu dropdown-menu-right messages\">\n                        <li class=\"media\">\n                            <img class=\"d-flex align-self-center mr-3\" src=\"http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg\" alt=\"Generic placeholder image\">\n                            <div class=\"media-body\">\n                                <h5 class=\"mt-0 mb-1\">John Smith</h5>\n                                <p class=\"small text-muted\"><i class=\"fa fa-clock-o\"></i> Yesterday at 4:32 PM</p>\n                                <p class=\"last\"> Lorem ipsum dolor sit amet, consectetur...</p>\n                            </div>\n                        </li>\n                        <li class=\"media\">\n                            <img class=\"d-flex align-self-center mr-3\" src=\"http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg\" alt=\"Generic placeholder image\">\n                            <div class=\"media-body\">\n                                <h5 class=\"mt-0 mb-1\">John Smith</h5>\n                                <p class=\"small text-muted\"><i class=\"fa fa-clock-o\"></i> Yesterday at 4:32 PM</p>\n                                <p class=\"last\"> Lorem ipsum dolor sit amet, consectetur...</p>\n                            </div>\n                        </li>\n                        <li class=\"media\">\n                            <img class=\"d-flex align-self-center mr-3\" src=\"http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg\" alt=\"Generic placeholder image\">\n                            <div class=\"media-body\">\n                                <h5 class=\"mt-0 mb-1\">John Smith</h5>\n                                <p class=\"small text-muted\"><i class=\"fa fa-clock-o\"></i> Yesterday at 4:32 PM</p>\n                                <p class=\"last\"> Lorem ipsum dolor sit amet, consectetur...</p>\n                            </div>\n                        </li>\n                    </ul>\n                </li>\n                <li class=\"nav-item dropdown\" ngbDropdown>\n                    <a href=\"javascript:void(0)\" class=\"nav-link\" ngbDropdownToggle>\n                        <i class=\"fa fa-user\"></i> {{currentUserService.currentUser.firstName}} {{currentUserService.currentUser.lastName}} <b class=\"caret\"></b>\n                    </a>\n                    <div class=\"dropdown-menu dropdown-menu-right\">\n                        <a class=\"dropdown-item\" href=\"javascript:void(0)\"><i class=\"fa fa-fw fa-user\"></i> {{ 'Profile' | translate }}</a>\n                        <a class=\"dropdown-item\" href=\"javascript:void(0)\"><i class=\"fa fa-fw fa-envelope\"></i> {{ 'Inbox' | translate }}</a>\n                        <a class=\"dropdown-item\" href=\"javascript:void(0)\"><i class=\"fa fa-fw fa-gear\"></i> {{ 'Settings' | translate }}</a>\n                        <a class=\"dropdown-item\" [routerLink]=\"['/login']\" (click)=\"onLoggedout()\"><i class=\"fa fa-fw fa-power-off\"></i> {{ 'Log Out' | translate }} </a>\n                    </div>\n                </li>\n            </ul>\n        </div>\n    </nav>\n</div>\n"
 
 /***/ }),
 
@@ -619,6 +681,7 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services__ = __webpack_require__("../../../../../src/app/services/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -631,11 +694,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var HeaderComponent = /** @class */ (function () {
-    function HeaderComponent(translate, router) {
+
+var HeaderComponent = (function () {
+    function HeaderComponent(translate, router, currentUserService) {
         var _this = this;
         this.translate = translate;
         this.router = router;
+        this.currentUserService = currentUserService;
         this.pushRightClass = 'push-right';
         this.router.events.subscribe(function (val) {
             if (val instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* NavigationEnd */] && window.innerWidth <= 992 && _this.isToggled()) {
@@ -662,18 +727,18 @@ var HeaderComponent = /** @class */ (function () {
     HeaderComponent.prototype.changeLang = function (language) {
         this.translate.use(language);
     };
-    HeaderComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'app-header',
-            template: __webpack_require__("../../../../../src/app/shared/components/header/header.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/shared/components/header/header.component.scss")]
-        }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _b || Object])
-    ], HeaderComponent);
     return HeaderComponent;
-    var _a, _b;
 }());
+HeaderComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'app-header',
+        template: __webpack_require__("../../../../../src/app/shared/components/header/header.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/shared/components/header/header.component.scss")]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services__["b" /* CurrentUserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["b" /* CurrentUserService */]) === "function" && _c || Object])
+], HeaderComponent);
 
+var _a, _b, _c;
 //# sourceMappingURL=header.component.js.map
 
 /***/ }),
@@ -730,7 +795,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 
-var SidebarComponent = /** @class */ (function () {
+var SidebarComponent = (function () {
     function SidebarComponent() {
         this.isActive = false;
         this.showMenu = '';
@@ -746,15 +811,15 @@ var SidebarComponent = /** @class */ (function () {
             this.showMenu = element;
         }
     };
-    SidebarComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'app-sidebar',
-            template: __webpack_require__("../../../../../src/app/shared/components/sidebar/sidebar.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/shared/components/sidebar/sidebar.component.scss")]
-        })
-    ], SidebarComponent);
     return SidebarComponent;
 }());
+SidebarComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'app-sidebar',
+        template: __webpack_require__("../../../../../src/app/shared/components/sidebar/sidebar.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/shared/components/sidebar/sidebar.component.scss")]
+    })
+], SidebarComponent);
 
 //# sourceMappingURL=sidebar.component.js.map
 
@@ -778,7 +843,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-var AuthGuard = /** @class */ (function () {
+var AuthGuard = (function () {
     function AuthGuard(router) {
         this.router = router;
     }
@@ -789,14 +854,14 @@ var AuthGuard = /** @class */ (function () {
         this.router.navigate(['/login']);
         return false;
     };
-    AuthGuard = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object])
-    ], AuthGuard);
     return AuthGuard;
-    var _a;
 }());
+AuthGuard = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object])
+], AuthGuard);
 
+var _a;
 //# sourceMappingURL=auth.guard.js.map
 
 /***/ }),
@@ -880,26 +945,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var PageHeaderComponent = /** @class */ (function () {
+var PageHeaderComponent = (function () {
     function PageHeaderComponent() {
     }
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], PageHeaderComponent.prototype, "heading", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], PageHeaderComponent.prototype, "icon", void 0);
-    PageHeaderComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'app-page-header',
-            template: __webpack_require__("../../../../../src/app/shared/modules/page-header/page-header.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/shared/modules/page-header/page-header.component.scss")]
-        })
-    ], PageHeaderComponent);
     return PageHeaderComponent;
 }());
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+    __metadata("design:type", String)
+], PageHeaderComponent.prototype, "heading", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+    __metadata("design:type", String)
+], PageHeaderComponent.prototype, "icon", void 0);
+PageHeaderComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'app-page-header',
+        template: __webpack_require__("../../../../../src/app/shared/modules/page-header/page-header.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/shared/modules/page-header/page-header.component.scss")]
+    })
+], PageHeaderComponent);
 
 //# sourceMappingURL=page-header.component.js.map
 
@@ -924,21 +989,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var PageHeaderModule = /** @class */ (function () {
+var PageHeaderModule = (function () {
     function PageHeaderModule() {
     }
-    PageHeaderModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-            imports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
-                __WEBPACK_IMPORTED_MODULE_2__angular_router__["d" /* RouterModule */]
-            ],
-            declarations: [__WEBPACK_IMPORTED_MODULE_3__page_header_component__["a" /* PageHeaderComponent */]],
-            exports: [__WEBPACK_IMPORTED_MODULE_3__page_header_component__["a" /* PageHeaderComponent */]]
-        })
-    ], PageHeaderModule);
     return PageHeaderModule;
 }());
+PageHeaderModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+        imports: [
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_router__["d" /* RouterModule */]
+        ],
+        declarations: [__WEBPACK_IMPORTED_MODULE_3__page_header_component__["a" /* PageHeaderComponent */]],
+        exports: [__WEBPACK_IMPORTED_MODULE_3__page_header_component__["a" /* PageHeaderComponent */]]
+    })
+], PageHeaderModule);
 
 //# sourceMappingURL=page-header.module.js.map
 
@@ -985,51 +1050,51 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var StatComponent = /** @class */ (function () {
+var StatComponent = (function () {
     function StatComponent() {
         this.event = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
     }
     StatComponent.prototype.ngOnInit = function () { };
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], StatComponent.prototype, "bgClass", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], StatComponent.prototype, "icon", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], StatComponent.prototype, "firstName", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], StatComponent.prototype, "lastName", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", String)
-    ], StatComponent.prototype, "specialty", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-        __metadata("design:type", Object)
-    ], StatComponent.prototype, "address", void 0);
-    __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */])(),
-        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]) === "function" && _a || Object)
-    ], StatComponent.prototype, "event", void 0);
-    StatComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'app-stat',
-            template: __webpack_require__("../../../../../src/app/shared/modules/stat/stat.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/shared/modules/stat/stat.component.scss")]
-        }),
-        __metadata("design:paramtypes", [])
-    ], StatComponent);
     return StatComponent;
-    var _a;
 }());
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+    __metadata("design:type", String)
+], StatComponent.prototype, "bgClass", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+    __metadata("design:type", String)
+], StatComponent.prototype, "icon", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+    __metadata("design:type", String)
+], StatComponent.prototype, "firstName", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+    __metadata("design:type", String)
+], StatComponent.prototype, "lastName", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+    __metadata("design:type", String)
+], StatComponent.prototype, "specialty", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+    __metadata("design:type", Object)
+], StatComponent.prototype, "address", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */])(),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]) === "function" && _a || Object)
+], StatComponent.prototype, "event", void 0);
+StatComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'app-stat',
+        template: __webpack_require__("../../../../../src/app/shared/modules/stat/stat.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/shared/modules/stat/stat.component.scss")]
+    }),
+    __metadata("design:paramtypes", [])
+], StatComponent);
 
+var _a;
 //# sourceMappingURL=stat.component.js.map
 
 /***/ }),
@@ -1051,20 +1116,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var StatModule = /** @class */ (function () {
+var StatModule = (function () {
     function StatModule() {
     }
-    StatModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-            imports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]
-            ],
-            declarations: [__WEBPACK_IMPORTED_MODULE_2__stat_component__["a" /* StatComponent */]],
-            exports: [__WEBPACK_IMPORTED_MODULE_2__stat_component__["a" /* StatComponent */]]
-        })
-    ], StatModule);
     return StatModule;
 }());
+StatModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+        imports: [
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]
+        ],
+        declarations: [__WEBPACK_IMPORTED_MODULE_2__stat_component__["a" /* StatComponent */]],
+        exports: [__WEBPACK_IMPORTED_MODULE_2__stat_component__["a" /* StatComponent */]]
+    })
+], StatModule);
 
 //# sourceMappingURL=stat.module.js.map
 
@@ -1083,7 +1148,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 
-var DoctorSearchPipe = /** @class */ (function () {
+var DoctorSearchPipe = (function () {
     function DoctorSearchPipe() {
     }
     DoctorSearchPipe.prototype.transform = function (items, name, specialty, zip) {
@@ -1112,13 +1177,13 @@ var DoctorSearchPipe = /** @class */ (function () {
             });
         }
     };
-    DoctorSearchPipe = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Y" /* Pipe */])({
-            name: 'doctorSearch'
-        })
-    ], DoctorSearchPipe);
     return DoctorSearchPipe;
 }());
+DoctorSearchPipe = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Y" /* Pipe */])({
+        name: 'doctorSearch'
+    })
+], DoctorSearchPipe);
 
 //# sourceMappingURL=doctor-search.pipe.js.map
 
@@ -1141,19 +1206,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var SharedPipesModule = /** @class */ (function () {
+var SharedPipesModule = (function () {
     function SharedPipesModule() {
     }
-    SharedPipesModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-            imports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]
-            ],
-            declarations: [__WEBPACK_IMPORTED_MODULE_2__doctor_search_pipe__["a" /* DoctorSearchPipe */]]
-        })
-    ], SharedPipesModule);
     return SharedPipesModule;
 }());
+SharedPipesModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+        imports: [
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]
+        ],
+        declarations: [__WEBPACK_IMPORTED_MODULE_2__doctor_search_pipe__["a" /* DoctorSearchPipe */]]
+    })
+], SharedPipesModule);
 
 //# sourceMappingURL=shared-pipes.module.js.map
 
@@ -1168,6 +1233,7 @@ var SharedPipesModule = /** @class */ (function () {
 // The build system defaults to the dev environment which uses `environment.ts`, but if you do
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
+// The file contents for the current environment will overwrite these during build.
 var environment = {
     production: false
 };

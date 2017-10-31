@@ -14,8 +14,8 @@ export class AuthenticationService {
         this.token = currentUser && currentUser.token;
     }
 
-    login(email: string, password: string): Observable<boolean> {
-        return this.http.post('/api/authenticate', { email: email, password: password })
+    loginPatient(email: string, password: string) {
+        return this.http.post('/api/patient/authenticate/', { email: email, password: password })
             .map((response: Response) => {
                 // login successful if there's a jwt token in the response
                 const token = response.json() && response.json().token;
@@ -24,7 +24,7 @@ export class AuthenticationService {
                     this.token = token;
 
                     // store email and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify({ _id: response.json().obj._id, email: email, token: token }));
+                    localStorage.setItem('currentUser', JSON.stringify({ _id: response.json().obj._id, type:'patient', email: email, token: token }));
 
                     // return true to indicate successful login
                     return true;
@@ -34,7 +34,7 @@ export class AuthenticationService {
                     console.log('not logged IN!');
                     return false;
                 }
-            });
+            })
     }
 
     logout(): void {
@@ -43,8 +43,8 @@ export class AuthenticationService {
         localStorage.removeItem('currentUser');
     }
 
-    authenticateDoctor(email: string, password: string): Observable<boolean> {
-        return this.http.post('/authenticate/doctor', { email: email, password: password })
+    loginDoctor(email: string, password: string): Observable<boolean> {
+        return this.http.post('/api/doctor/authenticate', { email: email, password: password })
             .map((response: Response) => {
                 // login successful if there's a jwt token in the response
                 let token = response.json() && response.json().token;
@@ -64,7 +64,6 @@ export class AuthenticationService {
                     return false;
                 }
             });
-            
     }
 
 }

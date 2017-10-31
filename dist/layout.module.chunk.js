@@ -28,17 +28,17 @@ var routes = [
         ]
     }
 ];
-var LayoutRoutingModule = /** @class */ (function () {
+var LayoutRoutingModule = (function () {
     function LayoutRoutingModule() {
     }
-    LayoutRoutingModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forChild(routes)],
-            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
-        })
-    ], LayoutRoutingModule);
     return LayoutRoutingModule;
 }());
+LayoutRoutingModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forChild(routes)],
+        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
+    })
+], LayoutRoutingModule);
 
 //# sourceMappingURL=layout-routing.module.js.map
 
@@ -76,6 +76,7 @@ module.exports = module.exports.toString();
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LayoutComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services__ = __webpack_require__("../../../../../src/app/services/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -87,27 +88,45 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-var LayoutComponent = /** @class */ (function () {
-    function LayoutComponent(router) {
+
+var LayoutComponent = (function () {
+    function LayoutComponent(router, currentUserService, patientService, doctorService) {
         this.router = router;
+        this.currentUserService = currentUserService;
+        this.patientService = patientService;
+        this.doctorService = doctorService;
+        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
     LayoutComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        console.log("here", this.currentUser);
+        if (this.currentUser.type == 'patient') {
+            this.patientService.getPatientById(this.currentUser._id)
+                .then(function (data) {
+                _this.currentUserService.currentUser = data;
+                console.log(_this.currentUserService.currentUser);
+            });
+        }
+        else if (this.currentUser.type == 'doctor') {
+            this.doctorService.getDoctorById(this.currentUser._id)
+                .then(function (data) { _this.currentUserService.currentUser = data; });
+        }
         if (this.router.url === '/') {
-            this.router.navigate(['/dashboard']);
+            //    this.router.navigate(['/dashboard']);
         }
     };
-    LayoutComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'app-layout',
-            template: __webpack_require__("../../../../../src/app/layout/layout.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/layout/layout.component.scss")]
-        }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object])
-    ], LayoutComponent);
     return LayoutComponent;
-    var _a;
 }());
+LayoutComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'app-layout',
+        template: __webpack_require__("../../../../../src/app/layout/layout.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/layout/layout.component.scss")]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__services__["b" /* CurrentUserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["b" /* CurrentUserService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services__["d" /* PatientService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["d" /* PatientService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__services__["c" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["c" /* DoctorService */]) === "function" && _d || Object])
+], LayoutComponent);
 
+var _a, _b, _c, _d;
 //# sourceMappingURL=layout.component.js.map
 
 /***/ }),
@@ -125,6 +144,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__layout_routing_module__ = __webpack_require__("../../../../../src/app/layout/layout-routing.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__layout_component__ = __webpack_require__("../../../../../src/app/layout/layout.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__shared__ = __webpack_require__("../../../../../src/app/shared/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services__ = __webpack_require__("../../../../../src/app/services/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -138,26 +158,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var LayoutModule = /** @class */ (function () {
+
+var LayoutModule = (function () {
     function LayoutModule() {
     }
-    LayoutModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-            imports: [
-                __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
-                __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["c" /* NgbDropdownModule */].forRoot(),
-                __WEBPACK_IMPORTED_MODULE_4__layout_routing_module__["a" /* LayoutRoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_3__ngx_translate_core__["b" /* TranslateModule */]
-            ],
-            declarations: [
-                __WEBPACK_IMPORTED_MODULE_5__layout_component__["a" /* LayoutComponent */],
-                __WEBPACK_IMPORTED_MODULE_6__shared__["b" /* HeaderComponent */],
-                __WEBPACK_IMPORTED_MODULE_6__shared__["d" /* SidebarComponent */],
-            ]
-        })
-    ], LayoutModule);
     return LayoutModule;
 }());
+LayoutModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+        imports: [
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
+            __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["c" /* NgbDropdownModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_4__layout_routing_module__["a" /* LayoutRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_3__ngx_translate_core__["b" /* TranslateModule */]
+        ],
+        declarations: [
+            __WEBPACK_IMPORTED_MODULE_5__layout_component__["a" /* LayoutComponent */],
+            __WEBPACK_IMPORTED_MODULE_6__shared__["b" /* HeaderComponent */],
+            __WEBPACK_IMPORTED_MODULE_6__shared__["d" /* SidebarComponent */],
+        ],
+        providers: [__WEBPACK_IMPORTED_MODULE_7__services__["b" /* CurrentUserService */], __WEBPACK_IMPORTED_MODULE_7__services__["d" /* PatientService */], __WEBPACK_IMPORTED_MODULE_7__services__["c" /* DoctorService */]]
+    })
+], LayoutModule);
 
 //# sourceMappingURL=layout.module.js.map
 
