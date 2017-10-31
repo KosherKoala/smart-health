@@ -9,8 +9,6 @@ const Insurance = require('./insurance');
 const Location = require('./location');
 
 const doctorSchema = new Schema ({
-
-    doctorId: Number,
     firstName: String,
     lastName: String,
     email: String,
@@ -21,7 +19,13 @@ const doctorSchema = new Schema ({
     calendar: [{ type: Schema.Types.ObjectId, ref: 'Calendar'}],
     specialty: String,
     acceptedInsurance: [{ type: Schema.Types.ObjectId, ref: 'Insurance'}],
-    location: { type: Schema.Types.ObjectId, ref: 'Location'},
+    location: { 
+                line_1: String,
+                line_1: String,
+                city: String,
+                state: String,
+                zip: Number
+            },
     picture: String
 });
 

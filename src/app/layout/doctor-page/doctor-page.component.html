@@ -5,8 +5,8 @@
         <img class="card-img-top" src="http://via.placeholder.com/350x350" alt="Card image cap">
         <div class="card-body p-0">
             <ul class="list-group">
-                <li class="list-group-item">Dentist</li>
-                <li class="list-group-item">1223 Main St, Lake Mona, FL</li>
+                <li class="list-group-item">{{doctor.specialty}}</li>
+                <li class="list-group-item">{{doctor.location.line_1}}, {{doctor.location.line_2}}, <br>{{doctor.location.city}}, {{doctor.location.state}}, {{doctor.location.zip}}</li>
                 <li class="list-group-item">Open 8am-5pm, MWF</li>
             </ul>
         </div>
@@ -14,9 +14,9 @@
     </div>
     <div class="col-9">
       <div class="row">
-        <div class="col-8">
+        <div class="col-10">
           <h4>
-            Dr Toster Strudel 
+            Dr. {{doctor.firstName}} {{doctor.lastName}}
           </h4>
           <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sollicitudin diam orci, eu mattis lectus consectetur eget. 
@@ -28,8 +28,8 @@
           </p>
           <div class="d-flex px-4 justify-content-between">
            <h3> <div class="badge badge-pill badge-primary"><i class="fa fa-phone pr-2"></i>407-455-3455</div> </h3>
-           <h3> <div class="badge badge-pill badge-primary"><i class="fa fa-envelope pr-2"></i>strudel@toster.com</div> </h3>
-           <h3> <div class="badge badge-pill badge-primary"><i class="fa fa-facebook pr-2"></i>Toster Strudel</div> </h3>
+           <h3> <div class="badge badge-pill badge-primary"><i class="fa fa-envelope pr-2"></i>{{doctor.email}}</div> </h3>
+           <h3> <div class="badge badge-pill badge-primary"><i class="fa fa-facebook pr-2"></i>Dr. {{doctor.firstName}} {{doctor.lastName}}</div> </h3>
           </div>
           <hr class="thick">
           <h3>Request an Appointment:</h3>

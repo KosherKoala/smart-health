@@ -20,17 +20,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var routes = [
     { path: '', component: __WEBPACK_IMPORTED_MODULE_2__calendar_component__["a" /* CalendarComponent */] }
 ];
-var CalendarRoutingModule = (function () {
+var CalendarRoutingModule = /** @class */ (function () {
     function CalendarRoutingModule() {
     }
+    CalendarRoutingModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forChild(routes)],
+            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
+        })
+    ], CalendarRoutingModule);
     return CalendarRoutingModule;
 }());
-CalendarRoutingModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */].forChild(routes)],
-        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */]]
-    })
-], CalendarRoutingModule);
 
 //# sourceMappingURL=calendar-routing.module.js.map
 
@@ -77,21 +77,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var CalendarComponent = (function () {
+var CalendarComponent = /** @class */ (function () {
     function CalendarComponent() {
     }
     CalendarComponent.prototype.ngOnInit = function () {
     };
+    CalendarComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'app-calendar',
+            template: __webpack_require__("../../../../../src/app/layout/calendar/calendar.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/layout/calendar/calendar.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], CalendarComponent);
     return CalendarComponent;
 }());
-CalendarComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-        selector: 'app-calendar',
-        template: __webpack_require__("../../../../../src/app/layout/calendar/calendar.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/layout/calendar/calendar.component.scss")]
-    }),
-    __metadata("design:paramtypes", [])
-], CalendarComponent);
 
 //# sourceMappingURL=calendar.component.js.map
 
@@ -117,20 +117,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var CalendarModule = (function () {
+var CalendarModule = /** @class */ (function () {
     function CalendarModule() {
     }
+    CalendarModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
+                __WEBPACK_IMPORTED_MODULE_3__calendar_routing_module__["a" /* CalendarRoutingModule */]
+            ],
+            declarations: [__WEBPACK_IMPORTED_MODULE_2__calendar_component__["a" /* CalendarComponent */]]
+        })
+    ], CalendarModule);
     return CalendarModule;
 }());
-CalendarModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [
-            __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
-            __WEBPACK_IMPORTED_MODULE_3__calendar_routing_module__["a" /* CalendarRoutingModule */]
-        ],
-        declarations: [__WEBPACK_IMPORTED_MODULE_2__calendar_component__["a" /* CalendarComponent */]]
-    })
-], CalendarModule);
 
 //# sourceMappingURL=calendar.module.js.map
 

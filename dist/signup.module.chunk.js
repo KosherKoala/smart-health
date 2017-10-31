@@ -20,17 +20,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var routes = [
     { path: '', component: __WEBPACK_IMPORTED_MODULE_2__signup_component__["a" /* SignupComponent */] }
 ];
-var SignupRoutingModule = (function () {
+var SignupRoutingModule = /** @class */ (function () {
     function SignupRoutingModule() {
     }
+    SignupRoutingModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forChild(routes)],
+            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
+        })
+    ], SignupRoutingModule);
     return SignupRoutingModule;
 }());
-SignupRoutingModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */].forChild(routes)],
-        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */]]
-    })
-], SignupRoutingModule);
 
 //# sourceMappingURL=signup-routing.module.js.map
 
@@ -79,21 +79,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-var SignupComponent = (function () {
+var SignupComponent = /** @class */ (function () {
     function SignupComponent() {
     }
     SignupComponent.prototype.ngOnInit = function () { };
+    SignupComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'app-signup',
+            template: __webpack_require__("../../../../../src/app/signup/signup.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/signup/signup.component.scss")],
+            animations: [Object(__WEBPACK_IMPORTED_MODULE_1__router_animations__["a" /* routerTransition */])()]
+        }),
+        __metadata("design:paramtypes", [])
+    ], SignupComponent);
     return SignupComponent;
 }());
-SignupComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-        selector: 'app-signup',
-        template: __webpack_require__("../../../../../src/app/signup/signup.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/signup/signup.component.scss")],
-        animations: [Object(__WEBPACK_IMPORTED_MODULE_1__router_animations__["a" /* routerTransition */])()]
-    }),
-    __metadata("design:paramtypes", [])
-], SignupComponent);
 
 //# sourceMappingURL=signup.component.js.map
 
@@ -119,20 +119,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var SignupModule = (function () {
+var SignupModule = /** @class */ (function () {
     function SignupModule() {
     }
+    SignupModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
+                __WEBPACK_IMPORTED_MODULE_2__signup_routing_module__["a" /* SignupRoutingModule */]
+            ],
+            declarations: [__WEBPACK_IMPORTED_MODULE_3__signup_component__["a" /* SignupComponent */]]
+        })
+    ], SignupModule);
     return SignupModule;
 }());
-SignupModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [
-            __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
-            __WEBPACK_IMPORTED_MODULE_2__signup_routing_module__["a" /* SignupRoutingModule */]
-        ],
-        declarations: [__WEBPACK_IMPORTED_MODULE_3__signup_component__["a" /* SignupComponent */]]
-    })
-], SignupModule);
 
 //# sourceMappingURL=signup.module.js.map
 

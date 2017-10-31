@@ -9,7 +9,7 @@ const routes: Routes = [
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
             { path: 'profile', loadChildren: './profile/profile.module#ProfileModule' },
             { path: 'calendar', loadChildren: './calendar/calendar.module#CalendarModule' },
-            { path: 'doctor', loadChildren: './doctor-page/doctor-page.module#DoctorPageModule' },
+            { path: 'doctor/:id', loadChildren: './doctor-page/doctor-page.module#DoctorPageModule' },
         ]
     }
 ];
