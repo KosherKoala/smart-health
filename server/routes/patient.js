@@ -3,6 +3,8 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Patient = require('../models/patient');
 const bodyParser = require('body-parser');
+var jwt         = require('jwt-simple');
+var config = require('../../config')
 
 // Parsers for POST data
 router.use(bodyParser.json());
@@ -74,4 +76,26 @@ router.delete('/:id', function(req, res, next) {
   console.log('patient api delete response');
 });
 
+
+router.post('/authenticate/', function authenticate(req, res) {
+  Patient.find({ email: req.body.email, password: req.body.password }, function(err, patient ) {
+    
+    console.log(patient);
+    if (err) throw err;
+
+    if (!patient) {
+      res.json({ success: false, message: 'Authentication failed. User not found.' });
+    } else if (patient) {
+
+      // check if password matches
+      if (patient.password != req.body.password) {
+        res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+      } else {
+
+        var token = jwt.encode(patient, config.secret);
+        res.json({success: true, message: "Successful Authentication.", token: 'JWT ' + token});
+      }
+    }
+  });
+});
 module.exports = router;

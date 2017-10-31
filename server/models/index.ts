@@ -1,2 +1,2 @@
-export * from './classes/patient';
-export * from './classes/doctor';
+export * from './classes/patient'
+export * from './classes/doctor'

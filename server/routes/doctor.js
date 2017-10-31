@@ -1,8 +1,11 @@
 var express = require('express');
 var router = express.Router();
+var app = express();
 var mongoose = require('mongoose');
 var Doctor = require('../models/doctor');
+var jwt         = require('jwt-simple');
 const bodyParser = require('body-parser');
+var config = require('../../config')
 
 // Parsers for POST data
 router.use(bodyParser.json());
@@ -64,6 +67,29 @@ router.delete('/:id', function(req, res, next) {
     res.json(post);
   });
   console.log('patient api delete response');
+});
+
+ 
+router.post('/authenticate/', function authenticate(req, res) {
+  Doctor.find({ email: req.body.email, password: req.body.password }, function(err, doctor) {
+    
+    console.log(doctor);
+    if (err) throw err;
+
+    if (!doctor) {
+      res.json({ success: false, message: 'Authentication failed. User not found.' });
+    } else if (doctor) {
+
+      // check if password matches
+      if (doctor.password != req.body.password) {
+        res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+      } else {
+
+        var token = jwt.encode(doctor, config.secret);
+        res.json({success: true, message: "Successful Authentication.", token: 'JWT ' + token});
+      }
+    }
+  });
 });
 
 module.exports = router;
