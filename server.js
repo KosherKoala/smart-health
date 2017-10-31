@@ -7,12 +7,13 @@ const bodyParser = require('body-parser');
 var config = require('./config');
 const app = express();
 
-app.use('/patient', require('./server/routes/patient'));
-app.use('/doctor', require('./server/routes/doctor'));
-app.set('superSecret', config.secret); // secret variable
 // Parsers for POST data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/api/patient', require('./server/routes/patient'));
+app.use('/api/doctor', require('./server/routes/doctor'));
+app.set('superSecret', config.secret); // secret variable
 
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')));

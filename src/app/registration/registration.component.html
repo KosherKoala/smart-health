@@ -8,13 +8,13 @@
         <div class="row">
           <div class="col-xs-12 col-sm-6 col-md-6">
             <div class="form-group">
-              <input type="text" name="firstName" id="firstName" [(ngModel)]="model.firstname" #firstName ="ngModel" class="form-control input-lg" placeholder="First Name" tabindex="1" required>
+              <input type="text" name="firstName" id="firstName" [(ngModel)]="model.firstName" #firstName ="ngModel" class="form-control input-lg" placeholder="First Name" tabindex="1" required>
               <div *ngIf="f.submitted && !firstName.valid" class="help-block">First Name is required</div>
             </div>
           </div>
           <div class="col-xs-12 col-sm-6 col-md-6">
             <div class="form-group">
-              <input type="text" name="lastName" id="lastName" [(ngModel)]="model.lastname" #lastName ="ngModel" class="form-control input-lg" placeholder="Last Name" tabindex="1" required>
+              <input type="text" name="lastName" id="lastName" [(ngModel)]="model.lastName" #lastName ="ngModel" class="form-control input-lg" placeholder="Last Name" tabindex="1" required>
               <div *ngIf="f.submitted && !lastName.valid" class="help-block">Last Name is required</div>
             </div>
           </div>

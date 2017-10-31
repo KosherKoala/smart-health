@@ -20,17 +20,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var routes = [
     { path: '', component: __WEBPACK_IMPORTED_MODULE_2__not_found_component__["a" /* NotFoundComponent */] }
 ];
-var NotFoundRoutingModule = /** @class */ (function () {
+var NotFoundRoutingModule = (function () {
     function NotFoundRoutingModule() {
     }
-    NotFoundRoutingModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forChild(routes)],
-            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
-        })
-    ], NotFoundRoutingModule);
     return NotFoundRoutingModule;
 }());
+NotFoundRoutingModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forChild(routes)],
+        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
+    })
+], NotFoundRoutingModule);
 
 //# sourceMappingURL=not-found-routing.module.js.map
 
@@ -76,19 +76,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 
 
-var NotFoundComponent = /** @class */ (function () {
+var NotFoundComponent = (function () {
     function NotFoundComponent() {
     }
-    NotFoundComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'app-not-found',
-            template: __webpack_require__("../../../../../src/app/not-found/not-found.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/not-found/not-found.component.scss")],
-            animations: [Object(__WEBPACK_IMPORTED_MODULE_1__router_animations__["a" /* routerTransition */])()]
-        })
-    ], NotFoundComponent);
     return NotFoundComponent;
 }());
+NotFoundComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'app-not-found',
+        template: __webpack_require__("../../../../../src/app/not-found/not-found.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/not-found/not-found.component.scss")],
+        animations: [Object(__WEBPACK_IMPORTED_MODULE_1__router_animations__["a" /* routerTransition */])()]
+    })
+], NotFoundComponent);
 
 //# sourceMappingURL=not-found.component.js.map
 
@@ -114,20 +114,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var NotFoundModule = /** @class */ (function () {
+var NotFoundModule = (function () {
     function NotFoundModule() {
     }
-    NotFoundModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-            imports: [
-                __WEBPACK_IMPORTED_MODULE_3__not_found_routing_module__["a" /* NotFoundRoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]
-            ],
-            declarations: [__WEBPACK_IMPORTED_MODULE_2__not_found_component__["a" /* NotFoundComponent */]]
-        })
-    ], NotFoundModule);
     return NotFoundModule;
 }());
+NotFoundModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+        imports: [
+            __WEBPACK_IMPORTED_MODULE_3__not_found_routing_module__["a" /* NotFoundRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]
+        ],
+        declarations: [__WEBPACK_IMPORTED_MODULE_2__not_found_component__["a" /* NotFoundComponent */]]
+    })
+], NotFoundModule);
 
 //# sourceMappingURL=not-found.module.js.map
 

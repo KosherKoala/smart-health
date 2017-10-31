@@ -1,13 +1,13 @@
-webpackJsonp(["login.module"],{
+webpackJsonp(["doctor-portal.module"],{
 
-/***/ "../../../../../src/app/login/login-routing.module.ts":
+/***/ "../../../../../src/app/doctor-portal/doctor-portal-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginRoutingModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DoctorPortalRoutingModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login_component__ = __webpack_require__("../../../../../src/app/login/login.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__doctor_portal_component__ = __webpack_require__("../../../../../src/app/doctor-portal/doctor-portal.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,32 +18,32 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 var routes = [
-    { path: '', component: __WEBPACK_IMPORTED_MODULE_2__login_component__["a" /* LoginComponent */] }
+    { path: '', component: __WEBPACK_IMPORTED_MODULE_2__doctor_portal_component__["a" /* DoctorPortalComponent */] }
 ];
-var LoginRoutingModule = (function () {
-    function LoginRoutingModule() {
+var DoctorPortalRoutingModule = (function () {
+    function DoctorPortalRoutingModule() {
     }
-    return LoginRoutingModule;
+    return DoctorPortalRoutingModule;
 }());
-LoginRoutingModule = __decorate([
+DoctorPortalRoutingModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
         imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forChild(routes)],
         exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
     })
-], LoginRoutingModule);
+], DoctorPortalRoutingModule);
 
-//# sourceMappingURL=login-routing.module.js.map
+//# sourceMappingURL=doctor-portal-routing.module.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/login/login.component.html":
+/***/ "../../../../../src/app/doctor-portal/doctor-portal.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"login-page\" [@routerTransition]>\n    <div class=\"row\">\n        <div class=\"col-md-4 mx-auto\">\n            <img src=\"assets/images/logo.png\" width=\"150px\" class=\"user-avatar\" />\n            <h1>Welcome to Smart Health</h1>\n            <form name=\"form\" (ngSubmit)=\"f.form.valid && login()\" #f=\"ngForm\" novalidate>\n                <div class=\"form-content\">\n                    <div class=\"form-group\">\n                        <input type=\"email\" name=\"email\" id=\"email\" [(ngModel)]=\"model.email\" #email =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Email\" tabindex=\"1\" required>\n                        <div *ngIf=\"f.submitted && !email.valid\" class=\"help-block\">Email is required</div>\n                    </div>\n\n                    <div class=\"form-group\">\n                        <input type=\"password\" name=\"password\" id=\"password\" [(ngModel)]=\"model.password\" #password =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Password\" tabindex=\"1\" required>\n                        <div *ngIf=\"f.submitted && !password.valid\" class=\"help-block\">Password is required</div>\n                    </div>\n                </div>\n                <input type=\"submit\" value=\"Log in\" class=\"btn rounded-btn\" tabindex=\"7\">\n                <a class=\"btn rounded-btn\" [routerLink]=\"['/registration']\">Register</a>\n            </form>\n        </div>\n        <div class=\"col-md-4 mx-auto\">\n            <button [routerLink]=\"['/doctor-portal']\">Go to Doctor Portal</button>\n            <button (click) = \"logout()\">Logout</button>\n        </div>\n    </div>\n</div>\n"
+module.exports = "<div class=\"login-page\" [@routerTransition]>\n  <div class=\"row\">\n    <div class=\"col-md-4 mx-auto\">\n        <img src=\"assets/images/logo.png\" width=\"150px\" class=\"user-avatar\" />\n        <h1>Welcome to Smart Health</h1>\n        <form name=\"form\" (ngSubmit)=\"f.form.valid && login()\" #f=\"ngForm\" novalidate>\n            <div class=\"form-content\">\n                <div class=\"form-group\">\n                    <input type=\"email\" name=\"email\" id=\"email\" [(ngModel)]=\"model.email\" #email =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Email\" tabindex=\"1\" required>\n                    <div *ngIf=\"f.submitted && !email.valid\" class=\"help-block\">Email is required</div>\n                </div>\n\n                <div class=\"form-group\">\n                    <input type=\"password\" name=\"password\" id=\"password\" [(ngModel)]=\"model.password\" #password =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Password\" tabindex=\"1\" required>\n                    <div *ngIf=\"f.submitted && !password.valid\" class=\"help-block\">Password is required</div>\n                </div>\n            </div>\n            <input type=\"submit\" value=\"Log in\" class=\"btn rounded-btn\" tabindex=\"7\">\n            <a class=\"btn rounded-btn\" [routerLink]=\"['/registration']\">Register</a>\n        </form>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
-/***/ "../../../../../src/app/login/login.component.scss":
+/***/ "../../../../../src/app/doctor-portal/doctor-portal.component.scss":
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
@@ -61,11 +61,11 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ "../../../../../src/app/login/login.component.ts":
+/***/ "../../../../../src/app/doctor-portal/doctor-portal.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DoctorPortalComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__router_animations__ = __webpack_require__("../../../../../src/app/router.animations.ts");
@@ -83,63 +83,47 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var LoginComponent = (function () {
-    function LoginComponent(router, authenticationService) {
+var DoctorPortalComponent = (function () {
+    function DoctorPortalComponent(router, authenticationService) {
         this.router = router;
         this.authenticationService = authenticationService;
         this.model = { email: '', password: '' };
-        this.error = '';
-        this.loading = false;
     }
-    LoginComponent.prototype.ngOnInit = function () {
+    DoctorPortalComponent.prototype.ngOnInit = function () {
     };
-    LoginComponent.prototype.login = function () {
-        var _this = this;
-        console.log("doing it");
-        this.authenticationService.loginPatient(this.model.email, this.model.password).subscribe(function (result) {
-            console.log(result);
-            if (result === true) {
-                console.log("diiid it");
-                _this.router.navigate(['/dashboard']);
-            }
-            else {
-                _this.error = 'Username or password is incorrect';
-                _this.loading = false;
-            }
-        });
-    };
-    LoginComponent.prototype.logout = function () {
-        if (this.authenticationService.logout()) {
-            //  this.router.navigate(['/dashboard']);
+    DoctorPortalComponent.prototype.login = function () {
+        console.log(this.model);
+        if (this.authenticationService.loginDoctor(this.model.email, this.model.password)) {
+            this.router.navigate(['dashboard']);
         }
     };
-    return LoginComponent;
+    return DoctorPortalComponent;
 }());
-LoginComponent = __decorate([
+DoctorPortalComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-        selector: 'app-login',
-        template: __webpack_require__("../../../../../src/app/login/login.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/login/login.component.scss")],
+        selector: 'app-doctor-portal',
+        template: __webpack_require__("../../../../../src/app/doctor-portal/doctor-portal.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/doctor-portal/doctor-portal.component.scss")],
         animations: [Object(__WEBPACK_IMPORTED_MODULE_2__router_animations__["a" /* routerTransition */])()]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services__["a" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["a" /* AuthenticationService */]) === "function" && _b || Object])
-], LoginComponent);
+], DoctorPortalComponent);
 
 var _a, _b;
-//# sourceMappingURL=login.component.js.map
+//# sourceMappingURL=doctor-portal.component.js.map
 
 /***/ }),
 
-/***/ "../../../../../src/app/login/login.module.ts":
+/***/ "../../../../../src/app/doctor-portal/doctor-portal.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LoginModule", function() { return LoginModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__login_routing_module__ = __webpack_require__("../../../../../src/app/login/login-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_component__ = __webpack_require__("../../../../../src/app/login/login.component.ts");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DoctorPortalModule", function() { return DoctorPortalModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__doctor_portal_component__ = __webpack_require__("../../../../../src/app/doctor-portal/doctor-portal.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__doctor_portal_routing_module__ = __webpack_require__("../../../../../src/app/doctor-portal/doctor-portal-routing.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services__ = __webpack_require__("../../../../../src/app/services/index.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -154,26 +138,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var LoginModule = (function () {
-    function LoginModule() {
+var DoctorPortalModule = (function () {
+    function DoctorPortalModule() {
     }
-    return LoginModule;
+    return DoctorPortalModule;
 }());
-LoginModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["M" /* NgModule */])({
+DoctorPortalModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
-            __WEBPACK_IMPORTED_MODULE_2__login_routing_module__["a" /* LoginRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
+            __WEBPACK_IMPORTED_MODULE_3__doctor_portal_routing_module__["a" /* DoctorPortalRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_5__angular_forms__["a" /* FormsModule */]
         ],
-        declarations: [__WEBPACK_IMPORTED_MODULE_3__login_component__["a" /* LoginComponent */]],
+        declarations: [__WEBPACK_IMPORTED_MODULE_2__doctor_portal_component__["a" /* DoctorPortalComponent */]],
         providers: [__WEBPACK_IMPORTED_MODULE_4__services__["a" /* AuthenticationService */]]
     })
-], LoginModule);
+], DoctorPortalModule);
 
-//# sourceMappingURL=login.module.js.map
+//# sourceMappingURL=doctor-portal.module.js.map
 
 /***/ })
 
 });
-//# sourceMappingURL=login.module.chunk.js.map
+//# sourceMappingURL=doctor-portal.module.chunk.js.map

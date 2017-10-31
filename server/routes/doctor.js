@@ -4,12 +4,7 @@ var app = express();
 var mongoose = require('mongoose');
 var Doctor = require('../models/doctor');
 var jwt         = require('jwt-simple');
-const bodyParser = require('body-parser');
 var config = require('../../config')
-
-// Parsers for POST data
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: false }));
 
 /* GET ALL DOCTOR */
 router.get('/', function(req, res, next) {

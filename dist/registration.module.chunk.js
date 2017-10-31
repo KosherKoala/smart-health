@@ -20,17 +20,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var routes = [
     { path: '', component: __WEBPACK_IMPORTED_MODULE_2__registration_component__["a" /* RegistrationComponent */] }
 ];
-var RegistrationRoutingModule = /** @class */ (function () {
+var RegistrationRoutingModule = (function () {
     function RegistrationRoutingModule() {
     }
-    RegistrationRoutingModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forChild(routes)],
-            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
-        })
-    ], RegistrationRoutingModule);
     return RegistrationRoutingModule;
 }());
+RegistrationRoutingModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forChild(routes)],
+        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
+    })
+], RegistrationRoutingModule);
 
 //# sourceMappingURL=registration-routing.module.js.map
 
@@ -39,7 +39,7 @@ var RegistrationRoutingModule = /** @class */ (function () {
 /***/ "../../../../../src/app/registration/registration.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  \n  <div class=\"row\">\n    <div class=\"col-12 col-sm-8 col-md-8 mx-auto pt-4\">\n      <form name=\"form\" (ngSubmit)=\"f.form.valid && register()\" #f=\"ngForm\" novalidate>\n          <h2>Please Sign Up <small>It's free and always will be.</small></h2>\n        <hr class=\"colorgraph\">\n        <div class=\"row\">\n          <div class=\"col-xs-12 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n              <input type=\"text\" name=\"firstName\" id=\"firstName\" [(ngModel)]=\"model.firstname\" #firstName =\"ngModel\" class=\"form-control input-lg\" placeholder=\"First Name\" tabindex=\"1\" required>\n              <div *ngIf=\"f.submitted && !firstName.valid\" class=\"help-block\">First Name is required</div>\n            </div>\n          </div>\n          <div class=\"col-xs-12 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n              <input type=\"text\" name=\"lastName\" id=\"lastName\" [(ngModel)]=\"model.lastname\" #lastName =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Last Name\" tabindex=\"1\" required>\n              <div *ngIf=\"f.submitted && !lastName.valid\" class=\"help-block\">Last Name is required</div>\n            </div>\n          </div>\n        </div>\n        <div class=\"form-group\">\n            <input type=\"email\" name=\"email\" id=\"email\" [(ngModel)]=\"model.email\" #email =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Email\" tabindex=\"1\" required>\n            <div *ngIf=\"f.submitted && !email.valid\" class=\"help-block\">Email is required</div>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-xs-12 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"password\" name=\"password\" id=\"password\" [(ngModel)]=\"model.password\" #password =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Password\" tabindex=\"1\" required>\n                <div *ngIf=\"f.submitted && !password.valid\" class=\"help-block\">Password is required</div>\n            </div>\n          </div>\n          <div class=\"col-xs-12 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"password\" name=\"passwordConfirmation\" id=\"passwordConfirmation\" [(ngModel)]=\"model.passwordConfirmation\" #passwordConfirmation =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Confirm Password\" tabindex=\"1\" required>\n                <div *ngIf=\"f.submitted && !passwordConfirmation.valid\" class=\"help-block\">Password Confirmation is required</div>\n            </div>\n            <div class=\"alert alert-danger w-100\" *ngIf = \"errors.password !== null\">{{errors.password}}</div>\n          </div>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-12 col-sm-9 col-md-9\">\n             By clicking <strong class=\"label label-primary\">Register</strong>, you agree to the <a href=\"#\" data-toggle=\"modal\" data-target=\"#t_and_c_m\">Terms and Conditions</a> set out by this site, including our Cookie Use.\n          </div>\n        </div>\n        \n        <hr class=\"colorgraph\">\n        <div class=\"row\">\n          <div class=\"col-xs-12 col-md-6\"><input type=\"submit\" value=\"Register\" class=\"btn btn-primary btn-block btn-lg\" tabindex=\"7\"></div>\n        </div>\n      </form>\n    </div>\n  </div>\n  <!-- Modal -->\n  <div class=\"modal fade\" id=\"t_and_c_m\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">\n    <div class=\"modal-dialog modal-lg\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header\">\n          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n          <h4 class=\"modal-title\" id=\"myModalLabel\">Terms & Conditions</h4>\n        </div>\n        <div class=\"modal-body\">\n          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>\n          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>\n          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>\n          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>\n          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>\n          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>\n          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>\n        </div>\n        <div class=\"modal-footer\">\n          <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">I Agree</button>\n        </div>\n      </div><!-- /.modal-content -->\n    </div><!-- /.modal-dialog -->\n  </div><!-- /.modal -->\n  </div>"
+module.exports = "<div class=\"container\">\n  \n  <div class=\"row\">\n    <div class=\"col-12 col-sm-8 col-md-8 mx-auto pt-4\">\n      <form name=\"form\" (ngSubmit)=\"f.form.valid && register()\" #f=\"ngForm\" novalidate>\n          <h2>Please Sign Up <small>It's free and always will be.</small></h2>\n        <hr class=\"colorgraph\">\n        <div class=\"row\">\n          <div class=\"col-xs-12 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n              <input type=\"text\" name=\"firstName\" id=\"firstName\" [(ngModel)]=\"model.firstName\" #firstName =\"ngModel\" class=\"form-control input-lg\" placeholder=\"First Name\" tabindex=\"1\" required>\n              <div *ngIf=\"f.submitted && !firstName.valid\" class=\"help-block\">First Name is required</div>\n            </div>\n          </div>\n          <div class=\"col-xs-12 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n              <input type=\"text\" name=\"lastName\" id=\"lastName\" [(ngModel)]=\"model.lastName\" #lastName =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Last Name\" tabindex=\"1\" required>\n              <div *ngIf=\"f.submitted && !lastName.valid\" class=\"help-block\">Last Name is required</div>\n            </div>\n          </div>\n        </div>\n        <div class=\"form-group\">\n            <input type=\"email\" name=\"email\" id=\"email\" [(ngModel)]=\"model.email\" #email =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Email\" tabindex=\"1\" required>\n            <div *ngIf=\"f.submitted && !email.valid\" class=\"help-block\">Email is required</div>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-xs-12 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"password\" name=\"password\" id=\"password\" [(ngModel)]=\"model.password\" #password =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Password\" tabindex=\"1\" required>\n                <div *ngIf=\"f.submitted && !password.valid\" class=\"help-block\">Password is required</div>\n            </div>\n          </div>\n          <div class=\"col-xs-12 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"password\" name=\"passwordConfirmation\" id=\"passwordConfirmation\" [(ngModel)]=\"model.passwordConfirmation\" #passwordConfirmation =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Confirm Password\" tabindex=\"1\" required>\n                <div *ngIf=\"f.submitted && !passwordConfirmation.valid\" class=\"help-block\">Password Confirmation is required</div>\n            </div>\n            <div class=\"alert alert-danger w-100\" *ngIf = \"errors.password !== null\">{{errors.password}}</div>\n          </div>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-12 col-sm-9 col-md-9\">\n             By clicking <strong class=\"label label-primary\">Register</strong>, you agree to the <a href=\"#\" data-toggle=\"modal\" data-target=\"#t_and_c_m\">Terms and Conditions</a> set out by this site, including our Cookie Use.\n          </div>\n        </div>\n        \n        <hr class=\"colorgraph\">\n        <div class=\"row\">\n          <div class=\"col-xs-12 col-md-6\"><input type=\"submit\" value=\"Register\" class=\"btn btn-primary btn-block btn-lg\" tabindex=\"7\"></div>\n        </div>\n      </form>\n    </div>\n  </div>\n  <!-- Modal -->\n  <div class=\"modal fade\" id=\"t_and_c_m\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">\n    <div class=\"modal-dialog modal-lg\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header\">\n          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>\n          <h4 class=\"modal-title\" id=\"myModalLabel\">Terms & Conditions</h4>\n        </div>\n        <div class=\"modal-body\">\n          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>\n          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>\n          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>\n          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>\n          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>\n          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>\n          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>\n        </div>\n        <div class=\"modal-footer\">\n          <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">I Agree</button>\n        </div>\n      </div><!-- /.modal-content -->\n    </div><!-- /.modal-dialog -->\n  </div><!-- /.modal -->\n  </div>"
 
 /***/ }),
 
@@ -83,7 +83,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var RegistrationComponent = /** @class */ (function () {
+var RegistrationComponent = (function () {
     function RegistrationComponent(router, patientService) {
         this.router = router;
         this.patientService = patientService;
@@ -103,34 +103,37 @@ var RegistrationComponent = /** @class */ (function () {
             this.errors.password = 'Passwords don\'t match';
         }
         else {
+            console.log("Email", this.model.email);
             this.patientService.getPatient({ email: this.model.email })
                 .then(function (res) {
-                console.log('logging', res);
-                if (res.success) {
-                    _this.created = true;
+                console.log('checking repeats', res);
+                if (!res.success) {
+                    _this.patientService.createPatient(_this.model)
+                        .then(function (r) {
+                        console.log('registering', r);
+                        if (res.success) {
+                            _this.router.navigate(['/login']);
+                        }
+                    });
                 }
-            });
-            this.patientService.createPatient(this.model)
-                .then(function (res) {
-                console.log('logging', res);
-                if (res.success) {
-                    _this.created = true;
+                else {
+                    console.log('Patient email aready used');
                 }
             });
         }
     };
-    RegistrationComponent = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-            selector: 'app-registration',
-            template: __webpack_require__("../../../../../src/app/registration/registration.component.html"),
-            styles: [__webpack_require__("../../../../../src/app/registration/registration.component.scss")]
-        }),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services__["c" /* PatientService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["c" /* PatientService */]) === "function" && _b || Object])
-    ], RegistrationComponent);
     return RegistrationComponent;
-    var _a, _b;
 }());
+RegistrationComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'app-registration',
+        template: __webpack_require__("../../../../../src/app/registration/registration.component.html"),
+        styles: [__webpack_require__("../../../../../src/app/registration/registration.component.scss")]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services__["d" /* PatientService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["d" /* PatientService */]) === "function" && _b || Object])
+], RegistrationComponent);
 
+var _a, _b;
 //# sourceMappingURL=registration.component.js.map
 
 /***/ }),
@@ -159,22 +162,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var RegistrationModule = /** @class */ (function () {
+var RegistrationModule = (function () {
     function RegistrationModule() {
     }
-    RegistrationModule = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["M" /* NgModule */])({
-            imports: [
-                __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
-                __WEBPACK_IMPORTED_MODULE_4__registration_routing_module__["a" /* RegistrationRoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */]
-            ],
-            providers: [__WEBPACK_IMPORTED_MODULE_3__services__["c" /* PatientService */]],
-            declarations: [__WEBPACK_IMPORTED_MODULE_5__registration_component__["a" /* RegistrationComponent */]]
-        })
-    ], RegistrationModule);
     return RegistrationModule;
 }());
+RegistrationModule = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["M" /* NgModule */])({
+        imports: [
+            __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
+            __WEBPACK_IMPORTED_MODULE_4__registration_routing_module__["a" /* RegistrationRoutingModule */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */]
+        ],
+        providers: [__WEBPACK_IMPORTED_MODULE_3__services__["d" /* PatientService */]],
+        declarations: [__WEBPACK_IMPORTED_MODULE_5__registration_component__["a" /* RegistrationComponent */]]
+    })
+], RegistrationModule);
 
 //# sourceMappingURL=registration.module.js.map
 

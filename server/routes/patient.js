@@ -1,14 +1,9 @@
-var express = require('express');
-var router = express.Router();
+var express  = require('express');
+var router   = express.Router();
 var mongoose = require('mongoose');
-var Patient = require('../models/patient');
-const bodyParser = require('body-parser');
-var jwt         = require('jwt-simple');
-var config = require('../../config')
-
-// Parsers for POST data
-router.use(bodyParser.json());
-router.use(bodyParser.urlencoded({ extended: false }));
+var Patient  = require('../models/patient');
+var jwt      = require('jwt-simple');
+var config   = require('../../config')
 
 /* GET ALL PATIENT */
 router.get('/', function(req, res, next) {
@@ -23,14 +18,15 @@ router.get('/', function(req, res, next) {
   console.log('patient api get response');
 });
 
-/* GET ALL PATIENT */
-router.get('/params', function(req, res, next) {
-  Patient.find(req.body, function (err, patients) {
+/* GET A PATIENT */
+router.post('/params', function(req, res, next) {
+  console.log("params", req.body)
+  Patient.findOne(req.body, function (err, patient) {
     if (err) return next(err);
-    if(patients) {
-        res.json({patient:patients, success: true, message: "patients found with " + req.body});
+    if(patient) {
+        res.json({patient:patient, success: true, message: "patient found with " + req.body});
     } else {
-        res.json({success:false, message: "no patients found with " + req.body});
+        res.json({success:false, message: "no patient found with " + req.body});
     }
   });
   console.log('patient api get response');
@@ -78,7 +74,7 @@ router.delete('/:id', function(req, res, next) {
 
 
 router.post('/authenticate/', function authenticate(req, res) {
-  Patient.find({ email: req.body.email, password: req.body.password }, function(err, patient ) {
+  Patient.findOne({ email: req.body.email, password: req.body.password }, function(err, patient ) {
     
     console.log(patient);
     if (err) throw err;
@@ -93,7 +89,7 @@ router.post('/authenticate/', function authenticate(req, res) {
       } else {
 
         var token = jwt.encode(patient, config.secret);
-        res.json({success: true, message: "Successful Authentication.", token: 'JWT ' + token});
+        res.json({success: true, message: "Successful Authentication.", obj: patient, token: 'JWT ' + token});
       }
     }
   });

@@ -12,6 +12,8 @@ import { AuthenticationService } from '../services';
 export class LoginComponent implements OnInit {
 
     public model = {email: '', password: ''};
+    public error = '';
+    public loading = false;
 
     constructor(public router: Router, private authenticationService: AuthenticationService) {
     }
@@ -20,9 +22,23 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
-        console.log(this.model);
-        if (this.authenticationService.login(this.model.email, this.model.password)) {
-            this.router.navigate(['dashboard']);
+        console.log("doing it")
+        this.authenticationService.loginPatient(this.model.email, this.model.password).subscribe(result => {
+            console.log(result);
+            if (result === true) {
+               console.log("diiid it")
+
+            this.router.navigate(['/dashboard']);
+            } else {
+                this.error = 'Username or password is incorrect';
+                this.loading = false;
+            }
+        });
+    }
+
+    logout() {
+        if (this.authenticationService.logout()) {
+          //  this.router.navigate(['/dashboard']);
         }
     }
 
