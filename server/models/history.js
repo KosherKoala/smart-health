@@ -9,7 +9,8 @@ const Schema = mongoose.Schema;
 const historySchema = new Schema({
 
     doctor:  { type: Schema.Types.ObjectId, ref: 'Doctor'},
-    notes: [{ type: Schema.Types.ObjectId, ref: 'Note'}],
+    patient: { type: Schema.Types.ObjectId, ref: 'Patient'},
+    appointments: [{ type: Schema.Types.ObjectId, ref: 'Event'}],
     chat: [{ type: Schema.Types.ObjectId, ref: 'Chat'}]
 	
 });
