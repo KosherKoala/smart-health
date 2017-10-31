@@ -21,6 +21,19 @@ router.get('/', function(req, res, next) {
   console.log('patient api get response');
 });
 
+/* GET ALL PATIENT */
+router.get('/params', function(req, res, next) {
+  Patient.find(req.body, function (err, patients) {
+    if (err) return next(err);
+    if(patients) {
+        res.json({patient:patients, success: true, message: "patients found with " + req.body});
+    } else {
+        res.json({success:false, message: "no patients found with " + req.body});
+    }
+  });
+  console.log('patient api get response');
+});
+
 /* GET SINGLE PATIENT BY ID */
 router.get('/:id', function(req, res, next) {
   Patient.findById(req.params.id, function (err, post) {

@@ -4,6 +4,7 @@ import { DoctorPageComponent } from './doctor-page.component';
 import { DoctorPageRoutingModule } from './doctor-page-routing.module';
 import { CalendarModule } from 'angular-calendar';
 import { StatModule } from '../../shared';
+import { DoctorService } from '../../services';
 
 @NgModule({
   imports: [
@@ -12,6 +13,7 @@ import { StatModule } from '../../shared';
     DoctorPageRoutingModule,
     StatModule
   ],
-  declarations: [DoctorPageComponent]
+  declarations: [DoctorPageComponent],
+  providers: [DoctorService]
 })
 export class DoctorPageModule { }

@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { CalendarEvent } from 'angular-calendar';
 import {EventColor} from 'calendar-utils';
+import { ActivatedRoute } from '@angular/router';
+import { DoctorService } from '../../services';
+import { Doctor } from '../../../../server/models/classes/doctor'
 
 @Component({
   selector: 'app-doctor-page',
@@ -11,10 +14,13 @@ import {EventColor} from 'calendar-utils';
 })
 export class DoctorPageComponent implements OnInit {
 
+  id: number;
+  private sub: any;
+  public doctor = { location: {} };
+
   view = 'month';
   viewDate: Date = new Date();
   later = new Date();
-
   clickedDate: Date;
 
   colors: any = {
@@ -32,8 +38,6 @@ export class DoctorPageComponent implements OnInit {
     }
   };
 
-
-
   events: CalendarEvent[] = [
     {
       title: 'Cleaning',
@@ -50,10 +54,18 @@ export class DoctorPageComponent implements OnInit {
   ];
 
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private doctorService: DoctorService) { }
 
   ngOnInit() {
     this.later.setHours(this.viewDate.getHours() + 2);
+
+    this.sub = this.route.params.subscribe(params => {
+      this.id = params['id'];
+      console.log(this.id)
+      this.doctorService.getDoctorById(this.id).then((data: any) => { this.doctor = data });
+    });
+
+
   }
 
   eventClicked({ event }: { event: CalendarEvent }): void {

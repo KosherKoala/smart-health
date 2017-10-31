@@ -40,7 +40,6 @@ var map = {
 	],
 	"./registration/registration.module": [
 		"../../../../../src/app/registration/registration.module.ts",
-		"common",
 		"registration.module"
 	],
 	"./signup/signup.module": [
@@ -94,17 +93,17 @@ var routes = [
     { path: 'registration', loadChildren: './registration/registration.module#RegistrationModule' },
     { path: '**', redirectTo: 'not-found' }
 ];
-var AppRoutingModule = (function () {
+var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
     }
+    AppRoutingModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+            imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */].forRoot(routes)],
+            exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["d" /* RouterModule */]]
+        })
+    ], AppRoutingModule);
     return AppRoutingModule;
 }());
-AppRoutingModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */].forRoot(routes)],
-        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* RouterModule */]]
-    })
-], AppRoutingModule);
 
 //# sourceMappingURL=app-routing.module.js.map
 
@@ -153,7 +152,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-var AppComponent = (function () {
+var AppComponent = /** @class */ (function () {
     function AppComponent(translate) {
         this.translate = translate;
         translate.addLangs(['en', 'fr', 'ur', 'es', 'it', 'fa']);
@@ -161,18 +160,18 @@ var AppComponent = (function () {
         var browserLang = translate.getBrowserLang();
         translate.use(browserLang.match(/en|fr|ur|es|it|fa/) ? browserLang : 'en');
     }
+    AppComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'app-root',
+            template: __webpack_require__("../../../../../src/app/app.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/app.component.scss")]
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__["c" /* TranslateService */]) === "function" && _a || Object])
+    ], AppComponent);
     return AppComponent;
+    var _a;
 }());
-AppComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-        selector: 'app-root',
-        template: __webpack_require__("../../../../../src/app/app.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/app.component.scss")]
-    }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ngx_translate_core__["c" /* TranslateService */]) === "function" && _a || Object])
-], AppComponent);
 
-var _a;
 //# sourceMappingURL=app.component.js.map
 
 /***/ }),
@@ -193,6 +192,7 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_routing_module__ = __webpack_require__("../../../../../src/app/app-routing.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__shared__ = __webpack_require__("../../../../../src/app/shared/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services__ = __webpack_require__("../../../../../src/app/services/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -209,42 +209,380 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 // AoT requires an exported function for factories
 function HttpLoaderFactory(http) {
     // for development
     // return new TranslateHttpLoader(http, '/start-angular/SB-Admin-BS4-Angular-4/master/dist/assets/i18n/', '.json');
     return new __WEBPACK_IMPORTED_MODULE_6__ngx_translate_http_loader__["a" /* TranslateHttpLoader */](http, '/assets/i18n/', '.json');
 }
-var AppModule = (function () {
+var AppModule = /** @class */ (function () {
     function AppModule() {
     }
+    AppModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+            declarations: [
+                __WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]
+            ],
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__["a" /* BrowserModule */],
+                __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
+                __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */],
+                __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* HttpModule */],
+                __WEBPACK_IMPORTED_MODULE_7__app_routing_module__["a" /* AppRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_5__ngx_translate_core__["b" /* TranslateModule */].forRoot({
+                    loader: {
+                        provide: __WEBPACK_IMPORTED_MODULE_5__ngx_translate_core__["a" /* TranslateLoader */],
+                        useFactory: HttpLoaderFactory,
+                        deps: [__WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Http */]]
+                    }
+                })
+            ],
+            providers: [__WEBPACK_IMPORTED_MODULE_9__shared__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_10__services__["c" /* PatientService */]],
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]]
+        })
+    ], AppModule);
     return AppModule;
 }());
-AppModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        declarations: [
-            __WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]
-        ],
-        imports: [
-            __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__["a" /* BrowserModule */],
-            __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
-            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* HttpModule */],
-            __WEBPACK_IMPORTED_MODULE_7__app_routing_module__["a" /* AppRoutingModule */],
-            __WEBPACK_IMPORTED_MODULE_5__ngx_translate_core__["b" /* TranslateModule */].forRoot({
-                loader: {
-                    provide: __WEBPACK_IMPORTED_MODULE_5__ngx_translate_core__["a" /* TranslateLoader */],
-                    useFactory: HttpLoaderFactory,
-                    deps: [__WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Http */]]
-                }
-            })
-        ],
-        providers: [__WEBPACK_IMPORTED_MODULE_9__shared__["a" /* AuthGuard */]],
-        bootstrap: [__WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]]
-    })
-], AppModule);
 
 //# sourceMappingURL=app.module.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/services/authentication.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthenticationService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var AuthenticationService = /** @class */ (function () {
+    function AuthenticationService(http) {
+        this.http = http;
+        // set token if saved in local storage
+        var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        this.token = currentUser && currentUser.token;
+    }
+    AuthenticationService.prototype.login = function (email, password) {
+        var _this = this;
+        return this.http.post('/api/authenticate', { email: email, password: password })
+            .map(function (response) {
+            // login successful if there's a jwt token in the response
+            var token = response.json() && response.json().token;
+            if (token) {
+                // set token property
+                _this.token = token;
+                // store email and jwt token in local storage to keep user logged in between page refreshes
+                localStorage.setItem('currentUser', JSON.stringify({ _id: response.json().obj._id, email: email, token: token }));
+                // return true to indicate successful login
+                return true;
+            }
+            else {
+                // return false to indicate failed login
+                console.log('not logged IN!');
+                return false;
+            }
+        });
+    };
+    AuthenticationService.prototype.logout = function () {
+        // clear token remove user from local storage to log user out
+        this.token = null;
+        localStorage.removeItem('currentUser');
+    };
+    AuthenticationService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
+    ], AuthenticationService);
+    return AuthenticationService;
+    var _a;
+}());
+
+//# sourceMappingURL=authentication.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/services/doctor.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DoctorService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/add/operator/toPromise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var DoctorService = /** @class */ (function () {
+    function DoctorService(http) {
+        this.http = http;
+    }
+    DoctorService.prototype.getAllDoctors = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/doctor')
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                console.log(res);
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    DoctorService.prototype.getDoctor = function (params) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/doctor/params', params)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    DoctorService.prototype.getDoctorById = function (id) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/doctor/' + id)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    DoctorService.prototype.createDoctor = function (data) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.post('/doctor', data)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    DoctorService.prototype.updateDoctor = function (id, data) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.put('/doctor/' + id, data)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    DoctorService.prototype.deleteDoctor = function (id) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.delete('/doctor/' + id)
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    DoctorService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
+    ], DoctorService);
+    return DoctorService;
+    var _a;
+}());
+
+//# sourceMappingURL=doctor.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/services/index.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__authentication_service__ = __webpack_require__("../../../../../src/app/services/authentication.service.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__authentication_service__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__patient_service__ = __webpack_require__("../../../../../src/app/services/patient.service.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_1__patient_service__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__doctor_service__ = __webpack_require__("../../../../../src/app/services/doctor.service.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2__doctor_service__["a"]; });
+
+
+
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/services/patient.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PatientService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/add/operator/toPromise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var PatientService = /** @class */ (function () {
+    function PatientService(http) {
+        this.http = http;
+    }
+    PatientService.prototype.getAllPatients = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/patient')
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    PatientService.prototype.getPatient = function (params) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/patient/params', params)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    PatientService.prototype.getPatientById = function (id) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/patient/' + id)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    PatientService.prototype.createPatient = function (data) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.post('/patient', data)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    PatientService.prototype.updatePatient = function (id, data) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.put('/patient/' + id, data)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    PatientService.prototype.deletePatient = function (id) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.delete('/patient/' + id)
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    PatientService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
+    ], PatientService);
+    return PatientService;
+    var _a;
+}());
+
+//# sourceMappingURL=patient.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/shared/classes/index.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__patient__ = __webpack_require__("../../../../../src/app/shared/classes/patient.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__patient__["a"]; });
+
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/shared/classes/patient.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Patient; });
+var Patient = /** @class */ (function () {
+    function Patient(firstName, lastName, email, password, passwordConfirmation) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.passwordConfirmation = passwordConfirmation;
+    }
+    return Patient;
+}());
+
+//# sourceMappingURL=patient.js.map
 
 /***/ }),
 
@@ -293,14 +631,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var HeaderComponent = (function () {
+var HeaderComponent = /** @class */ (function () {
     function HeaderComponent(translate, router) {
         var _this = this;
         this.translate = translate;
         this.router = router;
         this.pushRightClass = 'push-right';
         this.router.events.subscribe(function (val) {
-            if (val instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* NavigationEnd */] && window.innerWidth <= 992 && _this.isToggled()) {
+            if (val instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* NavigationEnd */] && window.innerWidth <= 992 && _this.isToggled()) {
                 _this.toggleSidebar();
             }
         });
@@ -324,18 +662,18 @@ var HeaderComponent = (function () {
     HeaderComponent.prototype.changeLang = function (language) {
         this.translate.use(language);
     };
+    HeaderComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'app-header',
+            template: __webpack_require__("../../../../../src/app/shared/components/header/header.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/shared/components/header/header.component.scss")]
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _b || Object])
+    ], HeaderComponent);
     return HeaderComponent;
+    var _a, _b;
 }());
-HeaderComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-        selector: 'app-header',
-        template: __webpack_require__("../../../../../src/app/shared/components/header/header.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/shared/components/header/header.component.scss")]
-    }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _b || Object])
-], HeaderComponent);
 
-var _a, _b;
 //# sourceMappingURL=header.component.js.map
 
 /***/ }),
@@ -392,7 +730,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 
-var SidebarComponent = (function () {
+var SidebarComponent = /** @class */ (function () {
     function SidebarComponent() {
         this.isActive = false;
         this.showMenu = '';
@@ -408,15 +746,15 @@ var SidebarComponent = (function () {
             this.showMenu = element;
         }
     };
+    SidebarComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'app-sidebar',
+            template: __webpack_require__("../../../../../src/app/shared/components/sidebar/sidebar.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/shared/components/sidebar/sidebar.component.scss")]
+        })
+    ], SidebarComponent);
     return SidebarComponent;
 }());
-SidebarComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-        selector: 'app-sidebar',
-        template: __webpack_require__("../../../../../src/app/shared/components/sidebar/sidebar.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/shared/components/sidebar/sidebar.component.scss")]
-    })
-], SidebarComponent);
 
 //# sourceMappingURL=sidebar.component.js.map
 
@@ -440,7 +778,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
-var AuthGuard = (function () {
+var AuthGuard = /** @class */ (function () {
     function AuthGuard(router) {
         this.router = router;
     }
@@ -451,14 +789,14 @@ var AuthGuard = (function () {
         this.router.navigate(['/login']);
         return false;
     };
+    AuthGuard = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object])
+    ], AuthGuard);
     return AuthGuard;
+    var _a;
 }());
-AuthGuard = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _a || Object])
-], AuthGuard);
 
-var _a;
 //# sourceMappingURL=auth.guard.js.map
 
 /***/ }),
@@ -471,11 +809,14 @@ var _a;
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components__ = __webpack_require__("../../../../../src/app/shared/components/index.ts");
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__components__["a"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_1__components__["b"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_1__components__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules__ = __webpack_require__("../../../../../src/app/shared/modules/index.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_2__modules__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__guard_auth_guard__ = __webpack_require__("../../../../../src/app/shared/guard/auth.guard.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_3__guard_auth_guard__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_2__modules__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__classes__ = __webpack_require__("../../../../../src/app/shared/classes/index.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_3__classes__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__guard_auth_guard__ = __webpack_require__("../../../../../src/app/shared/guard/auth.guard.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_4__guard_auth_guard__["a"]; });
+
 
 
 
@@ -539,26 +880,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var PageHeaderComponent = (function () {
+var PageHeaderComponent = /** @class */ (function () {
     function PageHeaderComponent() {
     }
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", String)
+    ], PageHeaderComponent.prototype, "heading", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", String)
+    ], PageHeaderComponent.prototype, "icon", void 0);
+    PageHeaderComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'app-page-header',
+            template: __webpack_require__("../../../../../src/app/shared/modules/page-header/page-header.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/shared/modules/page-header/page-header.component.scss")]
+        })
+    ], PageHeaderComponent);
     return PageHeaderComponent;
 }());
-__decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-    __metadata("design:type", String)
-], PageHeaderComponent.prototype, "heading", void 0);
-__decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-    __metadata("design:type", String)
-], PageHeaderComponent.prototype, "icon", void 0);
-PageHeaderComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-        selector: 'app-page-header',
-        template: __webpack_require__("../../../../../src/app/shared/modules/page-header/page-header.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/shared/modules/page-header/page-header.component.scss")]
-    })
-], PageHeaderComponent);
 
 //# sourceMappingURL=page-header.component.js.map
 
@@ -583,21 +924,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var PageHeaderModule = (function () {
+var PageHeaderModule = /** @class */ (function () {
     function PageHeaderModule() {
     }
+    PageHeaderModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
+                __WEBPACK_IMPORTED_MODULE_2__angular_router__["d" /* RouterModule */]
+            ],
+            declarations: [__WEBPACK_IMPORTED_MODULE_3__page_header_component__["a" /* PageHeaderComponent */]],
+            exports: [__WEBPACK_IMPORTED_MODULE_3__page_header_component__["a" /* PageHeaderComponent */]]
+        })
+    ], PageHeaderModule);
     return PageHeaderModule;
 }());
-PageHeaderModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [
-            __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* RouterModule */]
-        ],
-        declarations: [__WEBPACK_IMPORTED_MODULE_3__page_header_component__["a" /* PageHeaderComponent */]],
-        exports: [__WEBPACK_IMPORTED_MODULE_3__page_header_component__["a" /* PageHeaderComponent */]]
-    })
-], PageHeaderModule);
 
 //# sourceMappingURL=page-header.module.js.map
 
@@ -606,7 +947,7 @@ PageHeaderModule = __decorate([
 /***/ "../../../../../src/app/shared/modules/stat/stat.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"card  {{bgClass}}\">\n    <div class=\"card-header\">\n        <div class=\"row\">\n            <div class=\"col-5 col-xs-3\">\n                <img src={{icon}}>\n            </div>\n            <div class=\"col col-xs-9 text-right\">\n                <div class=\"d-block huge\">{{name}}</div>\n                <div class=\"d-block\">{{specialty}}</div>\n                <div class=\"d-block\">{{address}}</div>\n            </div>\n        </div>\n    </div>\n</div>\n"
+module.exports = "<div class=\"card  {{bgClass}}\">\n    <div class=\"card-header\">\n        <div class=\"row\">\n            <div class=\"col-5 col-xs-3\">\n                <img src={{icon}}>\n            </div>\n            <div class=\"col col-xs-9 text-right\">\n                <div class=\"d-block huge\">Dr {{firstName}} {{firstName}}</div>\n                <div class=\"d-block\">{{specialty}}</div>\n                <div class=\"d-block\">{{address.line_1}}, {{address.line_2}}<br>{{address.city}}, {{address.zip}}</div>\n            </div>\n        </div>\n    </div>\n</div>\n"
 
 /***/ }),
 
@@ -644,47 +985,51 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
-var StatComponent = (function () {
+var StatComponent = /** @class */ (function () {
     function StatComponent() {
         this.event = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
     }
     StatComponent.prototype.ngOnInit = function () { };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", String)
+    ], StatComponent.prototype, "bgClass", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", String)
+    ], StatComponent.prototype, "icon", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", String)
+    ], StatComponent.prototype, "firstName", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", String)
+    ], StatComponent.prototype, "lastName", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", String)
+    ], StatComponent.prototype, "specialty", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+        __metadata("design:type", Object)
+    ], StatComponent.prototype, "address", void 0);
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */])(),
+        __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]) === "function" && _a || Object)
+    ], StatComponent.prototype, "event", void 0);
+    StatComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+            selector: 'app-stat',
+            template: __webpack_require__("../../../../../src/app/shared/modules/stat/stat.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/shared/modules/stat/stat.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], StatComponent);
     return StatComponent;
+    var _a;
 }());
-__decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-    __metadata("design:type", String)
-], StatComponent.prototype, "bgClass", void 0);
-__decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-    __metadata("design:type", String)
-], StatComponent.prototype, "icon", void 0);
-__decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-    __metadata("design:type", String)
-], StatComponent.prototype, "name", void 0);
-__decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-    __metadata("design:type", String)
-], StatComponent.prototype, "specialty", void 0);
-__decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
-    __metadata("design:type", String)
-], StatComponent.prototype, "address", void 0);
-__decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */])(),
-    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]) === "function" && _a || Object)
-], StatComponent.prototype, "event", void 0);
-StatComponent = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
-        selector: 'app-stat',
-        template: __webpack_require__("../../../../../src/app/shared/modules/stat/stat.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/shared/modules/stat/stat.component.scss")]
-    }),
-    __metadata("design:paramtypes", [])
-], StatComponent);
 
-var _a;
 //# sourceMappingURL=stat.component.js.map
 
 /***/ }),
@@ -706,22 +1051,76 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var StatModule = (function () {
+var StatModule = /** @class */ (function () {
     function StatModule() {
     }
+    StatModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]
+            ],
+            declarations: [__WEBPACK_IMPORTED_MODULE_2__stat_component__["a" /* StatComponent */]],
+            exports: [__WEBPACK_IMPORTED_MODULE_2__stat_component__["a" /* StatComponent */]]
+        })
+    ], StatModule);
     return StatModule;
 }());
-StatModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [
-            __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]
-        ],
-        declarations: [__WEBPACK_IMPORTED_MODULE_2__stat_component__["a" /* StatComponent */]],
-        exports: [__WEBPACK_IMPORTED_MODULE_2__stat_component__["a" /* StatComponent */]]
-    })
-], StatModule);
 
 //# sourceMappingURL=stat.module.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/shared/pipes/doctor-search.pipe.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DoctorSearchPipe; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var DoctorSearchPipe = /** @class */ (function () {
+    function DoctorSearchPipe() {
+    }
+    DoctorSearchPipe.prototype.transform = function (items, name, specialty, zip) {
+        if (!items) {
+            return [];
+        }
+        var isValidZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zip);
+        if (!name && !specialty && !isValidZip) {
+            return [];
+        }
+        name = name.toLowerCase();
+        specialty = specialty.toLowerCase();
+        console.log("Filtering", name, specialty, zip);
+        if (isValidZip) {
+            console.log("Valid");
+            return items.filter(function (it) {
+                return ((it.firstName.toLowerCase().includes(name) || it.lastName.toLowerCase().includes(name)) &&
+                    it.specialty.toLowerCase().includes(specialty) &&
+                    it.location.zip == zip);
+            });
+        }
+        else {
+            return items.filter(function (it) {
+                return ((it.firstName.toLowerCase().includes(name) || it.lastName.toLowerCase().includes(name)) &&
+                    it.specialty.toLowerCase().includes(specialty));
+            });
+        }
+    };
+    DoctorSearchPipe = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Y" /* Pipe */])({
+            name: 'doctorSearch'
+        })
+    ], DoctorSearchPipe);
+    return DoctorSearchPipe;
+}());
+
+//# sourceMappingURL=doctor-search.pipe.js.map
 
 /***/ }),
 
@@ -732,6 +1131,7 @@ StatModule = __decorate([
 /* unused harmony export SharedPipesModule */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__doctor_search_pipe__ = __webpack_require__("../../../../../src/app/shared/pipes/doctor-search.pipe.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -740,19 +1140,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 
 
-var SharedPipesModule = (function () {
+
+var SharedPipesModule = /** @class */ (function () {
     function SharedPipesModule() {
     }
+    SharedPipesModule = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
+            imports: [
+                __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]
+            ],
+            declarations: [__WEBPACK_IMPORTED_MODULE_2__doctor_search_pipe__["a" /* DoctorSearchPipe */]]
+        })
+    ], SharedPipesModule);
     return SharedPipesModule;
 }());
-SharedPipesModule = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */])({
-        imports: [
-            __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]
-        ],
-        declarations: []
-    })
-], SharedPipesModule);
 
 //# sourceMappingURL=shared-pipes.module.js.map
 
@@ -767,7 +1168,6 @@ SharedPipesModule = __decorate([
 // The build system defaults to the dev environment which uses `environment.ts`, but if you do
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
-// The file contents for the current environment will overwrite these during build.
 var environment = {
     production: false
 };
