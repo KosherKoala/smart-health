@@ -12,7 +12,7 @@ export class DoctorService {
 
     getAllDoctors() {
       return new Promise((resolve, reject) => {
-        this.http.get('/doctor')
+        this.http.get('/api/doctor')
           .map(res => res.json())
           .subscribe(res => { console.log(res);
             resolve(res);
@@ -24,7 +24,7 @@ export class DoctorService {
 
     getDoctor(params) {
       return new Promise((resolve, reject) => {
-          this.http.get('/doctor/params', params)
+          this.http.get('/api/doctor/params', params)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res)
@@ -36,7 +36,7 @@ export class DoctorService {
 
     getDoctorById(id) {
       return new Promise((resolve, reject) => {
-          this.http.get('/doctor/' + id)
+          this.http.get('/api/doctor/' + id)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res)
@@ -48,7 +48,7 @@ export class DoctorService {
 
     createDoctor(data) {
       return new Promise((resolve, reject) => {
-          this.http.post('/doctor', data)
+          this.http.post('/api/doctor', data)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res);
@@ -60,7 +60,7 @@ export class DoctorService {
 
     updateDoctor(id, data) {
       return new Promise((resolve, reject) => {
-          this.http.put('/doctor/' + id, data)
+          this.http.put('/api/doctor/' + id, data)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res);
@@ -72,7 +72,7 @@ export class DoctorService {
 
     deleteDoctor(id) {
       return new Promise((resolve, reject) => {
-          this.http.delete('/doctor/' + id)
+          this.http.delete('/api/doctor/' + id)
             .subscribe(res => {
               resolve(res);
             }, (err) => {
