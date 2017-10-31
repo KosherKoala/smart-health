@@ -19,13 +19,14 @@ const doctorSchema = new Schema ({
     calendar: [{ type: Schema.Types.ObjectId, ref: 'Calendar'}],
     specialty: String,
     acceptedInsurance: [{ type: Schema.Types.ObjectId, ref: 'Insurance'}],
-    location: { 
-                line_1: String,
-                line_1: String,
+    location: {
+                addressOne: String,
+                 addressTwo: String,
                 city: String,
                 state: String,
                 zip: Number
             },
+
     picture: String
 });
 
