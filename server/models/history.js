@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const autopopulate = require('mongoose-autopopulate');
 const Doctor = require('./doctor');
 const Note = require('./note');
 const Chat = require('./chat');
@@ -14,5 +14,5 @@ const historySchema = new Schema({
     chat: [{ type: Schema.Types.ObjectId, ref: 'Chat'}]
 	
 });
-
+historySchema.plugin(autopopulate);
 module.exports = mongoose.model('History', historySchema);
