@@ -12,7 +12,7 @@ export class DoctorService {
 
     getAllDoctors() {
       return new Promise((resolve, reject) => {
-        this.http.get('/api/doctor')
+        this.http.post('/api/doctor', { params: {}, pop: ''})
           .map(res => res.json())
           .subscribe(res => { console.log(res);
             resolve(res);

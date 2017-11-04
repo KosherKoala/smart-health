@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProfileComponent } from './profile.component';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { StatModule } from '../../shared';
+import { PatientService, CurrentUserService } from '../../services';
 
 @NgModule({
   imports: [
@@ -10,6 +11,7 @@ import { StatModule } from '../../shared';
     ProfileRoutingModule,
     StatModule
   ],
-  declarations: [ProfileComponent]
+  declarations: [ProfileComponent],
+  providers: [ PatientService, CurrentUserService],
 })
 export class ProfileModule { }

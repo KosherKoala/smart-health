@@ -4,7 +4,22 @@ import { CalendarEvent } from 'angular-calendar';
 import {EventColor} from 'calendar-utils';
 import { ActivatedRoute } from '@angular/router';
 import { DoctorService } from '../../services';
-import { Doctor } from '../../../../server/models/classes/doctor'
+import { Doctor } from '../../../../server/models/classes/doctor';
+import { getMonth, startOfMonth, startOfWeek, startOfDay, endOfMonth, endOfWeek, endOfDay, addHours} from 'date-fns';
+import RRule from 'rrule';
+
+interface RecurringEvent {
+  title: string;
+  color: any;
+  rrule?: {
+    freq: RRule.Frequency;
+    bymonth?: number;
+    bymonthday?: number;
+    byweekday?: RRule.Weekday[];
+  };
+  start?: Date,
+  end?: Date
+}
 
 @Component({
   selector: 'app-doctor-page',
@@ -38,21 +53,43 @@ export class DoctorPageComponent implements OnInit {
     }
   };
 
-  events: CalendarEvent[] = [
+  currentAppointments = [
     {
-      title: 'Cleaning',
+      title: 'Tooth Pull',
+      start: new Date('Sat Nov 04 2017 00:00:00 GMT-0400 (EDT)')
+    }
+  ]
+
+
+  recurringEvents: RecurringEvent[] = [
+    {
+      title: 'Recurs on the 5th of each month',
       color: this.colors.yellow,
-      start: new Date(),
-      end: this.later,
+      rrule: {
+        freq: RRule.MONTHLY,
+        bymonthday: 5
+      }
+    },
+    {
+      title: 'Recurs yearly on the 10th of the current month',
+      color: this.colors.blue,
+      rrule: {
+        freq: RRule.YEARLY,
+        bymonth: getMonth(new Date()) + 1,
+        bymonthday: 10
+      }
     },
     {
       title: 'Tooth Pull',
-      color: this.colors.blue,
-      start: new Date(),
-      end: this.later
+      color: this.colors.red,
+      rrule: {
+        freq: RRule.WEEKLY,
+        byweekday: [RRule.MO, RRule.WE, RRule.SA]
+      }
     }
   ];
 
+  events: CalendarEvent[] = [];
 
   constructor(private route: ActivatedRoute, private doctorService: DoctorService) { }
 
@@ -65,13 +102,52 @@ export class DoctorPageComponent implements OnInit {
       this.doctorService.getDoctorById(this.id).then((data: any) => { this.doctor = data });
     });
 
+    this.updateCalendarEvents();
 
+  }
+
+  dayClicked(event): void {
+    console.log('Day clicked', event);
+    this.viewDate = event.day.date;
+    this.view = 'day';
   }
 
   eventClicked({ event }: { event: CalendarEvent }): void {
     console.log('Event clicked', event);
   }
 
+  updateCalendarEvents(): void {
+    this.events = [];
 
+    const startOfPeriod: any = {
+      month: startOfMonth,
+      week: startOfWeek,
+      day: startOfDay
+    };
 
+    const endOfPeriod: any = {
+      month: endOfMonth,
+      week: endOfWeek,
+      day: endOfDay
+    };
+
+    this.recurringEvents.forEach(event => {
+      const rule: RRule = new RRule(
+        Object.assign({}, event.rrule, {
+          dtstart: startOfPeriod[this.view](this.viewDate),
+          until: endOfPeriod[this.view](this.viewDate)
+        })
+      );
+
+      rule.all().forEach(date => {
+        this.events.push(
+          Object.assign({}, event, {
+            start: new Date(date),
+            end: addHours(new Date(date), 2)
+          })
+        );
+      });
+    });
+
+  }
 }
