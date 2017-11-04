@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Health = require('./health');
 const Insurance = require('./insurance');
 const History = require('./history');
-
+const autopopulate = require('mongoose-autopopulate');
 const Schema = mongoose.Schema;
 
 const patientSchema = new Schema({
@@ -17,5 +17,6 @@ const patientSchema = new Schema({
 	isValidated: Boolean
 
 });
+patientSchema.plugin(autopopulate);
 
 module.exports = mongoose.model('Patient', patientSchema);
