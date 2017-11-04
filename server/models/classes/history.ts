@@ -3,7 +3,7 @@ import { Patient } from "./patient";
 import { Chat } from "./chat";
 import { Event } from "./event";
 
-export class Health {
+export class History {
     doctor: Doctor;
     patient: Patient;
     appointments: [Event];
