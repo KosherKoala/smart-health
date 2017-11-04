@@ -99,7 +99,6 @@ var LayoutComponent = (function () {
     }
     LayoutComponent.prototype.ngOnInit = function () {
         var _this = this;
-        console.log("here", this.currentUser);
         if (this.currentUser.type == 'patient') {
             this.patientService.getPatientById(this.currentUser._id)
                 .then(function (data) {

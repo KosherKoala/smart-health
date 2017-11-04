@@ -10,8 +10,8 @@ var map = {
 	],
 	"./dashboard/dashboard.module": [
 		"../../../../../src/app/layout/dashboard/dashboard.module.ts",
-		"common",
-		"dashboard.module"
+		"dashboard.module",
+		"common"
 	],
 	"./doctor-page/doctor-page.module": [
 		"../../../../../src/app/layout/doctor-page/doctor-page.module.ts",
@@ -20,28 +20,27 @@ var map = {
 	],
 	"./doctor-portal/doctor-portal.module": [
 		"../../../../../src/app/doctor-portal/doctor-portal.module.ts",
-		"common",
-		"doctor-portal.module"
+		"doctor-portal.module",
+		"common"
 	],
 	"./layout/layout.module": [
 		"../../../../../src/app/layout/layout.module.ts",
-		"common",
 		"layout.module"
 	],
 	"./login/login.module": [
 		"../../../../../src/app/login/login.module.ts",
-		"common",
-		"login.module"
+		"login.module",
+		"common"
 	],
 	"./not-found/not-found.module": [
 		"../../../../../src/app/not-found/not-found.module.ts",
-		"common",
-		"not-found.module"
+		"not-found.module",
+		"common"
 	],
 	"./profile/profile.module": [
 		"../../../../../src/app/layout/profile/profile.module.ts",
-		"common",
-		"profile.module"
+		"profile.module",
+		"common"
 	],
 	"./registration/registration.module": [
 		"../../../../../src/app/registration/registration.module.ts",
@@ -49,8 +48,8 @@ var map = {
 	],
 	"./signup/signup.module": [
 		"../../../../../src/app/signup/signup.module.ts",
-		"common",
-		"signup.module"
+		"signup.module",
+		"common"
 	]
 };
 function webpackAsyncContext(req) {
@@ -199,12 +198,14 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__shared__ = __webpack_require__("../../../../../src/app/shared/index.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__services__ = __webpack_require__("../../../../../src/app/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -237,6 +238,7 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
             __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* HttpModule */],
+            __WEBPACK_IMPORTED_MODULE_11__ng_bootstrap_ng_bootstrap__["d" /* NgbModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_7__app_routing_module__["a" /* AppRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_5__ngx_translate_core__["b" /* TranslateModule */].forRoot({
                 loader: {
@@ -404,7 +406,7 @@ var DoctorService = (function () {
     DoctorService.prototype.getAllDoctors = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.http.get('/api/doctor')
+            _this.http.post('/api/doctor', { params: {}, pop: '' })
                 .map(function (res) { return res.json(); })
                 .subscribe(function (res) {
                 console.log(res);

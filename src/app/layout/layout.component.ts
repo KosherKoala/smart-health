@@ -11,13 +11,14 @@ export class LayoutComponent implements OnInit {
 
     public currentUser =  JSON.parse(localStorage.getItem('currentUser'));
 
+
     constructor(public router: Router,
                 private currentUserService: CurrentUserService,
                 private patientService: PatientService,
                 private doctorService: DoctorService) { }
 
     ngOnInit() {
-        console.log("here", this.currentUser)
+
         if ( this.currentUser.type == 'patient') {
             this.patientService.getPatientById(this.currentUser._id)
                 .then((data: any) => { this.currentUserService.currentUser = data; console.log(this.currentUserService.currentUser)

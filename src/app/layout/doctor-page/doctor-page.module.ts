@@ -5,6 +5,8 @@ import { DoctorPageRoutingModule } from './doctor-page-routing.module';
 import { CalendarModule } from 'angular-calendar';
 import { StatModule } from '../../shared';
 import { DoctorService } from '../../services';
+import {DayPilot} from 'daypilot-pro-angular';
+
 
 @NgModule({
   imports: [

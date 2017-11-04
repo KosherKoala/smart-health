@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
+import { PatientService, DoctorService, CurrentUserService } from '../../services';
 
 @Component({
   selector: 'app-profile',
@@ -11,26 +12,46 @@ export class ProfileComponent implements OnInit {
 
   public doctors = [];
   public appointments = [1, 2, 3];
+  public currentUser =  JSON.parse(localStorage.getItem('currentUser'));
 
-  constructor() {  
+  constructor(private currentUserService: CurrentUserService, private doctorService: DoctorService, private patientService: PatientService) {
+
     this.doctors.push(
         {
             id: 1,
-            name: 'Dr Rufus Mandude',
+            firstName: 'Rufus',
+            lastName: 'Mandude',
             specialty: "Dentist",
-            address: "1221 Foggy Dr, Suite 300, 32746"
+            address: {}
         },
         {
-            id: 2,
-            name: 'Dr Tommy Gill',
-            specialty: "Plastic Surgeon",
-            address: "1223 Foggy Cir, Suite 2, 32746"
-        }
+          id: 1,
+          firstName: 'Rufus',
+          lastName: 'Mandude',
+          specialty: "Dentist",
+          address: {}
+      },
+      {
+        id: 1,
+        firstName: 'Rufus',
+        lastName: 'Mandude',
+        specialty: "Dentist",
+        address: {}
+    },
     );
 
     }
 
   ngOnInit() {
+
+    if ( this.currentUser.type == 'patient') {
+      this.patientService.getPatientById(this.currentUser._id)
+          .then((data: any) => { this.currentUserService.currentUser = data; console.log(this.currentUserService.currentUser)
+          });
+  } else if ( this.currentUser.type == 'doctor') {
+      this.doctorService.getDoctorById(this.currentUser._id)
+          .then((data: any) => { this.currentUserService.currentUser = data });
+  }
   }
 
 }

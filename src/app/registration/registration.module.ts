@@ -6,12 +6,14 @@ import { PatientService } from '../services';
 
 import { RegistrationRoutingModule } from './registration-routing.module';
 import { RegistrationComponent } from './registration.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
     imports: [
         CommonModule,
         RegistrationRoutingModule,
-        FormsModule
+        FormsModule,
+        NgbModule
     ],
     providers: [ PatientService ],
     declarations: [RegistrationComponent]
