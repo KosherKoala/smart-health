@@ -3,13 +3,32 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise';
+<<<<<<< HEAD
 import { Insurance } from '../../../server/models/classes/index';
+=======
+import { Insurance } from '../../../server/models/index'
+>>>>>>> 3548be955b07c178ea3df074bfecbdd945b2aa34
 
 @Injectable()
 export class InsuranceService {
 
     constructor(private http: Http) { }
 
+<<<<<<< HEAD
+=======
+    getAllInsurances() {
+      return new Promise((resolve, reject) => {
+        this.http.get('/api/insurance')
+          .map(res => res.json())
+          .subscribe(res => {
+            resolve(res);
+          }, (err) => {
+            reject(err);
+          });
+      });
+    }
+
+>>>>>>> 3548be955b07c178ea3df074bfecbdd945b2aa34
     getInsuranceById(id) {
       return new Promise((resolve, reject) => {
           this.http.get('/api/insurance/' + id)
@@ -56,4 +75,8 @@ export class InsuranceService {
             });
       });
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 3548be955b07c178ea3df074bfecbdd945b2aa34
