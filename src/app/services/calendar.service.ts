@@ -3,16 +3,16 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise';
-import { Doctor } from '../../../server/models/classes/index';
+import { Calendar } from '../../../server/models/classes/index';
 
 @Injectable()
-export class DoctorService {
+export class CalendarService {
 
     constructor(private http: Http) { }
 
-    getAllDoctors() {
+    getAllCalendars() {
       return new Promise((resolve, reject) => {
-        this.http.post('/api/doctor', { params: {}, pop: ''})
+        this.http.get('/api/calendar')
           .map(res => res.json())
           .subscribe(res => { console.log(res);
             resolve(res);
@@ -22,9 +22,9 @@ export class DoctorService {
       });
     }
 
-    getDoctor(params) {
+    getCalendar(params) {
       return new Promise((resolve, reject) => {
-          this.http.get('/api/doctor/params', params)
+          this.http.get('/api/calendar/params', params)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res)
@@ -34,9 +34,9 @@ export class DoctorService {
       });
     }
 
-    getDoctorById(id) {
+    getCalendarById(id) {
       return new Promise((resolve, reject) => {
-          this.http.get('/api/doctor/' + id)
+          this.http.get('/api/calendar/' + id)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res)
@@ -46,9 +46,9 @@ export class DoctorService {
       });
     }
 
-    createDoctor(data) {
+    createCalendar(data) {
       return new Promise((resolve, reject) => {
-          this.http.post('/api/doctor', data)
+          this.http.post('/api/calendar', data)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res);
@@ -58,9 +58,9 @@ export class DoctorService {
       });
     }
 
-    updateDoctor(id, data) {
+    updateCalendar(id, data) {
       return new Promise((resolve, reject) => {
-          this.http.put('/api/doctor/' + id, data)
+          this.http.put('/api/calendar/' + id, data)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res);
@@ -70,9 +70,9 @@ export class DoctorService {
       });
     }
 
-    deleteDoctor(id) {
+    deleteCalendar(id) {
       return new Promise((resolve, reject) => {
-          this.http.delete('/api/doctor/' + id)
+          this.http.delete('/api/calendar/' + id)
             .subscribe(res => {
               resolve(res);
             }, (err) => {

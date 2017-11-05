@@ -3,7 +3,7 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise';
-import { Patient } from '../../../server/models/index'
+import { Patient } from '../../../server/models/classes/index';
 
 @Injectable()
 export class PatientService {
