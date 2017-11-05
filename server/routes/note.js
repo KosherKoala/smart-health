@@ -1,5 +1,6 @@
 var express  = require('express');
 var router   = express.Router();
+var app = express();
 var mongoose = require('mongoose');
 var Note  = require('../models/note');
 var jwt      = require('jwt-simple');
