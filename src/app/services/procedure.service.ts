@@ -3,16 +3,16 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise';
-import { Doctor } from '../../../server/models/classes/index';
+import { Procedure } from '../../../server/models/classes/index';
 
 @Injectable()
-export class DoctorService {
+export class ProcedureService {
 
     constructor(private http: Http) { }
 
-    getAllDoctors() {
+    getAllProcedures() {
       return new Promise((resolve, reject) => {
-        this.http.post('/api/doctor', { params: {}, pop: ''})
+        this.http.get('/api/procedure')
           .map(res => res.json())
           .subscribe(res => { console.log(res);
             resolve(res);
@@ -22,9 +22,9 @@ export class DoctorService {
       });
     }
 
-    getDoctor(params) {
+    getProcedure(params) {
       return new Promise((resolve, reject) => {
-          this.http.get('/api/doctor/params', params)
+          this.http.get('/api/procedure/params', params)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res)
@@ -34,9 +34,9 @@ export class DoctorService {
       });
     }
 
-    getDoctorById(id) {
+    getProcedureById(id) {
       return new Promise((resolve, reject) => {
-          this.http.get('/api/doctor/' + id)
+          this.http.get('/api/procedure/' + id)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res)
@@ -46,9 +46,9 @@ export class DoctorService {
       });
     }
 
-    createDoctor(data) {
+    createProcedure(data) {
       return new Promise((resolve, reject) => {
-          this.http.post('/api/doctor', data)
+          this.http.post('/api/procedure', data)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res);
@@ -58,9 +58,9 @@ export class DoctorService {
       });
     }
 
-    updateDoctor(id, data) {
+    updateProcedure(id, data) {
       return new Promise((resolve, reject) => {
-          this.http.put('/api/doctor/' + id, data)
+          this.http.put('/api/procedure/' + id, data)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res);
@@ -70,9 +70,9 @@ export class DoctorService {
       });
     }
 
-    deleteDoctor(id) {
+    deleteProcedure(id) {
       return new Promise((resolve, reject) => {
-          this.http.delete('/api/doctor/' + id)
+          this.http.delete('/api/procedure/' + id)
             .subscribe(res => {
               resolve(res);
             }, (err) => {

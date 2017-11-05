@@ -38,6 +38,7 @@
         "jsonwebtoken": "^8.1.0",
         "jwt-simple": "^0.5.1",
         "mongoose": "^4.12.0",
+        "mongoose-autopopulate": "^0.6.0",
         "multer": "^1.3.0",
         "ng2-charts": "^1.6.0",
         "rrule": "^2.2.0",

@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-
+const autopopulate = require('mongoose-autopopulate');
 const Procedure = require('./procedure');
 const Patient = require('./patient');
 const Event = require('./event');
 const Insurance = require('./insurance');
-const Location = require('./location');
+
 
 const doctorSchema = new Schema ({
     firstName: String,
@@ -29,5 +29,6 @@ const doctorSchema = new Schema ({
 
     picture: String
 });
+doctorSchema.plugin(autopopulate);
 
 module.exports = mongoose.model('Doctor', doctorSchema);

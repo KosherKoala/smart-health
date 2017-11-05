@@ -13,6 +13,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api/patient', require('./server/routes/patient'));
 app.use('/api/doctor', require('./server/routes/doctor'));
+app.use('/api/event', require('./server/routes/event'));
+app.use('/api/calendar', require('./server/routes/calendar'));
+app.use('/api/procedure', require('./server/routes/procedure'));
 app.set('superSecret', config.secret); // secret variable
 
 // Point static path to dist
@@ -39,6 +42,7 @@ const server = http.createServer(app);
  */
 server.listen(port, () => console.log(`API running on localhost:${port}`));
 
+//const db = 'mongodb://localhost:27017/smart-health';
 const db = 'mongodb://localhost:27017/smart-health';
 mongoose.Promise = global.Promise;
 

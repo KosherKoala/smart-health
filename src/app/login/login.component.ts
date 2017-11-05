@@ -42,4 +42,10 @@ export class LoginComponent implements OnInit {
         }
     }
 
+    make() {
+        if (this.authenticationService.logout()) {
+          //  this.router.navigate(['/dashboard']);
+        }
+    }
+
 }
