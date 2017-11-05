@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const insuranceSchema = new Schema({
     
     name: String,
-    InsuranceId: Number
+    insuranceId: Number
 	
 });
 

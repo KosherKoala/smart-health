@@ -40,6 +40,7 @@
         "mongoose": "^4.12.0",
         "mongoose-autopopulate": "^0.6.0",
         "multer": "^1.3.0",
+        "ng-pdf-make": "0.0.2",
         "ng2-charts": "^1.6.0",
         "rrule": "^2.2.0",
         "rxjs": "^5.4.3",

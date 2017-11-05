@@ -11,7 +11,6 @@ router.post('/', function(req, res, next) {
   Doctor.find(req.body.params).populate(req.body.pop).exec(function (err, doctors) {
     if (err) return next(err);
     if(doctors) {
-        console.log(doctors);
         res.json({doctor:doctors, success: true, message: "doctor found with " + req.body});
     } else {
         res.json({success:false, message: "no doctors found with " + req.body});

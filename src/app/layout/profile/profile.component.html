@@ -4,12 +4,35 @@
       <div class="card m-auto">
         <img class="card-img-top" src="http://via.placeholder.com/350x350" alt="Card image cap">
         <div class="card-body p-0">
-            <ul class="list-group">
-                <li class="list-group-item">23 years old</li>
-                <li class="list-group-item">Male</li>
-                <li class="list-group-item">1223 Main St, Lake Mona, FL</li>
-                <br>
-                <li class="list-group-item">View your medical history</li>
+            <ul class="list-group" *ngIf="currentUserService.currentUser.health">
+                <li class="list-group-item">
+                  <div class="card">
+                    <div class="card-header p-1" (click)="collapseInsurance = !collapseInsurance" [attr.aria-expanded]="!collapseInsurance" aria-controls="collapseExample">
+                      Insurance
+                    </div>
+                    <div class="card-body p-1" id="collapseExample" [ngbCollapse]="!collapseInsurance">
+                      <p>{{currentUserService.currentUser.insurance.name}}</p>
+                      <p>ID#: {{currentUserService.currentUser.insurance.insuranceId}}</p>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="card">
+                    <div class="card-header p-1" (click)="collapseHistories = !collapseHistories" [attr.aria-expanded]="!collapseHistories" aria-controls="collapseExample">
+                      Doctor Histories
+                    </div>
+                    <div class="card-body p-1" id="collapseExample" [ngbCollapse]="!collapseHistories">
+                      <ul class="list-group" *ngIf="currentUserService.currentUser.history">
+                          <li class="list-group-item" *ngFor="let history of currentUserService.currentUser.history">
+                            <div class="d-flex flex-row" *ngIf = "history.doctor != null ">
+                              <div *ngIf = "history.doctor._id != null">Dr {{history.doctor.firstName}} {{history.doctor.lastName}}</div>
+                              <div class="fa fa-download ml-auto" (click)="createHistory(history)"></div>
+                            </div>
+                          </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
             </ul>
         </div>
       </div>
@@ -20,56 +43,146 @@
           <h4>
             {{currentUserService.currentUser.firstName}} {{currentUserService.currentUser.lastName}}
           </h4>
-          <div class="d-flex px-4 justify-content-between">
-           <h3> <div class="badge badge-pill badge-primary"><i class="fa fa-phone pr-2"></i>407-455-3455</div> </h3>
-           <h3> <div class="badge badge-pill badge-primary"><i class="fa fa-envelope pr-2"></i>strudel@toster.com</div> </h3>
-           <h3> <div class="badge badge-pill badge-primary"><i class="fa fa-facebook pr-2"></i>Toster Strudel</div> </h3>
-          </div>
           <hr class="thick">
-          <h3>Upcoming Appointments</h3>
-          <div class="card m-auto" id="appointment-card">
-            <div class="card-body p-0">
-                <ul class="list-group">
-                    <li class="list-group-item" *ngFor="let appt of appointments">
-                      <div class="d-flex">
-                        <div class="d-flex flex-column">
-                          <div>
-                            <h4>Tooth Pull</h4>
+          <ngb-tabset>
+              <ngb-tab title="Upcoming Appointments">
+                <ng-template ngbTabContent>
+                  <div class="card m-auto" id="appointment-card">
+                    <div class="card-body p-0">
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let appt of appointments">
+                              <div class="d-flex">
+                                <div class="d-flex flex-column">
+                                  <div>
+                                    <h4>Tooth Pull</h4>
+                                  </div>
+                                  <div>
+                                      2:00pm-4:00pm
+                                  </div>
+                                  <div class="d-flex pt-2">
+                                      <button class="btn btn-danger btn-sm">Cancel</button>
+                                  </div>
+                                </div>
+                                <div class="d-flex flex-column ml-auto">
+                                  <div class="d-flex">
+                                      <div>Dr. Worshall</div>
+                                  </div>
+                                  <div>
+                                      1223 Crossroad Lane,<br>
+                                      Orlando FL, 234234
+                                  </div>
+                                  <div class="d-flex">
+                                    <h5> <div class="badge badge-pill badge-primary"><i class="fa fa-phone pr-2"></i>407-455-3455</div> </h5>
+                                    <h5> <div class="badge badge-pill badge-primary"><i class="fa fa-envelope pr-2"></i>strudel@toster.com</div> </h5>
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                        </ul>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab title="Patient Info">
+                <ng-template ngbTabContent>
+                    <form>
+                      <div class="row">
+                          <div class="col-2">
+                            User Info:
                           </div>
-                          <div>
-                              2:00pm-4:00pm
-                          </div>
-                          <div class="d-flex pt-2">
-                             <button class="btn btn-danger btn-sm">Cancel</button>
+                          <div class="col">
+                            <hr class="thick">
                           </div>
                         </div>
-                        <div class="d-flex flex-column ml-auto">
-                          <div class="d-flex">
-                              <div>Dr. Worshall</div>
+                      <div class="form-group row">
+                          <label for="staticEmail" class="col-sm-2 col-form-label">First</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control" id="staticEmail" value="{{currentUserService.currentUser.firstName}}">
                           </div>
-                          <div>
-                              1223 Crossroad Lane,<br>
-                              Orlando FL, 234234
+                      </div>
+                      <div class="form-group row">
+                          <label for="staticEmail" class="col-sm-2 col-form-label">Last</label>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control" id="staticEmail" value="{{currentUserService.currentUser.lastName}}">
                           </div>
-                          <div class="d-flex">
-                            <h5> <div class="badge badge-pill badge-primary"><i class="fa fa-phone pr-2"></i>407-455-3455</div> </h5>
-                            <h5> <div class="badge badge-pill badge-primary"><i class="fa fa-envelope pr-2"></i>strudel@toster.com</div> </h5>
+                      </div>
+                      <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="staticEmail" value="{{currentUserService.currentUser.email}}">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-2">
+                          Health:
+                        </div>
+                        <div class="col">
+                          <hr class="thick">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="inputHeight" class="col-sm-2 col-form-label">Height:</label>
+                        <div class="col-sm-4">
+                          <input type="text" class="form-control" id="inputHeight" value="{{currentUserService.currentUser.health.height}}">
+                        </div>
+                        <label for="inputWeight" class="col-sm-2 col-form-label">Weight:</label>
+                        <div class="col-sm-4">
+                          <input type="text" class="form-control" id="inputWeight" value="{{currentUserService.currentUser.health.weight}}">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="inputHeight" class="col-sm-2 col-form-label">Medication:</label>
+                        <div class="col-sm-10">
+                          <div class="d-flex flex-row">
+                            <div class="badge badge-pill badge-primary p-auto"  *ngFor="let med of currentUserService.currentUser.health.medication">
+                              {{med}}
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </li>
-                </ul>
-            </div>
-          </div>
-          
+                      <div class="form-group row">
+                        <label for="inputHeight" class="col-sm-2 col-form-label">Allergies:</label>
+                        <div class="col-sm-10">
+                          <div class="d-flex flex-row">
+                            <div class="badge badge-pill badge-primary p-auto"  *ngFor="let al of currentUserService.currentUser.health.allergies">
+                              {{al}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="inputHeight" class="col-sm-2 col-form-label">Conditions:</label>
+                        <div class="col-sm-10">
+                          <div class="d-flex flex-row">
+                            <div class="badge badge-pill badge-primary p-auto"  *ngFor="let con of currentUserService.currentUser.health.conditions">
+                              {{con}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+
+                </ng-template>
+              </ngb-tab>
+              <ngb-tab title="Disabled" [disabled]="true">
+                <ng-template ngbTabContent>
+                  <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth
+                  master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh
+                  dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum
+                  iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.</p>
+                </ng-template>
+              </ngb-tab>
+            </ngb-tabset>
         </div>
         <div class="col-4">
           <h4>My Doctors</h4>
           <div class="card">
-            <div class="card-body">
+            <div class="card-body p-1">
               <ul class="list-group">
-                  <li class="list-group-item p-0" *ngFor="let doctor of doctors" [routerLink]= "['/doctor']">
-                      <app-stat [icon]="'http://via.placeholder.com/100x100'" [firstName]="doctor.firstName" [lastName]="doctor.lastName" [specialty]= "doctor.specialty" [address]="doctor.address"></app-stat>
+                  <li class="list-group-item p-0" *ngFor="let history of currentUserService.currentUser.history">
+                    <div *ngIf = "history.doctor != null ">
+                      <app-stat *ngIf = "history.doctor._id != null " [routerLink]= "['/doctor/'+ history.doctor._id]" [icon]="'http://via.placeholder.com/100x100'" [showAddress]="false" [firstName]="history.doctor.firstName" [lastName]="history.doctor.lastName" [specialty]= "history.doctor.specialty" [address]="history.doctor.location"></app-stat>
+                    </div>
                   </li>
               </ul>
             </div>
