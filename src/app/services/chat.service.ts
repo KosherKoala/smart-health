@@ -3,7 +3,6 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise';
-import { Chat } from '../../../server/models/index'
 
 @Injectable()
 export class ChatService {

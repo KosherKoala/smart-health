@@ -826,6 +826,31 @@ var HistoryService = (function () {
     function HistoryService(http) {
         this.http = http;
     }
+    HistoryService.prototype.getAllHistories = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/api/history')
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    HistoryService.prototype.getHistory = function (params) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            console.log("serv params", params);
+            _this.http.post('/api/history/params', params)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
     HistoryService.prototype.getHistoryById = function (id) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -948,6 +973,18 @@ var InsuranceService = (function () {
     function InsuranceService(http) {
         this.http = http;
     }
+    InsuranceService.prototype.getAllInsurances = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/api/insurance')
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
     InsuranceService.prototype.getInsuranceById = function (id) {
         var _this = this;
         return new Promise(function (resolve, reject) {
