@@ -7,7 +7,7 @@ var jwt         = require('jwt-simple');
 var config = require('../../config')
 
 /* GET ALL DOCTOR */
-router.post('/', function(req, res, next) {
+router.get('/', function(req, res, next) {
   Doctor.find(req.body.params).populate(req.body.pop).exec(function (err, doctors) {
     if (err) return next(err);
     if(doctors) {
