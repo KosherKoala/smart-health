@@ -52,7 +52,7 @@ router.put('/:id', function(req, res, next) {
       res.json({success: false, message: "ERROR: doctor not updated"});
   }
   });
-  console.log('patient api put response');
+  console.log('doctor api put response');
 });
 
 /* DELETE DOCTOR */
@@ -61,7 +61,7 @@ router.delete('/:id', function(req, res, next) {
     if (err) return next(err);
     res.json(post);
   });
-  console.log('patient api delete response');
+  console.log('doctor api delete response');
 });
 
  
