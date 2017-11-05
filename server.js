@@ -14,10 +14,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api/patient', require('./server/routes/patient'));
 app.use('/api/doctor', require('./server/routes/doctor'));
 app.use('/api/event', require('./server/routes/event'));
+app.use('/api/health', require('./server/routes/health'));
+app.use('/api/history', require('./server/routes/history'));
 app.use('/api/calendar', require('./server/routes/calendar'));
 app.use('/api/procedure', require('./server/routes/procedure'));
+app.use('/api/insurance', require('./server/routes/insurance'));
 app.set('superSecret', config.secret); // secret variable
-
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')));
 

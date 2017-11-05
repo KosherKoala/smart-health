@@ -10,8 +10,8 @@ const patientSchema = new Schema({
 	lastName: String,
 	email: String,
 	password: String,
-	health: { type: Schema.Types.ObjectId, ref: 'Health' },
-	insurance: {type:Schema.Types.ObjectId, ref: 'Insurance'},
+	health: { type: Schema.Types.ObjectId, ref: 'Health', autopopulate: true },
+	insurance: {type:Schema.Types.ObjectId, ref: 'Insurance', autopopulate: true},
 	history: [{type: Schema.Types.ObjectId, ref: 'History'}],
 	picture: String,
 	isValidated: Boolean

@@ -25,7 +25,9 @@
                 "../node_modules/angular-calendar/dist/css/angular-calendar.css"
             ],
             "scripts": [
-                "../node_modules/chart.js/dist/Chart.js"
+                "../node_modules/chart.js/dist/Chart.js",
+                "../node_modules/pdfmake/build/pdfmake.min.js",
+                "../node_modules/pdfmake/build/vfs_fonts.js"
             ],
             "environmentSource": "environments/environment.ts",
             "environments": {

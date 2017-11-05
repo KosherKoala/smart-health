@@ -12,6 +12,7 @@ export class StatComponent implements OnInit {
     @Input() lastName: string;
     @Input() specialty: string;
     @Input() address: any;
+    @Input() showAddress: Boolean;
     @Output() event: EventEmitter<any> = new EventEmitter();
 
     constructor() { }
