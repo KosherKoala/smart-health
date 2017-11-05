@@ -6,7 +6,7 @@ var Procedure = require('../models/procedure');
 var jwt         = require('jwt-simple');
 var config = require('../../config')
 
-/* GET ALL EVENTS */
+/* GET ALL PROCEDURES */
 router.get('/', function(req, res, next) {
   Procedure.find(req.body).populate(req.body.pop).exec(function (err, procedures) {
     if (err) return next(err);
@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
         res.json({success:false, message: "no procedures found with " + req.body});
     }
   });
-  console.log('devent api get response');
+  console.log('procedure api get response');
 });
 
 /* GET SINGLE PROCEDURE BY ID */

@@ -3,22 +3,16 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise';
-<<<<<<< HEAD
-import { History } from '../../../server/models/classes/index';
-=======
-import { History } from '../../../server/models/index'
->>>>>>> 3548be955b07c178ea3df074bfecbdd945b2aa34
+import { Note } from '../../../server/models/index'
 
 @Injectable()
-export class HistoryService {
+export class NoteService {
 
     constructor(private http: Http) { }
 
-<<<<<<< HEAD
-=======
-    getAllHistories() {
+    getAllNotes() {
       return new Promise((resolve, reject) => {
-        this.http.get('/api/history')
+        this.http.get('/api/note')
           .map(res => res.json())
           .subscribe(res => {
             resolve(res);
@@ -28,10 +22,9 @@ export class HistoryService {
       });
     }
 
-    getHistory(params) {
+    getNoteById(id) {
       return new Promise((resolve, reject) => {
-          console.log("serv params", params);
-          this.http.post('/api/history/params', params)
+          this.http.get('/api/note/' + id)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res)
@@ -41,22 +34,9 @@ export class HistoryService {
       });
     }
 
->>>>>>> 3548be955b07c178ea3df074bfecbdd945b2aa34
-    getHistoryById(id) {
+    createNote(data) {
       return new Promise((resolve, reject) => {
-          this.http.get('/api/history/' + id)
-            .map(res => res.json())
-            .subscribe(res => {
-              resolve(res)
-          }, (err) => {
-            reject(err);
-          });
-      });
-    }
-
-    createHistory(data) {
-      return new Promise((resolve, reject) => {
-          this.http.post('/api/history', data)
+          this.http.post('/api/note', data)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res);
@@ -66,9 +46,9 @@ export class HistoryService {
       });
     }
 
-    updateHistory(id, data) {
+    updateNote(id, data) {
       return new Promise((resolve, reject) => {
-          this.http.put('/api/history/' + id, data)
+          this.http.put('/api/note/' + id, data)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res);
@@ -78,9 +58,9 @@ export class HistoryService {
       });
     }
 
-    deleteHistory(id) {
+    deleteNote(id) {
       return new Promise((resolve, reject) => {
-          this.http.delete('/api/history/' + id)
+          this.http.delete('/api/note/' + id)
             .subscribe(res => {
               resolve(res);
             }, (err) => {

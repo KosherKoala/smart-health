@@ -3,22 +3,16 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise';
-<<<<<<< HEAD
-import { History } from '../../../server/models/classes/index';
-=======
-import { History } from '../../../server/models/index'
->>>>>>> 3548be955b07c178ea3df074bfecbdd945b2aa34
+import { Chat } from '../../../server/models/index'
 
 @Injectable()
-export class HistoryService {
+export class ChatService {
 
     constructor(private http: Http) { }
 
-<<<<<<< HEAD
-=======
-    getAllHistories() {
+    getAllChats() {
       return new Promise((resolve, reject) => {
-        this.http.get('/api/history')
+        this.http.get('/api/chat')
           .map(res => res.json())
           .subscribe(res => {
             resolve(res);
@@ -28,10 +22,9 @@ export class HistoryService {
       });
     }
 
-    getHistory(params) {
+    getChatById(id) {
       return new Promise((resolve, reject) => {
-          console.log("serv params", params);
-          this.http.post('/api/history/params', params)
+          this.http.get('/api/chat/' + id)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res)
@@ -41,22 +34,9 @@ export class HistoryService {
       });
     }
 
->>>>>>> 3548be955b07c178ea3df074bfecbdd945b2aa34
-    getHistoryById(id) {
+    createChat(data) {
       return new Promise((resolve, reject) => {
-          this.http.get('/api/history/' + id)
-            .map(res => res.json())
-            .subscribe(res => {
-              resolve(res)
-          }, (err) => {
-            reject(err);
-          });
-      });
-    }
-
-    createHistory(data) {
-      return new Promise((resolve, reject) => {
-          this.http.post('/api/history', data)
+          this.http.post('/api/chat', data)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res);
@@ -66,9 +46,9 @@ export class HistoryService {
       });
     }
 
-    updateHistory(id, data) {
+    updateChat(id, data) {
       return new Promise((resolve, reject) => {
-          this.http.put('/api/history/' + id, data)
+          this.http.put('/api/chat/' + id, data)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res);
@@ -78,9 +58,9 @@ export class HistoryService {
       });
     }
 
-    deleteHistory(id) {
+    deleteChat(id) {
       return new Promise((resolve, reject) => {
-          this.http.delete('/api/history/' + id)
+          this.http.delete('/api/chat/' + id)
             .subscribe(res => {
               resolve(res);
             }, (err) => {
