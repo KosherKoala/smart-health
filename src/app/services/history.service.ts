@@ -3,19 +3,13 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise';
-<<<<<<< HEAD
 import { History } from '../../../server/models/classes/index';
-=======
-import { History } from '../../../server/models/index'
->>>>>>> 3548be955b07c178ea3df074bfecbdd945b2aa34
 
 @Injectable()
 export class HistoryService {
 
     constructor(private http: Http) { }
 
-<<<<<<< HEAD
-=======
     getAllHistories() {
       return new Promise((resolve, reject) => {
         this.http.get('/api/history')
@@ -41,7 +35,6 @@ export class HistoryService {
       });
     }
 
->>>>>>> 3548be955b07c178ea3df074bfecbdd945b2aa34
     getHistoryById(id) {
       return new Promise((resolve, reject) => {
           this.http.get('/api/history/' + id)

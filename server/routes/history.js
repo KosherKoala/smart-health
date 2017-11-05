@@ -1,29 +1,3 @@
-<<<<<<< HEAD
-var express = require('express');
-var router = express.Router();
-var app = express();
-var mongoose = require('mongoose');
-var History = require('../models/history');
-var jwt         = require('jwt-simple');
-var config = require('../../config')
-
-
-/* GET ALL EVENTS */
-router.get('/', function(req, res, next) {
-  History.find(req.body, function (err, historys) {
-    if (err) return next(err);
-    if(historys) {
-        console.log(historys);
-        res.json({history:historys, success: true, message: "history found with " + req.body});
-    } else {
-        res.json({success:false, message: "no historys found with " + req.body});
-    }
-  });
-  console.log('dhistory api get response');
-});
-
-/* GET SINGLE EVENT BY ID */
-=======
 var express  = require('express');
 var router   = express.Router();
 var mongoose = require('mongoose');
@@ -31,7 +5,7 @@ var History  = require('../models/history');
 var jwt      = require('jwt-simple');
 var config   = require('../../config')
 
-/* GET ALL PATIENT */
+/* GET ALL HISTORY */
 router.get('/', function(req, res, next) {
   History.find(req.body, function (err, histories) {
     if (err) return next(err);
@@ -44,7 +18,7 @@ router.get('/', function(req, res, next) {
   console.log('history api get response');
 });
 
-/* GET A PATIENT */
+/* GET A HISTORY */
 router.post('/params', function(req, res, next) {
   console.log("params", req.body)
   History.findOne(req.body, function (err, history) {
@@ -58,8 +32,7 @@ router.post('/params', function(req, res, next) {
   console.log('history api get response');
 });
 
-/* GET SINGLE PATIENT BY ID */
->>>>>>> 3548be955b07c178ea3df074bfecbdd945b2aa34
+/* GET SINGLE HISTORY BY ID */
 router.get('/:id', function(req, res, next) {
   History.findById(req.params.id, function (err, post) {
     if (err) return next(err);
@@ -68,11 +41,7 @@ router.get('/:id', function(req, res, next) {
   console.log('history api get by id response');
 });
 
-<<<<<<< HEAD
-/* SAVE EVENT */
-=======
-/* SAVE PATIENT */
->>>>>>> 3548be955b07c178ea3df074bfecbdd945b2aa34
+/* SAVE HISTORY */
 router.post('/', function(req, res, next) {
     History.create(req.body, function (err, post) {
     if (err) return next(err);
@@ -85,32 +54,16 @@ router.post('/', function(req, res, next) {
   console.log('history api post response, history created.');
 });
 
-<<<<<<< HEAD
-/* UPDATE EVENT */
-router.put('/:id', function(req, res, next) {
-  History.findByIdAndUpdate(req.params.id, req.body, function (err, put) {
-    if (err) return next(err);
-    if(put){
-      res.json({success: true, history: put, message: "history updated"});
-  } else {
-      res.json({success: false, message: "ERROR: history not updated"});
-  }
-=======
-/* UPDATE PATIENT */
+/* UPDATE HISTORY */
 router.put('/:id', function(req, res, next) {
   History.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
->>>>>>> 3548be955b07c178ea3df074bfecbdd945b2aa34
   });
   console.log('history api put response');
 });
 
-<<<<<<< HEAD
-/* DELETE EVENT */
-=======
-/* DELETE PATIENT */
->>>>>>> 3548be955b07c178ea3df074bfecbdd945b2aa34
+/* DELETE HISTORY */
 router.delete('/:id', function(req, res, next) {
   History.findByIdAndRemove(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
@@ -119,8 +72,4 @@ router.delete('/:id', function(req, res, next) {
   console.log('history api delete response');
 });
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 3548be955b07c178ea3df074bfecbdd945b2aa34
 module.exports = router;
