@@ -21,8 +21,8 @@ export class DoctorPortalComponent implements OnInit {
 
     login() {
         console.log(this.model);
-        if (this.authenticationService.loginDoctor(this.model.email, this.model.password)) {
+       /* if (this.authenticationService.loginDoctor(this.model.email, this.model.password)) {
             this.router.navigate(['dashboard']);
-        }
+        }*/
     }
 }

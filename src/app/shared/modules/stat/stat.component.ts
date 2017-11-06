@@ -13,6 +13,7 @@ export class StatComponent implements OnInit {
     @Input() specialty: string;
     @Input() address: any;
     @Input() showAddress: Boolean;
+    @Input() isPatient: Boolean;
     @Output() event: EventEmitter<any> = new EventEmitter();
 
     constructor() { }

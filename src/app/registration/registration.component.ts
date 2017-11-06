@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Patient } from '../shared';
 import { Router } from '@angular/router';
-import { PatientService } from '../services';
+import { UserService } from '../services';
 
 @Component({
   selector: 'app-registration',
@@ -18,7 +18,7 @@ export class RegistrationComponent implements OnInit {
 
   public errors = {password: null}
 
-  constructor(public router: Router, private patientService: PatientService) { }
+  constructor(public router: Router, private userService: UserService) { }
 
   ngOnInit() {
   }
@@ -31,11 +31,11 @@ export class RegistrationComponent implements OnInit {
       this.errors.password = 'Passwords don\'t match';
     } else {
       console.log("Email",this.model.email)
-      this.patientService.getPatient({email: this.model.email})
+      this.userService.getUser({email: this.model.email})
         .then((res: any) => {
           console.log('checking repeats', res);
           if (!res.success) {
-            this.patientService.createPatient(this.model)
+            this.userService.createUser(this.model)
               .then((r: any) => {
 
                 console.log('registering', r);

@@ -11,6 +11,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use('/api/user', require('./server/routes/user'));
 app.use('/api/patient', require('./server/routes/patient'));
 app.use('/api/doctor', require('./server/routes/doctor'));
 app.use('/api/event', require('./server/routes/event'));
