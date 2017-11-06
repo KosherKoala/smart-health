@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const noteSchema = new Schema({
-	date: String,
+    
+    date: String,
     note: String,
     specialty: String
 	
