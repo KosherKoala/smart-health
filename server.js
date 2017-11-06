@@ -20,8 +20,6 @@ app.use('/api/history', require('./server/routes/history'));
 app.use('/api/calendar', require('./server/routes/calendar'));
 app.use('/api/procedure', require('./server/routes/procedure'));
 app.use('/api/insurance', require('./server/routes/insurance'));
-app.use('/api/note', require('./server/routes/note'));
-app.use('/api/chat', require('./server/routes/chat'));
 app.set('superSecret', config.secret); // secret variable
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')));
@@ -47,9 +45,8 @@ const server = http.createServer(app);
  */
 server.listen(port, () => console.log(`API running on localhost:${port}`));
 
-//const db = 'mongodb://admin:Yellow123!@health-shard-00-00-5vz0l.mongodb.net:27017,health-shard-00-01-5vz0l.mongodb.net:27017,health-shard-00-02-5vz0l.mongodb.net:27017/test?ssl=true&replicaSet=Health-shard-0&authSource=admin';
-// const db = 'mongodb://localhost:27017/smart-health';
-const db = 'mongodb://admin:Yellow123!@health-shard-00-00-5vz0l.mongodb.net:27017,health-shard-00-01-5vz0l.mongodb.net:27017,health-shard-00-02-5vz0l.mongodb.net:27017/test?ssl=true&replicaSet=Health-shard-0&authSource=admin';
+//const db = 'mongodb://localhost:27017/smart-health';
+const db = 'mongodb://localhost:27017/smart-health';
 mongoose.Promise = global.Promise;
 
 var promise = mongoose.connect(db,{
