@@ -60,7 +60,6 @@ export class DoctorPageComponent implements OnInit {
     }
   ]
 
-
   recurringEvents: RecurringEvent[] = [
     {
       title: 'Recurs on the 5th of each month',
@@ -86,6 +85,7 @@ export class DoctorPageComponent implements OnInit {
         freq: RRule.WEEKLY,
         byweekday: [RRule.MO, RRule.WE, RRule.SA]
       }
+      
     }
   ];
 

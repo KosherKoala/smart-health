@@ -8,8 +8,6 @@ const Schema = mongoose.Schema;
 const patientSchema = new Schema({
 	firstName: String,
 	lastName: String,
-	email: String,
-	password: String,
 	health: { type: Schema.Types.ObjectId, ref: 'Health', autopopulate: true },
 	insurance: {type:Schema.Types.ObjectId, ref: 'Insurance', autopopulate: true},
 	history: [{type: Schema.Types.ObjectId, ref: 'History'}],

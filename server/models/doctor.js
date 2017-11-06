@@ -11,8 +11,6 @@ const Insurance = require('./insurance');
 const doctorSchema = new Schema ({
     firstName: String,
     lastName: String,
-    email: String,
-    password: String,
     procedures: [{ type: Schema.Types.ObjectId, ref: 'Procedure'}],
     patientList: [{ type: Schema.Types.ObjectId, ref: 'Patient'}],
     practiceName: String,

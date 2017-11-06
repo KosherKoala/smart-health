@@ -14,8 +14,8 @@ export class AuthenticationService {
         this.token = currentUser && currentUser.token;
     }
 
-    loginPatient(email: string, password: string) {
-        return this.http.post('/api/patient/authenticate/', { email: email, password: password })
+    login(email: string, password: string) {
+        return this.http.post('/api/user/authenticate/', { email: email, password: password })
             .map((response: Response) => {
                 // login successful if there's a jwt token in the response
                 const token = response.json() && response.json().token;
@@ -24,7 +24,7 @@ export class AuthenticationService {
                     this.token = token;
 
                     // store email and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify({ _id: response.json().obj._id, type:'patient', email: email, token: token }));
+                    localStorage.setItem('currentUser', JSON.stringify({ _id: response.json().obj._id, email: email, token: token }));
 
                     // return true to indicate successful login
                     return true;
@@ -41,29 +41,6 @@ export class AuthenticationService {
         // clear token remove user from local storage to log user out
         this.token = null;
         localStorage.removeItem('currentUser');
-    }
-
-    loginDoctor(email: string, password: string): Observable<boolean> {
-        return this.http.post('/api/doctor/authenticate', { email: email, password: password })
-            .map((response: Response) => {
-                // login successful if there's a jwt token in the response
-                let token = response.json() && response.json().token;
-                if (token) {
-                    // set token property
-                    this.token = token;
-
-                    // store email and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify({ _id: response.json().obj._id, email: email, token: token }));
-
-                    // return true to indicate successful login
-                    return true;
-                } else {
-                    // return false to indicate failed login
-
-                    console.log('not logged IN!');
-                    return false;
-                }
-            });
     }
 
 }

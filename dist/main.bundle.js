@@ -285,35 +285,9 @@ var AuthenticationService = (function () {
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.token = currentUser && currentUser.token;
     }
-    AuthenticationService.prototype.loginPatient = function (email, password) {
+    AuthenticationService.prototype.login = function (email, password) {
         var _this = this;
-        return this.http.post('/api/patient/authenticate/', { email: email, password: password })
-            .map(function (response) {
-            // login successful if there's a jwt token in the response
-            var token = response.json() && response.json().token;
-            if (token) {
-                // set token property
-                _this.token = token;
-                // store email and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('currentUser', JSON.stringify({ _id: response.json().obj._id, type: 'patient', email: email, token: token }));
-                // return true to indicate successful login
-                return true;
-            }
-            else {
-                // return false to indicate failed login
-                console.log('not logged IN!');
-                return false;
-            }
-        });
-    };
-    AuthenticationService.prototype.logout = function () {
-        // clear token remove user from local storage to log user out
-        this.token = null;
-        localStorage.removeItem('currentUser');
-    };
-    AuthenticationService.prototype.loginDoctor = function (email, password) {
-        var _this = this;
-        return this.http.post('/api/doctor/authenticate', { email: email, password: password })
+        return this.http.post('/api/user/authenticate/', { email: email, password: password })
             .map(function (response) {
             // login successful if there's a jwt token in the response
             var token = response.json() && response.json().token;
@@ -331,6 +305,11 @@ var AuthenticationService = (function () {
                 return false;
             }
         });
+    };
+    AuthenticationService.prototype.logout = function () {
+        // clear token remove user from local storage to log user out
+        this.token = null;
+        localStorage.removeItem('currentUser');
     };
     return AuthenticationService;
 }());
@@ -474,7 +453,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var CurrentUserService = (function () {
     function CurrentUserService() {
-        this.currentUser = { history: [''] };
+        this.currentUser = {};
     }
     return CurrentUserService;
 }());
@@ -932,6 +911,9 @@ var _a;
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_7__history_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__insurance_service__ = __webpack_require__("../../../../../src/app/services/insurance.service.ts");
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_8__insurance_service__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__user_service__ = __webpack_require__("../../../../../src/app/services/user.service.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_9__user_service__["a"]; });
+
 
 
 
@@ -1153,6 +1135,118 @@ PatientService = __decorate([
 
 var _a;
 //# sourceMappingURL=patient.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/services/user.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UserService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/add/operator/toPromise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var UserService = (function () {
+    function UserService(http) {
+        this.http = http;
+    }
+    UserService.prototype.getAllUsers = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/api/user')
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    UserService.prototype.getUser = function (params) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            console.log("serv params", params);
+            _this.http.post('/api/user/params', params)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    UserService.prototype.getUserById = function (id) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/api/user/' + id)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    UserService.prototype.createUser = function (data) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.post('/api/user', data)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    UserService.prototype.updateUser = function (id, data) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.put('/api/user/' + id, data)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    UserService.prototype.deleteUser = function (id) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.delete('/api/user/' + id)
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    return UserService;
+}());
+UserService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
+], UserService);
+
+var _a;
+//# sourceMappingURL=user.service.js.map
 
 /***/ }),
 
@@ -1551,7 +1645,7 @@ PageHeaderModule = __decorate([
 /***/ "../../../../../src/app/shared/modules/stat/stat.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"card  {{bgClass}}\">\n    <div class=\"card-header\">\n        <div class=\"row\">\n            <div class=\"col-5 col-xs-3\">\n                <img src={{icon}}>\n            </div>\n            <div class=\"col col-xs-9 text-right\">\n                <div class=\"d-block huge\">Dr {{firstName}} {{lastName}}</div>\n                <div class=\"d-block\">{{specialty}}</div>\n                <div *ngIf = \"showAddress\" class=\"d-block\">\n                    {{address.line_1}}, {{address.line_2}}\n                    <br>{{address.city}}, {{address.zip}}\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
+module.exports = "<div class=\"card  {{bgClass}}\">\n    <div class=\"card-header\">\n        <div class=\"row\">\n            <div class=\"col-5 col-xs-3\">\n                <img src={{icon}}>\n            </div>\n            <div class=\"col col-xs-9 text-right\">\n                <div class=\"d-block huge\">\n                    <span *ngIf=\"isPatient == null\">Dr </span> {{firstName}} {{lastName}}\n                </div>\n                <div class=\"d-block\">{{specialty}}</div>\n                <div *ngIf = \"showAddress\" class=\"d-block\">\n                    {{address.line_1}}, {{address.line_2}}\n                    <br>{{address.city}}, {{address.zip}}\n                </div>\n            </div>\n        </div>\n    </div>\n</div>\n"
 
 /***/ }),
 
@@ -1624,6 +1718,10 @@ __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
     __metadata("design:type", Object)
 ], StatComponent.prototype, "showAddress", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+    __metadata("design:type", Object)
+], StatComponent.prototype, "isPatient", void 0);
 __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */])(),
     __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]) === "function" && _a || Object)

@@ -118,7 +118,7 @@ var LoginComponent = (function () {
     LoginComponent.prototype.login = function () {
         var _this = this;
         console.log("doing it");
-        this.authenticationService.loginPatient(this.model.email, this.model.password).subscribe(function (result) {
+        this.authenticationService.login(this.model.email, this.model.password).subscribe(function (result) {
             console.log(result);
             if (result === true) {
                 console.log("diiid it");
@@ -141,10 +141,11 @@ var LoginComponent = (function () {
         });*/
         /*this.insuranceService.createInsurance(this.insurance).then(result => {
             console.log('insurance made');
-        });*/
-        this.historyService.createHistory(this.history).then(function (result) {
-            console.log('history made');
         });
+
+        this.historyService.createHistory(this.history).then(result => {
+            console.log('history made');
+        });*/
     };
     return LoginComponent;
 }());

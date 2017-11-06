@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
-import { PatientService, DoctorService, CurrentUserService, HistoryService } from '../../services';
+import { UserService, CurrentUserService, HistoryService } from '../../services';
 import { PdfmakeService } from 'ng-pdf-make/pdfmake/pdfmake.service';
 
 import { Cell, Row, Table } from 'ng-pdf-make/objects/table';
+
+import RRule from 'rrule';
+
+import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -16,43 +20,51 @@ export class ProfileComponent implements OnInit {
 
   public doctors = [];
   public appointments = [1, 2, 3];
-  public currentUser = {_id: '', type: '', health: {doctor: '', patient: ''}, insurance: '' };
+  public currentUser: any;
   public collapseInsurance = false;
   public collapseHistories = false;
 
+  public ruleModel: any = {freq: '', dtstart: {}} ;
+  public rrule: RRule;
+
   constructor(private currentUserService: CurrentUserService,
-              private doctorService: DoctorService,
-              private patientService: PatientService,
+              private userService: UserService,
               private historyService: HistoryService,
               private pdfmake: PdfmakeService) {
-
     }
 
   ngOnInit() {
-
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-    if ( this.currentUser.type == 'patient') {
-      this.patientService.getPatientById(this.currentUser._id)
-          .then((data: any) => { 
-            this.currentUserService.currentUser = data;
+      this.userService.getUserById(this.currentUser._id)
+        .then((data: any) => { 
+          this.currentUserService.currentUser = data;
 
-           for (let i = 0; i < this.currentUserService.currentUser.history.length; i++) {
-              this.historyService.getHistoryById(this.currentUserService.currentUser.history[i])
-                .then ( (res: any) => {
-                                    console.log("res", res)
-                                    this.currentUserService.currentUser.history[i] =  res;
-                                  }
-              )
+          console.log("current User", this.currentUserService.currentUser)
+
+          if ( this.currentUserService.currentUser.patient) {
+
+            for (let i = 0; i < this.currentUserService.currentUser.patient.history.length; i++) {
+                this.historyService.getHistoryById(this.currentUserService.currentUser.patient.history[i])
+                  .then ( (res: any) => {
+                                      console.log("res", res)
+                                      this.currentUserService.currentUser.patient.history[i] =  res;
+                                    }
+                )
             }
+          } else if ( this.currentUserService.currentUser.doctor) {
+              for (let i = 0; i < this.currentUserService.currentUser.doctor.history.length; i++) {
+                  this.historyService.getHistoryById(this.currentUserService.currentUser.doctor.history[i])
+                    .then ( (res: any) => {
+                                        console.log("res", res)
+                                        this.currentUserService.currentUser.doctor.history[i] =  res;
+                                      }
+                  )
+              }
+          }
 
-
-            console.log(this.currentUserService.currentUser)
-          });
-    } else if ( this.currentUser.type == 'doctor') {
-      this.doctorService.getDoctorById(this.currentUser._id)
-          .then((data: any) => { this.currentUserService.currentUser = data });
-    }
+          console.log(this.currentUserService.currentUser)
+      });
   }
 
   createHistory(history) {
@@ -134,5 +146,18 @@ export class ProfileComponent implements OnInit {
             this.pdfmake.addTable(chatTable);
 
        this.pdfmake.download()
+  }
+
+  print(){
+    console.log(this.ruleModel);
+  }
+
+  updateRrule() {
+    this.rrule = new RRule({
+      freq: Number(this.ruleModel.freq),
+      dtstart: new Date(this.ruleModel.dtstart.year + '-' + this.ruleModel.dtstart.month + '-' + this.ruleModel.dtstart.day)
+    });
+
+    console.log(this.rrule.toString());
   }
 }

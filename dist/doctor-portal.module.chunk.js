@@ -93,9 +93,9 @@ var DoctorPortalComponent = (function () {
     };
     DoctorPortalComponent.prototype.login = function () {
         console.log(this.model);
-        if (this.authenticationService.loginDoctor(this.model.email, this.model.password)) {
-            this.router.navigate(['dashboard']);
-        }
+        /* if (this.authenticationService.loginDoctor(this.model.email, this.model.password)) {
+             this.router.navigate(['dashboard']);
+         }*/
     };
     return DoctorPortalComponent;
 }());

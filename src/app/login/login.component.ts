@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
 
     login() {
         console.log("doing it")
-        this.authenticationService.loginPatient(this.model.email, this.model.password).subscribe(result => {
+        this.authenticationService.login(this.model.email, this.model.password).subscribe(result => {
             console.log(result);
             if (result === true) {
                console.log("diiid it")
@@ -76,11 +76,11 @@ export class LoginComponent implements OnInit {
 
         /*this.insuranceService.createInsurance(this.insurance).then(result => {
             console.log('insurance made');
-        });*/
+        });
 
         this.historyService.createHistory(this.history).then(result => {
             console.log('history made');
-        });
+        });*/
 
     }
 
