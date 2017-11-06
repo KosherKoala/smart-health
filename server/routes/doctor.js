@@ -8,7 +8,7 @@ var config = require('../../config')
 
 /* GET ALL DOCTOR */
 router.get('/', function(req, res, next) {
-  Doctor.find(req.body.params).populate(req.body.pop).exec(function (err, doctors) {
+  Doctor.find(req.body.param, function (err, doctors) {
     if (err) return next(err);
     if(doctors) {
         res.json({doctor:doctors, success: true, message: "doctor found with " + req.body});
