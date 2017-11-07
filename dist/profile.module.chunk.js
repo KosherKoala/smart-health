@@ -13514,10 +13514,8 @@ function ErrorHandler_tsickle_Closure_declarations() {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EventEmitter; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__ = __webpack_require__("../../../../rxjs/Observable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__ = __webpack_require__("../../../../rxjs/_esm5/Subject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__ = __webpack_require__("../../../../rxjs/_esm5/Observable.js");
 /* unused harmony reexport Observable */
 /* unused harmony reexport Subject */
 /**
@@ -13637,7 +13635,7 @@ var EventEmitter = (function (_super) {
         return _super.prototype.subscribe.call(this, schedulerFn, errorFn, completeFn);
     };
     return EventEmitter;
-}(__WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__["Subject"]));
+}(__WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__["a" /* Subject */]));
 function EventEmitter_tsickle_Closure_declarations() {
     /** @type {?} */
     EventEmitter.prototype.__isAsync;
@@ -20941,8 +20939,7 @@ function makePropDecorator(name, props, parentClass) {
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["b"] = isPromise;
 /* harmony export (immutable) */ __webpack_exports__["a"] = isObservable;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_symbol_observable__ = __webpack_require__("../../../../rxjs/symbol/observable.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_symbol_observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_symbol_observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_symbol_observable__ = __webpack_require__("../../../../rxjs/_esm5/symbol/observable.js");
 /**
  * @license
  * Copyright Google Inc. All Rights Reserved.
@@ -20967,7 +20964,7 @@ function isPromise(obj) {
  * @return {?}
  */
 function isObservable(obj) {
-    return !!(obj && obj[__WEBPACK_IMPORTED_MODULE_0_rxjs_symbol_observable__["$$observable"]]);
+    return !!(obj && obj[__WEBPACK_IMPORTED_MODULE_0_rxjs_symbol_observable__["a" /* $$observable */]]);
 }
 //# sourceMappingURL=lang.js.map
 

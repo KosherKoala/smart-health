@@ -8,7 +8,6 @@ const Procedure = require('./procedure');
 
 const calendarSchema = new Schema ({
     
-    doctor: { type: Schema.Types.ObjectId, ref: 'Doctor' },
     appointments: [{type: Schema.Types.ObjectId, ref: 'Appointment' }],
     slots: {
         startDate: Date,
