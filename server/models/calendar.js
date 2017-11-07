@@ -5,17 +5,16 @@ const autopopulate = require('mongoose-autopopulate');
 const Doctor = require('./doctor');
 const Appointment = require('./appointment');
 const Procedure = require('./procedure');
+const Rrule = 'rrule';
 
 const calendarSchema = new Schema ({
-    
-    doctor: { type: Schema.Types.ObjectId, ref: 'Doctor' },
+
     appointments: [{type: Schema.Types.ObjectId, ref: 'Appointment' }],
-    slots: {
-        startDate: Date,
-        endDate: Date,
-        procedure: { type: Schema.Types.ObjectId, ref: 'Procedure'},
-        reoccurrence: [String]
-    }
+    slots: [{
+        rrule: Rrule,
+        procedure: { type: Schema.Types.ObjectId, ref: 'Procedure'}
+    }]
+    
 });
 calendarSchema.plugin(autopopulate);
 
