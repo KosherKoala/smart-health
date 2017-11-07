@@ -8,11 +8,8 @@ const Procedure = require('./procedure');
 const Rrule = 'rrule';
 
 const calendarSchema = new Schema ({
-<<<<<<< HEAD
     
-=======
 
->>>>>>> 404598de4b94f799b3df2bd2510d58c1432c4d55
     appointments: [{type: Schema.Types.ObjectId, ref: 'Appointment' }],
     slots: [{
         rrule: Rrule,
