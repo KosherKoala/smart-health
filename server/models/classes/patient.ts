@@ -1,6 +1,12 @@
+import { Health } from "./health";
+import { Insurance } from "./insurance";
+
 export class Patient {
-    password: string;
     firstName: string;
     lastName: string;
-    email: String;
+    health: Health;
+    insurance: Insurance;
+    history: [History];
+    picture: String;
+    isValidated: Boolean;
 }
