@@ -9,12 +9,12 @@ const Procedure = require('./procedure');
 const appointmentSchema = new Schema ({
     description: String,
     date: Date,
-    patient: { type: Schema.Types.ObjectId, ref: 'Patient' },
-    doctor: { type: Schema.Types.ObjectId, ref: 'Doctor' }, 
+    patient: { type: Schema.Types.ObjectId, ref: 'Patient', autopopulate: true },
+    doctor: { type: Schema.Types.ObjectId, ref: 'Doctor', autopopulate: true }, 
     timeIn: String,
     timeOut: String,
     isPending: Boolean,
-    procedure: { type: Schema.Types.ObjectId, ref: 'Procedure'}
+    procedure: { type: Schema.Types.ObjectId, ref: 'Procedure', autopopulate: true}
 });
 appointmentSchema.plugin(autopopulate);
 
