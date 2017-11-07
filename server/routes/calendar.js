@@ -44,6 +44,10 @@ router.post('/', function(req, res, next) {
 
 /* UPDATE CALENDAR */
 router.put('/:id', function(req, res, next) {
+  Calendar.findByIdAndUpdate(req.params.id, req.body, function (err, put) {
+    if(err) return next(err);
+    $push: { appointments: req.body.appointments};
+  });
   Health.findByIdAndUpdate(req.params.id, req.body, function (err, put) {
     if (err) return next(err);
     if(put){

@@ -6,7 +6,7 @@ const Patient = require('./patient');
 const Doctor = require('./doctor');
 const Procedure = require('./procedure');
 
-const eventSchema = new Schema ({
+const appointmentSchema = new Schema ({
     description: String,
     date: Date,
     patient: { type: Schema.Types.ObjectId, ref: 'Patient' },
@@ -16,6 +16,6 @@ const eventSchema = new Schema ({
     isPending: Boolean,
     procedure: { type: Schema.Types.ObjectId, ref: 'Procedure'}
 });
-eventSchema.plugin(autopopulate);
+appointmentSchema.plugin(autopopulate);
 
-module.exports = mongoose.model('Event', eventSchema);
+module.exports = mongoose.model('Appointment', appointmentSchema);

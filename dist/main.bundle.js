@@ -257,6 +257,118 @@ AppModule = __decorate([
 
 /***/ }),
 
+/***/ "../../../../../src/app/services/appointment.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export EventService */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/add/operator/toPromise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var EventService = (function () {
+    function EventService(http) {
+        this.http = http;
+    }
+    EventService.prototype.getAllEvents = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/api/appointment')
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                console.log(res);
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    EventService.prototype.getAppointment = function (params) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/api/appointment/params', params)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    EventService.prototype.getAppointmentById = function (id) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/api/appointment/' + id)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    EventService.prototype.createEvent = function (data) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.post('/api/appointment', data)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    EventService.prototype.updateEvent = function (id, data) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.put('/api/appointment/' + id, data)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    EventService.prototype.deleteEvent = function (id) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.delete('/api/appointment/' + id)
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    return EventService;
+}());
+EventService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
+], EventService);
+
+var _a;
+//# sourceMappingURL=appointment.service.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/services/authentication.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -578,118 +690,6 @@ var _a;
 
 /***/ }),
 
-/***/ "../../../../../src/app/services/event.service.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export EventService */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/add/operator/toPromise.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var EventService = (function () {
-    function EventService(http) {
-        this.http = http;
-    }
-    EventService.prototype.getAllEvents = function () {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this.http.get('/api/event')
-                .map(function (res) { return res.json(); })
-                .subscribe(function (res) {
-                console.log(res);
-                resolve(res);
-            }, function (err) {
-                reject(err);
-            });
-        });
-    };
-    EventService.prototype.getEvent = function (params) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this.http.get('/api/event/params', params)
-                .map(function (res) { return res.json(); })
-                .subscribe(function (res) {
-                resolve(res);
-            }, function (err) {
-                reject(err);
-            });
-        });
-    };
-    EventService.prototype.getEventById = function (id) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this.http.get('/api/event/' + id)
-                .map(function (res) { return res.json(); })
-                .subscribe(function (res) {
-                resolve(res);
-            }, function (err) {
-                reject(err);
-            });
-        });
-    };
-    EventService.prototype.createEvent = function (data) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this.http.post('/api/event', data)
-                .map(function (res) { return res.json(); })
-                .subscribe(function (res) {
-                resolve(res);
-            }, function (err) {
-                reject(err);
-            });
-        });
-    };
-    EventService.prototype.updateEvent = function (id, data) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this.http.put('/api/event/' + id, data)
-                .map(function (res) { return res.json(); })
-                .subscribe(function (res) {
-                resolve(res);
-            }, function (err) {
-                reject(err);
-            });
-        });
-    };
-    EventService.prototype.deleteEvent = function (id) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this.http.delete('/api/event/' + id)
-                .subscribe(function (res) {
-                resolve(res);
-            }, function (err) {
-                reject(err);
-            });
-        });
-    };
-    return EventService;
-}());
-EventService = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
-], EventService);
-
-var _a;
-//# sourceMappingURL=event.service.js.map
-
-/***/ }),
-
 /***/ "../../../../../src/app/services/health.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -901,7 +901,7 @@ var _a;
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_2__doctor_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__current_user_service__ = __webpack_require__("../../../../../src/app/services/current-user.service.ts");
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_3__current_user_service__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__event_service__ = __webpack_require__("../../../../../src/app/services/event.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__appointment_service__ = __webpack_require__("../../../../../src/app/services/appointment.service.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__calendar_service__ = __webpack_require__("../../../../../src/app/services/calendar.service.ts");
 /* unused harmony namespace reexport */
