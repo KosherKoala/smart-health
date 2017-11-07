@@ -2,17 +2,17 @@ var express = require('express');
 var router = express.Router();
 var app = express();
 var mongoose = require('mongoose');
-var Health= require('../models/health');
+var Calendar= require('../models/calendar');
 var jwt         = require('jwt-simple');
 var config = require('../../config')
 
-/* GET ALL EVENTS */
+/* GET ALL CALENDARS */
 router.get('/', function(req, res, next) {
-  Health.find(req.body, function (err, healths) {
+  Calendar.find(req.body, function (err, healths) {
     if (err) return next(err);
     if(healths) {
         console.log(healths);
-        res.json({health:healths, success: true, message: "health found with " + req.body});
+        res.json({calendar:healths, success: true, message: "calendar found with " + req.body});
     } else {
         res.json({success:false, message: "no healths found with " + req.body});
     }
@@ -22,50 +22,42 @@ router.get('/', function(req, res, next) {
 
 /* GET SINGLE CALENDAR BY ID */
 router.get('/:id', function(req, res, next) {
-  Health.findById(req.params.id, function (err, post) {
+  Calendar.findById(req.params.id, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
-  console.log('health api get by id response');
+  console.log('calendar api get by id response');
 });
 
 /* SAVE CALENDAR */
 router.post('/', function(req, res, next) {
-    Health.create(req.body, function (err, post) {
+    Calendar.create(req.body, function (err, post) {
     if (err) return next(err);
     if(post){
-        res.json({success: true, health: post, message: "health made"});
+        res.json({success: true, calendar: post, message: "calendar made"});
     } else {
-        res.json({success: false, message: "ERROR: health creation failed"});
+        res.json({success: false, message: "ERROR: calendar creation failed"});
     }
   });
-  console.log('health api post response, health created.');
+  console.log('calendar api post response, calendar created.');
 });
 
 /* UPDATE CALENDAR */
 router.put('/:id', function(req, res, next) {
   Calendar.findByIdAndUpdate(req.params.id, req.body, function (err, put) {
     if(err) return next(err);
-    $push: { appointments: req.body.appointments};
+    $push: { appointments: req.body.appointments };
   });
-  Health.findByIdAndUpdate(req.params.id, req.body, function (err, put) {
-    if (err) return next(err);
-    if(put){
-      res.json({success: true, health: put, message: "health updated"});
-  } else {
-      res.json({success: false, message: "ERROR: health not updated"});
-  }
-  });
-  console.log('health api put response');
+  console.log('calendar api put response');
 });
 
 /* DELETE CALENDAR */
 router.delete('/:id', function(req, res, next) {
-  Health.findByIdAndRemove(req.params.id, req.body, function (err, post) {
+  Calendar.findByIdAndRemove(req.params.id, req.body, function (err, post) {
     if (err) return next(err);
     res.json(post);
   });
-  console.log('health api delete response');
+  console.log('calendar api delete response');
 });
 
 
