@@ -1,9 +1,10 @@
 import { Health } from "./health";
 import { Insurance } from "./insurance";
+import { History } from "./history";
 
 export class Patient {
-    firstName: string;
-    lastName: string;
+    firstName: String;
+    lastName: String;
     health: Health;
     insurance: Insurance;
     history: [History];
