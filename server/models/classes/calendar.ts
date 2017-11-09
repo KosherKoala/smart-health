@@ -1,7 +1,7 @@
 import { Doctor } from "./doctor";
-import { Event } from "./event";
+import { Appointment } from "./appointment";
 
 export class Calendar {
-    event: [Event];
+    appointment: [Appointment];
     doctor: Doctor;
 }

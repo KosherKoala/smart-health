@@ -14,7 +14,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api/user', require('./server/routes/user'));
 app.use('/api/patient', require('./server/routes/patient'));
 app.use('/api/doctor', require('./server/routes/doctor'));
-app.use('/api/event', require('./server/routes/event'));
+app.use('/api/appointment', require('./server/routes/appointment'));
+app.use('/api/chat', require('./server/routes/chat'));
 app.use('/api/health', require('./server/routes/health'));
 app.use('/api/history', require('./server/routes/history'));
 app.use('/api/calendar', require('./server/routes/calendar'));
@@ -46,7 +47,7 @@ const server = http.createServer(app);
 server.listen(port, () => console.log(`API running on localhost:${port}`));
 
 //const db = 'mongodb://localhost:27017/smart-health';
-const db = 'mongodb://localhost:27017/smart-health';
+const db = 'mongodb://admin:Yellow123!@health-shard-00-00-5vz0l.mongodb.net:27017,health-shard-00-01-5vz0l.mongodb.net:27017,health-shard-00-02-5vz0l.mongodb.net:27017/test?ssl=true&replicaSet=Health-shard-0&authSource=admin';
 mongoose.Promise = global.Promise;
 
 var promise = mongoose.connect(db,{

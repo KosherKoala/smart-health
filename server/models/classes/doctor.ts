@@ -2,16 +2,13 @@ import { Procedure } from "./procedure";
 import { Patient } from "./patient";
 import { Calendar } from "./calendar";
 import { Insurance } from "./insurance";
-
+import { History } from "./history";
 
 export class Doctor {
     
     firstName: String;
     lastName: String;
-    email: String;
-    password: String;
     procedures: [Procedure];
-    patientList: [Patient];
     practiceName: String;
     calendar: [Calendar];
     specialty: String;
@@ -23,6 +20,7 @@ export class Doctor {
                 state: String,
                 zip: Number
             };
+    History: [History];
 
     picture: String
 }

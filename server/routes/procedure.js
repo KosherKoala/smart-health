@@ -8,7 +8,7 @@ var config = require('../../config')
 
 /* GET ALL PROCEDURES */
 router.get('/', function(req, res, next) {
-  Procedure.find(req.body).populate(req.body.pop).exec(function (err, procedures) {
+  Procedure.find(req.body.params, function (err, procedures) {
     if (err) return next(err);
     if(procedures) {
         console.log(procedures);

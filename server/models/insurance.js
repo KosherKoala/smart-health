@@ -4,8 +4,7 @@ const Schema = mongoose.Schema;
 
 const insuranceSchema = new Schema({
     
-    name: String,
-    insuranceId: Number
+    name: String
 	
 });
 

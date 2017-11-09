@@ -1,14 +1,21 @@
-const mongoose = require('mongoose');
 
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const autopopulate = require('mongoose-autopopulate');
 const Doctor = require('./doctor');
-const Event = require('./event');
+const Appointment = require('./appointment');
+const Procedure = require('./procedure');
+// const Rrule = 'rrule';
 
 const calendarSchema = new Schema ({
     
-    doctor: { type: Schema.Types.ObjectId, ref: 'Doctor' },
-    events: [{type: Schema.Types.ObjectId, ref: 'Event' }],
+
+    appointments: [{type: Schema.Types.ObjectId, ref: 'Appointment' }],
+    slots: [{
+        // rrule: Rrule,
+        procedure: { type: Schema.Types.ObjectId, ref: 'Procedure'}
+    }]
+    
 });
 calendarSchema.plugin(autopopulate);
 
