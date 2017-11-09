@@ -72,26 +72,4 @@ router.delete('/:id', function(req, res, next) {
   console.log('patient api delete response');
 });
 
-
-router.post('/authenticate/', function authenticate(req, res) {
-  Patient.findOne({ email: req.body.email, password: req.body.password }, function(err, patient ) {
-    
-    console.log(patient);
-    if (err) throw err;
-
-    if (!patient) {
-      res.json({ success: false, message: 'Authentication failed. User not found.' });
-    } else if (patient) {
-
-      // check if password matches
-      if (patient.password != req.body.password) {
-        res.json({ success: false, message: 'Authentication failed. Wrong password.' });
-      } else {
-
-        var token = jwt.encode(patient, config.secret);
-        res.json({success: true, message: "Successful Authentication.", obj: patient, token: 'JWT ' + token});
-      }
-    }
-  });
-});
 module.exports = router;

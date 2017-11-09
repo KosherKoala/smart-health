@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 const autopopulate = require('mongoose-autopopulate');
 const Schema = mongoose.Schema;
 
-
-
 const healthSchema = new Schema({
 	patient: { type: Schema.Types.ObjectId, ref: 'Patient'},
 	height: String,

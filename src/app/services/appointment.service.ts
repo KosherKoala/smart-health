@@ -3,7 +3,7 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise';
-import { Event } from '../../../server/models/classes/index';
+import { Appointment } from '../../../server/models/classes/index';
 
 @Injectable()
 export class EventService {
@@ -12,7 +12,7 @@ export class EventService {
 
     getAllEvents() {
       return new Promise((resolve, reject) => {
-        this.http.get('/api/event')
+        this.http.get('/api/appointment')
           .map(res => res.json())
           .subscribe(res => { console.log(res);
             resolve(res);
@@ -22,9 +22,9 @@ export class EventService {
       });
     }
 
-    getEvent(params) {
+    getAppointment(params) {
       return new Promise((resolve, reject) => {
-          this.http.get('/api/event/params', params)
+          this.http.get('/api/appointment/params', params)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res)
@@ -34,9 +34,9 @@ export class EventService {
       });
     }
 
-    getEventById(id) {
+    getAppointmentById(id) {
       return new Promise((resolve, reject) => {
-          this.http.get('/api/event/' + id)
+          this.http.get('/api/appointment/' + id)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res)
@@ -48,7 +48,7 @@ export class EventService {
 
     createEvent(data) {
       return new Promise((resolve, reject) => {
-          this.http.post('/api/event', data)
+          this.http.post('/api/appointment', data)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res);
@@ -60,7 +60,7 @@ export class EventService {
 
     updateEvent(id, data) {
       return new Promise((resolve, reject) => {
-          this.http.put('/api/event/' + id, data)
+          this.http.put('/api/appointment/' + id, data)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res);
@@ -72,7 +72,7 @@ export class EventService {
 
     deleteEvent(id) {
       return new Promise((resolve, reject) => {
-          this.http.delete('/api/event/' + id)
+          this.http.delete('/api/appointment/' + id)
             .subscribe(res => {
               resolve(res);
             }, (err) => {

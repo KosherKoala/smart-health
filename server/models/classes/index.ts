@@ -1,11 +1,10 @@
 export * from './patient'
 export * from './doctor'
-export * from './event'
 export * from './calendar'
-export * from './event'
+export * from './appointment'
 export * from './procedure'
 export * from './chat'
 export * from './health'
 export * from './history'
 export * from './insurance'
-export * from './note'
+
