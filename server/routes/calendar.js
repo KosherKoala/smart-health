@@ -46,7 +46,6 @@ router.post('/', function(req, res, next) {
 router.put('/:id', function(req, res, next) {
   Calendar.findByIdAndUpdate(req.params.id, req.body, function (err, put) {
     if(err) return next(err);
-    $push: { appointments: req.body.appointments };
   });
   console.log('calendar api put response');
 });

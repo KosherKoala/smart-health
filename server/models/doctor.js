@@ -14,7 +14,7 @@ const doctorSchema = new Schema ({
     practiceName: String,
     calendar: [{ type: Schema.Types.ObjectId, ref: 'Calendar'}],
     specialty: String,
-    acceptedInsurance: [{ type: Schema.Types.ObjectId, ref: 'Insurance'}],
+    acceptedInsurance: [{ type: Schema.Types.ObjectId, ref: 'Insurance', autopopulate: true}],
     location: {
                 addressOne: String,
                  addressTwo: String,
