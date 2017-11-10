@@ -8,7 +8,7 @@ var config = require('../../config')
 
 /* GET ALL EVENTS */
 router.get('/', function(req, res, next) {
-  Health.find(req.body).populate(req.body.pop).exec(function (err, healths) {
+  Health.find(req.body.params, function (err, healths) {
     if (err) return next(err);
     if(healths) {
         console.log(healths);
