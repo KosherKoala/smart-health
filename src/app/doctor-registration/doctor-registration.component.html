@@ -1,0 +1,108 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-sm-8 col-md-8 mx-auto pt-4">
+      <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
+          <h2>Doctor Registration Portal</h2>
+        <hr class="colorgraph">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="form-group">
+              <input type="text" name="firstName" id="firstName" [(ngModel)]="model.firstName" #firstName ="ngModel" class="form-control input-lg" placeholder="First Name" tabindex="1" required>
+              <div *ngIf="f.submitted && !firstName.valid" class="help-block">First Name is required</div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="form-group">
+              <input type="text" name="lastName" id="lastName" [(ngModel)]="model.lastName" #lastName ="ngModel" class="form-control input-lg" placeholder="Last Name" tabindex="1" required>
+              <div *ngIf="f.submitted && !lastName.valid" class="help-block">Last Name is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+            <input type="email" name="email" id="email" [(ngModel)]="model.email" #email ="ngModel" class="form-control input-lg" placeholder="Email" tabindex="1" required>
+            <div *ngIf="f.submitted && !email.valid" class="help-block">Email is required</div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="form-group">
+                <input type="password" name="password" id="password" [(ngModel)]="model.password" #password ="ngModel" class="form-control input-lg" placeholder="Password" tabindex="1" required>
+                <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="form-group">
+                <input type="password" name="passwordConfirmation" id="passwordConfirmation" [(ngModel)]="model.passwordConfirmation" #passwordConfirmation ="ngModel" class="form-control input-lg" placeholder="Confirm Password" tabindex="1" required>
+                <div *ngIf="f.submitted && !passwordConfirmation.valid" class="help-block">Password Confirmation is required</div>
+            </div>
+            <div class="alert alert-danger w-100" *ngIf = "errors.password !== null">{{errors.password}}</div>
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <div class="form-group">
+                  <input type="LisenceID" name="LisenceID" id="LisenceID" [(ngModel)]="model.LisenceID" #LisenceID ="ngModel" class="form-control input-lg" placeholder="Lisence ID" tabindex="1" required>
+                  <div *ngIf="f.submitted && !LisenceID.valid" class="help-block">Lisence ID is required</div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <div class="form-group">
+                  <input type="specialty" name="specialty" id="specialty" [(ngModel)]="model.specialty" #specialty ="ngModel" class="form-control input-lg" placeholder="Specialty" tabindex="1" required>
+                  <div *ngIf="f.submitted && !specialty.valid" class="help-block">Specialty is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <input type="LocName" name="LocName" id="LocName" [(ngModel)]="model.LocName" #LocName ="ngModel" class="form-control input-lg" placeholder="Hospital/Clinic/Practice Name" tabindex="1" required>
+                    <div *ngIf="f.submitted && !LocName.valid" class="help-block">Location name is required</div>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6 col-md-6">
+                <div class="form-group">
+                    <input type="city" name="city" id="city" [(ngModel)]="model.city" #city ="ngModel" class="form-control input-lg" placeholder="City" tabindex="1" required>
+                    <div *ngIf="f.submitted && !city.valid" class="help-block">City is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                  <div class="form-group">
+                      <input type="address1" name="address1" id="address1" [(ngModel)]="model.address1" #address1 ="ngModel" class="form-control input-lg" placeholder="Address Line 1" tabindex="1" required>
+                      <div *ngIf="f.submitted && !address1.valid" class="help-block">Address is required</div>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                  <div class="form-group">
+                      <input type="state" name="state" id="state" [(ngModel)]="model.state" #state ="ngModel" class="form-control input-lg" placeholder="State" tabindex="1" required>
+                      <div *ngIf="f.submitted && !state.valid" class="help-block">State is required</div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <input type="address2" name="address2" id="address2" [(ngModel)]="model.address2" #address2 ="ngModel" class="form-control input-lg" placeholder="Address Line 2 (Optional)" tabindex="1">
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <input type="zipcode" name="zipcode" id="zipcode" [(ngModel)]="model.zipcode" #zipcode ="ngModel" class="form-control input-lg" placeholder="Zip Code" tabindex="1" required>
+                        <div *ngIf="f.submitted && !zipcode.valid" class="help-block">Zip code is required</div>
+                    </div>
+                  </div>
+                </div>
+        <div class="row">
+          <div class="col-12 col-sm-9 col-md-9">
+             By clicking <strong class="label label-primary">Register</strong>, you agree to the <a href="#" data-toggle="modal" data-target="#t_and_c_m">Terms and Conditions</a> set out by this site, including our Cookie Use.
+          </div>
+        </div>
+        
+        <hr class="colorgraph">
+        <div class="row">
+          <div class="col-xs-12 col-md-6"><input type="submit" value="Register" class="btn btn-primary btn-block btn-lg" tabindex="7"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

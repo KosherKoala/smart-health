@@ -13,6 +13,7 @@ const routes: Routes = [
     { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },
     { path: 'not-found', loadChildren: './not-found/not-found.module#NotFoundModule' },
     { path: 'registration', loadChildren: './registration/registration.module#RegistrationModule' },
+    { path: 'doctor-registration', loadChildren: './doctor-registration/doctor-registration.module#DoctorRegistrationModule' },
     { path: '**', redirectTo: 'not-found' }
 ];
 
