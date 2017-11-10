@@ -58,9 +58,27 @@ export class CalendarService {
       });
     }
 
+    data: {appointment: appoinment }
+
     updateCalendar(id, data) {
       return new Promise((resolve, reject) => {
           this.http.put('/api/calendar/' + id, data)
+            .map(res => res.json())
+            .subscribe(res => {
+              resolve(res);
+            }, (err) => {
+              reject(err);
+            });
+      });
+    }
+
+    requestAppointment(id, data) {
+      return new Promise((resolve, reject) => {
+        
+        const body = {$push: { appoinments: data.appointment}};
+
+
+          this.http.put('/api/calendar/' + id, body)
             .map(res => res.json())
             .subscribe(res => {
               resolve(res);

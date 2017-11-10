@@ -9,7 +9,7 @@ const Rrule = 'rrule';
 
 const calendarSchema = new Schema ({
 
-    appointments: [{type: Schema.Types.ObjectId, ref: 'Appointment' }],
+    appointments: [{type: Schema.Types.ObjectId, ref: 'Appointment',}],
     slots: [{
         rrule: Rrule,
         procedure: { type: Schema.Types.ObjectId, ref: 'Procedure'}
