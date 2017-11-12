@@ -35,6 +35,7 @@
            <h3> <div class="badge badge-pill badge-primary"><i class="fa fa-facebook pr-2"></i>Dr. {{doctor.firstName}} {{doctor.lastName}}</div> </h3>
           </div>-->
           <hr class="thick">
+        <!--Calendar start-->
           <div class="row text-center">
             <div class="col-md-4">
               <div class="btn-group">
@@ -87,26 +88,26 @@
             </div>
           </div>
           <div class="row">
-            <!--Actual Calendar-->
+          <!--Actual Calendar-->
             <div id="calendar-col" class="col-12">
               <div [ngSwitch]="view">
                 <mwl-calendar-month-view
                   *ngSwitchCase="'month'"
                   [viewDate]="viewDate"
                   [events]="events"
-                  (dayClicked)="dayClicked($event)">
+                  (dayClicked)="dayClicked($event, content)">
                 </mwl-calendar-month-view>
                 <mwl-calendar-week-view
                   *ngSwitchCase="'week'"
                   [viewDate]="viewDate"
                   [events]="events"
-                  (dayHeaderClicked)="dayClicked($event)">
+                  (dayHeaderClicked)="dayClicked($event, content)">
                 </mwl-calendar-week-view>
                 <mwl-calendar-day-view
                   *ngSwitchCase="'day'"
                   [viewDate]="viewDate"
                   [events]="events"
-                  (eventClicked)="eventClicked($event)">
+                  (eventClicked)="eventClicked($event, content)">
                 </mwl-calendar-day-view>
               </div>
             </div>
@@ -114,4 +115,47 @@
       </div>
     </div>
   </div>
+
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Request Appointment</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <h4>
+        {{clickedEvent.title}}
+      </h4>
+      <div class="d-flex flex-row justify-content-between">
+        <div class="d-flex flex-column">
+          <div>
+            Date: {{clickedEvent.start | date }}
+          </div>
+          <div>
+            Start Time: {{clickedEvent.start | date:'shortTime' }}
+          </div>
+          <div class="d-flex flex-row">
+            End Time: {{clickedEvent.end | date:'shortTime'}}
+          </div>
+        </div>
+        <div class="d-flex flex-column">
+          <div>
+            {{doctor.location.line_1}}, {{doctor.location.line_2}} 
+          </div>
+          <div>
+            {{doctor.location.city}}, {{doctor.location.state}}, {{doctor.location.zip}} 
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="request(clickedEvent)">Request</button>
+      <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Cancel</button>
+    </div>
+  </ng-template>
+
+
+
+
 </div>

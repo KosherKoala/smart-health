@@ -4,11 +4,17 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/toPromise';
 import { Appointment } from '../../../server/models/classes/index';
+import { PatientService } from './patient.service'
+import { CalendarService } from './calendar.service'
+import { HistoryService } from './history.service'
 
 @Injectable()
-export class EventService {
+export class AppointmentService {
 
-    constructor(private http: Http) { }
+    constructor(private http: Http,
+                private patientService: PatientService,
+                private calendarService: CalendarService,
+                private historyService: HistoryService) { }
 
     getAllEvents() {
       return new Promise((resolve, reject) => {
@@ -55,6 +61,23 @@ export class EventService {
             }, (err) => {
               reject(err);
             });
+      });
+    }
+
+    makeAppointment(appointment, calendar, history) {
+      console.log('makeing appointment', appointment, calendar, history)
+      
+      return new Promise((resolve, reject) => {
+        this.http.post('/api/appointment', appointment)
+        .map(res => res.json())
+        .subscribe(res => {
+          this.historyService.updateHistory(history, {$push: {appointments: res.appointment}}).then()
+          this.calendarService.updateCalendar(calendar, {$push: {appointments: res.appointment}}).then()
+          resolve(res);
+
+        }, (err) => {
+          reject(err);
+        });
       });
     }
 

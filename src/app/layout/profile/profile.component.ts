@@ -36,7 +36,9 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-      this.userService.getUserById(this.currentUser._id)
+    this.currentUser = this.currentUserService.initUser();
+
+      /*this.userService.getUserById(this.currentUser._id)
         .then((data: any) => { 
           this.currentUserService.currentUser = data;
 
@@ -64,7 +66,7 @@ export class ProfileComponent implements OnInit {
           }
 
           console.log(this.currentUserService.currentUser)
-      });
+      });*/
   }
 
   createHistory(history) {
