@@ -3,6 +3,7 @@ const Doctor = require('./doctor');
 const Patient = require('./patient');
 const Chat = require('./chat');
 const Appointment = require('./appointment');
+const autopopulate = require('mongoose-autopopulate');
 
 const Schema = mongoose.Schema;
 
@@ -14,5 +15,7 @@ const historySchema = new Schema({
     chat: [{ type: Schema.Types.ObjectId, ref: 'Chat'}]
 
 });
+
+historySchema.plugin(autopopulate);
 
 module.exports = mongoose.model('History', historySchema);

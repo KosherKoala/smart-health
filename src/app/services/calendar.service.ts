@@ -58,8 +58,6 @@ export class CalendarService {
       });
     }
 
-    data: {appointment: appoinment }
-
     updateCalendar(id, data) {
       return new Promise((resolve, reject) => {
           this.http.put('/api/calendar/' + id, data)
