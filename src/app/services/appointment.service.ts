@@ -67,8 +67,8 @@ export class AppointmentService {
     }
 
     makeAppointment(appointment, doctor, patient) {
- // console.log('makeing appointment', appointment, doctor, patient)
-
+      console.log('making appointment', appointment,  history)
+      
       return new Promise((resolve, reject) => {
         this.http.post('/api/appointment', appointment)
         .map(res => res.json())
