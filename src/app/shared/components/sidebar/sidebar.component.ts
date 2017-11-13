@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {AuthenticationService} from '../../../services/authentication.service';
 
 @Component({
     selector: 'app-sidebar',
@@ -8,6 +9,12 @@ import { Component } from '@angular/core';
 export class SidebarComponent {
     isActive = false;
     showMenu = '';
+
+    constructor( private authService: AuthenticationService) {
+
+    }
+
+
     eventCalled() {
         this.isActive = !this.isActive;
     }

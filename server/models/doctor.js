@@ -22,7 +22,7 @@ const doctorSchema = new Schema ({
                 state: String,
                 zip: Number
             },
-    History: [{ type: Schema.Types.ObjectId, ref: 'History'}],
+    history: [{ type: Schema.Types.ObjectId, ref: 'History'}],
     picture: String
 });
 doctorSchema.plugin(autopopulate);

@@ -121,7 +121,7 @@ DashboardComponent = __decorate([
         styles: [__webpack_require__("../../../../../src/app/layout/dashboard/dashboard.component.scss")],
         animations: [Object(__WEBPACK_IMPORTED_MODULE_1__router_animations__["a" /* routerTransition */])()]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__services__["e" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["e" /* DoctorService */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__services__["d" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["d" /* DoctorService */]) === "function" && _a || Object])
 ], DashboardComponent);
 
 var _a;
@@ -171,14 +171,14 @@ DashboardModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["c" /* NgbCarouselModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["b" /* NgbAlertModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_5__dashboard_routing_module__["a" /* DashboardRoutingModule */],
-            __WEBPACK_IMPORTED_MODULE_7__shared__["e" /* StatModule */],
+            __WEBPACK_IMPORTED_MODULE_7__shared__["f" /* StatModule */],
             __WEBPACK_IMPORTED_MODULE_4__angular_forms__["a" /* FormsModule */]
         ],
         declarations: [
             __WEBPACK_IMPORTED_MODULE_6__dashboard_component__["a" /* DashboardComponent */],
             __WEBPACK_IMPORTED_MODULE_3__shared_pipes_doctor_search_pipe__["a" /* DoctorSearchPipe */]
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_8__services__["e" /* DoctorService */]]
+        providers: [__WEBPACK_IMPORTED_MODULE_8__services__["d" /* DoctorService */]]
     })
 ], DashboardModule);
 
