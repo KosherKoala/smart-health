@@ -3,7 +3,7 @@
         <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-dashboard"></i>&nbsp;{{ 'Dashboard' | translate }}
         </a>
-        <a routerLink="/profile" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a *ngIf = "authService.currentUser" routerLink="/profile" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-user"></i>&nbsp;{{ 'Profile' | translate }}
         </a>
     <!--<a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">

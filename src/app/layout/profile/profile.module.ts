@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProfileComponent } from './profile.component';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { StatModule } from '../../shared';
-import { UserService, CurrentUserService, HistoryService } from '../../services';
+import { UserService, AuthenticationService, HistoryService, AppointmentService, CalendarService } from '../../services';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap'
 import {PdfmakeService} from 'ng-pdf-make';
 import { DoctorTabComponent } from './components/doctor-tab/doctor-tab.component'
@@ -18,6 +18,6 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   declarations: [ProfileComponent, DoctorTabComponent],
-  providers: [ UserService, CurrentUserService, PdfmakeService, HistoryService],
+  providers: [ UserService, AuthenticationService, PdfmakeService, HistoryService, AppointmentService, CalendarService],
 })
 export class ProfileModule { }

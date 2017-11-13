@@ -8,6 +8,7 @@ webpackJsonp(["layout.module"],{
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__layout_component__ = __webpack_require__("../../../../../src/app/layout/layout.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared__ = __webpack_require__("../../../../../src/app/shared/index.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -17,14 +18,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var routes = [
     {
         path: '', component: __WEBPACK_IMPORTED_MODULE_2__layout_component__["a" /* LayoutComponent */],
         children: [
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
-            { path: 'profile', loadChildren: './profile/profile.module#ProfileModule' },
-            { path: 'calendar', loadChildren: './calendar/calendar.module#CalendarModule' },
+            { path: 'profile', loadChildren: './profile/profile.module#ProfileModule', canActivate: [__WEBPACK_IMPORTED_MODULE_3__shared__["a" /* AuthGuard */]] },
+            //  { path: 'calendar', loadChildren: './calendar/calendar.module#CalendarModule' },
             { path: 'doctor/:id', loadChildren: './doctor-page/doctor-page.module#DoctorPageModule' },
+            { path: '', redirectTo: 'dashboard' }
         ]
     }
 ];
@@ -90,20 +93,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var LayoutComponent = (function () {
-    function LayoutComponent(router, currentUserService, userService, doctorService) {
+    function LayoutComponent(router, authService, userService, doctorService) {
         this.router = router;
-        this.currentUserService = currentUserService;
+        this.authService = authService;
         this.userService = userService;
         this.doctorService = doctorService;
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
     LayoutComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.userService.getUserById(this.currentUser._id)
-            .then(function (data) {
-            _this.currentUserService.currentUser = data;
-            console.log(_this.currentUserService.currentUser);
-        });
+        this.authService.initUser().then(function (data) { _this.currentUser = data; });
         if (this.router.url === '/') {
             //    this.router.navigate(['/dashboard']);
         }
@@ -116,7 +115,7 @@ LayoutComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/layout/layout.component.html"),
         styles: [__webpack_require__("../../../../../src/app/layout/layout.component.scss")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__services__["d" /* CurrentUserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["d" /* CurrentUserService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services__["j" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["j" /* UserService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__services__["e" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["e" /* DoctorService */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__services__["b" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["b" /* AuthenticationService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services__["i" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["i" /* UserService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__services__["d" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["d" /* DoctorService */]) === "function" && _d || Object])
 ], LayoutComponent);
 
 var _a, _b, _c, _d;
@@ -168,9 +167,9 @@ LayoutModule = __decorate([
         declarations: [
             __WEBPACK_IMPORTED_MODULE_5__layout_component__["a" /* LayoutComponent */],
             __WEBPACK_IMPORTED_MODULE_6__shared__["b" /* HeaderComponent */],
-            __WEBPACK_IMPORTED_MODULE_6__shared__["d" /* SidebarComponent */],
+            __WEBPACK_IMPORTED_MODULE_6__shared__["e" /* SidebarComponent */],
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_7__services__["d" /* CurrentUserService */], __WEBPACK_IMPORTED_MODULE_7__services__["i" /* PatientService */], __WEBPACK_IMPORTED_MODULE_7__services__["e" /* DoctorService */], __WEBPACK_IMPORTED_MODULE_7__services__["j" /* UserService */]]
+        providers: [__WEBPACK_IMPORTED_MODULE_6__shared__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_7__services__["b" /* AuthenticationService */], __WEBPACK_IMPORTED_MODULE_7__services__["h" /* PatientService */], __WEBPACK_IMPORTED_MODULE_7__services__["d" /* DoctorService */], __WEBPACK_IMPORTED_MODULE_7__services__["i" /* UserService */]]
     })
 ], LayoutModule);
 

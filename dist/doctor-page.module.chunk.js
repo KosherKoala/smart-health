@@ -1,5 +1,61 @@
 webpackJsonp(["doctor-page.module"],{
 
+/***/ "../../../../../src/app/layout/doctor-page/calendar-header/calendar-header.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarHeaderComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var CalendarHeaderComponent = (function () {
+    function CalendarHeaderComponent() {
+        this.locale = 'en';
+        this.viewChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.viewDateChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+    }
+    return CalendarHeaderComponent;
+}());
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+    __metadata("design:type", String)
+], CalendarHeaderComponent.prototype, "view", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+    __metadata("design:type", Object)
+], CalendarHeaderComponent.prototype, "viewDate", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */])(),
+    __metadata("design:type", String)
+], CalendarHeaderComponent.prototype, "locale", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */])(),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]) === "function" && _a || Object)
+], CalendarHeaderComponent.prototype, "viewChange", void 0);
+__decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */])(),
+    __metadata("design:type", typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]) === "function" && _b || Object)
+], CalendarHeaderComponent.prototype, "viewDateChange", void 0);
+CalendarHeaderComponent = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */])({
+        selector: 'mwl-demo-utils-calendar-header',
+        template: "\n    <div class=\"row text-center\">\n      <div class=\"col-md-4\">\n        <div class=\"btn-group\">\n          <div\n            class=\"btn btn-primary\"\n            mwlCalendarPreviousView\n            [view]=\"view\"\n            [(viewDate)]=\"viewDate\"\n            (viewDateChange)=\"viewDateChange.next(viewDate)\">\n            Previous\n          </div>\n          <div\n            class=\"btn btn-outline-secondary\"\n            mwlCalendarToday\n            [(viewDate)]=\"viewDate\"\n            (viewDateChange)=\"viewDateChange.next(viewDate)\">\n            Today\n          </div>\n          <div\n            class=\"btn btn-primary\"\n            mwlCalendarNextView\n            [view]=\"view\"\n            [(viewDate)]=\"viewDate\"\n            (viewDateChange)=\"viewDateChange.next(viewDate)\">\n            Next\n          </div>\n        </div>\n      </div>\n      <div class=\"col-md-4\">\n        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):locale }}</h3>\n      </div>\n      <div class=\"col-md-4\">\n        <div class=\"btn-group\">\n          <div\n            class=\"btn btn-primary\"\n            (click)=\"viewChange.emit('month')\"\n            [class.active]=\"view === 'month'\">\n            Month\n          </div>\n          <div\n            class=\"btn btn-primary\"\n            (click)=\"viewChange.emit('week')\"\n            [class.active]=\"view === 'week'\">\n            Week\n          </div>\n          <div\n            class=\"btn btn-primary\"\n            (click)=\"viewChange.emit('day')\"\n            [class.active]=\"view === 'day'\">\n            Day\n          </div>\n        </div>\n      </div>\n    </div>\n    <br>\n  "
+    })
+], CalendarHeaderComponent);
+
+var _a, _b;
+//# sourceMappingURL=calendar-header.component.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/layout/doctor-page/doctor-page-routing.module.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -39,7 +95,7 @@ DoctorPageRoutingModule = __decorate([
 /***/ "../../../../../src/app/layout/doctor-page/doctor-page.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div [@routerTransition]>  \n  <div class=\"row\">\n    <div class=\"col-3\">\n      <div class=\"card m-auto\">\n        <img class=\"card-img-top\" src=\"http://via.placeholder.com/350x350\" alt=\"Card image cap\">\n        <div class=\"card-body p-0\">\n            <ul class=\"list-group\">\n                <li class=\"list-group-item\">{{doctor.specialty}}</li>\n                <li class=\"list-group-item\">{{doctor.location.line_1}}, {{doctor.location.line_2}}, <br>{{doctor.location.city}}, {{doctor.location.state}}, {{doctor.location.zip}}</li>\n                <li class=\"list-group-item\">Open 8am-5pm, MWF</li>\n                <li class=\"list-group-item\"><div class=\"badge badge-pill badge-primary\"><i class=\"fa fa-phone pr-2\"></i>407-455-3455</div></li>\n                <li class=\"list-group-item\"><div class=\"badge badge-pill badge-primary\"><i class=\"fa fa-envelope pr-2\"></i>{{doctor.email}}</div></li>\n                <li class=\"list-group-item\"><div class=\"badge badge-pill badge-primary\"><i class=\"fa fa-facebook pr-2\"></i>Dr. {{doctor.firstName}} {{doctor.lastName}}</div></li>\n            </ul>\n        </div>\n      </div>\n    </div>\n    <div class=\"col-9\">\n      <div class=\"row\">\n        <div class=\"col-11\">\n          <h4>\n            Dr. {{doctor.firstName}} {{doctor.lastName}}\n          </h4>\n          <p>\n              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sollicitudin diam orci, eu mattis lectus consectetur eget. \n              Curabitur ultricies non est a accumsan. Mauris efficitur id erat ut ultricies. Nunc id ex sollicitudin neque lobortis gravida a ut risus. \n              Maecenas et leo dictum, hendrerit libero eget, blandit diam. Suspendisse potenti. Cras sit amet consequat mi. Sed sem ligula, blandit in orci in, \n              luctus imperdiet nulla. Nullam sed cursus ipsum, a varius est. Nulla nec dolor vitae mi commodo mollis. Ut dignissim ipsum vel ipsum varius, \n              fermentum pharetra metus auctor. Donec luctus pretium purus, pulvinar consequat erat sagittis accumsan. Pellentesque sagittis volutpat ligula ac placerat. \n              Ut magna urna, malesuada et erat non, congue molestie dolor. Duis vitae porta sapien. Integer sodales interdum tristique.\n          </p>\n         <!-- <div class=\"d-flex px-4 justify-content-between\">\n           <h3> <div class=\"badge badge-pill badge-primary\"><i class=\"fa fa-phone pr-2\"></i>407-455-3455</div> </h3>\n           <h3> <div class=\"badge badge-pill badge-primary\"><i class=\"fa fa-envelope pr-2\"></i>{{doctor.email}}</div> </h3>\n           <h3> <div class=\"badge badge-pill badge-primary\"><i class=\"fa fa-facebook pr-2\"></i>Dr. {{doctor.firstName}} {{doctor.lastName}}</div> </h3>\n          </div>-->\n          <hr class=\"thick\">\n        <!--Calendar start-->\n          <div class=\"row text-center\">\n            <div class=\"col-md-4\">\n              <div class=\"btn-group\">\n                <div\n                  class=\"btn btn-primary\"\n                  mwlCalendarPreviousView\n                  [view]=\"view\"\n                  [(viewDate)]=\"viewDate\">\n                  Previous\n                </div>\n                <div\n                  class=\"btn btn-outline-secondary\"\n                  mwlCalendarToday\n                  [(viewDate)]=\"viewDate\">\n                  Today\n                </div>\n                <div\n                  class=\"btn btn-primary\"\n                  mwlCalendarNextView\n                  [view]=\"view\"\n                  [(viewDate)]=\"viewDate\">\n                  Next\n                </div>\n              </div>\n            </div>\n            <div class=\"col-md-4\">\n              <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>\n            </div>\n            <div class=\"col-md-4\">\n              <div class=\"btn-group\">\n                <div\n                  class=\"btn btn-primary\"\n                  (click)=\"view = 'month'\"\n                  [class.active]=\"view === 'month'\">\n                  Month\n                </div>\n                <div\n                  class=\"btn btn-primary\"\n                  (click)=\"view = 'week'\"\n                  [class.active]=\"view === 'week'\">\n                  Week\n                </div>\n                <div\n                  class=\"btn btn-primary\"\n                  (click)=\"view = 'day'\"\n                  [class.active]=\"view === 'day'\">\n                  Day\n                </div>\n              </div>\n            </div>\n          </div>\n          <div class=\"row\">\n          <!--Actual Calendar-->\n            <div id=\"calendar-col\" class=\"col-12\">\n              <div [ngSwitch]=\"view\">\n                <mwl-calendar-month-view\n                  *ngSwitchCase=\"'month'\"\n                  [viewDate]=\"viewDate\"\n                  [events]=\"events\"\n                  (dayClicked)=\"dayClicked($event, content)\">\n                </mwl-calendar-month-view>\n                <mwl-calendar-week-view\n                  *ngSwitchCase=\"'week'\"\n                  [viewDate]=\"viewDate\"\n                  [events]=\"events\"\n                  (dayHeaderClicked)=\"dayClicked($event, content)\">\n                </mwl-calendar-week-view>\n                <mwl-calendar-day-view\n                  *ngSwitchCase=\"'day'\"\n                  [viewDate]=\"viewDate\"\n                  [events]=\"events\"\n                  (eventClicked)=\"eventClicked($event, content)\">\n                </mwl-calendar-day-view>\n              </div>\n            </div>\n          </div>\n      </div>\n    </div>\n  </div>\n\n  <ng-template #content let-c=\"close\" let-d=\"dismiss\">\n    <div class=\"modal-header\">\n      <h4 class=\"modal-title\">Request Appointment</h4>\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n        <span aria-hidden=\"true\">&times;</span>\n      </button>\n    </div>\n    <div class=\"modal-body\">\n      <h4>\n        {{clickedEvent.title}}\n      </h4>\n      <div class=\"d-flex flex-row justify-content-between\">\n        <div class=\"d-flex flex-column\">\n          <div>\n            Date: {{clickedEvent.start | date }}\n          </div>\n          <div>\n            Start Time: {{clickedEvent.start | date:'shortTime' }}\n          </div>\n          <div class=\"d-flex flex-row\">\n            End Time: {{clickedEvent.end | date:'shortTime'}}\n          </div>\n        </div>\n        <div class=\"d-flex flex-column\">\n          <div>\n            {{doctor.location.line_1}}, {{doctor.location.line_2}} \n          </div>\n          <div>\n            {{doctor.location.city}}, {{doctor.location.state}}, {{doctor.location.zip}} \n          </div>\n        </div>\n      </div>\n    </div>\n    <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-outline-dark\" (click)=\"request(clickedEvent)\">Request</button>\n      <button type=\"button\" class=\"btn btn-outline-dark\" (click)=\"c('Close click')\">Cancel</button>\n    </div>\n  </ng-template>\n\n\n\n\n</div>"
+module.exports = "<div [@routerTransition]>  \n  <div class=\"row\">\n    <div class=\"col-3\">\n      <div class=\"card m-auto\">\n        <img class=\"card-img-top\" src=\"http://via.placeholder.com/350x350\" alt=\"Card image cap\">\n        <div class=\"card-body p-0\">\n            <ul class=\"list-group\">\n                <li class=\"list-group-item\">{{doctor.specialty}}</li>\n                <li class=\"list-group-item\">{{doctor.location.line_1}}, {{doctor.location.line_2}}, <br>{{doctor.location.city}}, {{doctor.location.state}}, {{doctor.location.zip}}</li>\n                <li class=\"list-group-item\">Open 8am-5pm, MWF</li>\n                <li class=\"list-group-item\"><div class=\"badge badge-pill badge-primary\"><i class=\"fa fa-phone pr-2\"></i>407-455-3455</div></li>\n                <li class=\"list-group-item\"><div class=\"badge badge-pill badge-primary\"><i class=\"fa fa-envelope pr-2\"></i>{{doctor.email}}</div></li>\n                <li class=\"list-group-item\"><div class=\"badge badge-pill badge-primary\"><i class=\"fa fa-facebook pr-2\"></i>Dr. {{doctor.firstName}} {{doctor.lastName}}</div></li>\n            </ul>\n        </div>\n      </div>\n    </div>\n    <div class=\"col-9\">\n      <div class=\"row\">\n        <div class=\"col-11\">\n          <h4>\n            Dr. {{doctor.firstName}} {{doctor.lastName}}\n          </h4>\n          <p>\n              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sollicitudin diam orci, eu mattis lectus consectetur eget. \n              Curabitur ultricies non est a accumsan. Mauris efficitur id erat ut ultricies. Nunc id ex sollicitudin neque lobortis gravida a ut risus. \n              Maecenas et leo dictum, hendrerit libero eget, blandit diam. Suspendisse potenti. Cras sit amet consequat mi. Sed sem ligula, blandit in orci in, \n              luctus imperdiet nulla. Nullam sed cursus ipsum, a varius est. Nulla nec dolor vitae mi commodo mollis. Ut dignissim ipsum vel ipsum varius, \n              fermentum pharetra metus auctor. Donec luctus pretium purus, pulvinar consequat erat sagittis accumsan. Pellentesque sagittis volutpat ligula ac placerat. \n              Ut magna urna, malesuada et erat non, congue molestie dolor. Duis vitae porta sapien. Integer sodales interdum tristique.\n          </p>\n         <!-- <div class=\"d-flex px-4 justify-content-between\">\n           <h3> <div class=\"badge badge-pill badge-primary\"><i class=\"fa fa-phone pr-2\"></i>407-455-3455</div> </h3>\n           <h3> <div class=\"badge badge-pill badge-primary\"><i class=\"fa fa-envelope pr-2\"></i>{{doctor.email}}</div> </h3>\n           <h3> <div class=\"badge badge-pill badge-primary\"><i class=\"fa fa-facebook pr-2\"></i>Dr. {{doctor.firstName}} {{doctor.lastName}}</div> </h3>\n          </div>-->\n          <hr class=\"thick\">\n        <!--Calendar start-->\n        <div class=\"row\">\n            <mwl-demo-utils-calendar-header\n            [(view)]=\"view\"\n            [(viewDate)]=\"viewDate\"\n            (viewDateChange)=\"updateCalendarEvents()\"\n            (viewChange)=\"updateCalendarEvents()\">\n          </mwl-demo-utils-calendar-header>\n        </div>\n          <div class=\"row\">\n          <!--Actual Calendar-->\n            <div id=\"calendar-col\" class=\"col-12\">\n              <div [ngSwitch]=\"view\">\n                <mwl-calendar-month-view\n                  *ngSwitchCase=\"'month'\"\n                  [viewDate]=\"viewDate\"\n                  [events]=\"events\"\n                  (dayClicked)=\"dayClicked($event, content)\">\n                </mwl-calendar-month-view>\n                <mwl-calendar-week-view\n                  *ngSwitchCase=\"'week'\"\n                  [viewDate]=\"viewDate\"\n                  [events]=\"events\"\n                  (dayHeaderClicked)=\"dayClicked($event, content)\">\n                </mwl-calendar-week-view>\n                <mwl-calendar-day-view\n                  *ngSwitchCase=\"'day'\"\n                  [viewDate]=\"viewDate\"\n                  [events]=\"events\"\n                  (eventClicked)=\"eventClicked($event, content)\">\n                </mwl-calendar-day-view>\n              </div>\n            </div>\n          </div>\n      </div>\n    </div>\n  </div>\n\n  <ng-template #content let-c=\"close\" let-d=\"dismiss\">\n    <div class=\"modal-header\">\n      <h4 class=\"modal-title\">Request Appointment</h4>\n      <button type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"d('Cross click')\">\n        <span aria-hidden=\"true\">&times;</span>\n      </button>\n    </div>\n    <div class=\"modal-body\">\n      <h4>\n        {{clickedEvent.title}}\n      </h4>\n      <div class=\"d-flex flex-row justify-content-between\">\n        <div class=\"d-flex flex-column\">\n          <div>\n            Date: {{clickedEvent.start | date }}\n          </div>\n          <div>\n            Start Time: {{clickedEvent.start | date:'shortTime' }}\n          </div>\n          <div class=\"d-flex flex-row\">\n            End Time: {{clickedEvent.end | date:'shortTime'}}\n          </div>\n        </div>\n        <div class=\"d-flex flex-column\">\n          <div>\n            {{doctor.location.line_1}}, {{doctor.location.line_2}} \n          </div>\n          <div>\n            {{doctor.location.city}}, {{doctor.location.state}}, {{doctor.location.zip}} \n          </div>\n        </div>\n      </div>\n    </div>\n    <div class=\"modal-footer\">\n        <button type=\"button\" class=\"btn btn-outline-dark\" (click)=\"request(clickedEvent)\">Request</button>\n      <button type=\"button\" class=\"btn btn-outline-dark\" (click)=\"c('Close click')\">Cancel</button>\n    </div>\n  </ng-template>\n\n\n\n\n</div>"
 
 /***/ }),
 
@@ -92,12 +148,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var DoctorPageComponent = (function () {
-    function DoctorPageComponent(route, doctorService, calendarService, appointmentService, currentUserService, modalService) {
+    function DoctorPageComponent(route, doctorService, calendarService, appointmentService, authService, modalService) {
         this.route = route;
         this.doctorService = doctorService;
         this.calendarService = calendarService;
         this.appointmentService = appointmentService;
-        this.currentUserService = currentUserService;
+        this.authService = authService;
         this.modalService = modalService;
         this.doctor = { location: {} };
         this.view = 'month';
@@ -123,14 +179,14 @@ var DoctorPageComponent = (function () {
     }
     DoctorPageComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.currentUserService.initUser();
+        this.authService.initUser();
         this.later.setHours(this.viewDate.getHours() + 2);
         this.sub = this.route.params.subscribe(function (params) {
             _this.id = params['id'];
-            console.log(_this.id);
+            // console.log(this.id)
             _this.doctorService.getDoctorById(_this.id).then(function (data) {
                 _this.doctor = data;
-                console.log("before pop ", _this.doctor);
+                //   console.log("before pop ", this.doctor);
                 _this.calendarService.getCalendarById(_this.doctor.calendar).then(function (data2) {
                     _this.doctor.calendar = data2;
                     for (var _i = 0, _a = _this.doctor.calendar.slots; _i < _a.length; _i++) {
@@ -156,16 +212,18 @@ var DoctorPageComponent = (function () {
     DoctorPageComponent.prototype.eventClicked = function (event, content) {
         var _this = this;
         this.clickedEvent = event.event;
-        this.modalService.open(content).result.then(function (result) {
+        this.modalRef = this.modalService.open(content);
+        this.modalRef.result.then(function (result) {
             _this.closeResult = "Closed with: " + result;
         }, function (reason) {
             _this.closeResult = "Dismissed " + _this.getDismissReason(reason);
         });
     };
     DoctorPageComponent.prototype.request = function (event) {
+        var _this = this;
         console.log("req event", event);
         var appointment = { date: event.start,
-            patient: this.currentUserService.currentUser.patient._id,
+            patient: this.authService.currentUser.patient._id,
             doctor: this.doctor._id,
             timeIn: event.start,
             timeOut: event.end,
@@ -173,7 +231,11 @@ var DoctorPageComponent = (function () {
             procedure: event.procedure._id
         };
         console.log('requested', appointment);
-        this.appointmentService.makeAppointment(appointment, this.doctor.calendar._id, this.currentUserService.currentUser.patient.history[0]._id).then();
+        this.appointmentService.makeAppointment(appointment, this.doctor, this.authService.currentUser.patient)
+            .then(function (data) {
+            _this.updateCalendarEvents();
+            _this.modalRef.close();
+        });
     };
     DoctorPageComponent.prototype.getDismissReason = function (reason) {
         if (reason === __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["a" /* ModalDismissReasons */].ESC) {
@@ -189,6 +251,34 @@ var DoctorPageComponent = (function () {
     DoctorPageComponent.prototype.updateCalendarEvents = function () {
         var _this = this;
         this.events = [];
+        var removeAppointments = function () {
+            _this.events = _this.events.filter(function (slot) {
+                for (var _i = 0, _a = _this.currentAppointments; _i < _a.length; _i++) {
+                    var current = _a[_i];
+                    if (current.procedure._id == slot.procedure._id && !current.isPending) {
+                        var d1 = new Date(current.date);
+                        var d2 = slot.start;
+                        if (d1.getTime() == d2.getTime()) {
+                            console.log("removing", current);
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            });
+        };
+        var promise = new Promise(function (resolve, reject) {
+            if (_this.generateEvents()) {
+                resolve(true);
+            }
+            else {
+                reject();
+            }
+        });
+        promise.then(function (data) { removeAppointments(); });
+    };
+    DoctorPageComponent.prototype.generateEvents = function () {
+        var _this = this;
         var startOfPeriod = {
             month: __WEBPACK_IMPORTED_MODULE_5_date_fns__["startOfMonth"],
             week: __WEBPACK_IMPORTED_MODULE_5_date_fns__["startOfWeek"],
@@ -200,7 +290,6 @@ var DoctorPageComponent = (function () {
             day: __WEBPACK_IMPORTED_MODULE_5_date_fns__["endOfDay"]
         };
         this.recurringEvents.forEach(function (event) {
-            console.log('start fo each');
             var rule = new __WEBPACK_IMPORTED_MODULE_6_rrule___default.a(Object.assign({}, event.rrule, {
                 dtstart: startOfPeriod[_this.view](_this.viewDate),
                 until: endOfPeriod[_this.view](_this.viewDate)
@@ -212,17 +301,7 @@ var DoctorPageComponent = (function () {
                 }));
             });
         });
-        console.log('pre-removal', this.events);
-        this.events = this.events.filter(function (slot) {
-            for (var _i = 0, _a = _this.currentAppointments; _i < _a.length; _i++) {
-                var current = _a[_i];
-                console.log("slot", slot, "current", current);
-                if (current.procedure._id == slot.procedure._id && current.start == slot.procedure.start) {
-                    return false;
-                }
-            }
-            return true;
-        });
+        return true;
     };
     return DoctorPageComponent;
 }());
@@ -233,7 +312,7 @@ DoctorPageComponent = __decorate([
         styles: [__webpack_require__("../../../../../src/app/layout/doctor-page/doctor-page.component.scss")],
         animations: [Object(__WEBPACK_IMPORTED_MODULE_1__router_animations__["a" /* routerTransition */])()]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services__["e" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["e" /* DoctorService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services__["c" /* CalendarService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["c" /* CalendarService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__services__["a" /* AppointmentService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["a" /* AppointmentService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__services__["d" /* CurrentUserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["d" /* CurrentUserService */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */]) === "function" && _f || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services__["d" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["d" /* DoctorService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services__["c" /* CalendarService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["c" /* CalendarService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__services__["a" /* AppointmentService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["a" /* AppointmentService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__services__["b" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["b" /* AuthenticationService */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */]) === "function" && _f || Object])
 ], DoctorPageComponent);
 
 var _a, _b, _c, _d, _e, _f;
@@ -255,12 +334,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__shared__ = __webpack_require__("../../../../../src/app/shared/index.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services__ = __webpack_require__("../../../../../src/app/services/index.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__calendar_header_calendar_header_component__ = __webpack_require__("../../../../../src/app/layout/doctor-page/calendar-header/calendar-header.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -281,10 +362,10 @@ DoctorPageModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_4_angular_calendar__["a" /* CalendarModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_3__doctor_page_routing_module__["a" /* DoctorPageRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_7__ng_bootstrap_ng_bootstrap__["f" /* NgbModule */],
-            __WEBPACK_IMPORTED_MODULE_5__shared__["e" /* StatModule */]
+            __WEBPACK_IMPORTED_MODULE_5__shared__["f" /* StatModule */]
         ],
-        declarations: [__WEBPACK_IMPORTED_MODULE_2__doctor_page_component__["a" /* DoctorPageComponent */]],
-        providers: [__WEBPACK_IMPORTED_MODULE_6__services__["e" /* DoctorService */], __WEBPACK_IMPORTED_MODULE_6__services__["c" /* CalendarService */], __WEBPACK_IMPORTED_MODULE_6__services__["a" /* AppointmentService */], __WEBPACK_IMPORTED_MODULE_6__services__["d" /* CurrentUserService */]]
+        declarations: [__WEBPACK_IMPORTED_MODULE_2__doctor_page_component__["a" /* DoctorPageComponent */], __WEBPACK_IMPORTED_MODULE_8__calendar_header_calendar_header_component__["a" /* CalendarHeaderComponent */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_6__services__["d" /* DoctorService */], __WEBPACK_IMPORTED_MODULE_6__services__["c" /* CalendarService */], __WEBPACK_IMPORTED_MODULE_6__services__["a" /* AppointmentService */]]
     })
 ], DoctorPageModule);
 
