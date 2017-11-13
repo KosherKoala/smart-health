@@ -72,7 +72,21 @@ router.delete('/:id', function(req, res, next) {
   console.log('user api delete response');
 });
 
+/* is doctor */
+router.get('/isDoctor/:id', function(req, res, next) {
+  console.log('isDoctor');
+  User.findOne({_id: req.params.id, doctor: { $ne: null } }, function (err, user) {
+    if (err) return next(err);
+    if(user) {
+        res.json({user:user, success: true, message: "its a doctor"});
+    } else {
+        res.json({success:false, message: "not a doctor"});
+    }
+  });
+  console.log('user api get response');
+});
 
+//Authenticate
 router.post('/authenticate/', function authenticate(req, res) {
   User.findOne({ email: req.body.email, password: req.body.password }, function(err, user ) {
     

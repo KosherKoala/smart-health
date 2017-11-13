@@ -4,24 +4,19 @@ webpackJsonp(["main"],{
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./calendar/calendar.module": [
-		"../../../../../src/app/layout/calendar/calendar.module.ts",
-		"calendar.module"
-	],
 	"./dashboard/dashboard.module": [
 		"../../../../../src/app/layout/dashboard/dashboard.module.ts",
-		"dashboard.module",
-		"common"
+		"common",
+		"dashboard.module"
 	],
 	"./doctor-page/doctor-page.module": [
 		"../../../../../src/app/layout/doctor-page/doctor-page.module.ts",
 		"doctor-page.module",
 		"common"
 	],
-	"./doctor-portal/doctor-portal.module": [
-		"../../../../../src/app/doctor-portal/doctor-portal.module.ts",
-		"doctor-portal.module",
-		"common"
+	"./doctor-registration/doctor-registration.module": [
+		"../../../../../src/app/doctor-registration/doctor-registration.module.ts",
+		"doctor-registration.module"
 	],
 	"./layout/layout.module": [
 		"../../../../../src/app/layout/layout.module.ts",
@@ -29,13 +24,18 @@ var map = {
 	],
 	"./login/login.module": [
 		"../../../../../src/app/login/login.module.ts",
-		"login.module",
-		"common"
+		"common",
+		"login.module"
 	],
 	"./not-found/not-found.module": [
 		"../../../../../src/app/not-found/not-found.module.ts",
-		"not-found.module",
-		"common"
+		"common",
+		"not-found.module"
+	],
+	"./patient-page/patient-page.module": [
+		"../../../../../src/app/layout/patient-page/patient-page.module.ts",
+		"common",
+		"patient-page.module"
 	],
 	"./profile/profile.module": [
 		"../../../../../src/app/layout/profile/profile.module.ts",
@@ -85,12 +85,12 @@ var routes = [
         path: '',
         loadChildren: './layout/layout.module#LayoutModule',
     },
-    { path: 'login', loadChildren: './login/login.module#LoginModule', canActivate: [__WEBPACK_IMPORTED_MODULE_2__shared__["c" /* NoAuthGuard */]] },
-    { path: 'doctor-portal', loadChildren: './doctor-portal/doctor-portal.module#DoctorPortalModule' },
+    { path: 'login', loadChildren: './login/login.module#LoginModule', canActivate: [__WEBPACK_IMPORTED_MODULE_2__shared__["d" /* NoAuthGuard */]] },
+    // { path: 'doctor-portal', loadChildren: './doctor-portal/doctor-portal.module#DoctorPortalModule' },
     // { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },
     { path: 'not-found', loadChildren: './not-found/not-found.module#NotFoundModule' },
-    { path: 'registration', loadChildren: './registration/registration.module#RegistrationModule', canActivate: [__WEBPACK_IMPORTED_MODULE_2__shared__["c" /* NoAuthGuard */]] },
-    // { path: 'doctor-registration', loadChildren: './doctor-registration/doctor-registration.module#DoctorRegistrationModule' },
+    { path: 'registration', loadChildren: './registration/registration.module#RegistrationModule', canActivate: [__WEBPACK_IMPORTED_MODULE_2__shared__["d" /* NoAuthGuard */]] },
+    { path: 'doctor-registration', loadChildren: './doctor-registration/doctor-registration.module#DoctorRegistrationModule' },
     { path: '**', redirectTo: 'not-found' }
 ];
 var AppRoutingModule = (function () {
@@ -243,7 +243,7 @@ AppModule = __decorate([
                 }
             })
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_9__shared__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_9__shared__["c" /* NoAuthGuard */], __WEBPACK_IMPORTED_MODULE_10__services__["h" /* PatientService */], __WEBPACK_IMPORTED_MODULE_10__services__["i" /* UserService */], __WEBPACK_IMPORTED_MODULE_10__services__["d" /* DoctorService */], __WEBPACK_IMPORTED_MODULE_10__services__["f" /* HistoryService */], __WEBPACK_IMPORTED_MODULE_10__services__["c" /* CalendarService */], __WEBPACK_IMPORTED_MODULE_10__services__["b" /* AuthenticationService */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_9__shared__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_9__shared__["d" /* NoAuthGuard */], __WEBPACK_IMPORTED_MODULE_10__services__["h" /* PatientService */], __WEBPACK_IMPORTED_MODULE_10__services__["i" /* UserService */], __WEBPACK_IMPORTED_MODULE_10__services__["d" /* DoctorService */], __WEBPACK_IMPORTED_MODULE_10__services__["f" /* HistoryService */], __WEBPACK_IMPORTED_MODULE_10__services__["c" /* CalendarService */], __WEBPACK_IMPORTED_MODULE_10__services__["b" /* AuthenticationService */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]]
     })
 ], AppModule);
@@ -463,7 +463,20 @@ var AuthenticationService = (function () {
                 // set token property
                 _this.token = token;
                 // store email and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('currentUser', JSON.stringify({ _id: response.json().obj._id, email: email, token: token }));
+                if (response.json().obj.doctor) {
+                    localStorage.setItem('currentUser', JSON.stringify({
+                        _id: response.json().obj._id,
+                        doctor: response.json().obj.doctor._id,
+                        email: email, token: token
+                    }));
+                }
+                else {
+                    localStorage.setItem('currentUser', JSON.stringify({
+                        _id: response.json().obj._id,
+                        patient: response.json().obj.patient._id,
+                        email: email, token: token
+                    }));
+                }
                 // return true to indicate successful login
                 return true;
             }
@@ -483,7 +496,7 @@ var AuthenticationService = (function () {
     };
     AuthenticationService.prototype.initUser = function () {
         var _this = this;
-        console.log("inininb", this.currentUser);
+        console.log("init user", this.currentUser);
         return new Promise(function (resolve, reject) {
             // console.log('init user', this.currentUser)
             var user = JSON.parse(localStorage.getItem('currentUser'));
@@ -686,7 +699,7 @@ var DoctorService = (function () {
     DoctorService.prototype.getAllDoctors = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.http.post('/api/doctor', { params: {}, pop: '' })
+            _this.http.get('/api/doctor')
                 .map(function (res) { return res.json(); })
                 .subscribe(function (res) {
                 console.log(res);
@@ -1313,6 +1326,17 @@ var UserService = (function () {
             });
         });
     };
+    UserService.prototype.isDoctor = function (id) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/api/user/isDoctor/' + id)
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
     return UserService;
 }());
 UserService = __decorate([
@@ -1584,6 +1608,54 @@ var _a;
 
 /***/ }),
 
+/***/ "../../../../../src/app/shared/guard/history.guard.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HistoryGuard; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services__ = __webpack_require__("../../../../../src/app/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var HistoryGuard = (function () {
+    function HistoryGuard(userService, historyService, router) {
+        this.userService = userService;
+        this.historyService = historyService;
+        this.router = router;
+    }
+    HistoryGuard.prototype.canActivate = function (next, state) {
+        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        console.log(this.currentUser);
+        // user is a doctor
+        if (this.currentUser.doctor) {
+            return true;
+        }
+        return false;
+        // user has history with patient
+    };
+    return HistoryGuard;
+}());
+HistoryGuard = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services__["i" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services__["i" /* UserService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__services__["f" /* HistoryService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services__["f" /* HistoryService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */]) === "function" && _c || Object])
+], HistoryGuard);
+
+var _a, _b, _c;
+//# sourceMappingURL=history.guard.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/shared/guard/no-auth.guard.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1633,15 +1705,18 @@ var _a;
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components__ = __webpack_require__("../../../../../src/app/shared/components/index.ts");
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__components__["a"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_1__components__["b"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_1__components__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules__ = __webpack_require__("../../../../../src/app/shared/modules/index.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_2__modules__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_2__modules__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__classes__ = __webpack_require__("../../../../../src/app/shared/classes/index.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_3__classes__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_3__classes__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__guard_auth_guard__ = __webpack_require__("../../../../../src/app/shared/guard/auth.guard.ts");
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_4__guard_auth_guard__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__guard_no_auth_guard__ = __webpack_require__("../../../../../src/app/shared/guard/no-auth.guard.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_5__guard_no_auth_guard__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_5__guard_no_auth_guard__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__guard_history_guard__ = __webpack_require__("../../../../../src/app/shared/guard/history.guard.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_6__guard_history_guard__["a"]; });
+
 
 
 

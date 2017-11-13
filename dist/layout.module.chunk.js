@@ -27,6 +27,7 @@ var routes = [
             { path: 'profile', loadChildren: './profile/profile.module#ProfileModule', canActivate: [__WEBPACK_IMPORTED_MODULE_3__shared__["a" /* AuthGuard */]] },
             //  { path: 'calendar', loadChildren: './calendar/calendar.module#CalendarModule' },
             { path: 'doctor/:id', loadChildren: './doctor-page/doctor-page.module#DoctorPageModule' },
+            { path: 'patient/:id', loadChildren: './patient-page/patient-page.module#PatientPageModule', canActivate: [__WEBPACK_IMPORTED_MODULE_3__shared__["c" /* HistoryGuard */]] },
             { path: '', redirectTo: 'dashboard' }
         ]
     }
@@ -167,9 +168,9 @@ LayoutModule = __decorate([
         declarations: [
             __WEBPACK_IMPORTED_MODULE_5__layout_component__["a" /* LayoutComponent */],
             __WEBPACK_IMPORTED_MODULE_6__shared__["b" /* HeaderComponent */],
-            __WEBPACK_IMPORTED_MODULE_6__shared__["e" /* SidebarComponent */],
+            __WEBPACK_IMPORTED_MODULE_6__shared__["f" /* SidebarComponent */],
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_6__shared__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_7__services__["b" /* AuthenticationService */], __WEBPACK_IMPORTED_MODULE_7__services__["h" /* PatientService */], __WEBPACK_IMPORTED_MODULE_7__services__["d" /* DoctorService */], __WEBPACK_IMPORTED_MODULE_7__services__["i" /* UserService */]]
+        providers: [__WEBPACK_IMPORTED_MODULE_6__shared__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_6__shared__["c" /* HistoryGuard */], __WEBPACK_IMPORTED_MODULE_7__services__["b" /* AuthenticationService */], __WEBPACK_IMPORTED_MODULE_7__services__["h" /* PatientService */], __WEBPACK_IMPORTED_MODULE_7__services__["d" /* DoctorService */], __WEBPACK_IMPORTED_MODULE_7__services__["i" /* UserService */]]
     })
 ], LayoutModule);
 

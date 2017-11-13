@@ -80,4 +80,15 @@ export class UserService {
             });
       });
     }
+
+    isDoctor(id) {
+      return new Promise((resolve, reject) => {
+        this.http.get('/api/user/isDoctor/' + id)
+          .subscribe(res => {
+            resolve(res);
+          }, (err) => {
+            reject(err);
+          });
+    });
+    }
 }
