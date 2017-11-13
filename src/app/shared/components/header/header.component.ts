@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { CurrentUserService } from '../../../services';
+import {AuthenticationService} from '../../../services/authentication.service';
 
 @Component({
     selector: 'app-header',
@@ -12,7 +12,10 @@ export class HeaderComponent implements OnInit {
 
     pushRightClass: string = 'push-right';
 
-    constructor(private translate: TranslateService, public router: Router, private currentUserService: CurrentUserService) {
+    constructor(private translate: TranslateService,
+                public router: Router,
+                private authService: AuthenticationService)
+    {
         this.router.events.subscribe((val) => {
             if (val instanceof NavigationEnd && window.innerWidth <= 992 && this.isToggled()) {
                 this.toggleSidebar();
@@ -37,8 +40,10 @@ export class HeaderComponent implements OnInit {
         dom.classList.toggle('rtl');
     }
 
-    onLoggedout() {
-        localStorage.removeItem('isLoggedin');
+    logout() {
+        if (this.authService.logout()) {
+            this.router.navigate(['/dashboard']);
+        }
     }
 
     changeLang(language: string) {

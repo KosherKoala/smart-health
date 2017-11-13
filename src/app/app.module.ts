@@ -7,8 +7,8 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthGuard } from './shared';
-import { AuthenticationService, PatientService, CurrentUserService, HistoryService, CalendarService } from './services';
+import { AuthGuard, NoAuthGuard } from './shared';
+import { AuthenticationService, PatientService, HistoryService, CalendarService, UserService, DoctorService } from './services';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 // AoT requires an exported function for factories
@@ -36,7 +36,7 @@ export function HttpLoaderFactory(http: Http) {
             }
         })
     ],
-    providers: [AuthGuard, PatientService, CurrentUserService, HistoryService, CalendarService],
+    providers: [AuthGuard, NoAuthGuard, PatientService, UserService, DoctorService, HistoryService, CalendarService, AuthenticationService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

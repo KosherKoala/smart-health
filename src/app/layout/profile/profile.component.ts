@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
-import { UserService, CurrentUserService, HistoryService } from '../../services';
+import { UserService, AuthenticationService, HistoryService, AppointmentService, CalendarService } from '../../services';
 import { PdfmakeService } from 'ng-pdf-make/pdfmake/pdfmake.service';
 
 import { Cell, Row, Table } from 'ng-pdf-make/objects/table';
@@ -19,54 +19,26 @@ import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 export class ProfileComponent implements OnInit {
 
   public doctors = [];
-  public appointments = [1, 2, 3];
+  public appointments = [];
   public currentUser: any;
   public collapseInsurance = false;
-  public collapseHistories = false;
+  public collapseHistories = false; 
 
   public ruleModel: any = {freq: '', dtstart: {}} ;
   public rrule: RRule;
 
-  constructor(private currentUserService: CurrentUserService,
+  constructor(private authService: AuthenticationService,
               private userService: UserService,
               private historyService: HistoryService,
+              private appointmentService: AppointmentService,
+              private calendarService: CalendarService,
               private pdfmake: PdfmakeService) {
     }
 
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-    this.currentUser = this.currentUserService.initUser();
-
-      /*this.userService.getUserById(this.currentUser._id)
-        .then((data: any) => { 
-          this.currentUserService.currentUser = data;
-
-          console.log("current User", this.currentUserService.currentUser)
-
-          if ( this.currentUserService.currentUser.patient) {
-
-            for (let i = 0; i < this.currentUserService.currentUser.patient.history.length; i++) {
-                this.historyService.getHistoryById(this.currentUserService.currentUser.patient.history[i])
-                  .then ( (res: any) => {
-                                      console.log("res", res)
-                                      this.currentUserService.currentUser.patient.history[i] =  res;
-                                    }
-                )
-            }
-          } else if ( this.currentUserService.currentUser.doctor) {
-              for (let i = 0; i < this.currentUserService.currentUser.doctor.history.length; i++) {
-                  this.historyService.getHistoryById(this.currentUserService.currentUser.doctor.history[i])
-                    .then ( (res: any) => {
-                                        console.log("res", res)
-                                        this.currentUserService.currentUser.doctor.history[i] =  res;
-                                      }
-                  )
-              }
-          }
-
-          console.log(this.currentUserService.currentUser)
-      });*/
+    this.authService.initUser().then((data) => {console.log(data); this.currentUser = data; this.generateAppointmentList()} );
   }
 
   createHistory(history) {
@@ -161,5 +133,31 @@ export class ProfileComponent implements OnInit {
     });
 
     console.log(this.rrule.toString());
+  }
+
+  generateAppointmentList() {
+    console.log("gereeating", this.currentUser)
+
+    if (this.currentUser.patient) {
+      console.log("patient")
+
+      for (let history of this.authService.currentUser.patient.history) {
+        console.log("history")
+        for (let appointment of history.appointments) {
+          this.appointmentService.getAppointmentById(appointment)
+            .then( (appt) => {  this.appointments.push(appt) } )
+        }
+      }
+      console.log(this.appointments)
+    } else  if (this.currentUser.doctor) {
+      console.log("doctor", this.authService.currentUser.doctor)
+      this.calendarService.getCalendarById(this.authService.currentUser.doctor.calendar)
+        .then( (cal) => {  this.authService.currentUser.doctor.calendar = cal;
+                            for (let appointment of this.authService.currentUser.doctor.calendar.appointments) {
+                              this.appointments.push(appointment);
+                            }
+                        });
+      }
+      console.log(this.appointments)
   }
 }
