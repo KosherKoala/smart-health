@@ -36,57 +36,14 @@
           </div>-->
           <hr class="thick">
         <!--Calendar start-->
-          <div class="row text-center">
-            <div class="col-md-4">
-              <div class="btn-group">
-                <div
-                  class="btn btn-primary"
-                  mwlCalendarPreviousView
-                  [view]="view"
-                  [(viewDate)]="viewDate">
-                  Previous
-                </div>
-                <div
-                  class="btn btn-outline-secondary"
-                  mwlCalendarToday
-                  [(viewDate)]="viewDate">
-                  Today
-                </div>
-                <div
-                  class="btn btn-primary"
-                  mwlCalendarNextView
-                  [view]="view"
-                  [(viewDate)]="viewDate">
-                  Next
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
-            </div>
-            <div class="col-md-4">
-              <div class="btn-group">
-                <div
-                  class="btn btn-primary"
-                  (click)="view = 'month'"
-                  [class.active]="view === 'month'">
-                  Month
-                </div>
-                <div
-                  class="btn btn-primary"
-                  (click)="view = 'week'"
-                  [class.active]="view === 'week'">
-                  Week
-                </div>
-                <div
-                  class="btn btn-primary"
-                  (click)="view = 'day'"
-                  [class.active]="view === 'day'">
-                  Day
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="row">
+            <mwl-demo-utils-calendar-header
+            [(view)]="view"
+            [(viewDate)]="viewDate"
+            (viewDateChange)="updateCalendarEvents()"
+            (viewChange)="updateCalendarEvents()">
+          </mwl-demo-utils-calendar-header>
+        </div>
           <div class="row">
           <!--Actual Calendar-->
             <div id="calendar-col" class="col-12">

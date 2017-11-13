@@ -5,8 +5,8 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
-import { HeaderComponent, SidebarComponent } from '../shared';
-import { CurrentUserService, PatientService, DoctorService, UserService } from '../services';
+import { HeaderComponent, SidebarComponent, AuthGuard } from '../shared';
+import {  PatientService, DoctorService, UserService, AuthenticationService } from '../services';
 
 @NgModule({
     imports: [
@@ -20,6 +20,6 @@ import { CurrentUserService, PatientService, DoctorService, UserService } from '
         HeaderComponent,
         SidebarComponent,
     ],
-    providers: [CurrentUserService, PatientService, DoctorService, UserService]
+    providers: [AuthGuard, AuthenticationService, PatientService, DoctorService, UserService]
 })
 export class LayoutModule { }

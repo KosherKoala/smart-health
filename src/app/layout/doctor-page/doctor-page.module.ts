@@ -4,9 +4,10 @@ import { DoctorPageComponent } from './doctor-page.component';
 import { DoctorPageRoutingModule } from './doctor-page-routing.module';
 import { CalendarModule } from 'angular-calendar';
 import { StatModule } from '../../shared';
-import { DoctorService, CalendarService, AppointmentService, CurrentUserService } from '../../services';
+import { DoctorService, CalendarService, AppointmentService } from '../../services';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {DayPilot} from 'daypilot-pro-angular';
+import { CalendarHeaderComponent } from './calendar-header/calendar-header.component';
 
 
 @NgModule({
@@ -17,7 +18,7 @@ import {DayPilot} from 'daypilot-pro-angular';
     NgbModule,
     StatModule
   ],
-  declarations: [DoctorPageComponent],
-  providers: [DoctorService, CalendarService, AppointmentService, CurrentUserService]
+  declarations: [DoctorPageComponent, CalendarHeaderComponent],
+  providers: [DoctorService, CalendarService, AppointmentService]
 })
 export class DoctorPageModule { }

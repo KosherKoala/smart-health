@@ -23,10 +23,6 @@ var map = {
 		"doctor-portal.module",
 		"common"
 	],
-	"./doctor-registration/doctor-registration.module": [
-		"../../../../../src/app/doctor-registration/doctor-registration.module.ts",
-		"doctor-registration.module"
-	],
 	"./layout/layout.module": [
 		"../../../../../src/app/layout/layout.module.ts",
 		"layout.module"
@@ -49,11 +45,6 @@ var map = {
 	"./registration/registration.module": [
 		"../../../../../src/app/registration/registration.module.ts",
 		"registration.module"
-	],
-	"./signup/signup.module": [
-		"../../../../../src/app/signup/signup.module.ts",
-		"signup.module",
-		"common"
 	]
 };
 function webpackAsyncContext(req) {
@@ -93,14 +84,13 @@ var routes = [
     {
         path: '',
         loadChildren: './layout/layout.module#LayoutModule',
-        canActivate: [__WEBPACK_IMPORTED_MODULE_2__shared__["a" /* AuthGuard */]]
     },
-    { path: 'login', loadChildren: './login/login.module#LoginModule' },
+    { path: 'login', loadChildren: './login/login.module#LoginModule', canActivate: [__WEBPACK_IMPORTED_MODULE_2__shared__["c" /* NoAuthGuard */]] },
     { path: 'doctor-portal', loadChildren: './doctor-portal/doctor-portal.module#DoctorPortalModule' },
-    { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },
+    // { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },
     { path: 'not-found', loadChildren: './not-found/not-found.module#NotFoundModule' },
-    { path: 'registration', loadChildren: './registration/registration.module#RegistrationModule' },
-    { path: 'doctor-registration', loadChildren: './doctor-registration/doctor-registration.module#DoctorRegistrationModule' },
+    { path: 'registration', loadChildren: './registration/registration.module#RegistrationModule', canActivate: [__WEBPACK_IMPORTED_MODULE_2__shared__["c" /* NoAuthGuard */]] },
+    // { path: 'doctor-registration', loadChildren: './doctor-registration/doctor-registration.module#DoctorRegistrationModule' },
     { path: '**', redirectTo: 'not-found' }
 ];
 var AppRoutingModule = (function () {
@@ -253,7 +243,7 @@ AppModule = __decorate([
                 }
             })
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_9__shared__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_10__services__["i" /* PatientService */], __WEBPACK_IMPORTED_MODULE_10__services__["d" /* CurrentUserService */], __WEBPACK_IMPORTED_MODULE_10__services__["g" /* HistoryService */], __WEBPACK_IMPORTED_MODULE_10__services__["c" /* CalendarService */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_9__shared__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_9__shared__["c" /* NoAuthGuard */], __WEBPACK_IMPORTED_MODULE_10__services__["h" /* PatientService */], __WEBPACK_IMPORTED_MODULE_10__services__["i" /* UserService */], __WEBPACK_IMPORTED_MODULE_10__services__["d" /* DoctorService */], __WEBPACK_IMPORTED_MODULE_10__services__["f" /* HistoryService */], __WEBPACK_IMPORTED_MODULE_10__services__["c" /* CalendarService */], __WEBPACK_IMPORTED_MODULE_10__services__["b" /* AuthenticationService */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]]
     })
 ], AppModule);
@@ -274,8 +264,9 @@ AppModule = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/add/operator/toPromise.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__patient_service__ = __webpack_require__("../../../../../src/app/services/patient.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__calendar_service__ = __webpack_require__("../../../../../src/app/services/calendar.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__history_service__ = __webpack_require__("../../../../../src/app/services/history.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__doctor_service__ = __webpack_require__("../../../../../src/app/services/doctor.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__calendar_service__ = __webpack_require__("../../../../../src/app/services/calendar.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__history_service__ = __webpack_require__("../../../../../src/app/services/history.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -292,10 +283,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AppointmentService = (function () {
-    function AppointmentService(http, patientService, calendarService, historyService) {
+    function AppointmentService(http, patientService, doctorService, calendarService, historyService) {
         this.http = http;
         this.patientService = patientService;
+        this.doctorService = doctorService;
         this.calendarService = calendarService;
         this.historyService = historyService;
     }
@@ -348,15 +341,34 @@ var AppointmentService = (function () {
             });
         });
     };
-    AppointmentService.prototype.makeAppointment = function (appointment, calendar, history) {
+    AppointmentService.prototype.makeAppointment = function (appointment, doctor, patient) {
+        // console.log('makeing appointment', appointment, doctor, patient)
         var _this = this;
-        console.log('makeing appointment', appointment, calendar, history);
         return new Promise(function (resolve, reject) {
             _this.http.post('/api/appointment', appointment)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (res) {
-                _this.historyService.updateHistory(history, { $push: { appointments: res.appointment } }).then();
-                _this.calendarService.updateCalendar(calendar, { $push: { appointments: res.appointment } }).then();
+                for (var _i = 0, _a = patient.history; _i < _a.length; _i++) {
+                    var history = _a[_i];
+                    if (history.doctor._id == doctor._id) {
+                        console.log('history found');
+                        _this.historyService.updateHistory(history._id, { $push: { appointments: res.appointment } })
+                            .then(function (data) { console.log('history updated'); });
+                        _this.calendarService.updateCalendar(doctor.calendar._id, { $push: { appointments: res.appointment } })
+                            .then(function (data) { console.log('calendar updated'); });
+                        resolve(res);
+                    }
+                }
+                console.log('history not found');
+                _this.historyService.createHistory({ doctor: doctor, patient: patient, appointments: [res.appointment] })
+                    .then(function (data) {
+                    _this.doctorService.updateDoctor(doctor._id, { $push: { history: data.history } })
+                        .then(function (data2) { console.log('history added doc'); });
+                    _this.patientService.updatePatient(patient._id, { $push: { history: data.history } });
+                })
+                    .then(function (data) { console.log('history added patient'); });
+                _this.calendarService.updateCalendar(doctor.calendar._id, { $push: { appointments: res.appointment } })
+                    .then(function (data) { console.log('calendar updated'); });
                 resolve(res);
             }, function (err) {
                 reject(err);
@@ -390,10 +402,10 @@ var AppointmentService = (function () {
 }());
 AppointmentService = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__patient_service__["a" /* PatientService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__patient_service__["a" /* PatientService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__calendar_service__["a" /* CalendarService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__calendar_service__["a" /* CalendarService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6__history_service__["a" /* HistoryService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__history_service__["a" /* HistoryService */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__patient_service__["a" /* PatientService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__patient_service__["a" /* PatientService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__doctor_service__["a" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__doctor_service__["a" /* DoctorService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6__calendar_service__["a" /* CalendarService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__calendar_service__["a" /* CalendarService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_7__history_service__["a" /* HistoryService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__history_service__["a" /* HistoryService */]) === "function" && _e || Object])
 ], AppointmentService);
 
-var _a, _b, _c, _d;
+var _a, _b, _c, _d, _e;
 //# sourceMappingURL=appointment.service.js.map
 
 /***/ }),
@@ -405,8 +417,13 @@ var _a, _b, _c, _d;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthenticationService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__history_service__ = __webpack_require__("../../../../../src/app/services/history.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user_service__ = __webpack_require__("../../../../../src/app/services/user.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__doctor_service__ = __webpack_require__("../../../../../src/app/services/doctor.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__patient_service__ = __webpack_require__("../../../../../src/app/services/patient.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_map__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -419,12 +436,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
+
+
+
 var AuthenticationService = (function () {
-    function AuthenticationService(http) {
+    function AuthenticationService(http, router, userService, doctorService, patientService, historyService) {
         this.http = http;
+        this.router = router;
+        this.userService = userService;
+        this.doctorService = doctorService;
+        this.patientService = patientService;
+        this.historyService = historyService;
         // set token if saved in local storage
-        var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        this.token = currentUser && currentUser.token;
+        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        this.token = this.currentUser && this.currentUser.token;
     }
     AuthenticationService.prototype.login = function (email, password) {
         var _this = this;
@@ -451,15 +478,54 @@ var AuthenticationService = (function () {
         // clear token remove user from local storage to log user out
         this.token = null;
         localStorage.removeItem('currentUser');
+        this.currentUser = {};
+        this.router.navigate(['/login']);
+    };
+    AuthenticationService.prototype.initUser = function () {
+        var _this = this;
+        console.log("inininb", this.currentUser);
+        return new Promise(function (resolve, reject) {
+            // console.log('init user', this.currentUser)
+            var user = JSON.parse(localStorage.getItem('currentUser'));
+            if (user) {
+                _this.userService.getUserById(user._id).then(function (data) {
+                    _this.currentUser = data;
+                    if (_this.currentUser.patient) {
+                        var _loop_1 = function (i) {
+                            _this.historyService.getHistoryById(_this.currentUser.patient.history[i])
+                                .then(function (res) {
+                                _this.currentUser.patient.history[i] = res;
+                                resolve(_this.currentUser);
+                            });
+                        };
+                        for (var i = 0; i < _this.currentUser.patient.history.length; i++) {
+                            _loop_1(i);
+                        }
+                    }
+                    else if (_this.currentUser.doctor) {
+                        var _loop_2 = function (i) {
+                            _this.historyService.getHistoryById(_this.currentUser.doctor.history[i])
+                                .then(function (res) {
+                                _this.currentUser.doctor.history[i] = res;
+                                resolve(_this.currentUser);
+                            });
+                        };
+                        for (var i = 0; i < _this.currentUser.doctor.history.length; i++) {
+                            _loop_2(i);
+                        }
+                    }
+                });
+            }
+        });
     };
     return AuthenticationService;
 }());
 AuthenticationService = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_6__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__angular_router__["c" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__doctor_service__["a" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__doctor_service__["a" /* DoctorService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_5__patient_service__["a" /* PatientService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__patient_service__["a" /* PatientService */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_2__history_service__["a" /* HistoryService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__history_service__["a" /* HistoryService */]) === "function" && _f || Object])
 ], AuthenticationService);
 
-var _a;
+var _a, _b, _c, _d, _e, _f;
 //# sourceMappingURL=authentication.service.js.map
 
 /***/ }),
@@ -586,83 +652,6 @@ CalendarService = __decorate([
 
 var _a;
 //# sourceMappingURL=calendar.service.js.map
-
-/***/ }),
-
-/***/ "../../../../../src/app/services/current-user.service.ts":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CurrentUserService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__user_service__ = __webpack_require__("../../../../../src/app/services/user.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__history_service__ = __webpack_require__("../../../../../src/app/services/history.service.ts");
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-var CurrentUserService = (function () {
-    function CurrentUserService(userService, historyService) {
-        this.userService = userService;
-        this.historyService = historyService;
-        this.isSet = false;
-        this.currentUser = {};
-    }
-    CurrentUserService.prototype.initUser = function () {
-        var _this = this;
-        console.log('init user', this.currentUser);
-        var user = JSON.parse(localStorage.getItem('currentUser'));
-        if (!this.isSet) {
-            this.userService.getUserById(user._id).then(function (data) {
-                _this.currentUser = data;
-                console.log('current user', _this.currentUser);
-                if (_this.currentUser.patient) {
-                    console.log('is patient');
-                    var _loop_1 = function (i) {
-                        _this.historyService.getHistoryById(_this.currentUser.patient.history[i])
-                            .then(function (res) {
-                            _this.currentUser.patient.history[i] = res;
-                        });
-                    };
-                    for (var i = 0; i < _this.currentUser.patient.history.length; i++) {
-                        _loop_1(i);
-                    }
-                }
-                else if (_this.currentUser.doctor) {
-                    var _loop_2 = function (i) {
-                        _this.historyService.getHistoryById(_this.currentUser.doctor.history[i])
-                            .then(function (res) {
-                            _this.currentUser.doctor.history[i] = res;
-                        });
-                    };
-                    for (var i = 0; i < _this.currentUser.doctor.history.length; i++) {
-                        _loop_2(i);
-                    }
-                }
-                console.log(_this.currentUser);
-                _this.isSet = true;
-                return _this.currentUser;
-            });
-        }
-        return this.currentUser;
-    };
-    return CurrentUserService;
-}());
-CurrentUserService = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__user_service__["a" /* UserService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__history_service__["a" /* HistoryService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__history_service__["a" /* HistoryService */]) === "function" && _b || Object])
-], CurrentUserService);
-
-var _a, _b;
-//# sourceMappingURL=current-user.service.js.map
 
 /***/ }),
 
@@ -984,27 +973,25 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__authentication_service__ = __webpack_require__("../../../../../src/app/services/authentication.service.ts");
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__authentication_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__patient_service__ = __webpack_require__("../../../../../src/app/services/patient.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_1__patient_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_1__patient_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__doctor_service__ = __webpack_require__("../../../../../src/app/services/doctor.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_2__doctor_service__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__current_user_service__ = __webpack_require__("../../../../../src/app/services/current-user.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_3__current_user_service__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__appointment_service__ = __webpack_require__("../../../../../src/app/services/appointment.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_4__appointment_service__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__calendar_service__ = __webpack_require__("../../../../../src/app/services/calendar.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_5__calendar_service__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__health_service__ = __webpack_require__("../../../../../src/app/services/health.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_6__health_service__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__history_service__ = __webpack_require__("../../../../../src/app/services/history.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_7__history_service__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__insurance_service__ = __webpack_require__("../../../../../src/app/services/insurance.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_8__insurance_service__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__user_service__ = __webpack_require__("../../../../../src/app/services/user.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_9__user_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_2__doctor_service__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__appointment_service__ = __webpack_require__("../../../../../src/app/services/appointment.service.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_3__appointment_service__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__calendar_service__ = __webpack_require__("../../../../../src/app/services/calendar.service.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_4__calendar_service__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__health_service__ = __webpack_require__("../../../../../src/app/services/health.service.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_5__health_service__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__history_service__ = __webpack_require__("../../../../../src/app/services/history.service.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_6__history_service__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__insurance_service__ = __webpack_require__("../../../../../src/app/services/insurance.service.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_7__insurance_service__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__user_service__ = __webpack_require__("../../../../../src/app/services/user.service.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_8__user_service__["a"]; });
 
 
 
-
+//export * from './current-user.service';
 
 
 
@@ -1372,7 +1359,7 @@ var Patient = (function () {
 /***/ "../../../../../src/app/shared/components/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"pos-f-t fixed-top header\">\n    <nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\n        <button class=\"navbar-toggler navbar-toggler-right\" (click)=\"toggleSidebar()\">\n            <span class=\"navbar-toggler-icon\"></span>\n        </button>\n        <a class=\"navbar-brand\" href=\"javascript:void(0)\">Smart Health</a>\n        <div class=\"collapse navbar-collapse\">\n            <ul class=\"navbar-nav ml-auto mt-2 mt-md-0\">\n                <li class=\"nav-item dropdown\" ngbDropdown>\n                    <!-- <div class=\"dropdown\"> -->\n                    <a class=\"nav-link\" href=\"javascript:void(0)\" ngbDropdownToggle>\n                        <i class=\"fa fa-envelope\"></i> <b class=\"caret\"></b><span class=\"sr-only\">(current)</span>\n                    </a>\n                    <ul class=\"dropdown-menu dropdown-menu-right messages\">\n                        <li class=\"media\">\n                            <img class=\"d-flex align-self-center mr-3\" src=\"http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg\" alt=\"Generic placeholder image\">\n                            <div class=\"media-body\">\n                                <h5 class=\"mt-0 mb-1\">John Smith</h5>\n                                <p class=\"small text-muted\"><i class=\"fa fa-clock-o\"></i> Yesterday at 4:32 PM</p>\n                                <p class=\"last\"> Lorem ipsum dolor sit amet, consectetur...</p>\n                            </div>\n                        </li>\n                        <li class=\"media\">\n                            <img class=\"d-flex align-self-center mr-3\" src=\"http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg\" alt=\"Generic placeholder image\">\n                            <div class=\"media-body\">\n                                <h5 class=\"mt-0 mb-1\">John Smith</h5>\n                                <p class=\"small text-muted\"><i class=\"fa fa-clock-o\"></i> Yesterday at 4:32 PM</p>\n                                <p class=\"last\"> Lorem ipsum dolor sit amet, consectetur...</p>\n                            </div>\n                        </li>\n                        <li class=\"media\">\n                            <img class=\"d-flex align-self-center mr-3\" src=\"http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg\" alt=\"Generic placeholder image\">\n                            <div class=\"media-body\">\n                                <h5 class=\"mt-0 mb-1\">John Smith</h5>\n                                <p class=\"small text-muted\"><i class=\"fa fa-clock-o\"></i> Yesterday at 4:32 PM</p>\n                                <p class=\"last\"> Lorem ipsum dolor sit amet, consectetur...</p>\n                            </div>\n                        </li>\n                    </ul>\n                </li>\n                <li class=\"nav-item dropdown\" ngbDropdown>\n                    <a href=\"javascript:void(0)\" class=\"nav-link\" ngbDropdownToggle>\n                        <i class=\"fa fa-user\"></i> {{currentUserService.currentUser.firstName}} {{currentUserService.currentUser.lastName}} <b class=\"caret\"></b>\n                    </a>\n                    <div class=\"dropdown-menu dropdown-menu-right\">\n                        <a class=\"dropdown-item\" href=\"javascript:void(0)\"><i class=\"fa fa-fw fa-user\"></i> {{ 'Profile' | translate }}</a>\n                        <a class=\"dropdown-item\" href=\"javascript:void(0)\"><i class=\"fa fa-fw fa-envelope\"></i> {{ 'Inbox' | translate }}</a>\n                        <a class=\"dropdown-item\" href=\"javascript:void(0)\"><i class=\"fa fa-fw fa-gear\"></i> {{ 'Settings' | translate }}</a>\n                        <a class=\"dropdown-item\" [routerLink]=\"['/login']\" (click)=\"onLoggedout()\"><i class=\"fa fa-fw fa-power-off\"></i> {{ 'Log Out' | translate }} </a>\n                    </div>\n                </li>\n            </ul>\n        </div>\n    </nav>\n</div>\n"
+module.exports = "<div class=\"pos-f-t fixed-top header\">\n    <nav class=\"navbar navbar-expand-lg navbar-dark bg-dark\">\n        <button class=\"navbar-toggler navbar-toggler-right\" (click)=\"toggleSidebar()\">\n            <span class=\"navbar-toggler-icon\"></span>\n        </button>\n        <a class=\"navbar-brand\" href=\"javascript:void(0)\">Smart Health</a>\n        <div class=\"collapse navbar-collapse\">\n            <ul class=\"navbar-nav ml-auto mt-2 mt-md-0\">\n                <li class=\"nav-item dropdown\" ngbDropdown>\n                    <!-- <div class=\"dropdown\"> -->\n                    <a class=\"nav-link\" href=\"javascript:void(0)\" ngbDropdownToggle>\n                        <i class=\"fa fa-envelope\"></i> <b class=\"caret\"></b><span class=\"sr-only\">(current)</span>\n                    </a>\n                    <ul class=\"dropdown-menu dropdown-menu-right messages\">\n                        <li class=\"media\">\n                            <img class=\"d-flex align-self-center mr-3\" src=\"http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg\" alt=\"Generic placeholder image\">\n                            <div class=\"media-body\">\n                                <h5 class=\"mt-0 mb-1\">John Smith</h5>\n                                <p class=\"small text-muted\"><i class=\"fa fa-clock-o\"></i> Yesterday at 4:32 PM</p>\n                                <p class=\"last\"> Lorem ipsum dolor sit amet, consectetur...</p>\n                            </div>\n                        </li>\n                        <li class=\"media\">\n                            <img class=\"d-flex align-self-center mr-3\" src=\"http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg\" alt=\"Generic placeholder image\">\n                            <div class=\"media-body\">\n                                <h5 class=\"mt-0 mb-1\">John Smith</h5>\n                                <p class=\"small text-muted\"><i class=\"fa fa-clock-o\"></i> Yesterday at 4:32 PM</p>\n                                <p class=\"last\"> Lorem ipsum dolor sit amet, consectetur...</p>\n                            </div>\n                        </li>\n                        <li class=\"media\">\n                            <img class=\"d-flex align-self-center mr-3\" src=\"http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg\" alt=\"Generic placeholder image\">\n                            <div class=\"media-body\">\n                                <h5 class=\"mt-0 mb-1\">John Smith</h5>\n                                <p class=\"small text-muted\"><i class=\"fa fa-clock-o\"></i> Yesterday at 4:32 PM</p>\n                                <p class=\"last\"> Lorem ipsum dolor sit amet, consectetur...</p>\n                            </div>\n                        </li>\n                    </ul>\n                </li>\n                <li class=\"nav-item\" *ngIf= \"!authService.currentUser\">\n                     <button class=\"btn btn-outline-secondary\" routerLink=\"/login\">Login</button>\n                </li>\n                <li class=\"nav-item dropdown\" ngbDropdown *ngIf= \"authService.currentUser\">\n                    <div ngbDropdown class=\"d-inline-block\">\n                        <button class=\"btn btn-outline-secondary\" id=\"dropdownBasic1\" ngbDropdownToggle>{{authService.currentUser.firstName}} {{authService.currentUser.lastName}}</button>\n                        <div ngbDropdownMenu aria-labelledby=\"dropdownBasic1\">\n                            <button class=\"dropdown-item\" (click)=\"logout()\">Logout</button>\n                        </div>\n                    </div>\n                </li>\n            </ul>\n        </div>\n    </nav>\n</div>\n"
 
 /***/ }),
 
@@ -1402,7 +1389,7 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__ = __webpack_require__("../../../../@ngx-translate/core/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services__ = __webpack_require__("../../../../../src/app/services/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_authentication_service__ = __webpack_require__("../../../../../src/app/services/authentication.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1417,11 +1404,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var HeaderComponent = (function () {
-    function HeaderComponent(translate, router, currentUserService) {
+    function HeaderComponent(translate, router, authService) {
         var _this = this;
         this.translate = translate;
         this.router = router;
-        this.currentUserService = currentUserService;
+        this.authService = authService;
         this.pushRightClass = 'push-right';
         this.router.events.subscribe(function (val) {
             if (val instanceof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* NavigationEnd */] && window.innerWidth <= 992 && _this.isToggled()) {
@@ -1442,8 +1429,10 @@ var HeaderComponent = (function () {
         var dom = document.querySelector('body');
         dom.classList.toggle('rtl');
     };
-    HeaderComponent.prototype.onLoggedout = function () {
-        localStorage.removeItem('isLoggedin');
+    HeaderComponent.prototype.logout = function () {
+        if (this.authService.logout()) {
+            this.router.navigate(['/dashboard']);
+        }
     };
     HeaderComponent.prototype.changeLang = function (language) {
         this.translate.use(language);
@@ -1456,7 +1445,7 @@ HeaderComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/shared/components/header/header.component.html"),
         styles: [__webpack_require__("../../../../../src/app/shared/components/header/header.component.scss")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services__["d" /* CurrentUserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["d" /* CurrentUserService */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services_authentication_service__["a" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_authentication_service__["a" /* AuthenticationService */]) === "function" && _c || Object])
 ], HeaderComponent);
 
 var _a, _b, _c;
@@ -1481,7 +1470,7 @@ var _a, _b, _c;
 /***/ "../../../../../src/app/shared/components/sidebar/sidebar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"sidebar\" [ngClass]=\"{sidebarPushRight: isActive}\">\n    <ul class=\"list-group\">\n        <a routerLink=\"/dashboard\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n            <i class=\"fa fa-fw fa-dashboard\"></i>&nbsp;{{ 'Dashboard' | translate }}\n        </a>\n        <a routerLink=\"/profile\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n            <i class=\"fa fa-fw fa-user\"></i>&nbsp;{{ 'Profile' | translate }}\n        </a>\n    <!--<a [routerLink]=\"['/charts']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n            <i class=\"fa fa-fw fa-bar-chart-o\"></i>&nbsp;{{ 'Charts' | translate }}\n        </a>\n        \n        <div class=\"nested-menu\">\n            <a class=\"list-group-item\" (click)=\"addExpandClass('pages')\">\n                <span><i class=\"fa fa-plus\"></i>&nbsp; {{ 'Menu' | translate }}</span>\n            </a>\n            <li class=\"nested\" [class.expand]=\"showMenu === 'pages'\">\n                <ul class=\"submenu\">\n                    <li>\n                        <a href=\"javascript:void(0)\"><span>{{ 'Submenu' | translate }}</span></a>\n                    </li>\n                    <li>\n                        <a href=\"javascript:void(0)\"><span>{{ 'Submenu' | translate }}</span></a>\n                    </li>\n                    <li>\n                        <a href=\"javascript:void(0)\"><span>{{ 'Submenu' | translate }}</span></a>\n                    </li>\n                </ul>\n            </li>\n        </div>-->\n    </ul>\n</nav>\n"
+module.exports = "<nav class=\"sidebar\" [ngClass]=\"{sidebarPushRight: isActive}\">\n    <ul class=\"list-group\">\n        <a routerLink=\"/dashboard\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n            <i class=\"fa fa-fw fa-dashboard\"></i>&nbsp;{{ 'Dashboard' | translate }}\n        </a>\n        <a *ngIf = \"authService.currentUser\" routerLink=\"/profile\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n            <i class=\"fa fa-fw fa-user\"></i>&nbsp;{{ 'Profile' | translate }}\n        </a>\n    <!--<a [routerLink]=\"['/charts']\" [routerLinkActive]=\"['router-link-active']\" class=\"list-group-item\">\n            <i class=\"fa fa-fw fa-bar-chart-o\"></i>&nbsp;{{ 'Charts' | translate }}\n        </a>\n        \n        <div class=\"nested-menu\">\n            <a class=\"list-group-item\" (click)=\"addExpandClass('pages')\">\n                <span><i class=\"fa fa-plus\"></i>&nbsp; {{ 'Menu' | translate }}</span>\n            </a>\n            <li class=\"nested\" [class.expand]=\"showMenu === 'pages'\">\n                <ul class=\"submenu\">\n                    <li>\n                        <a href=\"javascript:void(0)\"><span>{{ 'Submenu' | translate }}</span></a>\n                    </li>\n                    <li>\n                        <a href=\"javascript:void(0)\"><span>{{ 'Submenu' | translate }}</span></a>\n                    </li>\n                    <li>\n                        <a href=\"javascript:void(0)\"><span>{{ 'Submenu' | translate }}</span></a>\n                    </li>\n                </ul>\n            </li>\n        </div>-->\n    </ul>\n</nav>\n"
 
 /***/ }),
 
@@ -1509,15 +1498,21 @@ module.exports = module.exports.toString();
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SidebarComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_authentication_service__ = __webpack_require__("../../../../../src/app/services/authentication.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
 
 var SidebarComponent = (function () {
-    function SidebarComponent() {
+    function SidebarComponent(authService) {
+        this.authService = authService;
         this.isActive = false;
         this.showMenu = '';
     }
@@ -1539,9 +1534,11 @@ SidebarComponent = __decorate([
         selector: 'app-sidebar',
         template: __webpack_require__("../../../../../src/app/shared/components/sidebar/sidebar.component.html"),
         styles: [__webpack_require__("../../../../../src/app/shared/components/sidebar/sidebar.component.scss")]
-    })
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_authentication_service__["a" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_authentication_service__["a" /* AuthenticationService */]) === "function" && _a || Object])
 ], SidebarComponent);
 
+var _a;
 //# sourceMappingURL=sidebar.component.js.map
 
 /***/ }),
@@ -1569,10 +1566,10 @@ var AuthGuard = (function () {
         this.router = router;
     }
     AuthGuard.prototype.canActivate = function () {
-        if (localStorage.getItem('isLoggedin')) {
+        if (localStorage.getItem('currentUser')) {
             return true;
         }
-        this.router.navigate(['/login']);
+        this.router.navigate(['/dashboard']);
         return false;
     };
     return AuthGuard;
@@ -1587,6 +1584,47 @@ var _a;
 
 /***/ }),
 
+/***/ "../../../../../src/app/shared/guard/no-auth.guard.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NoAuthGuard; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var NoAuthGuard = (function () {
+    function NoAuthGuard(router) {
+        this.router = router;
+    }
+    NoAuthGuard.prototype.canActivate = function () {
+        if (localStorage.getItem('currentUser')) {
+            this.router.navigate(['/profile']);
+            return false;
+        }
+        return true;
+    };
+    return NoAuthGuard;
+}());
+NoAuthGuard = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object])
+], NoAuthGuard);
+
+var _a;
+//# sourceMappingURL=no-auth.guard.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/shared/index.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1595,13 +1633,16 @@ var _a;
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components__ = __webpack_require__("../../../../../src/app/shared/components/index.ts");
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__components__["a"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_1__components__["b"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_1__components__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules__ = __webpack_require__("../../../../../src/app/shared/modules/index.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_2__modules__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_2__modules__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__classes__ = __webpack_require__("../../../../../src/app/shared/classes/index.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_3__classes__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_3__classes__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__guard_auth_guard__ = __webpack_require__("../../../../../src/app/shared/guard/auth.guard.ts");
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_4__guard_auth_guard__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__guard_no_auth_guard__ = __webpack_require__("../../../../../src/app/shared/guard/no-auth.guard.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_5__guard_no_auth_guard__["a"]; });
+
 
 
 

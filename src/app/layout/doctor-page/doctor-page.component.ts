@@ -3,9 +3,9 @@ import { routerTransition } from '../../router.animations';
 import { CalendarEvent } from 'angular-calendar';
 import { EventColor} from 'calendar-utils';
 import { ActivatedRoute } from '@angular/router';
-import { DoctorService, CalendarService, AppointmentService, CurrentUserService } from '../../services';
+import { DoctorService, CalendarService, AppointmentService, AuthenticationService } from '../../services';
 import { Doctor } from '../../../../server/models/classes/doctor';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbModalRef, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { getMonth, startOfMonth, startOfWeek, startOfDay, endOfMonth, endOfWeek, endOfDay, addHours} from 'date-fns';
 import RRule from 'rrule';
 
@@ -40,6 +40,8 @@ export class DoctorPageComponent implements OnInit {
   private sub: any;
   public doctor: any = { location: {} };
   public clickedEvent: CalendarEvent;
+  private modalRef: NgbModalRef;
+  
 
   id: number;
   view = 'month';
@@ -73,22 +75,22 @@ export class DoctorPageComponent implements OnInit {
                 private doctorService: DoctorService,
                 private calendarService: CalendarService,
                 private appointmentService: AppointmentService,
-                private currentUserService: CurrentUserService,
+                private authService: AuthenticationService,
                 private modalService: NgbModal) { }
 
 
   ngOnInit() {
 
-    this.currentUserService.initUser();
+    this.authService.initUser();
 
     this.later.setHours(this.viewDate.getHours() + 2);
 
     this.sub = this.route.params.subscribe(params => {
       this.id = params['id'];
-      console.log(this.id)
+     // console.log(this.id)
       this.doctorService.getDoctorById(this.id).then((data: any) => {
                                             this.doctor = data;
-                                            console.log("before pop ", this.doctor);
+                                         //   console.log("before pop ", this.doctor);
                                             this.calendarService.getCalendarById(this.doctor.calendar).then( (data2: any) => {
                                               this.doctor.calendar =  data2;
                                               for (let slot of this.doctor.calendar.slots) {
@@ -120,7 +122,8 @@ export class DoctorPageComponent implements OnInit {
 
     this.clickedEvent = event.event;
 
-    this.modalService.open(content).result.then((result) => {
+    this.modalRef = this.modalService.open(content);
+    this.modalRef.result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -133,7 +136,7 @@ export class DoctorPageComponent implements OnInit {
     console.log("req event", event);
 
     let appointment = { date: event.start,
-                        patient: this.currentUserService.currentUser.patient._id,
+                        patient: this.authService.currentUser.patient._id,
                         doctor: this.doctor._id,
                         timeIn: event.start,
                         timeOut: event.end,
@@ -142,8 +145,12 @@ export class DoctorPageComponent implements OnInit {
                       }
     console.log('requested', appointment);
     this.appointmentService.makeAppointment(appointment,
-                                            this.doctor.calendar._id,
-                                            this.currentUserService.currentUser.patient.history[0]._id).then();
+                                            this.doctor,
+                                            this.authService.currentUser.patient)
+                                              .then((data) => {
+                                                                this.updateCalendarEvents();
+                                                                this.modalRef.close();
+                                                              });
 
   }
 
@@ -158,8 +165,43 @@ export class DoctorPageComponent implements OnInit {
   }
 
   updateCalendarEvents(): void {
-    
+
+
     this.events = [];
+
+    const removeAppointments = ( ) => {
+      this.events =  this.events.filter(slot => {
+
+        for (let current of this.currentAppointments)
+        {
+          if (current.procedure._id == slot.procedure._id && !current.isPending) {
+            let d1 = new Date(current.date);
+            let d2 = slot.start
+
+            if (d1.getTime() == d2.getTime()) {
+              console.log("removing", current);
+              return false;
+            }
+          }
+          return true;
+        }
+      });
+    }
+
+    const promise = new Promise((resolve, reject) => {
+
+      if (this.generateEvents()) {
+        resolve(true);
+      } else {
+        reject();
+      }
+    });
+
+    promise.then((data) => {removeAppointments()});
+
+  }
+
+  public generateEvents () {
 
     const startOfPeriod: any = {
       month: startOfMonth,
@@ -174,8 +216,6 @@ export class DoctorPageComponent implements OnInit {
     };
 
     this.recurringEvents.forEach(event => {
-
-    console.log('start fo each')
       const rule: RRule = new RRule(
         Object.assign({}, event.rrule, {
           dtstart: startOfPeriod[this.view](this.viewDate),
@@ -191,20 +231,9 @@ export class DoctorPageComponent implements OnInit {
           })
         );
       });
-
     });
 
-    console.log('pre-removal', this.events)
-
-    this.events =  this.events.filter(slot => {
-      for (let current of this.currentAppointments)
-      {
-        console.log("slot", slot, "current", current)
-        if (current.procedure._id == slot.procedure._id  && current.start == slot.procedure.start) {
-          return false;
-        }
-      }
-      return true;
-    });
+    return true;
   }
+
 }

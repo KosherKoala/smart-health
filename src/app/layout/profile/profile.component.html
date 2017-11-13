@@ -4,55 +4,55 @@
       <div class="card m-auto">
         <img class="card-img-top" src="http://via.placeholder.com/350x350" alt="Card image cap">
         <div class="card-body p-0">
-            <ul class="list-group">
-                <li class="list-group-item" *ngIf="currentUserService.currentUser.patient">
-                  <div class="card" *ngIf="currentUserService.currentUser.patient.insurance">
-                    <div class="card-header p-1" (click)="collapseInsurance = !collapseInsurance" [attr.aria-expanded]="!collapseInsurance" aria-controls="collapseExample">
-                      Insurance
-                    </div>
-                    <div class="card-body p-1" id="collapseExample" [ngbCollapse]="!collapseInsurance">
-                      <p>{{currentUserService.currentUser.patient.insurance.name}}</p>
-                      <p>ID#: {{currentUserService.currentUser.patient.insurance.insuranceId}}</p>
-                    </div>
+          <ul class="list-group">
+              <li class="list-group-item" *ngIf="authService.currentUser.patient">
+                <div class="card" *ngIf="authService.currentUser.patient.insurance">
+                  <div class="card-header p-1" (click)="collapseInsurance = !collapseInsurance" [attr.aria-expanded]="!collapseInsurance" aria-controls="collapseExample">
+                    Insurance
                   </div>
-                </li>
-                <li class="list-group-item">
-                  <div *ngIf="currentUserService.currentUser.patient">
-                    <div class="card" *ngIf="currentUserService.currentUser.patient.history">
-                      <div class="card-header p-1" (click)="collapseHistories = !collapseHistories" [attr.aria-expanded]="!collapseHistories" aria-controls="collapseExample">
-                        Doctor Histories
-                      </div>
-                      <div class="card-body p-1" id="collapseExample" [ngbCollapse]="!collapseHistories">
-                        <ul class="list-group" *ngIf="currentUserService.currentUser.patient.history">
-                            <li class="list-group-item" *ngFor="let history of currentUserService.currentUser.patient.history">
-                              <div class="d-flex flex-row" *ngIf = "history.doctor != null ">
-                                <div *ngIf = "history.doctor._id != null">Dr {{history.doctor.firstName}} {{history.doctor.lastName}}</div>
-                                <div class="fa fa-download ml-auto" (click)="createHistory(history)"></div>
-                              </div>
-                            </li>
-                        </ul>
-                      </div>
-                    </div>
+                  <div class="card-body p-1" id="collapseExample" [ngbCollapse]="!collapseInsurance">
+                    <p>{{authService.currentUser.patient.insurance.name}}</p>
+                    <p>ID#: {{authService.currentUser.patient.insurance.insuranceId}}</p>
                   </div>
-                  <div *ngIf="currentUserService.currentUser.doctor">
-                    <div class="card" *ngIf="currentUserService.currentUser.doctor.history">
-                      <div class="card-header p-1" (click)="collapseHistories = !collapseHistories" [attr.aria-expanded]="!collapseHistories" aria-controls="collapseExample">
-                        Patient Histories
-                      </div>
-                      <div class="card-body p-1" id="collapseExample" [ngbCollapse]="!collapseHistories">
-                        <ul class="list-group" *ngIf="currentUserService.currentUser.doctor.history">
-                          <li class="list-group-item" *ngFor="let history of currentUserService.currentUser.doctor.history">
-                            <div class="d-flex flex-row" *ngIf = "history.patient != null ">
-                              <div *ngIf = "history.patient._id != null">{{history.patient.firstName}} {{history.patient.lastName}}</div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div *ngIf="authService.currentUser.patient">
+                  <div class="card" *ngIf="authService.currentUser.patient.history">
+                    <div class="card-header p-1" (click)="collapseHistories = !collapseHistories" [attr.aria-expanded]="!collapseHistories" aria-controls="collapseExample">
+                      Doctor Histories
+                    </div>
+                    <div class="card-body p-1" id="collapseExample" [ngbCollapse]="!collapseHistories">
+                      <ul class="list-group" *ngIf="authService.currentUser.patient.history">
+                          <li class="list-group-item" *ngFor="let history of authService.currentUser.patient.history">
+                            <div class="d-flex flex-row" *ngIf = "history.doctor != null ">
+                              <div *ngIf = "history.doctor._id != null">Dr {{history.doctor.firstName}} {{history.doctor.lastName}}</div>
                               <div class="fa fa-download ml-auto" (click)="createHistory(history)"></div>
                             </div>
                           </li>
-                        </ul>
-                      </div>
+                      </ul>
                     </div>
                   </div>
-                </li>
-            </ul>
+                </div>
+                <div *ngIf="authService.currentUser.doctor">
+                  <div class="card" *ngIf="authService.currentUser.doctor.history">
+                    <div class="card-header p-1" (click)="collapseHistories = !collapseHistories" [attr.aria-expanded]="!collapseHistories" aria-controls="collapseExample">
+                      Patient Histories
+                    </div>
+                    <div class="card-body p-1" id="collapseExample" [ngbCollapse]="!collapseHistories">
+                      <ul class="list-group" *ngIf="authService.currentUser.doctor.history">
+                        <li class="list-group-item" *ngFor="let history of authService.currentUser.doctor.history">
+                          <div class="d-flex flex-row" *ngIf = "history.patient != null ">
+                            <div *ngIf = "history.patient._id != null">{{history.patient.firstName}} {{history.patient.lastName}}</div>
+                            <div class="fa fa-download ml-auto" (click)="createHistory(history)"></div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -60,132 +60,65 @@
       <div class="row">
         <div class="col-8">
           <h4>
-            {{currentUserService.currentUser.firstName}} {{currentUserService.currentUser.lastName}}
+            {{authService.currentUser.firstName}} {{authService.currentUser.lastName}}
           </h4>
           <hr class="thick">
+        <!--Tabs-->
           <ngb-tabset>
-              <ngb-tab title="Upcoming Appointments">
-                <ng-template ngbTabContent>
-                  <div class="card m-auto" id="appointment-card">
-                    <div class="card-body p-0">
-                        <ul class="list-group">
-                            <li class="list-group-item" *ngFor="let appt of appointments">
-                              <div class="d-flex">
-                                <div class="d-flex flex-column">
-                                  <div>
-                                    <h4>Tooth Pull</h4>
-                                  </div>
-                                  <div>
-                                      2:00pm-4:00pm
-                                  </div>
-                                  <div class="d-flex pt-2">
-                                      <button class="btn btn-danger btn-sm">Cancel</button>
-                                  </div>
+            <ngb-tab title="Upcoming Appointments">
+              <ng-template ngbTabContent>
+                <div class="card m-auto" id="appointment-card">
+                  <div class="card-body p-0">
+                      <ul class="list-group">
+                          <li class="list-group-item" *ngFor="let appt of appointments">
+                            <div class="d-flex">
+                              <div class="d-flex flex-column">
+                                <div>
+                                  <h4>{{appt.procedure.name}}</h4>
                                 </div>
-                                <div class="d-flex flex-column ml-auto">
-                                  <div class="d-flex">
-                                      <div>Dr. Worshall</div>
-                                  </div>
-                                  <div>
-                                      1223 Crossroad Lane,<br>
-                                      Orlando FL, 234234
-                                  </div>
-                                  <div class="d-flex">
-                                    <h5> <div class="badge badge-pill badge-primary"><i class="fa fa-phone pr-2"></i>407-455-3455</div> </h5>
-                                    <h5> <div class="badge badge-pill badge-primary"><i class="fa fa-envelope pr-2"></i>strudel@toster.com</div> </h5>
-                                  </div>
+                                <div>
+                                  {{appt.timeIn | date: 'fullDate'}}
+                                </div>
+                                <div>
+                                  Start: {{appt.timeIn | date: 'shortTime'}}
+                                </div>
+                                <div>
+                                  End: {{appt.timeOut | date: 'shortTime'}}
+                                </div>
+                                <div class="d-flex pt-2">
+                                    <h5 *ngIf="appt.isPending && this.authService.currentUser.patient"> <div class="badge badge-pill badge-success">Awaiting Approval</div> </h5>
+                                    <h5 *ngIf="appt.isPending && this.authService.currentUser.doctor"> <div class="badge badge-pill badge-success">Accept</div> </h5>
+                                    <h5 *ngIf="appt.isPending && this.authService.currentUser.doctor"> <div class="badge badge-pill badge-danger">Deny</div> </h5>
+                                    <h5><div class="badge badge-pill badge-danger">Cancel</div></h5>
                                 </div>
                               </div>
-                            </li>
-                        </ul>
-                    </div>
+                              <div class="d-flex flex-column ml-auto">
+                                <div *ngIf = "this.authService.currentUser.patient">
+                                  Dr {{appt.doctor.firstName}} {{appt.doctor.lastName}}
+                                </div>
+                                <div *ngIf = "this.authService.currentUser.patient">
+                                    {{appt.doctor.location.line_1}}, {{appt.doctor.location.line_2}}<br>
+                                    {{appt.doctor.location.city}} {{appt.doctor.location.state}}, {{appt.doctor.location.zip}},
+                                </div>
+                                <div *ngIf = "this.authService.currentUser.doctor">
+                                    {{appt.patient.firstName}} {{appt.patient.lastName}}
+                                </div>
+                                <div class="d-flex">
+                                  <h5> <div class="badge badge-pill badge-primary"><i class="fa fa-phone pr-2"></i>407-455-3455</div> </h5>
+                                  <h5> <div class="badge badge-pill badge-primary"><i class="fa fa-envelope pr-2"></i>strudel@toster.com</div> </h5>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                      </ul>
                   </div>
-                </ng-template>
-              </ngb-tab>
-              <ngb-tab title="User Info" *ngIf="currentUserService.currentUser.patient">
-                <ng-template ngbTabContent>
-                  <form>
-                    <div class="row">
-                        <div class="col-2">
-                          User Info:
-                        </div>
-                        <div class="col">
-                          <hr class="thick">
-                        </div>
-                      </div>
-                    <div class="form-group row">
-                        <label for="staticEmail" class="col-sm-2 col-form-label">First</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" id="staticEmail" value="{{currentUserService.currentUser.firstName}}">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="staticEmail" class="col-sm-2 col-form-label">Last</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" id="staticEmail" value="{{currentUserService.currentUser.lastName}}">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
-                      <div class="col-sm-10">
-                        <input type="text" class="form-control" id="staticEmail" value="{{currentUserService.currentUser.email}}">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-2">
-                        Health:
-                      </div>
-                      <div class="col">
-                        <hr class="thick">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="inputHeight" class="col-sm-2 col-form-label">Height:</label>
-                      <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputHeight" value="{{currentUserService.currentUser.patient.health.height}}">
-                      </div>
-                      <label for="inputWeight" class="col-sm-2 col-form-label">Weight:</label>
-                      <div class="col-sm-4">
-                        <input type="text" class="form-control" id="inputWeight" value="{{currentUserService.currentUser.patient.health.weight}}">
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="inputHeight" class="col-sm-2 col-form-label">Medication:</label>
-                      <div class="col-sm-10">
-                        <div class="d-flex flex-row">
-                          <div class="badge badge-pill badge-primary p-auto"  *ngFor="let med of currentUserService.currentUser.patient.health.medication">
-                            {{med}}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="inputHeight" class="col-sm-2 col-form-label">Allergies:</label>
-                      <div class="col-sm-10">
-                        <div class="d-flex flex-row">
-                          <div class="badge badge-pill badge-primary p-auto"  *ngFor="let al of currentUserService.currentUser.patient.health.allergies">
-                            {{al}}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="inputHeight" class="col-sm-2 col-form-label">Conditions:</label>
-                      <div class="col-sm-10">
-                        <div class="d-flex flex-row">
-                          <div class="badge badge-pill badge-primary p-auto"  *ngFor="let con of currentUserService.currentUser.patient.health.conditions">
-                            {{con}}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </ng-template>
-              </ngb-tab>
-              <ngb-tab title="User Info" *ngIf="currentUserService.currentUser.doctor">
-                <ng-template ngbTabContent>
-                  <form>
-                    <div class="row">
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="User Info" *ngIf="authService.currentUser.patient">
+              <ng-template ngbTabContent>
+                <form>
+                  <div class="row">
                       <div class="col-2">
                         User Info:
                       </div>
@@ -193,181 +126,261 @@
                         <hr class="thick">
                       </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="firstName" class="col-sm-2 col-form-label">First</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" id="firstName" value="{{currentUserService.currentUser.firstName}}">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="lastName" class="col-sm-2 col-form-label">Last</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" id="lastName" value="{{currentUserService.currentUser.lastName}}">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="email" class="col-sm-2 col-form-label">Email</label>
+                  <div class="form-group row">
+                      <label for="staticEmail" class="col-sm-2 col-form-label">First</label>
                       <div class="col-sm-10">
-                        <input type="text" class="form-control" id="email" value="{{currentUserService.currentUser.email}}">
+                        <input type="text" class="form-control" id="staticEmail" value="{{authService.currentUser.firstName}}">
                       </div>
+                  </div>
+                  <div class="form-group row">
+                      <label for="staticEmail" class="col-sm-2 col-form-label">Last</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="staticEmail" value="{{authService.currentUser.lastName}}">
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="staticEmail" value="{{authService.currentUser.email}}">
                     </div>
-                    <div class="row">
-                      <div class="col-2">
-                        Paractice:
-                      </div>
-                      <div class="col">
-                        <hr class="thick">
-                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-2">
+                      Health:
                     </div>
-                    <div class="form-group row">
-                        <label for="specialty" class="col-sm-2 col-form-label">Specialty</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" id="specialty" value="{{currentUserService.currentUser.doctor.specialty}}">
+                    <div class="col">
+                      <hr class="thick">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputHeight" class="col-sm-2 col-form-label">Height:</label>
+                    <div class="col-sm-4">
+                      <input type="text" class="form-control" id="inputHeight" value="{{authService.currentUser.patient.health.height}}">
+                    </div>
+                    <label for="inputWeight" class="col-sm-2 col-form-label">Weight:</label>
+                    <div class="col-sm-4">
+                      <input type="text" class="form-control" id="inputWeight" value="{{authService.currentUser.patient.health.weight}}">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputHeight" class="col-sm-2 col-form-label">Medication:</label>
+                    <div class="col-sm-10">
+                      <div class="d-flex flex-row">
+                        <div class="badge badge-pill badge-primary p-auto"  *ngFor="let med of authService.currentUser.patient.health.medication">
+                          {{med}}
                         </div>
                       </div>
-                    <div class="form-group row">
-                      <label for="address" class="col-sm-2 col-form-label">Address</label>
-                      <div class="col-sm-10">
-                        <input type="text" class="form-control" id="address" value="{{currentUserService.currentUser.doctor.location.line_1}}" placeholder="Line 1">
-                        <input type="text" class="form-control" id="address" value="{{currentUserService.currentUser.doctor.location.line_2}}" placeholder="Line 2">
-                        <input type="text" class="form-control" id="address" value="{{currentUserService.currentUser.doctor.location.city}}" placeholder="City">
-                        <input type="text" class="form-control" id="address" value="{{currentUserService.currentUser.doctor.location.state}}" placeholder="State">
-                        <input type="text" class="form-control" id="address" value="{{currentUserService.currentUser.doctor.location.zip}}" placeholder="Zip">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputHeight" class="col-sm-2 col-form-label">Allergies:</label>
+                    <div class="col-sm-10">
+                      <div class="d-flex flex-row">
+                        <div class="badge badge-pill badge-primary p-auto"  *ngFor="let al of authService.currentUser.patient.health.allergies">
+                          {{al}}
+                        </div>
                       </div>
                     </div>
-                  </form>
-                </ng-template>
-              </ngb-tab>
-              <ngb-tab title="Scheduler">
-                <ng-template ngbTabContent>
-                  <div id="input">
-                    <h2>Create Slot Pattern <button (click)="print()">Print Rrule</button></h2>
-                    <div id="input-types">
-                      <section id="options-input">
-                        <h5>Options</h5>
-                        <form #f="ngForm">
-                          <table>
-                            <tbody>
-                              <tr>
-                                  <th>
-                                      <div class="option-name">
-                                          <div class="help">Frequency</div>
-                                      </div>
-                                  </th>
-                                  <td>
-                                    <label><input name="freq" type="radio" [value]="0" [(ngModel)]="ruleModel.freq" (ngModelChange)="updateRrule()"  #yearly ="ngModel" />Yearly</label>
-                                    <label><input name="freq" type="radio" value="1" [(ngModel)]="ruleModel.freq" (ngModelChange)="updateRrule()"  #monthly ="ngModel" />Monthly</label>
-                                    <label><input name="freq" type="radio" value="2" [(ngModel)]="ruleModel.freq" (ngModelChange)="updateRrule()"  #weekly ="ngModel"  />Weekly</label>
-                                    <label><input name="freq" type="radio" value="3" [(ngModel)]="ruleModel.freq" (ngModelChange)="updateRrule()"  #daily ="ngModel"/>Daily</label>
-                                    <label><input name="freq" type="radio" value="4" [(ngModel)]="ruleModel.freq" (ngModelChange)="updateRrule()"  #hourly ="ngModel"/>Hourly</label>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <th>
-                                      <div class="option-name">
-                                          <div class="help">
-                                            Start Date
-                                          </div>
-                                      </div>
-                                  </th>
-                                  <td>
-                                    <div class="form-group">
-                                      <div class="input-group">
-                                        <input class="form-control" placeholder="yyyy-mm-dd"
-                                                name="dp" [(ngModel)]="ruleModel.dtstart" (ngModelChange)="updateRrule()" ngbDatepicker #d="ngbDatepicker">
-                                        <button class="input-group-addon" (click)="d.toggle()" type="button">
-                                          <img src="img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
-                                        </button>
-                                      </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputHeight" class="col-sm-2 col-form-label">Conditions:</label>
+                    <div class="col-sm-10">
+                      <div class="d-flex flex-row">
+                        <div class="badge badge-pill badge-primary p-auto"  *ngFor="let con of authService.currentUser.patient.health.conditions">
+                          {{con}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="User Info" *ngIf="authService.currentUser.doctor">
+              <ng-template ngbTabContent>
+                <form>
+                  <div class="row">
+                    <div class="col-2">
+                      User Info:
+                    </div>
+                    <div class="col">
+                      <hr class="thick">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                      <label for="firstName" class="col-sm-2 col-form-label">First</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="firstName" value="{{authService.currentUser.firstName}}">
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                      <label for="lastName" class="col-sm-2 col-form-label">Last</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="lastName" value="{{authService.currentUser.lastName}}">
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="email" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="email" value="{{authService.currentUser.email}}">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-2">
+                      Paractice:
+                    </div>
+                    <div class="col">
+                      <hr class="thick">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                      <label for="specialty" class="col-sm-2 col-form-label">Specialty</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="specialty" value="{{authService.currentUser.doctor.specialty}}">
+                      </div>
+                    </div>
+                  <div class="form-group row">
+                    <label for="address" class="col-sm-2 col-form-label">Address</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="address" value="{{authService.currentUser.doctor.location.line_1}}" placeholder="Line 1">
+                      <input type="text" class="form-control" id="address" value="{{authService.currentUser.doctor.location.line_2}}" placeholder="Line 2">
+                      <input type="text" class="form-control" id="address" value="{{authService.currentUser.doctor.location.city}}" placeholder="City">
+                      <input type="text" class="form-control" id="address" value="{{authService.currentUser.doctor.location.state}}" placeholder="State">
+                      <input type="text" class="form-control" id="address" value="{{authService.currentUser.doctor.location.zip}}" placeholder="Zip">
+                    </div>
+                  </div>
+                </form>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Scheduler" *ngIf="authService.currentUser.doctor">
+              <ng-template ngbTabContent>
+                <div id="input">
+                  <h2>Create Slot Pattern <button (click)="print()">Print Rrule</button></h2>
+                  <div id="input-types">
+                    <section id="options-input">
+                      <h5>Options</h5>
+                      <form #f="ngForm">
+                        <table>
+                          <tbody>
+                            <tr>
+                                <th>
+                                    <div class="option-name">
+                                        <div class="help">Frequency</div>
                                     </div>
-                                  </td>
-                              </tr>
-                              <tr>
+                                </th>
+                                <td>
+                                  <label><input name="freq" type="radio" [value]="0" [(ngModel)]="ruleModel.freq" (ngModelChange)="updateRrule()"  #yearly ="ngModel" />Yearly</label>
+                                  <label><input name="freq" type="radio" value="1" [(ngModel)]="ruleModel.freq" (ngModelChange)="updateRrule()"  #monthly ="ngModel" />Monthly</label>
+                                  <label><input name="freq" type="radio" value="2" [(ngModel)]="ruleModel.freq" (ngModelChange)="updateRrule()"  #weekly ="ngModel"  />Weekly</label>
+                                  <label><input name="freq" type="radio" value="3" [(ngModel)]="ruleModel.freq" (ngModelChange)="updateRrule()"  #daily ="ngModel"/>Daily</label>
+                                  <label><input name="freq" type="radio" value="4" [(ngModel)]="ruleModel.freq" (ngModelChange)="updateRrule()"  #hourly ="ngModel"/>Hourly</label>
+                                </td>
+                            </tr>
+                            <tr>
                                 <th>
                                     <div class="option-name">
                                         <div class="help">
-                                          End Date
+                                          Start Date
                                         </div>
                                     </div>
                                 </th>
                                 <td>
-                                  <input type="datetime-local" name="until"/>
+                                  <div class="form-group">
+                                    <div class="input-group">
+                                      <input class="form-control" placeholder="yyyy-mm-dd"
+                                              name="dp" [(ngModel)]="ruleModel.dtstart" (ngModelChange)="updateRrule()" ngbDatepicker #d="ngbDatepicker">
+                                      <button class="input-group-addon" (click)="d.toggle()" type="button">
+                                        <img src="img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
+                                      </button>
+                                    </div>
+                                  </div>
                                 </td>
-                              </tr>
-                              <tr>
-                                  <th>
-                                      <div class="option-name">
-                      
-                                          <div class="help">
-                                            Number of Slots
-                                          </div>
+                            </tr>
+                            <tr>
+                              <th>
+                                  <div class="option-name">
+                                      <div class="help">
+                                        End Date
                                       </div>
-                                  </th>
-                                  <td>
-                                    <input type="number" max="1000" min="1" value="30" name="count"/>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <th>
-                                      <div class="option-name">
-                      
-                                          <div class="help">
-                                            Interval
-                                          </div>
-                                      </div>
-                                  </th>
-                                  <td><input type="number" value="1" min="1" name="interval"/></td>
-                              </tr>
-                              <tr>
-                                  <th>
-                                      <div class="option-name">
-                                          <div class="help">
-                                            Slot Days
-                                          </div>
-                                      </div>
-                                  </th>
-                                  <td>
-                                      <label><input type="checkbox" name="byweekday" value="0">Mondays</label>
-                                      <label><input type="checkbox" name="byweekday" value="1">Tuesdays</label>
-                                      <label><input type="checkbox" name="byweekday" value="2">Wednesdays</label>
-                                      <label><input type="checkbox" name="byweekday" value="3">thursdays</label>
-                                      <label><input type="checkbox" name="byweekday" value="4">Fridays</label>
-                                      <label><input type="checkbox" name="byweekday" value="5">Saturdays</label>
-                                      <label><input type="checkbox" name="byweekday" value="6">Sundays</label>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <th>
-                                      <div class="option-name">
-                      
-                                          <div class="help">
-                                            Slot Months
-                                          </div>
-                                      </div>
-                                  </th>
-                                  <td>
-                                      <label><input name="bymonth" type="checkbox" value="1"/> Jan</label>
-                                      <label><input name="bymonth" type="checkbox" value="2"/> Feb</label>
-                                      <label><input name="bymonth" type="checkbox" value="3"/> Mar</label>
-                                      <label><input name="bymonth" type="checkbox" value="4"/> Apr</label>
-                                      <label><input name="bymonth" type="checkbox" value="5"/> May</label>
-                                      <label><input name="bymonth" type="checkbox" value="6"/> Jun</label>
-                                      <label><input name="bymonth" type="checkbox" value="7"/> Jul</label>
-                                      <label><input name="bymonth" type="checkbox" value="8"/> Aug</label>
-                                      <label><input name="bymonth" type="checkbox" value="9"/> Sep</label>
-                                      <label><input name="bymonth" type="checkbox" value="10"/> Oct</label>
-                                      <label><input name="bymonth" type="checkbox" value="11"/> Nov</label>
-                                      <label><input name="bymonth" type="checkbox" value="12"/> Dec</label>
-                                  </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </form>
-                      </section>
-                    </div>
+                                  </div>
+                              </th>
+                              <td>
+                                <input type="datetime-local" name="until"/>
+                              </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="option-name">
+                    
+                                        <div class="help">
+                                          Number of Slots
+                                        </div>
+                                    </div>
+                                </th>
+                                <td>
+                                  <input type="number" max="1000" min="1" value="30" name="count"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="option-name">
+                    
+                                        <div class="help">
+                                          Interval
+                                        </div>
+                                    </div>
+                                </th>
+                                <td><input type="number" value="1" min="1" name="interval"/></td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="option-name">
+                                        <div class="help">
+                                          Slot Days
+                                        </div>
+                                    </div>
+                                </th>
+                                <td>
+                                    <label><input type="checkbox" name="byweekday" value="0">Mondays</label>
+                                    <label><input type="checkbox" name="byweekday" value="1">Tuesdays</label>
+                                    <label><input type="checkbox" name="byweekday" value="2">Wednesdays</label>
+                                    <label><input type="checkbox" name="byweekday" value="3">thursdays</label>
+                                    <label><input type="checkbox" name="byweekday" value="4">Fridays</label>
+                                    <label><input type="checkbox" name="byweekday" value="5">Saturdays</label>
+                                    <label><input type="checkbox" name="byweekday" value="6">Sundays</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="option-name">
+                    
+                                        <div class="help">
+                                          Slot Months
+                                        </div>
+                                    </div>
+                                </th>
+                                <td>
+                                    <label><input name="bymonth" type="checkbox" value="1"/> Jan</label>
+                                    <label><input name="bymonth" type="checkbox" value="2"/> Feb</label>
+                                    <label><input name="bymonth" type="checkbox" value="3"/> Mar</label>
+                                    <label><input name="bymonth" type="checkbox" value="4"/> Apr</label>
+                                    <label><input name="bymonth" type="checkbox" value="5"/> May</label>
+                                    <label><input name="bymonth" type="checkbox" value="6"/> Jun</label>
+                                    <label><input name="bymonth" type="checkbox" value="7"/> Jul</label>
+                                    <label><input name="bymonth" type="checkbox" value="8"/> Aug</label>
+                                    <label><input name="bymonth" type="checkbox" value="9"/> Sep</label>
+                                    <label><input name="bymonth" type="checkbox" value="10"/> Oct</label>
+                                    <label><input name="bymonth" type="checkbox" value="11"/> Nov</label>
+                                    <label><input name="bymonth" type="checkbox" value="12"/> Dec</label>
+                                </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </form>
+                    </section>
                   </div>
-                </ng-template>
-              </ngb-tab>
+                </div>
+              </ng-template>
+            </ngb-tab>
              
           
           
@@ -391,12 +404,12 @@
               </ngb-tabset>
         </div>
         <div class="col-4">
-          <div id="myDoctors" *ngIf="currentUserService.currentUser.patient">
+          <div id="myDoctors" *ngIf="authService.currentUser.patient">
             <h4>My Doctors</h4>
             <div class="card">
               <div class="card-body p-1">
                 <ul class="list-group">
-                    <li class="list-group-item p-0" *ngFor="let history of currentUserService.currentUser.patient.history">
+                    <li class="list-group-item p-0" *ngFor="let history of authService.currentUser.patient.history">
                       <div *ngIf = "history.doctor != null ">
                         <app-stat *ngIf = "history.doctor._id != null " [routerLink]= "['/doctor/'+ history.doctor._id]" [icon]="'http://via.placeholder.com/100x100'" [showAddress]="false" [firstName]="history.doctor.firstName" [lastName]="history.doctor.lastName" [specialty]= "history.doctor.specialty" [address]="history.doctor.location"></app-stat>
                       </div>
@@ -405,12 +418,12 @@
               </div>
             </div>
           </div>
-          <div id="myDoctors" *ngIf="currentUserService.currentUser.doctor">
+          <div id="myDoctors" *ngIf="authService.currentUser.doctor">
               <h4>My Patients</h4>
               <div class="card">
                 <div class="card-body p-1">
                   <ul class="list-group">
-                      <li class="list-group-item p-0" *ngFor="let history of currentUserService.currentUser.doctor.history">
+                      <li class="list-group-item p-0" *ngFor="let history of authService.currentUser.doctor.history">
                         <div *ngIf = "history.patient != null ">
                           <app-stat *ngIf = "history.patient._id != null " [routerLink]= "['/doctor/'+ history.patient._id]" [icon]="'http://via.placeholder.com/100x100'" [isPatient]="true" [showAddress]="false" [firstName]="history.patient.firstName" [lastName]="history.patient.lastName" ></app-stat>
                         </div>

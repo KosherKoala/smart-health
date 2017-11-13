@@ -3,5 +3,7 @@ export * from './components';
 export * from './modules';
 export * from './classes';
 export * from './guard/auth.guard';
+export * from './guard/no-auth.guard';
+
 
 

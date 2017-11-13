@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CurrentUserService, PatientService, DoctorService, UserService } from '../services';
+import { PatientService, DoctorService, UserService, AuthenticationService } from '../services';
 
 @Component({
     selector: 'app-layout',
@@ -13,15 +13,12 @@ export class LayoutComponent implements OnInit {
 
 
     constructor(public router: Router,
-                private currentUserService: CurrentUserService,
+                private authService: AuthenticationService,
                 private userService: UserService,
                 private doctorService: DoctorService) { }
 
     ngOnInit() {
-
-        this.userService.getUserById(this.currentUser._id)
-            .then((data: any) => { this.currentUserService.currentUser = data; console.log(this.currentUserService.currentUser)
-        });
+        this.authService.initUser().then((data) => { this.currentUser = data; });
 
         if (this.router.url === '/') {
         //    this.router.navigate(['/dashboard']);
