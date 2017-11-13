@@ -45,7 +45,11 @@ router.post('/', function(req, res, next) {
 /* UPDATE CALENDAR */
 router.put('/:id', function(req, res, next) {
   Calendar.findByIdAndUpdate(req.params.id, req.body, function (err, put) {
-    if(err) return next(err);
+    if(put){
+      res.json({success: true, calendar: put, message: "calendar updated"});
+  } else {
+      res.json({success: false, message: "ERROR: calendar not updated"});
+  }
   });
   console.log('calendar api put response');
 });
