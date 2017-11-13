@@ -36,8 +36,19 @@ export class AuthenticationService {
                     this.token = token;
 
                     // store email and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify({ _id: response.json().obj._id, email: email, token: token }));
+                    if (response.json().obj.doctor) {
+                        localStorage.setItem('currentUser', JSON.stringify({
+                            _id: response.json().obj._id,
+                            doctor: response.json().obj.doctor._id,
+                            email: email, token: token }));
+                    }
+                    else{
+                        localStorage.setItem('currentUser', JSON.stringify({
+                            _id: response.json().obj._id,
+                            patient: response.json().obj.patient._id,
+                            email: email, token: token }));
 
+                    }
                     // return true to indicate successful login
                     return true;
                 } else {
@@ -58,20 +69,19 @@ export class AuthenticationService {
     }
 
     public initUser() {
-        console.log("inininb", this.currentUser)
+        console.log("init user", this.currentUser)
         return new Promise((resolve, reject) => {
         // console.log('init user', this.currentUser)
             const user = JSON.parse(localStorage.getItem('currentUser'));
-            if (user)
-            {
+            if (user) {
                 this.userService.getUserById(user._id).then((data: any) => {
                 this.currentUser = data;
+
                 if ( this.currentUser.patient) {
                     for (let i = 0; i < this.currentUser.patient.history.length; i++) {
                     this.historyService.getHistoryById(this.currentUser.patient.history[i])
                         .then ( (res: any) => {
                                             this.currentUser.patient.history[i] =  res;
-
                                             resolve(this.currentUser);
                                         });
                     }

@@ -171,7 +171,7 @@ DashboardModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["c" /* NgbCarouselModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["b" /* NgbAlertModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_5__dashboard_routing_module__["a" /* DashboardRoutingModule */],
-            __WEBPACK_IMPORTED_MODULE_7__shared__["f" /* StatModule */],
+            __WEBPACK_IMPORTED_MODULE_7__shared__["g" /* StatModule */],
             __WEBPACK_IMPORTED_MODULE_4__angular_forms__["a" /* FormsModule */]
         ],
         declarations: [

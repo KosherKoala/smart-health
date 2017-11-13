@@ -381,27 +381,7 @@
                 </div>
               </ng-template>
             </ngb-tab>
-             
-          
-          
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              
-              </ngb-tabset>
+          </ngb-tabset>
         </div>
         <div class="col-4">
           <div id="myDoctors" *ngIf="authService.currentUser.patient">
@@ -425,7 +405,7 @@
                   <ul class="list-group">
                       <li class="list-group-item p-0" *ngFor="let history of authService.currentUser.doctor.history">
                         <div *ngIf = "history.patient != null ">
-                          <app-stat *ngIf = "history.patient._id != null " [routerLink]= "['/doctor/'+ history.patient._id]" [icon]="'http://via.placeholder.com/100x100'" [isPatient]="true" [showAddress]="false" [firstName]="history.patient.firstName" [lastName]="history.patient.lastName" ></app-stat>
+                          <app-stat *ngIf = "history.patient._id != null " [routerLink]= "['/patient/'+ history.patient._id]" [icon]="'http://via.placeholder.com/100x100'" [isPatient]="true" [showAddress]="false" [firstName]="history.patient.firstName" [lastName]="history.patient.lastName" ></app-stat>
                         </div>
                       </li>
                   </ul>
