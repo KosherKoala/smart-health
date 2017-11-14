@@ -18,7 +18,7 @@ export class AppointmentService {
                 private calendarService: CalendarService,
                 private historyService: HistoryService) { }
 
-    getAllEvents() {
+    getAllAppointments() {
       return new Promise((resolve, reject) => {
         this.http.get('/api/appointment')
           .map(res => res.json())
@@ -54,7 +54,7 @@ export class AppointmentService {
       });
     }
 
-    createEvent(data) {
+    createAppointment(data) {
       return new Promise((resolve, reject) => {
           this.http.post('/api/appointment', data)
             .map(res => res.json())
@@ -101,7 +101,7 @@ export class AppointmentService {
       });
     }
 
-    updateEvent(id, data) {
+    updateAppointment(id, data) {
       return new Promise((resolve, reject) => {
           this.http.put('/api/appointment/' + id, data)
             .map(res => res.json())
@@ -113,7 +113,7 @@ export class AppointmentService {
       });
     }
 
-    deleteEvent(id) {
+    deleteAppointment(id) {
       return new Promise((resolve, reject) => {
           this.http.delete('/api/appointment/' + id)
             .subscribe(res => {
@@ -122,5 +122,89 @@ export class AppointmentService {
               reject(err);
             });
       });
+    }
+
+    denyAppointment(id) {
+      return new Promise((resolve, reject) => {
+
+        const body = {$push: { isPending: "False"}};
+
+        this.http.put('/api/appointment/' + id, body)
+        .map(res => res.json())
+        .subscribe(res => 
+          {
+          resolve(res);
+        }, (err) => 
+        {
+          reject(err);
+        });
+    });
+    }
+
+    acceptAppointment(id) {
+      return new Promise((resolve, reject) => {
+        
+        const body = {$push: { isPending: "True"}};
+        
+        this.http.put('/api/appointment/' + id, body)
+            .map(res => res.json())
+            .subscribe(res => 
+              {
+                  resolve(res);
+              }, (err) => 
+              {
+                  reject(err);
+              });
+        });
+    }
+
+    completeAppointment(id) {
+      return new Promise((resolve, reject) => {
+        const body = {$push: { isCompleted: "True"}};   
+        
+        this.http.put('/api/appointment/' + id, body)
+            .map(res => res.json())
+            .subscribe(res => 
+              {
+                  resolve(res);
+              }, (err) => 
+              {
+                  reject(err);
+              });
+        });
+    }
+
+    cancelAppointment(id) {
+      return new Promise((resolve, reject) => {
+        const body = {$push: { isActive: "False"}};   
+        
+        this.http.put('/api/appointment/' + id, body)
+            .map(res => res.json())
+            .subscribe(res => 
+              {
+                  resolve(res);
+              }, (err) => 
+              {
+                  reject(err);
+              });
+        });
+    }
+
+    setMessage(id, data) {
+      return new Promise((resolve, reject) => {
+
+        const body = {$push: { message: data.message }};   
+        
+        this.http.put('/api/appointment/' + id, body)
+            .map(res => res.json())
+            .subscribe(res => 
+              {
+                  resolve(res);
+              }, (err) => 
+              {
+                  reject(err);
+              });
+        });
+    
     }
 }

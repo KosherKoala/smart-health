@@ -13,8 +13,11 @@ const appointmentSchema = new Schema ({
     doctor: { type: Schema.Types.ObjectId, ref: 'Doctor', autopopulate: true }, 
     timeIn: String,
     timeOut: String,
-    isPending: Boolean,
-    procedure: { type: Schema.Types.ObjectId, ref: 'Procedure', autopopulate: true}
+    isPending: Boolean,   // if the doctor accepted it
+    isCompleted: Boolean, // if the appointment finished
+    isActive: Boolean,    // if either has cancelled it.
+    procedure: { type: Schema.Types.ObjectId, ref: 'Procedure', autopopulate: true},
+    message: String
 });
 appointmentSchema.plugin(autopopulate);
 

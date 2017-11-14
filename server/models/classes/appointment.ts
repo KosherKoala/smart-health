@@ -10,5 +10,7 @@ export class Appointment {
     timeIn: string;
     timeOut: String;
     isPending: Boolean;
+    isCompleted: Boolean;
+    isActive: Boolean;
     procedure: Procedure;
 }
