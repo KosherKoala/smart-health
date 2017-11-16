@@ -54,17 +54,17 @@ export class AppointmentService {
       });
     }
 
-    createAppointment(data) {
-      return new Promise((resolve, reject) => {
-          this.http.post('/api/appointment', data)
-            .map(res => res.json())
-            .subscribe(res => {
-              resolve(res);
-            }, (err) => {
-              reject(err);
-            });
-      });
-    }
+    // createAppointment(data) {
+    //   return new Promise((resolve, reject) => {
+    //       this.http.post('/api/appointment', data)
+    //         .map(res => res.json())
+    //         .subscribe(res => {
+    //           resolve(res);
+    //         }, (err) => {
+    //           reject(err);
+    //         });
+    //   });
+    // }
 
     makeAppointment(appointment, doctor, patient) {
       console.log('making appointment', appointment,  history)
@@ -127,7 +127,7 @@ export class AppointmentService {
     denyAppointment(id) {
       return new Promise((resolve, reject) => {
 
-        const body = {$push: { isPending: "False"}};
+        const body = {$set: { isPending: "False"}};
 
         this.http.put('/api/appointment/' + id, body)
         .map(res => res.json())
@@ -144,7 +144,7 @@ export class AppointmentService {
     acceptAppointment(id) {
       return new Promise((resolve, reject) => {
         
-        const body = {$push: { isPending: "True"}};
+        const body = {$set: { isPending: "True"}};
         
         this.http.put('/api/appointment/' + id, body)
             .map(res => res.json())
@@ -160,7 +160,7 @@ export class AppointmentService {
 
     completeAppointment(id) {
       return new Promise((resolve, reject) => {
-        const body = {$push: { isCompleted: "True"}};   
+        const body = {$set: { isCompleted: "True"}};   
         
         this.http.put('/api/appointment/' + id, body)
             .map(res => res.json())
@@ -176,7 +176,7 @@ export class AppointmentService {
 
     cancelAppointment(id) {
       return new Promise((resolve, reject) => {
-        const body = {$push: { isActive: "False"}};   
+        const body = {$set: { isActive: "False"}};   
         
         this.http.put('/api/appointment/' + id, body)
             .map(res => res.json())
@@ -193,7 +193,7 @@ export class AppointmentService {
     setMessage(id, data) {
       return new Promise((resolve, reject) => {
 
-        const body = {$push: { message: data.message }};   
+        const body = {$set: { message: data.message }};   
         
         this.http.put('/api/appointment/' + id, body)
             .map(res => res.json())
