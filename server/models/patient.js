@@ -12,7 +12,7 @@ const patientSchema = new Schema({
 	insurance: {type:Schema.Types.ObjectId, ref: 'Insurance', autopopulate: true},
 	history: [{type: Schema.Types.ObjectId, ref: 'History'}],
 	picture: String,
-	isValidated: Boolean
+	isValidated: {type:Boolean, default: false}
 
 });
 patientSchema.plugin(autopopulate);

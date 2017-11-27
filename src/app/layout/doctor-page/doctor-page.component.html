@@ -29,11 +29,6 @@
               fermentum pharetra metus auctor. Donec luctus pretium purus, pulvinar consequat erat sagittis accumsan. Pellentesque sagittis volutpat ligula ac placerat. 
               Ut magna urna, malesuada et erat non, congue molestie dolor. Duis vitae porta sapien. Integer sodales interdum tristique.
           </p>
-         <!-- <div class="d-flex px-4 justify-content-between">
-           <h3> <div class="badge badge-pill badge-primary"><i class="fa fa-phone pr-2"></i>407-455-3455</div> </h3>
-           <h3> <div class="badge badge-pill badge-primary"><i class="fa fa-envelope pr-2"></i>{{doctor.email}}</div> </h3>
-           <h3> <div class="badge badge-pill badge-primary"><i class="fa fa-facebook pr-2"></i>Dr. {{doctor.firstName}} {{doctor.lastName}}</div> </h3>
-          </div>-->
           <hr class="thick">
         <!--Calendar start-->
         <div class="row">
@@ -58,7 +53,8 @@
                   *ngSwitchCase="'week'"
                   [viewDate]="viewDate"
                   [events]="events"
-                  (dayHeaderClicked)="dayClicked($event, content)">
+                  (dayHeaderClicked)="dayClicked($event, content)"
+                  (eventClicked)="eventClicked($event, content)">
                 </mwl-calendar-week-view>
                 <mwl-calendar-day-view
                   *ngSwitchCase="'day'"

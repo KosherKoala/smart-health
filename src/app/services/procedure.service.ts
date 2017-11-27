@@ -59,6 +59,7 @@ export class ProcedureService {
     }
 
     updateProcedure(id, data) {
+      console.log('updating procedure')
       return new Promise((resolve, reject) => {
           this.http.put('/api/procedure/' + id, data)
             .map(res => res.json())

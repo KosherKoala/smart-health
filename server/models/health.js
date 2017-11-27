@@ -11,7 +11,6 @@ const healthSchema = new Schema({
 	medication: [String],
 	allergies: [String],
 	conditions: [String]
-	
 });
 healthSchema.plugin(autopopulate);
 

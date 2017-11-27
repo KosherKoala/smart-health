@@ -94,6 +94,15 @@ export class DoctorPageComponent implements OnInit {
                                             this.calendarService.getCalendarById(this.doctor.calendar).then( (data2: any) => {
                                               this.doctor.calendar =  data2;
                                               for (let slot of this.doctor.calendar.slots) {
+
+                                               for (let i = 0; i < slot.rrule.byweekday.length; i++) {
+                                                  if (slot.rrule.byweekday[i] === 0) {
+                                                    slot.rrule.byweekday[i] = 6;
+                                                  } else {
+                                                    slot.rrule.byweekday[i]--;
+                                                  }
+                                                }
+                                                console.log('post',slot.rrule)
                                                 this.recurringEvents.push(
                                                    {
                                                     title: slot.procedure.name,
@@ -103,6 +112,8 @@ export class DoctorPageComponent implements OnInit {
                                                   }
                                                 );
                                               }
+
+                                              console.log('recurring', this.recurringEvents)
 
                                               this.currentAppointments =  this.doctor.calendar.appointments;
 
@@ -166,12 +177,11 @@ export class DoctorPageComponent implements OnInit {
 
   updateCalendarEvents(): void {
 
-
+    console.log('updating events')
     this.events = [];
 
     const removeAppointments = ( ) => {
       this.events =  this.events.filter(slot => {
-
         for (let current of this.currentAppointments)
         {
           if (current.procedure._id == slot.procedure._id && !current.isPending) {
@@ -185,6 +195,7 @@ export class DoctorPageComponent implements OnInit {
           }
           return true;
         }
+        return true;
       });
     }
 
@@ -215,7 +226,7 @@ export class DoctorPageComponent implements OnInit {
       day: endOfDay
     };
 
-    this.recurringEvents.forEach(event => {
+    this.recurringEvents.forEach(event => {console.log('for each', event);
       const rule: RRule = new RRule(
         Object.assign({}, event.rrule, {
           dtstart: startOfPeriod[this.view](this.viewDate),
@@ -227,7 +238,7 @@ export class DoctorPageComponent implements OnInit {
         this.events.push(
           Object.assign({}, event, {
             start: new Date(date),
-            end: addHours(new Date(date), 2)
+            end: addHours(new Date(date), Number(event.procedure.duration) )
           })
         );
       });

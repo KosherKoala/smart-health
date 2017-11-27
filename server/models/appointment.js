@@ -13,9 +13,9 @@ const appointmentSchema = new Schema ({
     doctor: { type: Schema.Types.ObjectId, ref: 'Doctor', autopopulate: true }, 
     timeIn: String,
     timeOut: String,
-    isPending: Boolean,   // if the doctor accepted it
-    isCompleted: Boolean, // if the appointment finished
-    isActive: Boolean,    // if either has cancelled it.
+    isPending: {type: Boolean, default: true},   // if the doctor accepted it
+    isCompleted: {type: Boolean, default: false}, // if the appointment finished
+    isActive: {type: Boolean, default: true},    // if either has cancelled it.
     procedure: { type: Schema.Types.ObjectId, ref: 'Procedure', autopopulate: true},
     message: String
 });
