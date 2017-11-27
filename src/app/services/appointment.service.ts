@@ -54,17 +54,17 @@ export class AppointmentService {
       });
     }
 
-    createAppointment(data) {
-      return new Promise((resolve, reject) => {
-          this.http.post('/api/appointment', data)
-            .map(res => res.json())
-            .subscribe(res => {
-              resolve(res);
-            }, (err) => {
-              reject(err);
-            });
-      });
-    }
+    // createAppointment(data) {
+    //   return new Promise((resolve, reject) => {
+    //       this.http.post('/api/appointment', data)
+    //         .map(res => res.json())
+    //         .subscribe(res => {
+    //           resolve(res);
+    //         }, (err) => {
+    //           reject(err);
+    //         });
+    //   });
+    // }
 
     makeAppointment(appointment, doctor, patient) {
       console.log('making appointment', appointment)
@@ -218,6 +218,5 @@ export class AppointmentService {
                   reject(err);
               });
         });
-    
     }
 }
