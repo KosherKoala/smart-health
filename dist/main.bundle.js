@@ -330,18 +330,17 @@ var AppointmentService = (function () {
             });
         });
     };
-    AppointmentService.prototype.createAppointment = function (data) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this.http.post('/api/appointment', data)
-                .map(function (res) { return res.json(); })
-                .subscribe(function (res) {
-                resolve(res);
-            }, function (err) {
-                reject(err);
-            });
-        });
-    };
+    // createAppointment(data) {
+    //   return new Promise((resolve, reject) => {
+    //       this.http.post('/api/appointment', data)
+    //         .map(res => res.json())
+    //         .subscribe(res => {
+    //           resolve(res);
+    //         }, (err) => {
+    //           reject(err);
+    //         });
+    //   });
+    // }
     AppointmentService.prototype.makeAppointment = function (appointment, doctor, patient) {
         var _this = this;
         console.log('making appointment', appointment);
