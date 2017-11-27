@@ -84,12 +84,13 @@ var routes = [
     {
         path: '',
         loadChildren: './layout/layout.module#LayoutModule',
+        canActivate: [__WEBPACK_IMPORTED_MODULE_2__shared__["a" /* AuthGuard */]]
     },
-    { path: 'login', loadChildren: './login/login.module#LoginModule', canActivate: [__WEBPACK_IMPORTED_MODULE_2__shared__["d" /* NoAuthGuard */]] },
+    { path: 'login', loadChildren: './login/login.module#LoginModule', canActivate: [__WEBPACK_IMPORTED_MODULE_2__shared__["e" /* NoAuthGuard */]] },
     // { path: 'doctor-portal', loadChildren: './doctor-portal/doctor-portal.module#DoctorPortalModule' },
     // { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },
     { path: 'not-found', loadChildren: './not-found/not-found.module#NotFoundModule' },
-    { path: 'registration', loadChildren: './registration/registration.module#RegistrationModule', canActivate: [__WEBPACK_IMPORTED_MODULE_2__shared__["d" /* NoAuthGuard */]] },
+    { path: 'registration', loadChildren: './registration/registration.module#RegistrationModule', canActivate: [__WEBPACK_IMPORTED_MODULE_2__shared__["e" /* NoAuthGuard */]] },
     { path: 'doctor-registration', loadChildren: './doctor-registration/doctor-registration.module#DoctorRegistrationModule' },
     { path: '**', redirectTo: 'not-found' }
 ];
@@ -243,7 +244,7 @@ AppModule = __decorate([
                 }
             })
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_9__shared__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_9__shared__["d" /* NoAuthGuard */], __WEBPACK_IMPORTED_MODULE_10__services__["h" /* PatientService */], __WEBPACK_IMPORTED_MODULE_10__services__["i" /* UserService */], __WEBPACK_IMPORTED_MODULE_10__services__["d" /* DoctorService */], __WEBPACK_IMPORTED_MODULE_10__services__["f" /* HistoryService */], __WEBPACK_IMPORTED_MODULE_10__services__["c" /* CalendarService */], __WEBPACK_IMPORTED_MODULE_10__services__["b" /* AuthenticationService */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_9__shared__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_9__shared__["e" /* NoAuthGuard */], __WEBPACK_IMPORTED_MODULE_10__services__["h" /* PatientService */], __WEBPACK_IMPORTED_MODULE_10__services__["j" /* UserService */], __WEBPACK_IMPORTED_MODULE_10__services__["d" /* DoctorService */], __WEBPACK_IMPORTED_MODULE_10__services__["f" /* HistoryService */], __WEBPACK_IMPORTED_MODULE_10__services__["c" /* CalendarService */], __WEBPACK_IMPORTED_MODULE_10__services__["b" /* AuthenticationService */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]]
     })
 ], AppModule);
@@ -292,7 +293,7 @@ var AppointmentService = (function () {
         this.calendarService = calendarService;
         this.historyService = historyService;
     }
-    AppointmentService.prototype.getAllEvents = function () {
+    AppointmentService.prototype.getAllAppointments = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.http.get('/api/appointment')
@@ -329,7 +330,7 @@ var AppointmentService = (function () {
             });
         });
     };
-    AppointmentService.prototype.createEvent = function (data) {
+    AppointmentService.prototype.createAppointment = function (data) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.http.post('/api/appointment', data)
@@ -342,40 +343,55 @@ var AppointmentService = (function () {
         });
     };
     AppointmentService.prototype.makeAppointment = function (appointment, doctor, patient) {
-        // console.log('makeing appointment', appointment, doctor, patient)
         var _this = this;
+        console.log('making appointment', appointment);
         return new Promise(function (resolve, reject) {
             _this.http.post('/api/appointment', appointment)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (res) {
-                for (var _i = 0, _a = patient.history; _i < _a.length; _i++) {
-                    var history = _a[_i];
-                    if (history.doctor._id == doctor._id) {
-                        console.log('history found');
-                        _this.historyService.updateHistory(history._id, { $push: { appointments: res.appointment } })
-                            .then(function (data) { console.log('history updated'); });
-                        _this.calendarService.updateCalendar(doctor.calendar._id, { $push: { appointments: res.appointment } })
-                            .then(function (data) { console.log('calendar updated'); });
-                        resolve(res);
+                if (patient.history.length > 0) {
+                    for (var i = 0; i < patient.history.length; i++) {
+                        if (patient.history[i].doctor._id === doctor._id) {
+                            console.log('history found');
+                            _this.historyService.updateHistory(patient.history[i]._id, { $push: { appointments: res.appointment } })
+                                .then(function (data) { console.log('history updated'); });
+                            _this.calendarService.updateCalendar(doctor.calendar._id, { $push: { appointments: res.appointment } })
+                                .then(function (data) { console.log('calendar updated'); });
+                            resolve(res);
+                        }
+                        else if (i === patient.history.length - 1) {
+                            console.log('history not found');
+                            _this.historyService.createHistory({ doctor: doctor, patient: patient, appointments: [res.appointment] })
+                                .then(function (data) {
+                                _this.doctorService.updateDoctor(doctor._id, { $push: { history: data.history } })
+                                    .then(function (data2) { console.log('history added doc'); });
+                                _this.patientService.updatePatient(patient._id, { $push: { history: data.history } });
+                            })
+                                .then(function (data) { console.log('history added patient'); });
+                            _this.calendarService.updateCalendar(doctor.calendar._id, { $push: { appointments: res.appointment } })
+                                .then(function (data) { console.log('calendar updated'); });
+                            resolve(res);
+                        }
                     }
                 }
-                console.log('history not found');
-                _this.historyService.createHistory({ doctor: doctor, patient: patient, appointments: [res.appointment] })
-                    .then(function (data) {
-                    _this.doctorService.updateDoctor(doctor._id, { $push: { history: data.history } })
-                        .then(function (data2) { console.log('history added doc'); });
-                    _this.patientService.updatePatient(patient._id, { $push: { history: data.history } });
-                })
-                    .then(function (data) { console.log('history added patient'); });
-                _this.calendarService.updateCalendar(doctor.calendar._id, { $push: { appointments: res.appointment } })
-                    .then(function (data) { console.log('calendar updated'); });
-                resolve(res);
+                else {
+                    _this.historyService.createHistory({ doctor: doctor, patient: patient, appointments: [res.appointment] })
+                        .then(function (data) {
+                        _this.doctorService.updateDoctor(doctor._id, { $push: { history: data.history } })
+                            .then(function (data2) { console.log('history added doc'); });
+                        _this.patientService.updatePatient(patient._id, { $push: { history: data.history } });
+                    })
+                        .then(function (data) { console.log('history added patient'); });
+                    _this.calendarService.updateCalendar(doctor.calendar._id, { $push: { appointments: res.appointment } })
+                        .then(function (data) { console.log('calendar updated'); });
+                    resolve(res);
+                }
             }, function (err) {
                 reject(err);
             });
         });
     };
-    AppointmentService.prototype.updateEvent = function (id, data) {
+    AppointmentService.prototype.updateAppointment = function (id, data) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.http.put('/api/appointment/' + id, data)
@@ -387,10 +403,76 @@ var AppointmentService = (function () {
             });
         });
     };
-    AppointmentService.prototype.deleteEvent = function (id) {
+    AppointmentService.prototype.deleteAppointment = function (id) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.http.delete('/api/appointment/' + id)
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    AppointmentService.prototype.denyAppointment = function (id, message) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var body = { $set: { isPending: false, isActive: false, message: message } };
+            _this.http.put('/api/appointment/' + id, body)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    AppointmentService.prototype.acceptAppointment = function (id, message) {
+        var _this = this;
+        console.log('accepting appointment');
+        return new Promise(function (resolve, reject) {
+            var body = { $set: { isPending: false, message: message } };
+            _this.http.put('/api/appointment/' + id, body)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    AppointmentService.prototype.completeAppointment = function (id, message) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var body = { $set: { isCompleted: true, message: message } };
+            _this.http.put('/api/appointment/' + id, body)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    AppointmentService.prototype.cancelAppointment = function (id, message) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var body = { $set: { isActive: false, message: message } };
+            _this.http.put('/api/appointment/' + id, body)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    AppointmentService.prototype.setMessage = function (id, data) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            var body = { $push: { message: data.message } };
+            _this.http.put('/api/appointment/' + id, body)
+                .map(function (res) { return res.json(); })
                 .subscribe(function (res) {
                 resolve(res);
             }, function (err) {
@@ -421,9 +503,10 @@ var _a, _b, _c, _d, _e;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__user_service__ = __webpack_require__("../../../../../src/app/services/user.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__doctor_service__ = __webpack_require__("../../../../../src/app/services/doctor.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__patient_service__ = __webpack_require__("../../../../../src/app/services/patient.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__calendar_service__ = __webpack_require__("../../../../../src/app/services/calendar.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_map__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -441,13 +524,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AuthenticationService = (function () {
-    function AuthenticationService(http, router, userService, doctorService, patientService, historyService) {
+    function AuthenticationService(http, router, userService, doctorService, patientService, calendarService, historyService) {
         this.http = http;
         this.router = router;
         this.userService = userService;
         this.doctorService = doctorService;
         this.patientService = patientService;
+        this.calendarService = calendarService;
         this.historyService = historyService;
         // set token if saved in local storage
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -496,49 +581,67 @@ var AuthenticationService = (function () {
     };
     AuthenticationService.prototype.initUser = function () {
         var _this = this;
-        console.log("init user", this.currentUser);
+        console.log("init user");
         return new Promise(function (resolve, reject) {
-            // console.log('init user', this.currentUser)
             var user = JSON.parse(localStorage.getItem('currentUser'));
             if (user) {
                 _this.userService.getUserById(user._id).then(function (data) {
                     _this.currentUser = data;
                     if (_this.currentUser.patient) {
                         var _loop_1 = function (i) {
+                            //  console.log('patient history', i);
                             _this.historyService.getHistoryById(_this.currentUser.patient.history[i])
                                 .then(function (res) {
                                 _this.currentUser.patient.history[i] = res;
-                                resolve(_this.currentUser);
+                                if (i === _this.currentUser.patient.history.length - 1) {
+                                    console.log('before res', _this.currentUser);
+                                    resolve(_this.currentUser);
+                                }
                             });
                         };
+                        //console.log('patient');
                         for (var i = 0; i < _this.currentUser.patient.history.length; i++) {
                             _loop_1(i);
                         }
-                    }
-                    else if (_this.currentUser.doctor) {
-                        var _loop_2 = function (i) {
-                            _this.historyService.getHistoryById(_this.currentUser.doctor.history[i])
-                                .then(function (res) {
-                                _this.currentUser.doctor.history[i] = res;
-                                resolve(_this.currentUser);
-                            });
-                        };
-                        for (var i = 0; i < _this.currentUser.doctor.history.length; i++) {
-                            _loop_2(i);
+                        if (_this.currentUser.patient.history.length === 0) {
+                            resolve(_this.currentUser);
                         }
                     }
+                    else if (_this.currentUser.doctor) {
+                        _this.calendarService.getCalendarById(_this.currentUser.doctor.calendar)
+                            .then(function (cal) {
+                            _this.currentUser.doctor.calendar = cal;
+                            var _loop_2 = function (i) {
+                                _this.historyService.getHistoryById(_this.currentUser.doctor.history[i])
+                                    .then(function (res) {
+                                    _this.currentUser.doctor.history[i] = res;
+                                    if (i === _this.currentUser.doctor.history.length - 1) {
+                                        resolve(_this.currentUser);
+                                    }
+                                });
+                            };
+                            for (var i = 0; i < _this.currentUser.doctor.history.length; i++) {
+                                _loop_2(i);
+                            }
+                            if (_this.currentUser.doctor.history.length === 0) {
+                                resolve(_this.currentUser);
+                            }
+                        });
+                    }
+                    ;
                 });
             }
+            ;
         });
     };
     return AuthenticationService;
 }());
 AuthenticationService = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_6__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__angular_router__["c" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__doctor_service__["a" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__doctor_service__["a" /* DoctorService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_5__patient_service__["a" /* PatientService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__patient_service__["a" /* PatientService */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_2__history_service__["a" /* HistoryService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__history_service__["a" /* HistoryService */]) === "function" && _f || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_7__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__angular_router__["c" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__user_service__["a" /* UserService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__doctor_service__["a" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__doctor_service__["a" /* DoctorService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_5__patient_service__["a" /* PatientService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__patient_service__["a" /* PatientService */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_6__calendar_service__["a" /* CalendarService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__calendar_service__["a" /* CalendarService */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_2__history_service__["a" /* HistoryService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__history_service__["a" /* HistoryService */]) === "function" && _g || Object])
 ], AuthenticationService);
 
-var _a, _b, _c, _d, _e, _f;
+var _a, _b, _c, _d, _e, _f, _g;
 //# sourceMappingURL=authentication.service.js.map
 
 /***/ }),
@@ -624,6 +727,34 @@ var CalendarService = (function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
             _this.http.put('/api/calendar/' + id, data)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    CalendarService.prototype.addSlot = function (id, slot) {
+        var _this = this;
+        console.log('adding slot', slot);
+        return new Promise(function (resolve, reject) {
+            var body = { $push: { slots: slot } };
+            _this.http.put('/api/calendar/' + id, body)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    CalendarService.prototype.removeAppointment = function (id, data) {
+        var _this = this;
+        console.log('removing appointment', data);
+        return new Promise(function (resolve, reject) {
+            var body = { $pull: { appointments: data } };
+            _this.http.put('/api/calendar/' + id, body)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (res) {
                 resolve(res);
@@ -910,7 +1041,6 @@ var HistoryService = (function () {
     HistoryService.prototype.getHistory = function (params) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            console.log("serv params", params);
             _this.http.post('/api/history/params', params)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (res) {
@@ -1000,11 +1130,14 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__insurance_service__ = __webpack_require__("../../../../../src/app/services/insurance.service.ts");
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_7__insurance_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__user_service__ = __webpack_require__("../../../../../src/app/services/user.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_8__user_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_8__user_service__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__procedure_service__ = __webpack_require__("../../../../../src/app/services/procedure.service.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_9__procedure_service__["a"]; });
 
 
 
 //export * from './current-user.service';
+
 
 
 
@@ -1226,6 +1359,119 @@ var _a;
 
 /***/ }),
 
+/***/ "../../../../../src/app/services/procedure.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProcedureService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/add/operator/toPromise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var ProcedureService = (function () {
+    function ProcedureService(http) {
+        this.http = http;
+    }
+    ProcedureService.prototype.getAllProcedures = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/api/procedure')
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                console.log(res);
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    ProcedureService.prototype.getProcedure = function (params) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/api/procedure/params', params)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    ProcedureService.prototype.getProcedureById = function (id) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/api/procedure/' + id)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    ProcedureService.prototype.createProcedure = function (data) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.post('/api/procedure', data)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    ProcedureService.prototype.updateProcedure = function (id, data) {
+        var _this = this;
+        console.log('updating procedure');
+        return new Promise(function (resolve, reject) {
+            _this.http.put('/api/procedure/' + id, data)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    ProcedureService.prototype.deleteProcedure = function (id) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.delete('/api/procedure/' + id)
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    return ProcedureService;
+}());
+ProcedureService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
+], ProcedureService);
+
+var _a;
+//# sourceMappingURL=procedure.service.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/services/user.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1354,7 +1600,10 @@ var _a;
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__patient__ = __webpack_require__("../../../../../src/app/shared/classes/patient.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__patient__["a"]; });
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__user__ = __webpack_require__("../../../../../src/app/shared/classes/user.ts");
+/* unused harmony namespace reexport */
+
 
 //# sourceMappingURL=index.js.map
 
@@ -1364,19 +1613,29 @@ var _a;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Patient; });
+/* unused harmony export Patient */
 var Patient = (function () {
-    function Patient(firstName, lastName, email, password, passwordConfirmation) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.passwordConfirmation = passwordConfirmation;
+    function Patient(firstName, lastName, health, insurance, history) {
     }
     return Patient;
 }());
 
 //# sourceMappingURL=patient.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/shared/classes/user.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export User */
+var User = (function () {
+    function User(firstName, lastName, email, password, doctor, patient) {
+    }
+    return User;
+}());
+
+//# sourceMappingURL=user.js.map
 
 /***/ }),
 
@@ -1593,7 +1852,7 @@ var AuthGuard = (function () {
         if (localStorage.getItem('currentUser')) {
             return true;
         }
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/login']);
         return false;
     };
     return AuthGuard;
@@ -1605,6 +1864,40 @@ AuthGuard = __decorate([
 
 var _a;
 //# sourceMappingURL=auth.guard.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/shared/guard/doctor.guard.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DoctorGuard; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var DoctorGuard = (function () {
+    function DoctorGuard() {
+    }
+    DoctorGuard.prototype.canActivate = function (next, state) {
+        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        // user is a doctor
+        if (this.currentUser.doctor) {
+            return true;
+        }
+        return false;
+    };
+    return DoctorGuard;
+}());
+DoctorGuard = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])()
+], DoctorGuard);
+
+//# sourceMappingURL=doctor.guard.js.map
 
 /***/ }),
 
@@ -1629,26 +1922,41 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var HistoryGuard = (function () {
-    function HistoryGuard(userService, historyService, router) {
-        this.userService = userService;
+    function HistoryGuard(doctorService, historyService, router) {
+        this.doctorService = doctorService;
         this.historyService = historyService;
         this.router = router;
+        this.pass = false;
+        this.complete = false;
     }
     HistoryGuard.prototype.canActivate = function (next, state) {
+        var _this = this;
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        console.log(this.currentUser);
+        console.log("params", next.params);
         // user is a doctor
         if (this.currentUser.doctor) {
-            return true;
+            return this.historyService.getHistory({ doctor: this.currentUser.doctor._id, patient: next.params.id })
+                .then(function (data) {
+                if (data.success) {
+                    return true;
+                }
+                else {
+                    _this.router.navigate(['/not-found']);
+                    return false;
+                }
+            });
         }
-        return false;
+        else {
+            this.router.navigate(['/not-found']);
+            return false;
+        }
         // user has history with patient
     };
     return HistoryGuard;
 }());
 HistoryGuard = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services__["i" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services__["i" /* UserService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__services__["f" /* HistoryService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services__["f" /* HistoryService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services__["d" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services__["d" /* DoctorService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__services__["f" /* HistoryService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services__["f" /* HistoryService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */]) === "function" && _c || Object])
 ], HistoryGuard);
 
 var _a, _b, _c;
@@ -1679,7 +1987,9 @@ var NoAuthGuard = (function () {
         this.router = router;
     }
     NoAuthGuard.prototype.canActivate = function () {
-        if (localStorage.getItem('currentUser')) {
+        var user = localStorage.getItem('currentUser');
+        console.log(user);
+        if (user) {
             this.router.navigate(['/profile']);
             return false;
         }
@@ -1697,6 +2007,50 @@ var _a;
 
 /***/ }),
 
+/***/ "../../../../../src/app/shared/guard/patient.guard.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PatientGuard; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var PatientGuard = (function () {
+    function PatientGuard(router) {
+        this.router = router;
+    }
+    PatientGuard.prototype.canActivate = function (next, state) {
+        this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        console.log(this.currentUser);
+        // user is a doctor
+        if (this.currentUser.patient) {
+            return true;
+        }
+        this.router.navigate(['/profile']);
+        return false;
+    };
+    return PatientGuard;
+}());
+PatientGuard = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object])
+], PatientGuard);
+
+var _a;
+//# sourceMappingURL=patient.guard.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/shared/index.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1704,18 +2058,24 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__pipes_shared_pipes_module__ = __webpack_require__("../../../../../src/app/shared/pipes/shared-pipes.module.ts");
 /* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components__ = __webpack_require__("../../../../../src/app/shared/components/index.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__components__["a"]; });
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_1__components__["b"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_1__components__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_1__components__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules__ = __webpack_require__("../../../../../src/app/shared/modules/index.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_2__modules__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_2__modules__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__classes__ = __webpack_require__("../../../../../src/app/shared/classes/index.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_3__classes__["a"]; });
+/* unused harmony namespace reexport */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__guard_auth_guard__ = __webpack_require__("../../../../../src/app/shared/guard/auth.guard.ts");
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_4__guard_auth_guard__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__guard_no_auth_guard__ = __webpack_require__("../../../../../src/app/shared/guard/no-auth.guard.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_5__guard_no_auth_guard__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_5__guard_no_auth_guard__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__guard_history_guard__ = __webpack_require__("../../../../../src/app/shared/guard/history.guard.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_6__guard_history_guard__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_6__guard_history_guard__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__guard_doctor_guard__ = __webpack_require__("../../../../../src/app/shared/guard/doctor.guard.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_7__guard_doctor_guard__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__guard_patient_guard__ = __webpack_require__("../../../../../src/app/shared/guard/patient.guard.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_8__guard_patient_guard__["a"]; });
+
+
 
 
 
@@ -1996,29 +2356,40 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var DoctorSearchPipe = (function () {
     function DoctorSearchPipe() {
     }
-    DoctorSearchPipe.prototype.transform = function (items, name, specialty, zip) {
+    DoctorSearchPipe.prototype.transform = function (items, name, specialty, zip, procedure) {
+        var checkProcedures = function (doctor) {
+            for (var _i = 0, _a = doctor.procedures; _i < _a.length; _i++) {
+                var pro = _a[_i];
+                //  console.log(pro.name)
+                if (pro.name.toLowerCase().includes(procedure)) {
+                    return true;
+                }
+            }
+            return false;
+        };
         if (!items) {
             return [];
         }
         var isValidZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zip);
-        if (!name && !specialty && !isValidZip) {
+        if (!name && !specialty && !isValidZip && !procedure) {
             return [];
         }
         name = name.toLowerCase();
         specialty = specialty.toLowerCase();
-        console.log("Filtering", name, specialty, zip);
+        procedure = procedure.toLowerCase();
+        //  console.log("Filtering", name, specialty, zip);
         if (isValidZip) {
-            console.log("Valid");
+            //   console.log("Valid");
             return items.filter(function (it) {
                 return ((it.firstName.toLowerCase().includes(name) || it.lastName.toLowerCase().includes(name)) &&
-                    it.specialty.toLowerCase().includes(specialty) &&
+                    it.specialty.toLowerCase().includes(specialty) && checkProcedures(it) &&
                     it.location.zip == zip);
             });
         }
         else {
             return items.filter(function (it) {
                 return ((it.firstName.toLowerCase().includes(name) || it.lastName.toLowerCase().includes(name)) &&
-                    it.specialty.toLowerCase().includes(specialty));
+                    it.specialty.toLowerCase().includes(specialty) && checkProcedures(it));
             });
         }
     };

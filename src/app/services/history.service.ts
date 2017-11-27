@@ -24,7 +24,6 @@ export class HistoryService {
 
     getHistory(params) {
       return new Promise((resolve, reject) => {
-          console.log("serv params", params);
           this.http.post('/api/history/params', params)
             .map(res => res.json())
             .subscribe(res => {

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { UserService } from '../services';
+import { UserService, PatientService, HealthService, InsuranceService } from '../services';
 
 import { RegistrationRoutingModule } from './registration-routing.module';
 import { RegistrationComponent } from './registration.component';
@@ -15,7 +15,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
         FormsModule,
         NgbModule
     ],
-    providers: [ UserService ],
+    providers: [ UserService, PatientService, HealthService, InsuranceService ],
     declarations: [RegistrationComponent]
 })
 export class RegistrationModule {

@@ -1,11 +1,11 @@
 export class Patient {
 
   constructor(
-    public firstName: string,
-    public lastName: string,
-    public email: string,
-    public password: string,
-    public passwordConfirmation: string
+    firstName: string,
+    lastName: string,
+    health: object,
+    insurance: string,
+    history: any
   ) {  }
 
 }

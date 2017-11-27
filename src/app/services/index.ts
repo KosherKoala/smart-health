@@ -8,3 +8,5 @@ export * from './health.service';
 export * from './history.service';
 export * from './insurance.service';
 export * from './user.service';
+
+export * from './procedure.service';

@@ -11,7 +11,7 @@ const historySchema = new Schema({
 
     doctor:  { type: Schema.Types.ObjectId, ref: 'Doctor', autopopulate: true},
     patient: { type: Schema.Types.ObjectId, ref: 'Patient', autopopulate: true},
-    appointments: [{ type: Schema.Types.ObjectId, ref: 'Appointment'}],
+    appointments: [{ type: Schema.Types.ObjectId, ref: 'Appointment', autopopulate: true}],
     chat: [{ type: Schema.Types.ObjectId, ref: 'Chat'}]
 
 });

@@ -9,8 +9,9 @@ export class NoAuthGuard implements CanActivate {
   constructor(private router: Router) { }
 
   canActivate() {
-
-    if (localStorage.getItem('currentUser')) {
+    let user = localStorage.getItem('currentUser');
+    console.log(user)
+    if (user) {
       this.router.navigate(['/profile']);
       return false
     }

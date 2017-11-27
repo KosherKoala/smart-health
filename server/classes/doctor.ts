@@ -9,4 +9,5 @@ export class Doctor{
                 zip: String,
                 state: String,
             };
+    procedures: [Object];
 }

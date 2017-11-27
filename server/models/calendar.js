@@ -12,12 +12,22 @@ const calendarSchema = new Schema ({
     appointments: [{type: Schema.Types.ObjectId, ref: 'Appointment', autopopulate: true}],
     slots: [{
         // rrule: Rrule,
-        rrule:  {
-                    freq: Number,
-                    bymonth: Number,
-                    bymonthday: Number,
-                    byweekday: [Number]
-        },
+        rrule:  {   freq: Number,
+                    dtstart: Date,
+                    until: Date,
+                    count: Number,
+                    interval: Number,
+                    wkst:Number,
+                    bysetpos:[Number],
+                    byyearday:[Number],
+                    byweekno:[Number],
+                    byhour:[Number],
+                    byminute:[Number],
+                    byeaster:[Number],
+                    bysecond:[Number],
+                    bymonth: [Number],
+                    bymonthday: [Number], 
+                    byweekday: [Number] },
         procedure: { type: Schema.Types.ObjectId, ref: 'Procedure', autopopulate: true}
     }]
     

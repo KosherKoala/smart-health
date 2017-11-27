@@ -10,7 +10,7 @@ const History = require('./history');
 const doctorSchema = new Schema ({
     firstName: String,
     lastName: String,
-    procedures: [{ type: Schema.Types.ObjectId, ref: 'Procedure'}],
+    procedures: [{ type: Schema.Types.ObjectId, ref: 'Procedure', autopopulate: true}],
     practiceName: String,
     calendar: { type: Schema.Types.ObjectId, ref: 'Calendar'},
     specialty: String,

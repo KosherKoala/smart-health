@@ -8,6 +8,7 @@ import { PatientService, CalendarService, AppointmentService } from '../../servi
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {DayPilot} from 'daypilot-pro-angular';
 import { CalendarHeaderComponent } from './calendar-header/calendar-header.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { CalendarHeaderComponent } from './calendar-header/calendar-header.compo
     CalendarModule.forRoot(),
     PatientPageRoutingModule,
     NgbModule,
-    StatModule
+    StatModule,
+    FormsModule
   ],
   declarations: [PatientPageComponent, CalendarHeaderComponent],
   providers: [PatientService, CalendarService, AppointmentService]

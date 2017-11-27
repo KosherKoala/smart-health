@@ -12,7 +12,7 @@ export class DoctorRegistrationComponent implements OnInit {
 
 
   public submitted = false;
-  public model = new Patient('', '', '', '', '');
+  public model: any = {};
   public loading = false;
   public created = false;
 

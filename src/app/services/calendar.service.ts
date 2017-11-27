@@ -70,11 +70,41 @@ export class CalendarService {
       });
     }
 
+    addSlot(id, slot) {
+      console.log('adding slot', slot)
+      return new Promise((resolve, reject) => {
+
+        const body = {$push: { slots: slot}};
+
+        this.http.put('/api/calendar/' + id, body)
+            .map(res => res.json())
+            .subscribe(res => {
+                  resolve(res);
+              }, (err) =>  {
+                  reject(err);
+              });
+        });
+    }
+
+    removeAppointment(id, data) {
+      console.log('removing appointment', data)
+      return new Promise((resolve, reject) => {
+
+        const body = {$pull: { appointments: data}};
+
+        this.http.put('/api/calendar/' + id, body)
+            .map(res => res.json())
+            .subscribe(res => {
+                  resolve(res);
+              }, (err) =>  {
+                  reject(err);
+              });
+        });
+    }
+
     requestAppointment(id, data) {
       return new Promise((resolve, reject) => {
-        
         const body = {$push: { appoinments: data.appointment}};
-
 
           this.http.put('/api/calendar/' + id, body)
             .map(res => res.json())

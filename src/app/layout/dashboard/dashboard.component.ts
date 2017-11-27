@@ -15,6 +15,7 @@ export class DashboardComponent implements OnInit {
     public nameSearch: String  = '';
     public specSearch: String  = '';
     public zipSearch: String  = '';
+    public serviceSearch: String  = '';
 
     constructor(private doctorService: DoctorService) {
         this.sliders.push({

@@ -6,6 +6,7 @@ import { HistoryService } from './history.service';
 import { UserService } from './user.service';
 import { DoctorService } from './doctor.service';
 import { PatientService } from './patient.service';
+import { CalendarService } from './calendar.service';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/map'
 
@@ -19,6 +20,7 @@ export class AuthenticationService {
         private userService: UserService,
         private doctorService: DoctorService,
         private patientService: PatientService,
+        private calendarService: CalendarService,
         private historyService: HistoryService)
     {
     // set token if saved in local storage
@@ -69,36 +71,54 @@ export class AuthenticationService {
     }
 
     public initUser() {
-        console.log("init user", this.currentUser)
+       console.log("init user")
         return new Promise((resolve, reject) => {
-        // console.log('init user', this.currentUser)
             const user = JSON.parse(localStorage.getItem('currentUser'));
             if (user) {
                 this.userService.getUserById(user._id).then((data: any) => {
                 this.currentUser = data;
 
                 if ( this.currentUser.patient) {
+                    //console.log('patient');
                     for (let i = 0; i < this.currentUser.patient.history.length; i++) {
-                    this.historyService.getHistoryById(this.currentUser.patient.history[i])
-                        .then ( (res: any) => {
-                                            this.currentUser.patient.history[i] =  res;
-                                            resolve(this.currentUser);
-                                        });
+
+                      //  console.log('patient history', i);
+                        this.historyService.getHistoryById(this.currentUser.patient.history[i])
+                            .then ( (res: any) => {
+                                                this.currentUser.patient.history[i] =  res;
+                                                if (i === this.currentUser.patient.history.length - 1 ) {
+                                                    console.log('before res', this.currentUser)
+                                                    resolve(this.currentUser);
+                                                }
+                                            });
+
+                    }
+                    if (this.currentUser.patient.history.length === 0) {
+                        resolve(this.currentUser);
                     }
                 } else if ( this.currentUser.doctor) {
-                    for (let i = 0; i < this.currentUser.doctor.history.length; i++) {
-                    this.historyService.getHistoryById(this.currentUser.doctor.history[i])
-                        .then ( (res: any) => {
-                                            this.currentUser.doctor.history[i] =  res;
 
-                                            resolve(this.currentUser);
+                    this.calendarService.getCalendarById(this.currentUser.doctor.calendar)
+                        .then( (cal) => {
+                                            this.currentUser.doctor.calendar = cal;
+                                            for (let i = 0; i < this.currentUser.doctor.history.length; i++) {
+                                                this.historyService.getHistoryById(this.currentUser.doctor.history[i])
+                                                    .then ( (res: any) => {
+                                                                        this.currentUser.doctor.history[i] =  res;
+                                                                        if (i === this.currentUser.doctor.history.length - 1 ) {
+                                                                            resolve(this.currentUser);
+                                                                        }
+
+                                                                        });
+                                            }
+                                            if (this.currentUser.doctor.history.length === 0) {
+                                                resolve(this.currentUser);
+                                            }
                                         });
-                    }
-                }
-                });
-            }
-        });
+                };
+            });
+        };
+    });
     }
-
 
 }
