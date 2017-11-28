@@ -99,7 +99,7 @@ export class ProfileComponent implements OnInit {
        // General Info Table
        this.pdfmake.addText('General Info', 'label');
 
-       const topHeader1 = new Cell('Physition');
+       const topHeader1 = new Cell('Physician');
        const topHeader2 = new Cell('Patient');
        const topHeader3 = new Cell('Patient Since');
 
@@ -130,17 +130,23 @@ export class ProfileComponent implements OnInit {
         const apptHeaderRows = new Row([apptHeader1, apptHeader2, apptHeader3, apptHeader4, apptHeader5]);
 
         // Create a content row
-        const apptRow1 = new Row([new Cell('One value goes here '),
-                              new Cell('Another one here'),
-                              new Cell('OK?'),
-                              new Cell('OK?'),
-                              new Cell('OK?')]);
+        let apptRows = []
+        for(let appt of history.appointments)
+        {
+          apptRows.push (new Row([new Cell(appt.date.toString()),
+          new Cell(appt.procedure.name),
+          new Cell(appt.description)]));
+        }
+        
+        
 
         // Create table object
-        const apptTable = new Table(apptHeaderRows, [apptRow1]);
+        const apptTable = new Table(apptHeaderRows, apptRows);
+          
 
         this.pdfmake.addTable(apptTable);
         this.pdfmake.addText(' ')
+          
 
         // Appointment Table
             this.pdfmake.addText('Chat Record', 'label');
@@ -154,14 +160,20 @@ export class ProfileComponent implements OnInit {
             const chatHeaderRows = new Row([chatHeader1, chatHeader2, chatHeader3]);
 
             // Create a content row
-            const chatRow1 = new Row([new Cell('One value goes here '),
-                                  new Cell('Another one here'),
-                                  new Cell('OK?')]);
-
+            let chatRows = []
+            for(let chat of history.chat)
+            {
+            chatRows.push (new Row([new Cell(chat.sender),
+                                  new Cell(chat.date.toString()),
+                                  new Cell(chat.message)]));
+            
+            }
             // Create table object
-            const chatTable = new Table(chatHeaderRows, [chatRow1]);
+            const chatTable = new Table(chatHeaderRows, chatRows);
 
+            
             this.pdfmake.addTable(chatTable);
+            
 
        this.pdfmake.download()
   }

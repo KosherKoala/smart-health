@@ -149,7 +149,7 @@ var ProfileComponent = (function () {
         this.pdfmake.addText(' ');
         // General Info Table
         this.pdfmake.addText('General Info', 'label');
-        var topHeader1 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Physition');
+        var topHeader1 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Physician');
         var topHeader2 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Patient');
         var topHeader3 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Patient Since');
         var topHeaders = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["b" /* Row */]([topHeader1, topHeader2, topHeader3]);
@@ -170,13 +170,15 @@ var ProfileComponent = (function () {
         // Create headers row
         var apptHeaderRows = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["b" /* Row */]([apptHeader1, apptHeader2, apptHeader3, apptHeader4, apptHeader5]);
         // Create a content row
-        var apptRow1 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["b" /* Row */]([new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('One value goes here '),
-            new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Another one here'),
-            new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('OK?'),
-            new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('OK?'),
-            new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('OK?')]);
+        var apptRows = [];
+        for (var _i = 0, _a = history.appointments; _i < _a.length; _i++) {
+            var appt = _a[_i];
+            apptRows.push(new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["b" /* Row */]([new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.date.toString()),
+                new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.procedure.name),
+                new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.description)]));
+        }
         // Create table object
-        var apptTable = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["c" /* Table */](apptHeaderRows, [apptRow1]);
+        var apptTable = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["c" /* Table */](apptHeaderRows, apptRows);
         this.pdfmake.addTable(apptTable);
         this.pdfmake.addText(' ');
         // Appointment Table
@@ -188,11 +190,15 @@ var ProfileComponent = (function () {
         // Create headers row
         var chatHeaderRows = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["b" /* Row */]([chatHeader1, chatHeader2, chatHeader3]);
         // Create a content row
-        var chatRow1 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["b" /* Row */]([new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('One value goes here '),
-            new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Another one here'),
-            new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('OK?')]);
+        var chatRows = [];
+        for (var _b = 0, _c = history.chat; _b < _c.length; _b++) {
+            var chat = _c[_b];
+            chatRows.push(new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["b" /* Row */]([new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](chat.sender),
+                new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](chat.date.toString()),
+                new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](chat.message)]));
+        }
         // Create table object
-        var chatTable = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["c" /* Table */](chatHeaderRows, [chatRow1]);
+        var chatTable = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["c" /* Table */](chatHeaderRows, chatRows);
         this.pdfmake.addTable(chatTable);
         this.pdfmake.download();
     };
