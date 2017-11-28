@@ -18,15 +18,7 @@ const calendarSchema = new Schema ({
                     count: Number,
                     interval: Number,
                     wkst:Number,
-                    bysetpos:[Number],
-                    byyearday:[Number],
-                    byweekno:[Number],
-                    byhour:[Number],
-                    byminute:[Number],
-                    byeaster:[Number],
-                    bysecond:[Number],
                     bymonth: [Number],
-                    bymonthday: [Number], 
                     byweekday: [Number] },
         procedure: { type: Schema.Types.ObjectId, ref: 'Procedure', autopopulate: true}
     }]

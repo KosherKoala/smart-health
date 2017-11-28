@@ -44,9 +44,9 @@ router.post('/', function(req, res, next) {
 
 /* UPDATE CHAT */
 router.put('/:id', function(req, res, next) {
-  Chat.findByIdAndUpdate(req.params.id, req.body, function (err, put) {
+  Chat.findByIdAndUpdate(req.params.id, req.body, function (err, chat) {
     if (err) return next(err);
-    res.json(post);
+    res.json(chat);
   });
   console.log('chat api put response');
 });

@@ -165,7 +165,7 @@ RegistrationComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/registration/registration.component.html"),
         styles: [__webpack_require__("../../../../../src/app/registration/registration.component.scss")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__services__["j" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["j" /* UserService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services__["h" /* PatientService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["h" /* PatientService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__services__["e" /* HealthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["e" /* HealthService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2__services__["g" /* InsuranceService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["g" /* InsuranceService */]) === "function" && _e || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__services__["k" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["k" /* UserService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services__["i" /* PatientService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["i" /* PatientService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__services__["f" /* HealthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["f" /* HealthService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2__services__["h" /* InsuranceService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["h" /* InsuranceService */]) === "function" && _e || Object])
 ], RegistrationComponent);
 
 var _a, _b, _c, _d, _e;
@@ -209,10 +209,10 @@ RegistrationModule = __decorate([
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
             __WEBPACK_IMPORTED_MODULE_4__registration_routing_module__["a" /* RegistrationRoutingModule */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormsModule */],
             __WEBPACK_IMPORTED_MODULE_6__ng_bootstrap_ng_bootstrap__["f" /* NgbModule */]
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_3__services__["j" /* UserService */], __WEBPACK_IMPORTED_MODULE_3__services__["h" /* PatientService */], __WEBPACK_IMPORTED_MODULE_3__services__["e" /* HealthService */], __WEBPACK_IMPORTED_MODULE_3__services__["g" /* InsuranceService */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_3__services__["k" /* UserService */], __WEBPACK_IMPORTED_MODULE_3__services__["i" /* PatientService */], __WEBPACK_IMPORTED_MODULE_3__services__["f" /* HealthService */], __WEBPACK_IMPORTED_MODULE_3__services__["h" /* InsuranceService */]],
         declarations: [__WEBPACK_IMPORTED_MODULE_5__registration_component__["a" /* RegistrationComponent */]]
     })
 ], RegistrationModule);

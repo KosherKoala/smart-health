@@ -156,7 +156,7 @@ LoginComponent = __decorate([
         styles: [__webpack_require__("../../../../../src/app/login/login.component.scss")],
         animations: [Object(__WEBPACK_IMPORTED_MODULE_2__router_animations__["a" /* routerTransition */])()]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services__["b" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["b" /* AuthenticationService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services__["e" /* HealthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["e" /* HealthService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__services__["g" /* InsuranceService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["g" /* InsuranceService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__services__["f" /* HistoryService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["f" /* HistoryService */]) === "function" && _e || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services__["b" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["b" /* AuthenticationService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services__["f" /* HealthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["f" /* HealthService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__services__["h" /* InsuranceService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["h" /* InsuranceService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__services__["g" /* HistoryService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["g" /* HistoryService */]) === "function" && _e || Object])
 ], LoginComponent);
 
 var _a, _b, _c, _d, _e;
@@ -198,10 +198,10 @@ LoginModule = __decorate([
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_common__["b" /* CommonModule */],
             __WEBPACK_IMPORTED_MODULE_2__login_routing_module__["a" /* LoginRoutingModule */],
-            __WEBPACK_IMPORTED_MODULE_5__angular_forms__["a" /* FormsModule */]
+            __WEBPACK_IMPORTED_MODULE_5__angular_forms__["b" /* FormsModule */]
         ],
         declarations: [__WEBPACK_IMPORTED_MODULE_3__login_component__["a" /* LoginComponent */]],
-        providers: [__WEBPACK_IMPORTED_MODULE_4__services__["b" /* AuthenticationService */], __WEBPACK_IMPORTED_MODULE_4__services__["e" /* HealthService */], __WEBPACK_IMPORTED_MODULE_4__services__["g" /* InsuranceService */], __WEBPACK_IMPORTED_MODULE_4__services__["f" /* HistoryService */]]
+        providers: [__WEBPACK_IMPORTED_MODULE_4__services__["b" /* AuthenticationService */], __WEBPACK_IMPORTED_MODULE_4__services__["f" /* HealthService */], __WEBPACK_IMPORTED_MODULE_4__services__["h" /* InsuranceService */], __WEBPACK_IMPORTED_MODULE_4__services__["g" /* HistoryService */]]
     })
 ], LoginModule);
 

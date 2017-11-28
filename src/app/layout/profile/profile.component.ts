@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { UserService, AuthenticationService, HistoryService, DoctorService,
-         AppointmentService, CalendarService, ProcedureService } from '../../services';
+         AppointmentService, CalendarService, ProcedureService, ChatService } from '../../services';
 import { PdfmakeService } from 'ng-pdf-make/pdfmake/pdfmake.service';
 import { Cell, Row, Table } from 'ng-pdf-make/objects/table';
 import { NgbModal, NgbModalRef, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { getMonth, startOfMonth, startOfWeek, startOfDay, endOfMonth, endOfWeek, endOfDay, addHours} from 'date-fns';
 import RRule from 'rrule';
 import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -19,6 +21,9 @@ export class ProfileComponent implements OnInit {
 
   public doctors = [];
   public appointments = [];
+  public slots = [];
+  public newChat: any = { message: ''};
+  public currentChat = [];
   public currentUser: any;
   public collapseInsurance = false;
   public collapseHistories = false;
@@ -26,7 +31,7 @@ export class ProfileComponent implements OnInit {
   public clickedProcedure;
   private modalRef: NgbModalRef;
   public model= {comment: ''};
-  public chosenProcedure;
+  public chosenProcedure = '';
   public viewedProcedure;
   closeResult: string;
 
@@ -50,20 +55,34 @@ export class ProfileComponent implements OnInit {
   public rrule: RRule;
 
   constructor(private authService: AuthenticationService,
-              private userService: UserService,
               private historyService: HistoryService,
               private appointmentService: AppointmentService,
               private doctorService: DoctorService,
               private procedureService: ProcedureService,
               private calendarService: CalendarService,
+              private chatService: ChatService,
               private pdfmake: PdfmakeService,
               private modalService: NgbModal) {
+
     }
 
   ngOnInit() {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-    this.authService.initUser().then((data) => { this.currentUser = data; this.generateAppointmentList()} );
+    this.authService.initUser().then( (data) => { this.currentUser = data; this.generateAppointmentList();
+
+
+      if (this.currentUser.patient) {
+        this.currentChat = this.currentUser.patient.history[0].chat;
+        this.newChat = {sender: this.currentUser.patient._id, message: '' }
+        console.log('current chat', this.currentChat)
+      } else if (this.currentUser.doctor) {
+        this.currentChat = this.currentUser.doctor.history[0].chat;
+        this.newChat = {sender: this.currentUser.doctor._id, message: '' }
+        console.log('current chat', this.currentChat)
+      }
+
+    });
   }
 
   createHistory(history) {
@@ -147,9 +166,6 @@ export class ProfileComponent implements OnInit {
        this.pdfmake.download()
   }
 
-  print(){
-    console.log(this.ruleModel);
-  }
 
   updateRrule(event) {
   //  console.log(this.ruleModel, event)
@@ -189,18 +205,24 @@ export class ProfileComponent implements OnInit {
       rule.bymonth = months;
     }
 
-    this.rrule = new RRule(rule);
+    this.rrule = rule;
 
-    console.log(this.rrule.toText());
-    console.log(this.rrule.toString());
   }
 
 // Slots
   createSlot() {
     this.updateRrule({});
-    console.log('rrule test', this.rrule.options, "5a0528b26836d42dfa945ecc")
-    let slot =  {rrule: this.rrule.options, procedure: "5a0528b26836d42dfa945ecc"}
+    console.log('rrule test', this.rrule, this.chosenProcedure)
+    let slot =  {rrule: this.rrule, procedure: this.chosenProcedure}
+
     this.calendarService.addSlot(this.currentUser.doctor.calendar._id, slot).then((data) => {console.log(data)});
+  }
+
+  renderTime(slot) {
+    slot.dtstart = new Date(slot.dtstart);
+    slot.until = new Date(slot.until);
+    return new RRule(slot).toText();
+    
   }
 
 // Appointments
@@ -348,12 +370,25 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  // Clean up
+  // Chat
+  sendMessage() {
+    if (this.newChat.message !== '') {
+      this.newChat.date = new Date();
+      this.chatService.createChat(this.newChat)
+        .then( (data: any) => {
+                      this.currentChat.push(data.chat)
+                      this.historyService.addChat('5a179f519051da546a56451f' , data.chat._id)
+                        .then( (history: any) => { });
+      });
+    }
+  }
 
+
+  // Clean up
   generateAppointmentList() {
     this.appointments = [];
     if (this.currentUser.patient) {
-      //console.log(this.authService.currentUser.patient.history)
+
       for (let history of this.authService.currentUser.patient.history) {
         for (let appointment of history.appointments) {
           if (appointment.isActive) {
@@ -369,13 +404,21 @@ export class ProfileComponent implements OnInit {
                             for (let appointment of this.authService.currentUser.doctor.calendar.appointments) {
                               this.appointments.push(appointment);
                             }
+
+                            for (let slot of this.authService.currentUser.doctor.calendar.slots) {
+                              this.slots.push(slot);
+                            }
+
+                            for (let i = 0; i < this.slots.length; i++) {
+                              console.log(this.slots[i].rrule)
+                              _.pickBy(this.slots[i].rrule, _.identity);
+                            }
                         });
       }
    //   console.log(this.appointments)
   }
 
   resetModal() {
-    //console.log('reset');
     this.completing = false;
     this.accepting = false;
     this.denying = false;

@@ -294,7 +294,7 @@ PatientPageComponent = __decorate([
         styles: [__webpack_require__("../../../../../src/app/layout/patient-page/patient-page.component.scss")],
         animations: [Object(__WEBPACK_IMPORTED_MODULE_1__router_animations__["a" /* routerTransition */])()]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services__["h" /* PatientService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["h" /* PatientService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services__["c" /* CalendarService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["c" /* CalendarService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__services__["a" /* AppointmentService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["a" /* AppointmentService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__services__["b" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["b" /* AuthenticationService */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */]) === "function" && _f || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services__["i" /* PatientService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["i" /* PatientService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services__["c" /* CalendarService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["c" /* CalendarService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__services__["a" /* AppointmentService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["a" /* AppointmentService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3__services__["b" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services__["b" /* AuthenticationService */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__ng_bootstrap_ng_bootstrap__["e" /* NgbModal */]) === "function" && _f || Object])
 ], PatientPageComponent);
 
 var _a, _b, _c, _d, _e, _f;
@@ -347,10 +347,10 @@ PatientPageModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_3__patient_page_routing_module__["a" /* PatientPageRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_7__ng_bootstrap_ng_bootstrap__["f" /* NgbModule */],
             __WEBPACK_IMPORTED_MODULE_5__shared__["h" /* StatModule */],
-            __WEBPACK_IMPORTED_MODULE_9__angular_forms__["a" /* FormsModule */]
+            __WEBPACK_IMPORTED_MODULE_9__angular_forms__["b" /* FormsModule */]
         ],
         declarations: [__WEBPACK_IMPORTED_MODULE_2__patient_page_component__["a" /* PatientPageComponent */], __WEBPACK_IMPORTED_MODULE_8__calendar_header_calendar_header_component__["a" /* CalendarHeaderComponent */]],
-        providers: [__WEBPACK_IMPORTED_MODULE_6__services__["h" /* PatientService */], __WEBPACK_IMPORTED_MODULE_6__services__["c" /* CalendarService */], __WEBPACK_IMPORTED_MODULE_6__services__["a" /* AppointmentService */]]
+        providers: [__WEBPACK_IMPORTED_MODULE_6__services__["i" /* PatientService */], __WEBPACK_IMPORTED_MODULE_6__services__["c" /* CalendarService */], __WEBPACK_IMPORTED_MODULE_6__services__["a" /* AppointmentService */]]
     })
 ], PatientPageModule);
 
