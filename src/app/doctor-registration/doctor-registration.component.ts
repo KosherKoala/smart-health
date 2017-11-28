@@ -31,13 +31,10 @@ export class DoctorRegistrationComponent implements OnInit {
 
     this.insuranceService.getAllInsurances()
       .then( (data: any) => {
-                              this.myOptions = data.insurance;
-                              console.log('options', this.myOptions)
-                              let i = 0;
-                              for (let option of this.myOptions) {
-                                option.id = i;
-                                i++;
+                              for (let ins of data.insurance){
+                                ins.id = ins._id;
                               }
+                              this.myOptions = data.insurance;
                             })
     
   }
@@ -60,18 +57,13 @@ export class DoctorRegistrationComponent implements OnInit {
           if (!res.success) {
             this.doctorModel.firstName =  this.userModel.firstName;
             this.doctorModel.lastName =  this.userModel.lastName;
-            for (let x = 0; x < this.doctorModel.acceptedInsurance.length;  x++) {
-
-            // this.doctorModel.acceptedInsurance[x] = this.myOptions[this.doctorModel.acceptedInsurance[x]]._id
-
-            }
             this.doctorService.createDoctor(this.doctorModel)
               .then( (data: any) => {
                                       this.userModel.doctor = data.doctor._id;
                                       this.userService.createUser(this.userModel)
                                       .then((r: any) => {
                                         console.log('registering', r);
-                                        if (res.success) {
+                                        if (r.success) {
                                           this.router.navigate(['/login']);
                                         }
                                     } );
