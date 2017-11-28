@@ -98,14 +98,11 @@ var DoctorRegistrationComponent = (function () {
         var _this = this;
         this.insuranceService.getAllInsurances()
             .then(function (data) {
-            _this.myOptions = data.insurance;
-            console.log('options', _this.myOptions);
-            var i = 0;
-            for (var _i = 0, _a = _this.myOptions; _i < _a.length; _i++) {
-                var option = _a[_i];
-                option.id = i;
-                i++;
+            for (var _i = 0, _a = data.insurance; _i < _a.length; _i++) {
+                var ins = _a[_i];
+                ins.id = ins._id;
             }
+            _this.myOptions = data.insurance;
         });
     };
     DoctorRegistrationComponent.prototype.onChange = function () {
@@ -126,16 +123,13 @@ var DoctorRegistrationComponent = (function () {
                 if (!res.success) {
                     _this.doctorModel.firstName = _this.userModel.firstName;
                     _this.doctorModel.lastName = _this.userModel.lastName;
-                    for (var x = 0; x < _this.doctorModel.acceptedInsurance.length; x++) {
-                        // this.doctorModel.acceptedInsurance[x] = this.myOptions[this.doctorModel.acceptedInsurance[x]]._id
-                    }
                     _this.doctorService.createDoctor(_this.doctorModel)
                         .then(function (data) {
                         _this.userModel.doctor = data.doctor._id;
                         _this.userService.createUser(_this.userModel)
                             .then(function (r) {
                             console.log('registering', r);
-                            if (res.success) {
+                            if (r.success) {
                                 _this.router.navigate(['/login']);
                             }
                         });
