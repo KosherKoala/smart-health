@@ -31,7 +31,10 @@ router.get('/:id', function(req, res, next) {
 /* SAVE DOCTOR */
 router.post('/', function(req, res, next) {
     Doctor.create(req.body, function (err, post) {
-    if (err) return next(err);
+    if (err){
+      console.log(err)
+      return next(err);
+    }
     if(post){
         res.json({success: true, doctor: post, message: "doctor made"});
     } else {

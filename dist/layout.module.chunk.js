@@ -131,7 +131,7 @@ LayoutComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/layout/layout.component.html"),
         styles: [__webpack_require__("../../../../../src/app/layout/layout.component.scss")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__services__["b" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["b" /* AuthenticationService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services__["j" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["j" /* UserService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__services__["d" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["d" /* DoctorService */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__services__["b" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["b" /* AuthenticationService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services__["k" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["k" /* UserService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__services__["e" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["e" /* DoctorService */]) === "function" && _d || Object])
 ], LayoutComponent);
 
 var _a, _b, _c, _d;
@@ -181,14 +181,14 @@ LayoutModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["d" /* NgbDropdownModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_4__layout_routing_module__["a" /* LayoutRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_3__ngx_translate_core__["b" /* TranslateModule */],
-            __WEBPACK_IMPORTED_MODULE_8__angular_forms__["a" /* FormsModule */]
+            __WEBPACK_IMPORTED_MODULE_8__angular_forms__["b" /* FormsModule */]
         ],
         declarations: [
             __WEBPACK_IMPORTED_MODULE_5__layout_component__["a" /* LayoutComponent */],
             __WEBPACK_IMPORTED_MODULE_6__shared__["c" /* HeaderComponent */],
             __WEBPACK_IMPORTED_MODULE_6__shared__["g" /* SidebarComponent */],
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_6__shared__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_6__shared__["b" /* DoctorGuard */], __WEBPACK_IMPORTED_MODULE_6__shared__["f" /* PatientGuard */], __WEBPACK_IMPORTED_MODULE_6__shared__["d" /* HistoryGuard */], __WEBPACK_IMPORTED_MODULE_7__services__["b" /* AuthenticationService */], __WEBPACK_IMPORTED_MODULE_7__services__["h" /* PatientService */], __WEBPACK_IMPORTED_MODULE_7__services__["d" /* DoctorService */], __WEBPACK_IMPORTED_MODULE_7__services__["j" /* UserService */]]
+        providers: [__WEBPACK_IMPORTED_MODULE_6__shared__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_6__shared__["b" /* DoctorGuard */], __WEBPACK_IMPORTED_MODULE_6__shared__["f" /* PatientGuard */], __WEBPACK_IMPORTED_MODULE_6__shared__["d" /* HistoryGuard */], __WEBPACK_IMPORTED_MODULE_7__services__["b" /* AuthenticationService */], __WEBPACK_IMPORTED_MODULE_7__services__["i" /* PatientService */], __WEBPACK_IMPORTED_MODULE_7__services__["e" /* DoctorService */], __WEBPACK_IMPORTED_MODULE_7__services__["k" /* UserService */]]
     })
 ], LayoutModule);
 

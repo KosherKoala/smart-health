@@ -56,8 +56,9 @@ router.post('/', function(req, res, next) {
 
 /* UPDATE HISTORY */
 router.put('/:id', function(req, res, next) {
-  History.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
+  History.findByIdAndUpdate(req.params.id, req.body, {new: true}, function (err, post) {
     if (err) return next(err);
+    console.log("updated history", post)
     res.json(post);
   });
   console.log('history api put response');

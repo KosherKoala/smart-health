@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Patient } from '../shared';
 import { Router } from '@angular/router';
-import { UserService } from '../services';
+import { UserService, InsuranceService, DoctorService } from '../services';
+import { IMultiSelectOption } from 'angular-2-dropdown-multiselect';
 
 @Component({
   selector: 'app-doctor-registration',
@@ -12,40 +13,71 @@ export class DoctorRegistrationComponent implements OnInit {
 
 
   public submitted = false;
-  public model: any = {};
+  public userModel: any = {};
+  public doctorModel: any = {address: {}, acceptedInsurance: [] };
   public loading = false;
   public created = false;
 
+  optionsModel: number[];
+  myOptions: IMultiSelectOption[];
+
+
   public errors = {password: null}
 
-  constructor(public router: Router, private userService: UserService) { }
+  constructor(public router: Router, private userService: UserService,
+              private doctorService: DoctorService, private insuranceService: InsuranceService) { }
 
   ngOnInit() {
+
+    this.insuranceService.getAllInsurances()
+      .then( (data: any) => {
+                              this.myOptions = data.insurance;
+                              console.log('options', this.myOptions)
+                              let i = 0;
+                              for (let option of this.myOptions) {
+                                option.id = i;
+                                i++;
+                              }
+                            })
+    
+  }
+
+  onChange() {
+    console.log(this.doctorModel.acceptedInsurance);
   }
 
   register() {
     this.loading = true;
-    console.log(this.model);
+    console.log('models', this.userModel, this.doctorModel);
 
-    if (this.model.password !== this.model.passwordConfirmation) {
+    if (this.userModel.password !== this.userModel.passwordConfirmation) {
       this.errors.password = 'Passwords don\'t match';
     } else {
-      console.log("Email",this.model.email)
-      this.userService.getUser({email: this.model.email})
+      console.log('Email',this.userModel.email)
+      this.userService.getUser({email: this.userModel.email})
         .then((res: any) => {
           console.log('checking repeats', res);
           if (!res.success) {
-            this.userService.createUser(this.model)
-              .then((r: any) => {
+            this.doctorModel.firstName =  this.userModel.firstName;
+            this.doctorModel.lastName =  this.userModel.lastName;
+            for (let x = 0; x < this.doctorModel.acceptedInsurance.length;  x++) {
 
-                console.log('registering', r);
+            // this.doctorModel.acceptedInsurance[x] = this.myOptions[this.doctorModel.acceptedInsurance[x]]._id
 
-                if (res.success) {
-                  this.router.navigate(['/login']);
-                }
+            }
+            this.doctorService.createDoctor(this.doctorModel)
+              .then( (data: any) => {
+                                      this.userModel.doctor = data.doctor._id;
+                                      this.userService.createUser(this.userModel)
+                                      .then((r: any) => {
+                                        console.log('registering', r);
+                                        if (res.success) {
+                                          this.router.navigate(['/login']);
+                                        }
+                                    } );
               });
           } else {
-            console.log('Patient email aready used');
+            console.log('Doctor email aready used');
           }
         });
     }

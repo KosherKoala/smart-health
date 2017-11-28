@@ -70,6 +70,13 @@ export class HistoryService {
       });
     }
 
+    addChat(id, chat) {
+      return new Promise((resolve, reject) => {
+        this.updateHistory(id, {$push: {chat: chat} })
+          .then(data => {console.log('chat', data);   resolve(data) } )
+      });
+    }
+
     deleteHistory(id) {
       return new Promise((resolve, reject) => {
           this.http.delete('/api/history/' + id)

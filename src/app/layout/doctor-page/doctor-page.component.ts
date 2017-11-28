@@ -41,7 +41,7 @@ export class DoctorPageComponent implements OnInit {
   public doctor: any = { location: {} };
   public clickedEvent: CalendarEvent;
   private modalRef: NgbModalRef;
-  
+
 
   id: number;
   view = 'month';
@@ -79,6 +79,7 @@ export class DoctorPageComponent implements OnInit {
                 private modalService: NgbModal) { }
 
 
+
   ngOnInit() {
 
     this.authService.initUser();
@@ -94,7 +95,7 @@ export class DoctorPageComponent implements OnInit {
                                             this.calendarService.getCalendarById(this.doctor.calendar).then( (data2: any) => {
                                               this.doctor.calendar =  data2;
                                               for (let slot of this.doctor.calendar.slots) {
-
+                                                
                                                for (let i = 0; i < slot.rrule.byweekday.length; i++) {
                                                   if (slot.rrule.byweekday[i] === 0) {
                                                     slot.rrule.byweekday[i] = 6;
@@ -102,7 +103,7 @@ export class DoctorPageComponent implements OnInit {
                                                     slot.rrule.byweekday[i]--;
                                                   }
                                                 }
-                                                console.log('post',slot.rrule)
+                                               // console.log('post', slot.rrule, slot.procedure)
                                                 this.recurringEvents.push(
                                                    {
                                                     title: slot.procedure.name,
@@ -227,7 +228,8 @@ export class DoctorPageComponent implements OnInit {
     };
 
     this.recurringEvents.forEach(event => {console.log('for each', event);
-      const rule: RRule = new RRule(
+
+    const rule: RRule = new RRule(
         Object.assign({}, event.rrule, {
           dtstart: startOfPeriod[this.view](this.viewDate),
           until: endOfPeriod[this.view](this.viewDate)
@@ -244,6 +246,7 @@ export class DoctorPageComponent implements OnInit {
       });
     });
 
+    console.log('events', this.events)
     return true;
   }
 

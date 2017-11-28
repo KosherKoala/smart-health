@@ -16,6 +16,7 @@ var map = {
 	],
 	"./doctor-registration/doctor-registration.module": [
 		"../../../../../src/app/doctor-registration/doctor-registration.module.ts",
+		"common",
 		"doctor-registration.module"
 	],
 	"./layout/layout.module": [
@@ -232,7 +233,7 @@ AppModule = __decorate([
         imports: [
             __WEBPACK_IMPORTED_MODULE_3__angular_platform_browser__["a" /* BrowserModule */],
             __WEBPACK_IMPORTED_MODULE_4__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
-            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormsModule */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormsModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* HttpModule */],
             __WEBPACK_IMPORTED_MODULE_11__ng_bootstrap_ng_bootstrap__["f" /* NgbModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_7__app_routing_module__["a" /* AppRoutingModule */],
@@ -244,7 +245,7 @@ AppModule = __decorate([
                 }
             })
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_9__shared__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_9__shared__["e" /* NoAuthGuard */], __WEBPACK_IMPORTED_MODULE_10__services__["h" /* PatientService */], __WEBPACK_IMPORTED_MODULE_10__services__["j" /* UserService */], __WEBPACK_IMPORTED_MODULE_10__services__["d" /* DoctorService */], __WEBPACK_IMPORTED_MODULE_10__services__["f" /* HistoryService */], __WEBPACK_IMPORTED_MODULE_10__services__["c" /* CalendarService */], __WEBPACK_IMPORTED_MODULE_10__services__["b" /* AuthenticationService */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_9__shared__["a" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_9__shared__["e" /* NoAuthGuard */], __WEBPACK_IMPORTED_MODULE_10__services__["i" /* PatientService */], __WEBPACK_IMPORTED_MODULE_10__services__["k" /* UserService */], __WEBPACK_IMPORTED_MODULE_10__services__["e" /* DoctorService */], __WEBPACK_IMPORTED_MODULE_10__services__["g" /* HistoryService */], __WEBPACK_IMPORTED_MODULE_10__services__["c" /* CalendarService */], __WEBPACK_IMPORTED_MODULE_10__services__["b" /* AuthenticationService */]],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]]
     })
 ], AppModule);
@@ -798,6 +799,105 @@ var _a;
 
 /***/ }),
 
+/***/ "../../../../../src/app/services/chat.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__ = __webpack_require__("../../../../rxjs/add/operator/toPromise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var ChatService = (function () {
+    function ChatService(http) {
+        this.http = http;
+    }
+    ChatService.prototype.getAllChats = function () {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/api/chat')
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    ChatService.prototype.getChatById = function (id) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.get('/api/chat/' + id)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    ChatService.prototype.createChat = function (data) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.post('/api/chat', data)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    ChatService.prototype.updateChat = function (id, data) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.put('/api/chat/' + id, data)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    ChatService.prototype.deleteChat = function (id) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.http.delete('/api/chat/' + id)
+                .subscribe(function (res) {
+                resolve(res);
+            }, function (err) {
+                reject(err);
+            });
+        });
+    };
+    return ChatService;
+}());
+ChatService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Http */]) === "function" && _a || Object])
+], ChatService);
+
+var _a;
+//# sourceMappingURL=chat.service.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/services/doctor.service.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1085,6 +1185,13 @@ var HistoryService = (function () {
             });
         });
     };
+    HistoryService.prototype.addChat = function (id, chat) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.updateHistory(id, { $push: { chat: chat } })
+                .then(function (data) { console.log('chat', data); resolve(data); });
+        });
+    };
     HistoryService.prototype.deleteHistory = function (id) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -1115,27 +1222,29 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__authentication_service__ = __webpack_require__("../../../../../src/app/services/authentication.service.ts");
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__authentication_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__patient_service__ = __webpack_require__("../../../../../src/app/services/patient.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_1__patient_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_1__patient_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__doctor_service__ = __webpack_require__("../../../../../src/app/services/doctor.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_2__doctor_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_2__doctor_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__appointment_service__ = __webpack_require__("../../../../../src/app/services/appointment.service.ts");
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_3__appointment_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__calendar_service__ = __webpack_require__("../../../../../src/app/services/calendar.service.ts");
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_4__calendar_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__health_service__ = __webpack_require__("../../../../../src/app/services/health.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_5__health_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_5__health_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__history_service__ = __webpack_require__("../../../../../src/app/services/history.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_6__history_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_6__history_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__insurance_service__ = __webpack_require__("../../../../../src/app/services/insurance.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_7__insurance_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_7__insurance_service__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__user_service__ = __webpack_require__("../../../../../src/app/services/user.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_8__user_service__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__procedure_service__ = __webpack_require__("../../../../../src/app/services/procedure.service.ts");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_9__procedure_service__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "k", function() { return __WEBPACK_IMPORTED_MODULE_8__user_service__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__chat_service__ = __webpack_require__("../../../../../src/app/services/chat.service.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_9__chat_service__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__procedure_service__ = __webpack_require__("../../../../../src/app/services/procedure.service.ts");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "j", function() { return __WEBPACK_IMPORTED_MODULE_10__procedure_service__["a"]; });
 
 
 
-//export * from './current-user.service';
+
 
 
 
@@ -1955,7 +2064,7 @@ var HistoryGuard = (function () {
 }());
 HistoryGuard = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services__["d" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services__["d" /* DoctorService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__services__["f" /* HistoryService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services__["f" /* HistoryService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services__["e" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services__["e" /* DoctorService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__services__["g" /* HistoryService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services__["g" /* HistoryService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["c" /* Router */]) === "function" && _c || Object])
 ], HistoryGuard);
 
 var _a, _b, _c;
@@ -2339,6 +2448,43 @@ StatModule = __decorate([
 
 /***/ }),
 
+/***/ "../../../../../src/app/shared/pipes/chat-pipe.pipe.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChatPipePipe; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+var ChatPipePipe = (function () {
+    function ChatPipePipe() {
+    }
+    ChatPipePipe.prototype.transform = function (array, args) {
+        console.log('sorting', array);
+        console.log('here');
+        array.sort(function (a, b) {
+            console.log('here', a, b);
+            return (a.date - b.date);
+        });
+        return array;
+    };
+    return ChatPipePipe;
+}());
+ChatPipePipe = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Y" /* Pipe */])({
+        name: 'chatPipe'
+    })
+], ChatPipePipe);
+
+//# sourceMappingURL=chat-pipe.pipe.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/shared/pipes/doctor-search.pipe.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2412,12 +2558,14 @@ DoctorSearchPipe = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__doctor_search_pipe__ = __webpack_require__("../../../../../src/app/shared/pipes/doctor-search.pipe.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__chat_pipe_pipe__ = __webpack_require__("../../../../../src/app/shared/pipes/chat-pipe.pipe.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -2431,7 +2579,7 @@ SharedPipesModule = __decorate([
         imports: [
             __WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]
         ],
-        declarations: [__WEBPACK_IMPORTED_MODULE_2__doctor_search_pipe__["a" /* DoctorSearchPipe */]]
+        declarations: [__WEBPACK_IMPORTED_MODULE_2__doctor_search_pipe__["a" /* DoctorSearchPipe */], __WEBPACK_IMPORTED_MODULE_3__chat_pipe_pipe__["a" /* ChatPipePipe */]]
     })
 ], SharedPipesModule);
 

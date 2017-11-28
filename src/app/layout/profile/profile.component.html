@@ -266,12 +266,26 @@
               <ng-template ngbTabContent>
                 <div id="input">
                   <div>
+                    <h5>Current Appointment Slots</h5>
+                    <div class="card">
+                      <div class="card-body">
+                          <ul class="list-group">
+                              <li class="list-group-item" *ngFor="let slot of slots">
+                                {{slot.procedure.name}}
+                                <br>
+                                {{renderTime(slot.rrule)}}
+                              </li>
+                          </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
                     <h5>Procedure</h5>
                     <div class="form-group">
                         <select class="form-control"  id="procedure"
                                 required
-                                [(ngModel)]="procedureModel.procedure" name="procedure">
-                          <option *ngFor="let procedure of authService.currentUser.doctor.procedures" [value]="procedure">{{procedure.name}}</option>
+                                [(ngModel)]="chosenProcedure" name="procedure">
+                          <option *ngFor="let procedure of authService.currentUser.doctor.procedures" [value]="procedure._id">{{procedure.name}}</option>
                         </select>
                       </div>
                   </div>
@@ -335,30 +349,6 @@
                                 </div>
                               </td>
                             </tr>
-                            <!--<tr>
-                                <th>
-                                    <div class="option-name">
-                    
-                                        <div class="help">
-                                          Number of Slots
-                                        </div>
-                                    </div>
-                                </th>
-                                <td>
-                                  <input type="number" max="1000" min="1" value="30" name="count"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <div class="option-name">
-                    
-                                        <div class="help">
-                                          Interval
-                                        </div>
-                                    </div>
-                                </th>
-                                <td><input type="number" value="1" min="1" name="interval"/></td>
-                            </tr>-->
                             <tr>
                                 <th>
                                     <div class="option-name">
@@ -495,6 +485,59 @@
                     </div>
                   </li>
                 </ul>
+              </div>
+            </div>
+          </div>
+          <div id="chat">
+            <div class="card p-0">
+              <div class="card-header">
+                Chat -
+                <div>
+                  <select [(ngModel)]="currentChat" *ngIf="currentUser.doctor">
+                    <option [ngValue]="hist.chat" *ngFor="let hist of currentUser.doctor.history">
+                      {{hist.patient.firstName}} {{hist.patient.lastName}}
+                    </option>
+                  </select>
+                  <select [(ngModel)]="currentChat" *ngIf="currentUser.patient">
+                      <option [ngValue]="hist.chat" *ngFor="let hist of currentUser.patient.history">
+                        {{hist.doctor.firstName}} {{hist.doctor.lastName}}
+                      </option>
+                    </select>
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <div id="chat-window" class="card">
+                  <div class="card-body">
+                    <div *ngIf="this.currentUser.patient">
+                      <div class="m-2 d-flex flex-column p-1" [ngClass]="{'speech-bubble-me': this.currentUser.patient._id == chat.sender, 'speech-bubble-them': this.currentUser.patient._id != chat.sender}" *ngFor="let chat of currentChat">
+                        <div>
+                          {{chat.message}}
+                        </div>
+                        <div>
+                          <small>{{chat.date | date: 'short'}}</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="this.currentUser.doctor">
+                      <div class="m-2 d-flex flex-column p-1" [ngClass]="{'speech-bubble-me': this.currentUser.doctor._id == chat.sender, 'speech-bubble-them': this.currentUser.doctor._id != chat.sender}" *ngFor="let chat of currentChat">
+                        <div>
+                          {{chat.message}}
+                        </div>
+                        <div>
+                          <small>{{chat.date | date: 'short'}}</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card" id="chat-type">
+                  <div class="card-body">
+                    <form (ngSubmit)="sendMessage()">
+                      <input name="message" type="text" [(ngModel)]="newChat.message"/>
+                      <button>Send</button>
+                    </form>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
