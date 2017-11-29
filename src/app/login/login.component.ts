@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
-        console.log("doing it")
+
         this.authenticationService.login(this.model.email, this.model.password).subscribe(result => {
             console.log(result);
             if (result === true) {
