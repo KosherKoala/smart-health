@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { UserService, InsuranceService, DoctorService } from '../services';
+import { UserService, InsuranceService, DoctorService, CalendarService } from '../services';
 
 import { DoctorRegistrationRoutingModule } from './doctor-registration-routing.module';
 import { DoctorRegistrationComponent } from './doctor-registration.component';

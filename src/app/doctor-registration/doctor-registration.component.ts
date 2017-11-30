@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Patient } from '../shared';
 import { Router } from '@angular/router';
-import { UserService, InsuranceService, DoctorService } from '../services';
+import { UserService, InsuranceService, DoctorService, CalendarService } from '../services';
 import { IMultiSelectOption } from 'angular-2-dropdown-multiselect';
 
 @Component({
@@ -14,7 +14,7 @@ export class DoctorRegistrationComponent implements OnInit {
 
   public submitted = false;
   public userModel: any = {};
-  public doctorModel: any = {address: {}, acceptedInsurance: [] };
+  public doctorModel: any = {location: {}, acceptedInsurance: [] };
   public loading = false;
   public created = false;
 
@@ -23,8 +23,9 @@ export class DoctorRegistrationComponent implements OnInit {
 
 
   public errors = {password: null}
+  public doctor;
 
-  constructor(public router: Router, private userService: UserService,
+  constructor(public router: Router, private userService: UserService, private calendarService: CalendarService,
               private doctorService: DoctorService, private insuranceService: InsuranceService) { }
 
   ngOnInit() {
@@ -35,8 +36,7 @@ export class DoctorRegistrationComponent implements OnInit {
                                 ins.id = ins._id;
                               }
                               this.myOptions = data.insurance;
-                            })
-    
+                            });
   }
 
   onChange() {
@@ -50,23 +50,28 @@ export class DoctorRegistrationComponent implements OnInit {
     if (this.userModel.password !== this.userModel.passwordConfirmation) {
       this.errors.password = 'Passwords don\'t match';
     } else {
-      console.log('Email',this.userModel.email)
+      console.log('Email', this.userModel.email)
       this.userService.getUser({email: this.userModel.email})
         .then((res: any) => {
           console.log('checking repeats', res);
           if (!res.success) {
             this.doctorModel.firstName =  this.userModel.firstName;
             this.doctorModel.lastName =  this.userModel.lastName;
-            this.doctorService.createDoctor(this.doctorModel)
-              .then( (data: any) => {
-                                      this.userModel.doctor = data.doctor._id;
-                                      this.userService.createUser(this.userModel)
-                                      .then((r: any) => {
-                                        console.log('registering', r);
-                                        if (r.success) {
-                                          this.router.navigate(['/login']);
-                                        }
-                                    } );
+            this.calendarService.createCalendar({})
+              .then( (cal: any) => {
+                                      this.doctorModel.calendar = cal.calendar._id;
+                                      this.doctorService.createDoctor(this.doctorModel)
+                                        .then( (doc: any) => {
+                                            this.userModel.doctor = doc.doctor._id;
+
+                                            this.userService.createUser(this.userModel)
+                                            .then((r: any) => {
+                                              console.log('registering', r);
+                                              if (r.success) {
+                                                this.router.navigate(['/login']);
+                                              }
+                                              });
+                                          });
               });
           } else {
             console.log('Doctor email aready used');

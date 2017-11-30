@@ -73,13 +73,17 @@ export class ProfileComponent implements OnInit {
 
 
       if (this.currentUser.patient) {
-        this.currentChat = this.currentUser.patient.history[0].chat;
-        this.newChat = {sender: this.currentUser.patient._id, message: '' }
-        console.log('current chat', this.currentChat)
+        if (this.currentUser.patient.history && this.currentUser.patient.history.length > 0) {
+          this.currentChat = this.currentUser.patient.history[0].chat;
+          this.newChat = {sender: this.currentUser.patient._id, message: '' }
+          console.log('current chat', this.currentChat)
+        }
       } else if (this.currentUser.doctor) {
-        this.currentChat = this.currentUser.doctor.history[0].chat;
-        this.newChat = {sender: this.currentUser.doctor._id, message: '' }
-        console.log('current chat', this.currentChat)
+        if (this.currentUser.doctor.history && this.currentUser.doctor.history.length > 0) {
+          this.currentChat = this.currentUser.doctor.history[0].chat;
+          this.newChat = {sender: this.currentUser.doctor._id, message: '' }
+          console.log('current chat', this.currentChat)
+        }
       }
 
     });

@@ -128,14 +128,18 @@ var ProfileComponent = (function () {
             _this.currentUser = data;
             _this.generateAppointmentList();
             if (_this.currentUser.patient) {
-                _this.currentChat = _this.currentUser.patient.history[0].chat;
-                _this.newChat = { sender: _this.currentUser.patient._id, message: '' };
-                console.log('current chat', _this.currentChat);
+                if (_this.currentUser.patient.history && _this.currentUser.patient.history.length > 0) {
+                    _this.currentChat = _this.currentUser.patient.history[0].chat;
+                    _this.newChat = { sender: _this.currentUser.patient._id, message: '' };
+                    console.log('current chat', _this.currentChat);
+                }
             }
             else if (_this.currentUser.doctor) {
-                _this.currentChat = _this.currentUser.doctor.history[0].chat;
-                _this.newChat = { sender: _this.currentUser.doctor._id, message: '' };
-                console.log('current chat', _this.currentChat);
+                if (_this.currentUser.doctor.history && _this.currentUser.doctor.history.length > 0) {
+                    _this.currentChat = _this.currentUser.doctor.history[0].chat;
+                    _this.newChat = { sender: _this.currentUser.doctor._id, message: '' };
+                    console.log('current chat', _this.currentChat);
+                }
             }
         });
     };
