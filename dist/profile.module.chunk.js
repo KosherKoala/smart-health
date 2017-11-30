@@ -149,33 +149,43 @@ var ProfileComponent = (function () {
         this.pdfmake.addText(' ');
         // General Info Table
         this.pdfmake.addText('General Info', 'label');
+        //const topHeader1 = new Cell('Physician');
+        //const topHeader2 = new Cell('Patient');
+        //const topHeader3 = new Cell('Patient Since');
         var topHeader1 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Physician');
-        var topHeader2 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Patient');
-        var topHeader3 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Patient Since');
+        var topHeader2 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Specialty');
+        var topHeader3 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Patient');
         var topHeaders = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["b" /* Row */]([topHeader1, topHeader2, topHeader3]);
-        var topRow1 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["b" /* Row */]([new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](' Dr ' + history.doctor.firstName + ' ' + history.doctor.lastName),
-            new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](history.patient.firstName + ' ' + history.patient.lastName),
-            new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Time')]);
-        var topTable = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["c" /* Table */](topHeaders, [topRow1]);
+        //const topRow1 = new Row([new Cell(' Dr ' + history.doctor.firstName + ' ' + history.doctor.lastName),
+        //new Cell(history.patient.firstName + ' ' + history.patient.lastName),
+        //new Cell('Time')]);
+        var docRows = [];
+        for (var _i = 0, _a = history.appointments; _i < _a.length; _i++) {
+            var doclist = _a[_i];
+            docRows.push(new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["b" /* Row */]([new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](' Dr ' + doclist.doctor.firstName + ' ' + doclist.doctor.lastName),
+                new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](doclist.doctor.specialty), new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](doclist.patient.firstName + ' ' + doclist.patient.lastName)]));
+        }
+        //const topTable = new Table(topHeaders, [topRow1]);
+        var topTable = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["c" /* Table */](topHeaders, docRows);
         this.pdfmake.addTable(topTable);
         this.pdfmake.addText(' ');
         // Appointment Table
         this.pdfmake.addText('Appointment Info', 'label');
         // Create Headers cells
-        var apptHeader1 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Number');
-        var apptHeader2 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Type');
+        //const apptHeader1 = new Cell('Number');
+        //const apptHeader2 = new Cell('Type');
         var apptHeader3 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Date');
-        var apptHeader4 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Status');
-        var apptHeader5 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Comments');
+        var apptHeader4 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Procedure');
+        var apptHeader5 = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */]('Description');
         // Create headers row
-        var apptHeaderRows = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["b" /* Row */]([apptHeader1, apptHeader2, apptHeader3, apptHeader4, apptHeader5]);
+        var apptHeaderRows = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["b" /* Row */]([apptHeader3, apptHeader4, apptHeader5]);
         // Create a content row
         var apptRows = [];
-        for (var _i = 0, _a = history.appointments; _i < _a.length; _i++) {
-            var appt = _a[_i];
+        for (var _b = 0, _c = history.appointments; _b < _c.length; _b++) {
+            var appt = _c[_b];
             apptRows.push(new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["b" /* Row */]([new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.date.toString()),
                 new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.procedure.name),
-                new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.description)]));
+                new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.procedure.description)]));
         }
         // Create table object
         var apptTable = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["c" /* Table */](apptHeaderRows, apptRows);
@@ -191,8 +201,8 @@ var ProfileComponent = (function () {
         var chatHeaderRows = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["b" /* Row */]([chatHeader1, chatHeader2, chatHeader3]);
         // Create a content row
         var chatRows = [];
-        for (var _b = 0, _c = history.chat; _b < _c.length; _b++) {
-            var chat = _c[_b];
+        for (var _d = 0, _e = history.chat; _d < _e.length; _d++) {
+            var chat = _e[_d];
             chatRows.push(new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["b" /* Row */]([new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](chat.sender),
                 new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](chat.date.toString()),
                 new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](chat.message)]));
