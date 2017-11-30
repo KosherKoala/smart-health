@@ -88,6 +88,7 @@ router.get('/isDoctor/:id', function(req, res, next) {
 
 //Authenticate
 router.post('/authenticate/', function authenticate(req, res) {
+  console.log('body', req.body)
   User.findOne({ email: req.body.email, password: req.body.password }, function(err, user ) {
     
     console.log(user);

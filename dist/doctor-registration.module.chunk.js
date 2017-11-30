@@ -39,7 +39,7 @@ DoctorRegistrationRoutingModule = __decorate([
 /***/ "../../../../../src/app/doctor-registration/doctor-registration.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-12 col-sm-8 col-md-8 mx-auto\">\n        <h2>Doctor Registration</h2>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-12 col-sm-8 col-md-8 mx-auto pt-4\">\n        <form name=\"form\" #f=\"ngForm\"  (ngSubmit)=\"f.form.valid && register()\"   novalidate >\n          \n          <div class=\"row\">\n            <div class=\"col-xs-12 col-sm-6 col-md-6\">\n              <div class=\"form-group\">\n                <input type=\"text\" name=\"firstName\" id=\"firstName\" #firstName=\"ngModel\" [(ngModel)]=\"userModel.firstName\" class=\"form-control input-lg\" placeholder=\"First Name\" required>\n                <div *ngIf=\"f.submitted  && !firstName.valid\" class=\"help-block\">First Name is required</div>\n              </div>\n            </div>\n            <div class=\"col-xs-12 col-sm-6 col-md-6\">\n              <div class=\"form-group\">\n                <input type=\"text\" name=\"lastName\" id=\"lastName\" [(ngModel)]=\"userModel.lastName\" #lastName =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Last Name\" required>\n                <div *ngIf=\"f.submitted && !lastName.valid\" class=\"help-block\">Last Name is required</div>\n              </div>\n            </div>\n          </div>\n          \n          <div class=\"form-group\">\n              <input type=\"email\" name=\"email\" id=\"email\" [(ngModel)]=\"userModel.email\" #email =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Email\" tabindex=\"1\" required>\n              <div *ngIf=\"f.submitted && !email.valid\" class=\"help-block\">Email is required</div>\n          </div>\n          <div class=\"row\">\n            <div class=\"col-xs-12 col-sm-6 col-md-6\">\n              <div class=\"form-group\">\n                  <input type=\"password\" name=\"password\" id=\"password\" [(ngModel)]=\"userModel.password\" #password =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Password\" tabindex=\"1\" required>\n                  <div *ngIf=\"f.submitted && !password.valid\" class=\"help-block\">Password is required</div>\n              </div>\n            </div>\n            <div class=\"col-xs-12 col-sm-6 col-md-6\">\n              <div class=\"form-group\">\n                  <input type=\"password\" name=\"passwordConfirmation\" id=\"passwordConfirmation\" [(ngModel)]=\"userModel.passwordConfirmation\" #passwordConfirmation =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Confirm Password\" tabindex=\"1\" required>\n                  <div *ngIf=\"f.submitted && !passwordConfirmation.valid\" class=\"help-block\">Password Confirmation is required</div>\n              </div>\n              <div class=\"alert alert-danger w-100\" *ngIf = \"errors.password !== null\">{{errors.password}}</div>\n            </div>\n          </div>\n          <h4>Practice Information</h4>\n          <div class=\"form-group\">\n            <input type=\"text\" name=\"practiceName\" id=\"practiceName\" #practiceName=\"ngModel\" [(ngModel)]=\"doctorModel.practiceName\" class=\"form-control input-lg\" placeholder=\"Practice Name\" required>\n            <div *ngIf=\"f.submitted  && !practiceName.valid\" class=\"help-block\">Practice Name is required</div>\n          </div>\n          <div class=\"form-group\">\n            <input type=\"text\" name=\"specialty\" id=\"specialty\" #specialty=\"ngModel\" [(ngModel)]=\"doctorModel.specialty\" class=\"form-control input-lg\" placeholder=\"Specialty\" required>\n            <div *ngIf=\"f.submitted  && !specialty.valid\" class=\"help-block\">Specialty is required</div>\n          </div>\n          <div class=\"form-group\">\n            <input type=\"text\" name=\"phone\" id=\"phone\" #phone=\"ngModel\" [(ngModel)]=\"doctorModel.phone\" class=\"form-control input-lg\" placeholder=\"Phone\" required>\n            <div *ngIf=\"f.submitted  && !phone.valid\" class=\"help-block\">Phone is required</div>\n          </div>\n          <div class=\"form-group\">\n            <input type=\"email\" name=\"email\" id=\"email\" #pEmail=\"ngModel\" [(ngModel)]=\"doctorModel.email\" class=\"form-control input-lg\" placeholder=\"Practice Email\" required>\n            <div *ngIf=\"f.submitted  && !pEmail.valid\" class=\"help-block\">Email is required</div>\n          </div>\n          <div class=\"form-group\">\n            <div class=\"row\">\n              <div class=\"col\">\n                <input type=\"text\" name=\"line_1\" id=\"line_1\" #line_1=\"ngModel\" [(ngModel)]=\"doctorModel.address.line_1\" class=\"form-control input-lg\" placeholder=\"Line 1\" required>\n                <div *ngIf=\"f.submitted  && !line_1.valid\" class=\"help-block\">Line 1 is required</div>\n              </div>\n              <div class=\"col\">\n                <input type=\"text\" name=\"line_2\" id=\"line_2\" #line_2=\"ngModel\" [(ngModel)]=\"doctorModel.address.line_2\" class=\"form-control input-lg\" placeholder=\"Line 2\">\n              </div>\n              <div class=\"col\">\n                <input type=\"text\" name=\"city\" id=\"city\" #city=\"ngModel\" [(ngModel)]=\"doctorModel.address.city\" class=\"form-control input-lg\" placeholder=\"City\" required>\n                <div *ngIf=\"f.submitted  && !city.valid\" class=\"help-block\">City is required</div>\n              </div>\n              <div class=\"col\">\n                <input type=\"text\" name=\"state\" id=\"state\" #state=\"ngModel\" [(ngModel)]=\"doctorModel.address.state\" class=\"form-control input-lg\" placeholder=\"State\" required>\n                <div *ngIf=\"f.submitted  && !state.valid\" class=\"help-block\">State is required</div>\n              </div>\n              <div class=\"col\">\n                  <input type=\"text\" name=\"zip\" id=\"zip\" #zip=\"ngModel\" [(ngModel)]=\"doctorModel.address.zip\" class=\"form-control input-lg\" placeholder=\"Zip\" required>\n                  <div *ngIf=\"f.submitted  && !zip.valid\" class=\"help-block\">Zip is required</div>\n                </div>\n            </div>\n          </div>\n          <h6>Accepted Insurance</h6>\n          <ss-multiselect-dropdown name=\"insurace\" [options]=\"myOptions\" [(ngModel)]=\"doctorModel.acceptedInsurance\" (ngModelChange)=\"onChange($event)\"></ss-multiselect-dropdown>\n      \n          <div class=\"row\">\n            <div class=\"col-xs-12 col-md-6\"><input type=\"submit\" value=\"Register\" class=\"btn btn-primary btn-block btn-lg\" tabindex=\"7\"></div>\n          </div>\n        </form>\n      </div>\n    </div>\n  </div>"
+module.exports = "<div class=\"container registration-page\">\n  <div class=\"row\">\n    <div class=\"col-12 col-sm-8 col-md-8 mx-auto\">\n      <h2>Doctor Registration</h2>\n    </div>\n  </div>\n  <div class=\"row\">\n    <div class=\"col-12 col-sm-8 col-md-8 mx-auto pt-4\">\n      <form name=\"form\" #f=\"ngForm\"  (ngSubmit)=\"f.form.valid && register()\"   novalidate >\n        \n        <div class=\"row\">\n          <div class=\"col-xs-12 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n              <input type=\"text\" name=\"firstName\" id=\"firstName\" #firstName=\"ngModel\" [(ngModel)]=\"userModel.firstName\" class=\"form-control input-lg\" placeholder=\"First Name\" required>\n              <div *ngIf=\"f.submitted  && !firstName.valid\" class=\"help-block\">First Name is required</div>\n            </div>\n          </div>\n          <div class=\"col-xs-12 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n              <input type=\"text\" name=\"lastName\" id=\"lastName\" [(ngModel)]=\"userModel.lastName\" #lastName =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Last Name\" required>\n              <div *ngIf=\"f.submitted && !lastName.valid\" class=\"help-block\">Last Name is required</div>\n            </div>\n          </div>\n        </div>\n        \n        <div class=\"form-group\">\n            <input type=\"email\" name=\"email\" id=\"email\" [(ngModel)]=\"userModel.email\" #email =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Email\" tabindex=\"1\" required>\n            <div *ngIf=\"f.submitted && !email.valid\" class=\"help-block\">Email is required</div>\n        </div>\n        <div class=\"row\">\n          <div class=\"col-xs-12 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"password\" name=\"password\" id=\"password\" [(ngModel)]=\"userModel.password\" #password =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Password\" tabindex=\"1\" required>\n                <div *ngIf=\"f.submitted && !password.valid\" class=\"help-block\">Password is required</div>\n            </div>\n          </div>\n          <div class=\"col-xs-12 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"password\" name=\"passwordConfirmation\" id=\"passwordConfirmation\" [(ngModel)]=\"userModel.passwordConfirmation\" #passwordConfirmation =\"ngModel\" class=\"form-control input-lg\" placeholder=\"Confirm Password\" tabindex=\"1\" required>\n                <div *ngIf=\"f.submitted && !passwordConfirmation.valid\" class=\"help-block\">Password Confirmation is required</div>\n            </div>\n            <div class=\"alert alert-danger w-100\" *ngIf = \"errors.password !== null\">{{errors.password}}</div>\n          </div>\n        </div>\n        <h4>Practice Information</h4>\n        <div class=\"form-group\">\n          <input type=\"text\" name=\"practiceName\" id=\"practiceName\" #practiceName=\"ngModel\" [(ngModel)]=\"doctorModel.practiceName\" class=\"form-control input-lg\" placeholder=\"Practice Name\" required>\n          <div *ngIf=\"f.submitted  && !practiceName.valid\" class=\"help-block\">Practice Name is required</div>\n        </div>\n        <div class=\"form-group\">\n          <input type=\"text\" name=\"specialty\" id=\"specialty\" #specialty=\"ngModel\" [(ngModel)]=\"doctorModel.specialty\" class=\"form-control input-lg\" placeholder=\"Specialty\" required>\n          <div *ngIf=\"f.submitted  && !specialty.valid\" class=\"help-block\">Specialty is required</div>\n        </div>\n        <div class=\"form-group\">\n          <input type=\"text\" name=\"phone\" id=\"phone\" #phone=\"ngModel\" [(ngModel)]=\"doctorModel.phone\" class=\"form-control input-lg\" placeholder=\"Phone\" required>\n          <div *ngIf=\"f.submitted  && !phone.valid\" class=\"help-block\">Phone is required</div>\n        </div>\n        <div class=\"form-group\">\n          <input type=\"email\" name=\"email\" id=\"email\" #pEmail=\"ngModel\" [(ngModel)]=\"doctorModel.email\" class=\"form-control input-lg\" placeholder=\"Practice Email\" required>\n          <div *ngIf=\"f.submitted  && !pEmail.valid\" class=\"help-block\">Email is required</div>\n        </div>\n        <div class=\"form-group\">\n            <h3>Accepted Insurance</h3>\n            <ss-multiselect-dropdown name=\"insurace\" [options]=\"myOptions\" [(ngModel)]=\"doctorModel.acceptedInsurance\" (ngModelChange)=\"onChange($event)\"></ss-multiselect-dropdown>\n        </div>\n        <div class=\"form-group\">\n          <div class=\"row\">\n            <h3>Address</h3>\n            <div class=\"col-12\">\n              <input type=\"text\" name=\"line_1\" id=\"line_1\" #line_1=\"ngModel\" [(ngModel)]=\"doctorModel.location.line_1\" class=\"form-control input-lg\" placeholder=\"Line 1\" required>\n              <div *ngIf=\"f.submitted  && !line_1.valid\" class=\"help-block\">Line 1 is required</div>\n            </div>\n            <div class=\"col-12\">\n              <input type=\"text\" name=\"line_2\" id=\"line_2\" #line_2=\"ngModel\" [(ngModel)]=\"doctorModel.location.line_2\" class=\"form-control input-lg\" placeholder=\"Line 2\">\n            </div>\n            <div class=\"col-12\">\n              <input type=\"text\" name=\"city\" id=\"city\" #city=\"ngModel\" [(ngModel)]=\"doctorModel.location.city\" class=\"form-control input-lg\" placeholder=\"City\" required>\n              <div *ngIf=\"f.submitted  && !city.valid\" class=\"help-block\">City is required</div>\n            </div>\n            <div class=\"col-6\">\n              <input type=\"text\" name=\"state\" id=\"state\" #state=\"ngModel\" [(ngModel)]=\"doctorModel.location.state\" class=\"form-control input-lg\" placeholder=\"State\" required>\n              <div *ngIf=\"f.submitted  && !state.valid\" class=\"help-block\">State is required</div>\n            </div>\n            <div class=\"col-6\">\n                <input type=\"text\" name=\"zip\" id=\"zip\" #zip=\"ngModel\" [(ngModel)]=\"doctorModel.location.zip\" class=\"form-control input-lg\" placeholder=\"Zip\" required>\n                <div *ngIf=\"f.submitted  && !zip.valid\" class=\"help-block\">Zip is required</div>\n              </div>\n          </div>\n        </div>\n       \n        <div class=\"row\">\n          <div class=\"col-xs-12 col-md-6 mx-auto\"><input type=\"submit\" value=\"Register\" class=\"btn rounded-btn\" tabindex=\"7\"></div>\n        </div>\n      </form>\n    </div>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -51,7 +51,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, "/* Credit to bootsnipp.com for the css for the color graph */\n.colorgraph {\n  height: 5px;\n  border-top: 0;\n  border-radius: 5px;\n  background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4); }\n\n.background {\n  background-image: url(" + __webpack_require__("../../../../../src/assets/images/Caduceus-On-Blue-Star-Of-Life.png") + ");\n  background-repeat: no-repeat;\n  background-attachment: fixed;\n  background-position: center;\n  background-size: auto;\n  background-size: 145px; }\n", ""]);
+exports.push([module.i, ":host {\n  display: block; }\n\n.registration-page {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  overflow: auto;\n  background: #222;\n  text-align: center;\n  color: #fff;\n  padding: 3em; }\n  .registration-page .col-lg-4 {\n    padding: 0; }\n  .registration-page .input-lg {\n    height: 46px;\n    padding: 10px 16px;\n    font-size: 18px;\n    line-height: 1.3333333;\n    border-radius: 0; }\n  .registration-page .input-underline {\n    background: 0 0;\n    border: none;\n    box-shadow: none;\n    border-bottom: 2px solid rgba(255, 255, 255, 0.5);\n    color: #FFF;\n    border-radius: 0; }\n  .registration-page .input-underline:focus {\n    border-bottom: 2px solid #fff;\n    box-shadow: none; }\n  .registration-page .rounded-btn {\n    border-radius: 50px;\n    color: rgba(255, 255, 255, 0.8);\n    background: #222;\n    border: 2px solid rgba(255, 255, 255, 0.8);\n    font-size: 18px;\n    line-height: 40px;\n    padding: 0 25px;\n    margin-bottom: 5px; }\n  .registration-page .rounded-btn:hover, .registration-page .rounded-btn:focus, .registration-page .rounded-btn:active, .registration-page .rounded-btn:visited {\n    color: white;\n    border: 2px solid white;\n    outline: none; }\n  .registration-page h1 {\n    font-weight: 300;\n    margin-top: 20px;\n    margin-bottom: 10px;\n    font-size: 36px; }\n    .registration-page h1 small {\n      color: rgba(255, 255, 255, 0.7); }\n  .registration-page .form-group {\n    padding: 8px 0; }\n    .registration-page .form-group input::-webkit-input-placeholder {\n      color: black !important; }\n    .registration-page .form-group input:-moz-placeholder {\n      /* Firefox 18- */\n      color: rgba(255, 255, 255, 0.6) !important; }\n    .registration-page .form-group input::-moz-placeholder {\n      /* Firefox 19+ */\n      color: rgba(255, 255, 255, 0.6) !important; }\n    .registration-page .form-group input:-ms-input-placeholder {\n      color: rgba(255, 255, 255, 0.6) !important; }\n  .registration-page .form-content {\n    padding: 40px 0; }\n  .registration-page .user-avatar {\n    border-radius: 50%;\n    border: 2px solid #FFF; }\n", ""]);
 
 // exports
 
@@ -82,14 +82,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var DoctorRegistrationComponent = (function () {
-    function DoctorRegistrationComponent(router, userService, doctorService, insuranceService) {
+    function DoctorRegistrationComponent(router, userService, calendarService, doctorService, insuranceService) {
         this.router = router;
         this.userService = userService;
+        this.calendarService = calendarService;
         this.doctorService = doctorService;
         this.insuranceService = insuranceService;
         this.submitted = false;
         this.userModel = {};
-        this.doctorModel = { address: {}, acceptedInsurance: [] };
+        this.doctorModel = { location: {}, acceptedInsurance: [] };
         this.loading = false;
         this.created = false;
         this.errors = { password: null };
@@ -98,14 +99,11 @@ var DoctorRegistrationComponent = (function () {
         var _this = this;
         this.insuranceService.getAllInsurances()
             .then(function (data) {
-            _this.myOptions = data.insurance;
-            console.log('options', _this.myOptions);
-            var i = 0;
-            for (var _i = 0, _a = _this.myOptions; _i < _a.length; _i++) {
-                var option = _a[_i];
-                option.id = i;
-                i++;
+            for (var _i = 0, _a = data.insurance; _i < _a.length; _i++) {
+                var ins = _a[_i];
+                ins.id = ins._id;
             }
+            _this.myOptions = data.insurance;
         });
     };
     DoctorRegistrationComponent.prototype.onChange = function () {
@@ -126,18 +124,19 @@ var DoctorRegistrationComponent = (function () {
                 if (!res.success) {
                     _this.doctorModel.firstName = _this.userModel.firstName;
                     _this.doctorModel.lastName = _this.userModel.lastName;
-                    for (var x = 0; x < _this.doctorModel.acceptedInsurance.length; x++) {
-                        // this.doctorModel.acceptedInsurance[x] = this.myOptions[this.doctorModel.acceptedInsurance[x]]._id
-                    }
-                    _this.doctorService.createDoctor(_this.doctorModel)
-                        .then(function (data) {
-                        _this.userModel.doctor = data.doctor._id;
-                        _this.userService.createUser(_this.userModel)
-                            .then(function (r) {
-                            console.log('registering', r);
-                            if (res.success) {
-                                _this.router.navigate(['/login']);
-                            }
+                    _this.calendarService.createCalendar({})
+                        .then(function (cal) {
+                        _this.doctorModel.calendar = cal.calendar._id;
+                        _this.doctorService.createDoctor(_this.doctorModel)
+                            .then(function (doc) {
+                            _this.userModel.doctor = doc.doctor._id;
+                            _this.userService.createUser(_this.userModel)
+                                .then(function (r) {
+                                console.log('registering', r);
+                                if (r.success) {
+                                    _this.router.navigate(['/login']);
+                                }
+                            });
                         });
                     });
                 }
@@ -155,10 +154,10 @@ DoctorRegistrationComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/doctor-registration/doctor-registration.component.html"),
         styles: [__webpack_require__("../../../../../src/app/doctor-registration/doctor-registration.component.scss")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__services__["k" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["k" /* UserService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services__["e" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["e" /* DoctorService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__services__["h" /* InsuranceService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["h" /* InsuranceService */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__services__["k" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["k" /* UserService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services__["c" /* CalendarService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["c" /* CalendarService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__services__["e" /* DoctorService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["e" /* DoctorService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2__services__["h" /* InsuranceService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services__["h" /* InsuranceService */]) === "function" && _e || Object])
 ], DoctorRegistrationComponent);
 
-var _a, _b, _c, _d;
+var _a, _b, _c, _d, _e;
 //# sourceMappingURL=doctor-registration.component.js.map
 
 /***/ }),
@@ -211,13 +210,6 @@ DoctorRegistrationModule = __decorate([
 ], DoctorRegistrationModule);
 
 //# sourceMappingURL=doctor-registration.module.js.map
-
-/***/ }),
-
-/***/ "../../../../../src/assets/images/Caduceus-On-Blue-Star-Of-Life.png":
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__.p + "Caduceus-On-Blue-Star-Of-Life.d5ccac8d5939fd5ec31f.png";
 
 /***/ }),
 
