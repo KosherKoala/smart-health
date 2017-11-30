@@ -114,21 +114,13 @@ export class ProfileComponent implements OnInit {
 
        const topHeaders = new Row([topHeader1, topHeader2, topHeader3]);
 
-       //const topRow1 = new Row([new Cell(' Dr ' + history.doctor.firstName + ' ' + history.doctor.lastName),
-       //new Cell(history.patient.firstName + ' ' + history.patient.lastName),
-       //new Cell('Time')]);
-
-       let docRows = [];
-       
-              for(let doclist of history.appointments){
-       
-              docRows.push (new Row([new Cell(' Dr ' + doclist.doctor.firstName + ' ' + doclist.doctor.lastName),
-              new Cell(doclist.doctor.specialty), new Cell(doclist.patient.firstName + ' ' + doclist.patient.lastName)]));
-       
-              }
+       const topRow1 = new Row([new Cell(' Dr. ' + history.doctor.firstName + ' ' + history.doctor.lastName),
+        new Cell(history.doctor.specialty),
+        new Cell(history.patient.firstName + ' ' + history.patient.lastName)]);
+    
 
        //const topTable = new Table(topHeaders, [topRow1]);
-       const topTable = new Table(topHeaders, docRows);
+       const topTable = new Table(topHeaders, [topRow1]);
 
        this.pdfmake.addTable(topTable);
 
@@ -140,12 +132,16 @@ export class ProfileComponent implements OnInit {
         // Create Headers cells
         //const apptHeader1 = new Cell('Number');
         //const apptHeader2 = new Cell('Type');
-        const apptHeader3 = new Cell('Date');
-        const apptHeader4 = new Cell('Procedure');
-        const apptHeader5 = new Cell('Description');
+        const apptHeader1 = new Cell('Date');
+        const apptHeader2 = new Cell('Procedure');
+        const apptHeader3 = new Cell('Description');
+        const apptHeader4 = new Cell('Pending');
+        const apptHeader5 = new Cell('Active');
+        const apptHeader6 = new Cell('Completed');
+        const apptHeader7 = new Cell('Message');
 
         // Create headers row
-        const apptHeaderRows = new Row([apptHeader3, apptHeader4, apptHeader5]);
+        const apptHeaderRows = new Row([apptHeader1, apptHeader2, apptHeader3, apptHeader4, apptHeader5, apptHeader6, apptHeader7]);
 
         // Create a content row
         let apptRows = []
@@ -153,7 +149,7 @@ export class ProfileComponent implements OnInit {
         {
           apptRows.push (new Row([new Cell(appt.date.toString()),
           new Cell(appt.procedure.name),
-          new Cell(appt.procedure.description)]));
+          new Cell(appt.procedure.description),  new Cell(appt.isPending), new Cell(appt.isActive), new Cell(appt.isCompleted), new Cell(appt.message)]));
         }
         
         
@@ -181,10 +177,17 @@ export class ProfileComponent implements OnInit {
             let chatRows = []
             for(let chat of history.chat)
             {
-            chatRows.push (new Row([new Cell(chat.sender),
-                                  new Cell(chat.date.toString()),
-                                  new Cell(chat.message)]));
-            
+              if(chat.sender == history.doctor._id) {
+                chatRows.push (new Row([new Cell(' Dr. ' + history.doctor.firstName + ' ' + history.doctor.lastName),
+                                     new Cell(chat.date.toString()),
+                                     new Cell(chat.message)]));
+                }
+
+              else {
+                chatRows.push (new Row([new Cell(history.patient.firstName + ' ' + history.patient.lastName),
+                new Cell(chat.date.toString()),
+                new Cell(chat.message)]));
+              }
             }
             // Create table object
             const chatTable = new Table(chatHeaderRows, chatRows);
@@ -194,6 +197,7 @@ export class ProfileComponent implements OnInit {
             
 
        this.pdfmake.download()
+       this.pdfmake.docDefinition.content=[];
   }
 
 
