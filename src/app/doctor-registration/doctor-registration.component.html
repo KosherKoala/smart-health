@@ -42,6 +42,9 @@
             <div class="alert alert-danger w-100" *ngIf = "errors.password !== null">{{errors.password}}</div>
           </div>
         </div>
+        <div class="form-group">
+          <input type="file"/>
+        </div>
         <h4>Practice Information</h4>
         <div class="form-group">
           <input type="text" name="practiceName" id="practiceName" #practiceName="ngModel" [(ngModel)]="doctorModel.practiceName" class="form-control input-lg" placeholder="Practice Name" required>

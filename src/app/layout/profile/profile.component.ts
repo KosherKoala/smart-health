@@ -179,7 +179,8 @@ export class ProfileComponent implements OnInit {
             this.pdfmake.addTable(chatTable);
             
 
-       this.pdfmake.download()
+       this.pdfmake.download();
+
   }
 
 
@@ -399,7 +400,6 @@ export class ProfileComponent implements OnInit {
       });
     }
   }
-
 
   // Clean up
   generateAppointmentList() {

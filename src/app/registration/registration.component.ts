@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User, Patient } from '../shared';
 import { Router } from '@angular/router';
 import { UserService, PatientService, HealthService, InsuranceService } from '../services';
+import { Ng2FileInputService, Ng2FileInputAction } from 'ng2-file-input';
 
 @Component({
   selector: 'app-registration',
@@ -21,12 +22,14 @@ export class RegistrationComponent implements OnInit {
   public newAl;
   public newCon;
   public errors = {password: null}
-   public insurances= [];
+  public insurances= [];
+  private myFileInputIdentifier = 'profileImage' ;
 
   constructor(public router: Router,
               private userService: UserService,
               private patientService: PatientService,
               private healthService: HealthService,
+              private ng2FileInputService: Ng2FileInputService,
               private insuranceService: InsuranceService) {
                 this.insuranceService.getAllInsurances()
                   .then ( (data: any) => {this.insurances = data.insurance; console.log(this.insurances)} )
@@ -54,7 +57,10 @@ export class RegistrationComponent implements OnInit {
             this.healthService.createHealth(this.patientModel.health)
               .then( (data: any) => {
                                       this.patientModel.health = data.health._id
+                                      this.patientModel.picture = 'http://lorempixel.com/300/300/people/' + (Math.floor(Math.random() * 10) + 1);  
+                                      console.log('here');
                                       console.log(this.patientModel)
+
                                       this.patientService.createPatient(this.patientModel)
                                         .then( (patient: any) => {
                                           this.userModel.patient = patient.patient._id;
@@ -72,6 +78,10 @@ export class RegistrationComponent implements OnInit {
           }
         });
     }
+  }
+
+  public onAction(event: any){
+    console.log(event);
   }
 
   addMed() {

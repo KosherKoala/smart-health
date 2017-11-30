@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AuthGuard, NoAuthGuard } from './shared';
 import { AuthenticationService, PatientService, HistoryService, CalendarService, UserService, DoctorService } from './services';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { Ng2FileInputModule } from 'ng2-file-input'; // <-- import the module
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
@@ -23,6 +24,7 @@ export function HttpLoaderFactory(http: Http) {
     ],
     imports: [
         BrowserModule,
+        Ng2FileInputModule.forRoot(),
         BrowserAnimationsModule,
         FormsModule,
         HttpModule,
