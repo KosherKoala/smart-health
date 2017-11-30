@@ -23,7 +23,7 @@ export class ProfileComponent implements OnInit {
   public appointments = [];
   public slots = [];
   public newChat: any = { message: ''};
-  public currentChat = [];
+  public currentChat: any = {chat: []};
   public currentUser: any;
   public collapseInsurance = false;
   public collapseHistories = false;
@@ -74,13 +74,13 @@ export class ProfileComponent implements OnInit {
 
       if (this.currentUser.patient) {
         if (this.currentUser.patient.history && this.currentUser.patient.history.length > 0) {
-          this.currentChat = this.currentUser.patient.history[0].chat;
+          this.currentChat = this.currentUser.patient.history[0];
           this.newChat = {sender: this.currentUser.patient._id, message: '' }
           console.log('current chat', this.currentChat)
         }
       } else if (this.currentUser.doctor) {
         if (this.currentUser.doctor.history && this.currentUser.doctor.history.length > 0) {
-          this.currentChat = this.currentUser.doctor.history[0].chat;
+          this.currentChat = this.currentUser.doctor.history[0];
           this.newChat = {sender: this.currentUser.doctor._id, message: '' }
           console.log('current chat', this.currentChat)
         }
@@ -392,8 +392,9 @@ export class ProfileComponent implements OnInit {
       this.newChat.date = new Date();
       this.chatService.createChat(this.newChat)
         .then( (data: any) => {
-                      this.currentChat.push(data.chat)
-                      this.historyService.addChat('5a179f519051da546a56451f' , data.chat._id)
+                      console.log(this.currentChat);
+                      this.currentChat.chat.push(data.chat)
+                      this.historyService.addChat(this.currentChat._id , data.chat._id)
                         .then( (history: any) => { });
       });
     }

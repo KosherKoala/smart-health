@@ -494,13 +494,13 @@
                 Chat -
                 <div>
                   <select [(ngModel)]="currentChat" *ngIf="currentUser.doctor">
-                    <option [ngValue]="hist.chat" *ngFor="let hist of currentUser.doctor.history">
+                    <option [ngValue]="hist" *ngFor="let hist of currentUser.doctor.history">
                       1
                       {{hist.patient.firstName}} {{hist.patient.lastName}}
                     </option>
                   </select>
                   <select [(ngModel)]="currentChat" *ngIf="currentUser.patient">
-                      <option [ngValue]="hist.chat" *ngFor="let hist of currentUser.patient.history">
+                      <option [ngValue]="hist" *ngFor="let hist of currentUser.patient.history">
                         {{hist.doctor.firstName}} {{hist.doctor.lastName}}
                       </option>
                     </select>
@@ -510,7 +510,7 @@
                 <div id="chat-window" class="card">
                   <div class="card-body">
                     <div *ngIf="this.currentUser.patient">
-                      <div class="m-2 d-flex flex-column p-1" [ngClass]="{'speech-bubble-me': this.currentUser.patient._id == chat.sender, 'speech-bubble-them': this.currentUser.patient._id != chat.sender}" *ngFor="let chat of currentChat">
+                      <div class="m-2 d-flex flex-column p-1" [ngClass]="{'speech-bubble-me': this.currentUser.patient._id == chat.sender, 'speech-bubble-them': this.currentUser.patient._id != chat.sender}" *ngFor="let chat of currentChat.chat">
                         <div>
                           {{chat.message}}
                         </div>
@@ -520,7 +520,7 @@
                       </div>
                     </div>
                     <div *ngIf="this.currentUser.doctor">
-                      <div class="m-2 d-flex flex-column p-1" [ngClass]="{'speech-bubble-me': this.currentUser.doctor._id == chat.sender, 'speech-bubble-them': this.currentUser.doctor._id != chat.sender}" *ngFor="let chat of currentChat">
+                      <div class="m-2 d-flex flex-column p-1" [ngClass]="{'speech-bubble-me': this.currentUser.doctor._id == chat.sender, 'speech-bubble-them': this.currentUser.doctor._id != chat.sender}" *ngFor="let chat of currentChat.chat">
                         <div>
                           {{chat.message}}
                         </div>
