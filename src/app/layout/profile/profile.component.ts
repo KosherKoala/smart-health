@@ -142,29 +142,27 @@ export class ProfileComponent implements OnInit {
 
         // Create headers row
         const apptHeaderRows = new Row([apptHeader1, apptHeader2, apptHeader3, apptHeader4, apptHeader5, apptHeader6, apptHeader7]);
-
         // Create a content row
         let apptRows = []
-        for(let appt of history.appointments)
-        {
+
+        for(let appt of history.appointments) {
           apptRows.push (new Row([new Cell(appt.date.toString()),
           new Cell(appt.procedure.name),
-          new Cell(appt.procedure.description),  new Cell(appt.isPending), new Cell(appt.isActive), new Cell(appt.isCompleted), new Cell(appt.message)]));
+          new Cell(appt.procedure.description),
+          new Cell(appt.isPending),
+          new Cell(appt.isActive),
+          new Cell(appt.isCompleted),
+          new Cell(appt.message)]));
         }
-        
-        
 
         // Create table object
         const apptTable = new Table(apptHeaderRows, apptRows);
-          
 
         this.pdfmake.addTable(apptTable);
         this.pdfmake.addText(' ')
-          
 
         // Appointment Table
             this.pdfmake.addText('Chat Record', 'label');
-
           // Create Headers cells
             const chatHeader1 = new Cell('Sender');
             const chatHeader2 = new Cell('Time');
@@ -175,9 +173,10 @@ export class ProfileComponent implements OnInit {
 
             // Create a content row
             let chatRows = []
-            for(let chat of history.chat)
+
+            for (let chat of history.chat)
             {
-              if(chat.sender == history.doctor._id) {
+              if (chat.sender == history.doctor._id) {
                 chatRows.push (new Row([new Cell(' Dr. ' + history.doctor.firstName + ' ' + history.doctor.lastName),
                                      new Cell(chat.date.toString()),
                                      new Cell(chat.message)]));
@@ -191,18 +190,10 @@ export class ProfileComponent implements OnInit {
             }
             // Create table object
             const chatTable = new Table(chatHeaderRows, chatRows);
-
-            
             this.pdfmake.addTable(chatTable);
-            
 
-<<<<<<< HEAD
-       this.pdfmake.download();
-
-=======
        this.pdfmake.download()
-       this.pdfmake.docDefinition.content=[];
->>>>>>> 8843bbccf19a312f7e9c235faf5488187e26e90f
+       this.pdfmake.docDefinition.content = [];
   }
 
 
@@ -232,7 +223,7 @@ export class ProfileComponent implements OnInit {
 
     for (let i = 0; i < this.ruleModel.bymonth.length; i++) {
       if (this.ruleModel.bymonth[i]) {
-        months.push(i+1)
+        months.push(i + 1)
       }
     }
 
@@ -261,7 +252,6 @@ export class ProfileComponent implements OnInit {
     slot.dtstart = new Date(slot.dtstart);
     slot.until = new Date(slot.until);
     return new RRule(slot).toText();
-    
   }
 
 // Appointments
