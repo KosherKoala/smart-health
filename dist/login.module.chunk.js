@@ -117,7 +117,6 @@ var LoginComponent = (function () {
     };
     LoginComponent.prototype.login = function () {
         var _this = this;
-        console.log("doing it");
         this.authenticationService.login(this.model.email, this.model.password).subscribe(function (result) {
             console.log(result);
             if (result === true) {
