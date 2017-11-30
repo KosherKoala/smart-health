@@ -7,9 +7,8 @@ import { Doctor } from '../../../../server/classes/index'
 export class DoctorSearchPipe implements PipeTransform {
 
 
-
   transform(items: Doctor[], name: string, specialty: string, zip: string, procedure: string ): any[] {
-
+    console.log('searching');
     const checkProcedures = ( doctor ) => {
       for (let pro  of doctor.procedures)
       {
@@ -44,6 +43,7 @@ export class DoctorSearchPipe implements PipeTransform {
                     it.specialty.toLowerCase().includes(specialty) && checkProcedures(it) &&
                     it.location.zip == zip)})
     } else {
+      console.log('items', items)
       return items.filter( it => {
           return ( (it.firstName.toLowerCase().includes(name) || it.lastName.toLowerCase().includes(name)) &&
                     it.specialty.toLowerCase().includes(specialty) && checkProcedures(it)

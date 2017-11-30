@@ -2,7 +2,8 @@
   <div class="row">
     <div class="col-3 d-none d-sm-block d-md-block">
       <div class="card m-auto">
-        <img class="card-img-top" src="http://via.placeholder.com/350x350" alt="Card image cap">
+        <img class="card-img-top" *ngIf="currentUser.patient" src="{{currentUser.patient.picture}}"  alt="Card image cap">
+        <img class="card-img-top" *ngIf="currentUser.doctor" src="{{currentUser.doctor.picture}}"  alt="Card image cap">
         <div class="card-body p-0">
           <ul class="list-group">
               <li class="list-group-item" *ngIf="currentUser.patient">
@@ -464,7 +465,7 @@
                   </li>
                   <li class="list-group-item p-0" *ngFor="let history of currentUser.patient.history">
                     <div *ngIf = "history.doctor != null ">
-                      <app-stat *ngIf = "history.doctor._id != null " [routerLink]= "['/doctor/'+ history.doctor._id]" [icon]="'http://via.placeholder.com/100x100'" [showAddress]="false" [firstName]="history.doctor.firstName" [lastName]="history.doctor.lastName" [specialty]= "history.doctor.specialty" [address]="history.doctor.location"></app-stat>
+                      <app-stat *ngIf = "history.doctor._id != null " [routerLink]= "['/doctor/'+ history.doctor._id]" [icon]="history.doctor.picture" [showAddress]="false" [firstName]="history.doctor.firstName" [lastName]="history.doctor.lastName" [specialty]= "history.doctor.specialty" [address]="history.doctor.location"></app-stat>
                     </div>
                   </li>
                 </ul>
@@ -481,7 +482,7 @@
                   </li>
                   <li class="list-group-item p-0" *ngFor="let history of currentUser.doctor.history">
                     <div *ngIf = "history.patient != null ">
-                      <app-stat *ngIf = "history.patient._id != null " [routerLink]= "['/patient/'+ history.patient._id]" [icon]="'http://via.placeholder.com/100x100'" [isPatient]="true" [showAddress]="false" [firstName]="history.patient.firstName" [lastName]="history.patient.lastName" ></app-stat>
+                      <app-stat *ngIf = "history.patient._id != null " [routerLink]= "['/patient/'+ history.patient._id]" [icon]="history.patient.picture" [isPatient]="true" [showAddress]="false" [firstName]="history.patient.firstName" [lastName]="history.patient.lastName" ></app-stat>
                     </div>
                   </li>
                 </ul>

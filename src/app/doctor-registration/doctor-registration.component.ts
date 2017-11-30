@@ -60,6 +60,7 @@ export class DoctorRegistrationComponent implements OnInit {
             this.calendarService.createCalendar({})
               .then( (cal: any) => {
                                       this.doctorModel.calendar = cal.calendar._id;
+                                      this.doctorModel.picture = 'http://lorempixel.com/300/300/people/' + (Math.floor(Math.random() * 10) + 1);  
                                       this.doctorService.createDoctor(this.doctorModel)
                                         .then( (doc: any) => {
                                             this.userModel.doctor = doc.doctor._id;
