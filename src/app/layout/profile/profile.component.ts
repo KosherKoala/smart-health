@@ -99,18 +99,32 @@ export class ProfileComponent implements OnInit {
        // General Info Table
        this.pdfmake.addText('General Info', 'label');
 
+       //const topHeader1 = new Cell('Physician');
+       //const topHeader2 = new Cell('Patient');
+       //const topHeader3 = new Cell('Patient Since');
+
        const topHeader1 = new Cell('Physician');
-       const topHeader2 = new Cell('Patient');
-       const topHeader3 = new Cell('Patient Since');
+       const topHeader2 = new Cell('Specialty');
+       const topHeader3 = new Cell('Patient');
 
 
        const topHeaders = new Row([topHeader1, topHeader2, topHeader3]);
 
-       const topRow1 = new Row([new Cell(' Dr ' + history.doctor.firstName + ' ' + history.doctor.lastName),
-       new Cell(history.patient.firstName + ' ' + history.patient.lastName),
-       new Cell('Time')]);
+       //const topRow1 = new Row([new Cell(' Dr ' + history.doctor.firstName + ' ' + history.doctor.lastName),
+       //new Cell(history.patient.firstName + ' ' + history.patient.lastName),
+       //new Cell('Time')]);
 
-       const topTable = new Table(topHeaders, [topRow1]);
+       let docRows = [];
+       
+              for(let doclist of history.appointments){
+       
+              docRows.push (new Row([new Cell(' Dr ' + doclist.doctor.firstName + ' ' + doclist.doctor.lastName),
+              new Cell(doclist.doctor.specialty), new Cell(doclist.patient.firstName + ' ' + doclist.patient.lastName)]));
+       
+              }
+
+       //const topTable = new Table(topHeaders, [topRow1]);
+       const topTable = new Table(topHeaders, docRows);
 
        this.pdfmake.addTable(topTable);
 
@@ -120,14 +134,14 @@ export class ProfileComponent implements OnInit {
        this.pdfmake.addText('Appointment Info', 'label');
 
         // Create Headers cells
-        const apptHeader1 = new Cell('Number');
-        const apptHeader2 = new Cell('Type');
+        //const apptHeader1 = new Cell('Number');
+        //const apptHeader2 = new Cell('Type');
         const apptHeader3 = new Cell('Date');
-        const apptHeader4 = new Cell('Status');
-        const apptHeader5 = new Cell('Comments');
+        const apptHeader4 = new Cell('Procedure');
+        const apptHeader5 = new Cell('Description');
 
         // Create headers row
-        const apptHeaderRows = new Row([apptHeader1, apptHeader2, apptHeader3, apptHeader4, apptHeader5]);
+        const apptHeaderRows = new Row([apptHeader3, apptHeader4, apptHeader5]);
 
         // Create a content row
         let apptRows = []
@@ -135,7 +149,7 @@ export class ProfileComponent implements OnInit {
         {
           apptRows.push (new Row([new Cell(appt.date.toString()),
           new Cell(appt.procedure.name),
-          new Cell(appt.description)]));
+          new Cell(appt.procedure.description)]));
         }
         
         
