@@ -103,17 +103,23 @@ export class ProfileComponent implements OnInit {
        // General Info Table
        this.pdfmake.addText('General Info', 'label');
 
+       //const topHeader1 = new Cell('Physician');
+       //const topHeader2 = new Cell('Patient');
+       //const topHeader3 = new Cell('Patient Since');
+
        const topHeader1 = new Cell('Physician');
-       const topHeader2 = new Cell('Patient');
-       const topHeader3 = new Cell('Patient Since');
+       const topHeader2 = new Cell('Specialty');
+       const topHeader3 = new Cell('Patient');
 
 
        const topHeaders = new Row([topHeader1, topHeader2, topHeader3]);
 
-       const topRow1 = new Row([new Cell(' Dr ' + history.doctor.firstName + ' ' + history.doctor.lastName),
-       new Cell(history.patient.firstName + ' ' + history.patient.lastName),
-       new Cell('Time')]);
+       const topRow1 = new Row([new Cell(' Dr. ' + history.doctor.firstName + ' ' + history.doctor.lastName),
+        new Cell(history.doctor.specialty),
+        new Cell(history.patient.firstName + ' ' + history.patient.lastName)]);
+    
 
+       //const topTable = new Table(topHeaders, [topRow1]);
        const topTable = new Table(topHeaders, [topRow1]);
 
        this.pdfmake.addTable(topTable);
@@ -124,14 +130,18 @@ export class ProfileComponent implements OnInit {
        this.pdfmake.addText('Appointment Info', 'label');
 
         // Create Headers cells
-        const apptHeader1 = new Cell('Number');
-        const apptHeader2 = new Cell('Type');
-        const apptHeader3 = new Cell('Date');
-        const apptHeader4 = new Cell('Status');
-        const apptHeader5 = new Cell('Comments');
+        //const apptHeader1 = new Cell('Number');
+        //const apptHeader2 = new Cell('Type');
+        const apptHeader1 = new Cell('Date');
+        const apptHeader2 = new Cell('Procedure');
+        const apptHeader3 = new Cell('Description');
+        const apptHeader4 = new Cell('Pending');
+        const apptHeader5 = new Cell('Active');
+        const apptHeader6 = new Cell('Completed');
+        const apptHeader7 = new Cell('Message');
 
         // Create headers row
-        const apptHeaderRows = new Row([apptHeader1, apptHeader2, apptHeader3, apptHeader4, apptHeader5]);
+        const apptHeaderRows = new Row([apptHeader1, apptHeader2, apptHeader3, apptHeader4, apptHeader5, apptHeader6, apptHeader7]);
 
         // Create a content row
         let apptRows = []
@@ -139,7 +149,7 @@ export class ProfileComponent implements OnInit {
         {
           apptRows.push (new Row([new Cell(appt.date.toString()),
           new Cell(appt.procedure.name),
-          new Cell(appt.description)]));
+          new Cell(appt.procedure.description),  new Cell(appt.isPending), new Cell(appt.isActive), new Cell(appt.isCompleted), new Cell(appt.message)]));
         }
         
         
@@ -167,10 +177,17 @@ export class ProfileComponent implements OnInit {
             let chatRows = []
             for(let chat of history.chat)
             {
-            chatRows.push (new Row([new Cell(chat.sender),
-                                  new Cell(chat.date.toString()),
-                                  new Cell(chat.message)]));
-            
+              if(chat.sender == history.doctor._id) {
+                chatRows.push (new Row([new Cell(' Dr. ' + history.doctor.firstName + ' ' + history.doctor.lastName),
+                                     new Cell(chat.date.toString()),
+                                     new Cell(chat.message)]));
+                }
+
+              else {
+                chatRows.push (new Row([new Cell(history.patient.firstName + ' ' + history.patient.lastName),
+                new Cell(chat.date.toString()),
+                new Cell(chat.message)]));
+              }
             }
             // Create table object
             const chatTable = new Table(chatHeaderRows, chatRows);
@@ -179,8 +196,13 @@ export class ProfileComponent implements OnInit {
             this.pdfmake.addTable(chatTable);
             
 
+<<<<<<< HEAD
        this.pdfmake.download();
 
+=======
+       this.pdfmake.download()
+       this.pdfmake.docDefinition.content=[];
+>>>>>>> 8843bbccf19a312f7e9c235faf5488187e26e90f
   }
 
 
