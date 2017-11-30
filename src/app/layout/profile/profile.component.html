@@ -494,12 +494,12 @@
                 Chat -
                 <div>
                   <select [(ngModel)]="currentChat" *ngIf="currentUser.doctor">
-                    <option [ngValue]="hist.chat" *ngFor="let hist of currentUser.doctor.history">
+                    <option [ngValue]="hist.chat" *ngFor="let hist of authService.currentUser.doctor.history">
                       {{hist.patient.firstName}} {{hist.patient.lastName}}
                     </option>
                   </select>
                   <select [(ngModel)]="currentChat" *ngIf="currentUser.patient">
-                      <option [ngValue]="hist.chat" *ngFor="let hist of currentUser.patient.history">
+                      <option [ngValue]="hist.chat" *ngFor="let hist of authService.currentUser.patient.history">
                         {{hist.doctor.firstName}} {{hist.doctor.lastName}}
                       </option>
                     </select>
