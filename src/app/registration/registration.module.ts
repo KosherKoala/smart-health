@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { UserService, PatientService, HealthService, InsuranceService } from '../services';
-import { Ng2FileInputModule } from 'ng2-file-input'; // <-- import the module
 
 import { RegistrationRoutingModule } from './registration-routing.module';
 import { RegistrationComponent } from './registration.component';
@@ -15,7 +14,6 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
         RegistrationRoutingModule,
         FormsModule,
         NgbModule,
-        Ng2FileInputModule
     ],
     providers: [ UserService, PatientService, HealthService, InsuranceService ],
     declarations: [RegistrationComponent]

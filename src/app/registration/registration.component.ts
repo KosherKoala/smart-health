@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { User, Patient } from '../shared';
 import { Router } from '@angular/router';
 import { UserService, PatientService, HealthService, InsuranceService } from '../services';
-import { Ng2FileInputService, Ng2FileInputAction } from 'ng2-file-input';
 
 @Component({
   selector: 'app-registration',
@@ -23,13 +22,11 @@ export class RegistrationComponent implements OnInit {
   public newCon;
   public errors = {password: null}
   public insurances= [];
-  private myFileInputIdentifier = 'profileImage' ;
 
   constructor(public router: Router,
               private userService: UserService,
               private patientService: PatientService,
               private healthService: HealthService,
-              private ng2FileInputService: Ng2FileInputService,
               private insuranceService: InsuranceService) {
                 this.insuranceService.getAllInsurances()
                   .then ( (data: any) => {this.insurances = data.insurance; console.log(this.insurances)} )
@@ -80,9 +77,6 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  public onAction(event: any){
-    console.log(event);
-  }
 
   addMed() {
     this.patientModel.health.medication.push(this.newData.med)
