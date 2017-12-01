@@ -187,7 +187,11 @@ var ProfileComponent = (function () {
             var appt = _a[_i];
             apptRows.push(new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["b" /* Row */]([new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.date.toString()),
                 new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.procedure.name),
-                new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.procedure.description), new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.isPending), new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.isActive), new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.isCompleted), new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.message)]));
+                new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.procedure.description),
+                new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.isPending),
+                new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.isActive),
+                new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.isCompleted),
+                new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["a" /* Cell */](appt.message)]));
         }
         // Create table object
         var apptTable = new __WEBPACK_IMPORTED_MODULE_4_ng_pdf_make_objects_table__["c" /* Table */](apptHeaderRows, apptRows);
