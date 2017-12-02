@@ -1,0 +1,686 @@
+<div [@routerTransition]>  
+  <div class="row">
+    <div class="col-3 d-none d-sm-block d-md-block">
+      <div class="card m-auto">
+        <img class="card-img-top" *ngIf="currentUser.patient" src="{{currentUser.patient.picture}}"  alt="Card image cap">
+        <img class="card-img-top" *ngIf="currentUser.doctor" src="{{currentUser.doctor.picture}}"  alt="Card image cap">
+        <div class="card-body p-0">
+          <ul class="list-group">
+              <li class="list-group-item" *ngIf="currentUser.patient">
+                <div class="card" *ngIf="currentUser.patient.insurance">
+                  <div class="card-header p-1" (click)="collapseInsurance = !collapseInsurance" [attr.aria-expanded]="!collapseInsurance" aria-controls="collapseExample">
+                    Insurance
+                  </div>
+                  <div class="card-body p-1" id="collapseExample" [ngbCollapse]="!collapseInsurance">
+                    <p>{{currentUser.patient.insurance.name}}</p>
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div *ngIf="currentUser.patient">
+                  <div class="card" *ngIf="currentUser.patient.history">
+                    <div class="card-header p-1" (click)="collapseHistories = !collapseHistories" [attr.aria-expanded]="!collapseHistories" aria-controls="collapseExample">
+                      Doctor Histories
+                    </div>
+                    <div class="card-body p-1" id="collapseExample" [ngbCollapse]="!collapseHistories">
+                      <ul class="list-group" *ngIf="currentUser.patient.history">
+                          <li class="list-group-item text-center" *ngIf="currentUser.patient.history.length == 0">
+                            No Doctor Relationships
+                          </li>
+                          <li class="list-group-item" *ngFor="let history of currentUser.patient.history">
+                            <div class="d-flex flex-row" *ngIf = "history.doctor != null ">
+                              <div *ngIf = "history.doctor._id != null">Dr {{history.doctor.firstName}} {{history.doctor.lastName}}</div>
+                              <div class="fa fa-download ml-auto" (click)="createHistory(history)"></div>
+                            </div>
+                          </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="currentUser.doctor">
+                  <div class="card" *ngIf="currentUser.doctor.history">
+                    <div class="card-header p-1" (click)="collapseHistories = !collapseHistories" [attr.aria-expanded]="!collapseHistories" aria-controls="collapseExample">
+                      Patient Histories
+                    </div>
+                    <div class="card-body p-1" id="collapseExample" [ngbCollapse]="!collapseHistories">
+                      
+                      <ul class="list-group" *ngIf="currentUser.doctor.history">
+                        <li class="list-group-item text-center" *ngIf="currentUser.doctor.history.length == 0">
+                          No Patients Relationships
+                        </li>
+                        <li class="list-group-item" *ngFor="let history of currentUser.doctor.history">
+                          <div class="d-flex flex-row" *ngIf = "history.patient != null ">
+                            <div *ngIf = "history.patient._id != null">{{history.patient.firstName}} {{history.patient.lastName}}</div>
+                            <div class="fa fa-download ml-auto" (click)="createHistory(history)"></div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-9">
+      <div class="row">
+        <div class="col-12 col-sm-8 col-md-8">
+          <h4>
+            {{currentUser.firstName}} {{currentUser.lastName}}
+          </h4>
+          <hr class="thick">
+          <!--Tabs-->
+          <ngb-tabset>
+            <ngb-tab title="Upcoming Appointments">
+              <ng-template ngbTabContent>
+                <div class="card m-auto" id="appointment-card" *ngIf="appointments.length > 0">
+                  <div class="card-body p-0">
+                    <ul class="list-group">
+                      <li class="list-group-item" *ngFor="let appt of appointments">
+                        <div class="d-flex">
+                          <div class="d-flex flex-column">
+                            <div>
+                              <h4>{{appt.procedure.name}}</h4>
+                            </div>
+                            <div>
+                              {{appt.timeIn | date: 'fullDate'}}
+                            </div>
+                            <div>
+                              Start: {{appt.timeIn | date: 'shortTime'}}
+                            </div>
+                            <div>
+                              End: {{appt.timeOut | date: 'shortTime'}}
+                            </div>
+                            <div class="d-flex pt-2">
+                                <h5 *ngIf="appt.isPending && this.currentUser.patient"> <div class="badge badge-pill badge-success">Awaiting Approval</div> </h5>
+                                <h5 *ngIf="appt.isPending && this.currentUser.doctor"  (click)="openAppointmentModal(appt, content, 'accept')"> <div class="badge badge-pill badge-success">Accept</div> </h5>
+                                <h5 *ngIf="appt.isPending && this.currentUser.doctor"  (click)="openAppointmentModal(appt, content, 'deny')"> <div class="badge badge-pill badge-danger">Deny</div> </h5>
+                                <h5><div class="badge badge-pill badge-danger" (click)="openAppointmentModal(appt, content, 'cancel')">Cancel</div></h5>
+                            </div>
+                          </div>
+                          <div class="d-flex flex-column ml-auto">
+                            <div *ngIf = "this.currentUser.patient">
+                              Dr {{appt.doctor.firstName}} {{appt.doctor.lastName}}
+                            </div>
+                            <div *ngIf = "this.currentUser.patient">
+                                {{appt.doctor.location.line_1}}, {{appt.doctor.location.line_2}}<br>
+                                {{appt.doctor.location.city}} {{appt.doctor.location.state}}, {{appt.doctor.location.zip}},
+                            </div>
+                            <div *ngIf = "this.currentUser.doctor">
+                                {{appt.patient.firstName}} {{appt.patient.lastName}}
+                            </div>
+                            <div class="d-flex flex-column">
+                              <h5> <div class="badge badge-pill badge-primary"><i class="fa fa-phone pr-2"></i>407-455-3455</div> </h5>
+                              <h5> <div class="badge badge-pill badge-primary"><i class="fa fa-envelope pr-2"></i>strudel@toster.com</div> </h5>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="card m-auto" *ngIf="appointments.length == 0">
+                  <div class="card-body">
+                    You have no upcoming appointments.
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="User Info" *ngIf="currentUser.patient">
+              <ng-template ngbTabContent>
+                <form>
+                  <div class="row">
+                      <div class="col-2">
+                        User Info:
+                      </div>
+                      <div class="col">
+                        <hr class="thick">
+                      </div>
+                    </div>
+                  <div class="form-group row">
+                      <label for="staticEmail" class="col-sm-2 col-form-label">First</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="staticEmail" value="{{currentUser.firstName}}">
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                      <label for="staticEmail" class="col-sm-2 col-form-label">Last</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="staticEmail" value="{{currentUser.lastName}}">
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="staticEmail" value="{{currentUser.email}}">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-2">
+                      Health:
+                    </div>
+                    <div class="col">
+                      <hr class="thick">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputHeight" class="col-sm-2 col-form-label">Height:</label>
+                    <div class="col-sm-4">
+                      <input type="text" class="form-control" id="inputHeight" value="{{currentUser.patient.health.height}}">
+                    </div>
+                    <label for="inputWeight" class="col-sm-2 col-form-label">Weight:</label>
+                    <div class="col-sm-4">
+                      <input type="text" class="form-control" id="inputWeight" value="{{currentUser.patient.health.weight}}">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputHeight" class="col-sm-2 col-form-label">Medication:</label>
+                    <div class="col-sm-10">
+                      <div class="d-flex flex-row">
+                        <div class="badge badge-pill badge-primary p-auto"  *ngFor="let med of currentUser.patient.health.medication">
+                          {{med}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputHeight" class="col-sm-2 col-form-label">Allergies:</label>
+                    <div class="col-sm-10">
+                      <div class="d-flex flex-row">
+                        <div class="badge badge-pill badge-primary p-auto"  *ngFor="let al of currentUser.patient.health.allergies">
+                          {{al}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputHeight" class="col-sm-2 col-form-label">Conditions:</label>
+                    <div class="col-sm-10">
+                      <div class="d-flex flex-row">
+                        <div class="badge badge-pill badge-primary p-auto"  *ngFor="let con of currentUser.patient.health.conditions">
+                          {{con}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="User Info" *ngIf="currentUser.doctor">
+              <ng-template ngbTabContent>
+                <form>
+                  <div class="row">
+                    <div class="col-2">
+                      User Info:
+                    </div>
+                    <div class="col">
+                      <hr class="thick">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                      <label for="firstName" class="col-sm-2 col-form-label">First</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="firstName" value="{{currentUser.firstName}}">
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                      <label for="lastName" class="col-sm-2 col-form-label">Last</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="lastName" value="{{currentUser.lastName}}">
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="email" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="email" value="{{currentUser.email}}">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-2">
+                      Practice:
+                    </div>
+                    <div class="col">
+                      <hr class="thick">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                      <label for="specialty" class="col-sm-2 col-form-label">Specialty</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="specialty" value="{{currentUser.doctor.specialty}}">
+                      </div>
+                    </div>
+                  <div class="form-group row">
+                    <label for="address" class="col-sm-2 col-form-label">Address</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="address" value="{{currentUser.doctor.location.line_1}}" placeholder="Line 1">
+                      <input type="text" class="form-control" id="address" value="{{currentUser.doctor.location.line_2}}" placeholder="Line 2">
+                      <input type="text" class="form-control" id="address" value="{{currentUser.doctor.location.city}}" placeholder="City">
+                      <input type="text" class="form-control" id="address" value="{{currentUser.doctor.location.state}}" placeholder="State">
+                      <input type="text" class="form-control" id="address" value="{{currentUser.doctor.location.zip}}" placeholder="Zip">
+                    </div>
+                  </div>
+                </form>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Scheduler" *ngIf="currentUser.doctor">
+              <ng-template ngbTabContent>
+                <div id="input">
+                  <div>
+                    <h5>Current Appointment Slots</h5>
+                    <div class="card">
+                      <div class="card-body">
+                          <ul class="list-group">
+                              <li class="list-group-item" *ngFor="let slot of slots">
+                                {{slot.procedure.name}}
+                                <br>
+                                {{renderTime(slot.rrule)}}
+                              </li>
+                          </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <h5>Procedure</h5>
+                    <div class="form-group">
+                        <select class="form-control"  id="procedure"
+                                required
+                                [(ngModel)]="chosenProcedure" name="procedure">
+                          <option *ngFor="let procedure of currentUser.doctor.procedures" [value]="procedure._id">{{procedure.name}}</option>
+                        </select>
+                      </div>
+                  </div>
+                  <div id="input-types">
+                    <section id="options-input">
+                      <h5>Scheduling Options</h5>
+                      <form #f="ngForm">
+                        <table>
+                          <tbody>
+                            <tr>
+                                <th>
+                                    <div class="option-name">
+                                        <div class="help">Frequency</div>
+                                    </div>
+                                </th>
+                                <td>
+                                  <label><input name="freq" type="radio" [value]="0" [(ngModel)]="ruleModel.freq" (ngModelChange)="updateRrule()"  #yearly ="ngModel" />Yearly</label>
+                                  <label><input name="freq" type="radio" value="1" [(ngModel)]="ruleModel.freq" (ngModelChange)="updateRrule()"  #monthly ="ngModel" />Monthly</label>
+                                  <label><input name="freq" type="radio" value="2" [(ngModel)]="ruleModel.freq" (ngModelChange)="updateRrule()"  #weekly ="ngModel"  />Weekly</label>
+                                  <label><input name="freq" type="radio" value="3" [(ngModel)]="ruleModel.freq" (ngModelChange)="updateRrule()"  #daily ="ngModel"/>Daily</label>
+                                  <label><input name="freq" type="radio" value="4" [(ngModel)]="ruleModel.freq" (ngModelChange)="updateRrule()"  #hourly ="ngModel"/>Hourly</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="option-name">
+                                        <div class="help">
+                                          Start Date
+                                        </div>
+                                    </div>
+                                </th>
+                                <td>
+                                  <div class="form-group">
+                                    <div class="input-group">
+                                      <input class="form-control" placeholder="yyyy-mm-dd"
+                                              name="dt" [(ngModel)]="ruleModel.dtstart" (ngModelChange)="updateRrule()" ngbDatepicker #dt="ngbDatepicker">
+                                      <button class="input-group-addon" (click)="dt.toggle()" type="button">
+                                          <i class="fa fa-calendar"></i>
+                                      </button>
+                                    </div>
+                                  </div>
+                                </td>
+                            </tr>
+                            <tr>
+                              <th>
+                                  <div class="option-name">
+                                      <div class="help">
+                                        End Date
+                                      </div>
+                                  </div>
+                              </th>
+                              <td>
+                                <div class="form-group">
+                                  <div class="input-group">
+                                    <input class="form-control" placeholder="yyyy-mm-dd"
+                                            name="un" [(ngModel)]="ruleModel.until" (ngModelChange)="updateRrule()" ngbDatepicker #un="ngbDatepicker">
+                                    <button class="input-group-addon" (click)="un.toggle()" type="button">
+                                      <i class="fa fa-calendar"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="option-name">
+                                        <div class="help">
+                                          Slot Days
+                                        </div>
+                                    </div>
+                                </th>
+                                <td>
+                                    <label><input type="checkbox" [(ngModel)]="ruleModel.byweekday[0]" name="byweekday" (ngModelChange)="updateRrule()" #sun ="ngModel" value="0">Sundays</label>
+                                    <label><input type="checkbox" [(ngModel)]="ruleModel.byweekday[1]" name="byweekday" (ngModelChange)="updateRrule()" #mon ="ngModel" [value]="1">Mondays</label>
+                                    <label><input type="checkbox" [(ngModel)]="ruleModel.byweekday[2]" name="byweekday" (ngModelChange)="updateRrule()" #tue ="ngModel" value="2">Tuesdays</label>
+                                    <label><input type="checkbox" [(ngModel)]="ruleModel.byweekday[3]" name="byweekday" (ngModelChange)="updateRrule()" #wed ="ngModel" value="3">Wednesdays</label>
+                                    <label><input type="checkbox" [(ngModel)]="ruleModel.byweekday[4]" name="byweekday" (ngModelChange)="updateRrule()" #thu ="ngModel" value="4">Thursdays</label>
+                                    <label><input type="checkbox" [(ngModel)]="ruleModel.byweekday[5]" name="byweekday" (ngModelChange)="updateRrule()" #fri ="ngModel" value="5">Fridays</label>
+                                    <label><input type="checkbox" [(ngModel)]="ruleModel.byweekday[6]" name="byweekday" (ngModelChange)="updateRrule()" #sat ="ngModel" value="6">Saturdays</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="option-name">
+                    
+                                        <div class="help">
+                                          Slot Months
+                                        </div>
+                                    </div>
+                                </th>
+                                <td>
+                                    <label><input name="bymonth" type="checkbox" [(ngModel)]="ruleModel.bymonth[0]" (ngModelChange)="updateRrule()" #jan ="ngModel" value="1"/> Jan</label>
+                                    <label><input name="bymonth" type="checkbox" [(ngModel)]="ruleModel.bymonth[1]" (ngModelChange)="updateRrule()" #feb ="ngModel" value="2"/> Feb</label>
+                                    <label><input name="bymonth" type="checkbox" [(ngModel)]="ruleModel.bymonth[2]" (ngModelChange)="updateRrule()" #mar ="ngModel" value="3"/> Mar</label>
+                                    <label><input name="bymonth" type="checkbox" [(ngModel)]="ruleModel.bymonth[3]" (ngModelChange)="updateRrule()" #apr ="ngModel" value="4"/> Apr</label>
+                                    <label><input name="bymonth" type="checkbox" [(ngModel)]="ruleModel.bymonth[4]" (ngModelChange)="updateRrule()" #may ="ngModel" value="5"/> May</label>
+                                    <label><input name="bymonth" type="checkbox" [(ngModel)]="ruleModel.bymonth[5]" (ngModelChange)="updateRrule()" #jun ="ngModel" value="6"/> Jun</label>
+                                    <label><input name="bymonth" type="checkbox" [(ngModel)]="ruleModel.bymonth[6]" (ngModelChange)="updateRrule()" #jul ="ngModel" value="7"/> Jul</label>
+                                    <label><input name="bymonth" type="checkbox" [(ngModel)]="ruleModel.bymonth[7]" (ngModelChange)="updateRrule()" #aug ="ngModel" value="8"/> Aug</label>
+                                    <label><input name="bymonth" type="checkbox" [(ngModel)]="ruleModel.bymonth[8]" (ngModelChange)="updateRrule()" #sep ="ngModel" value="9"/> Sep</label>
+                                    <label><input name="bymonth" type="checkbox" [(ngModel)]="ruleModel.bymonth[9]" (ngModelChange)="updateRrule()" #oct ="ngModel" value="10"/> Oct</label>
+                                    <label><input name="bymonth" type="checkbox" [(ngModel)]="ruleModel.bymonth[10]" (ngModelChange)="updateRrule()" #nov ="ngModel" value="11"/> Nov</label>
+                                    <label><input name="bymonth" type="checkbox" [(ngModel)]="ruleModel.bymonth[11]" (ngModelChange)="updateRrule()" #dec ="ngModel" value="12"/> Dec</label>
+                                </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <button (click) = "createSlot()">Create Slot</button>
+                      </form>
+                    </section>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Procedures" *ngIf="currentUser.doctor">
+              <ng-template ngbTabContent>
+                <form>
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <h5>Procedure List:</h5>
+                    </div>
+                    <div>
+                      <button (click)="openProcedureModal('', pocedureEditor, 'create')" class="btn btn-success">+</button>
+                    </div>
+                  </div>
+                  <div class="card">
+                    <div class="card-body">
+                      <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let procedure of currentUser.doctor.procedures">
+                          <div class="d-flex flex-column">
+                            <div class="d-flex justify-content-between">
+                              <div>
+                                  {{procedure.name}}
+                              </div>
+                              <div>
+                                <i class="fa fa-pencil" (click)="openProcedureModal(procedure, pocedureEditor, 'edit')" ></i>
+                                <i class="fa fa-eye" (click)="viewProcedure(procedure)"></i>
+                                <i class="fa fa-times" (click)="openProcedureModal(procedure, pocedureEditor, 'delete')" ></i>
+                              </div>
+                            </div>
+                            
+                            <div id="collapseExample" [ngbCollapse]="viewedProcedure != procedure">
+                              <hr class="thick">
+                              <div class="d-flex flex-column">
+                                <div class="d-flex justify-content-between pb-2">
+                                  <div>
+                                    <h6>Price:</h6> ${{procedure.cost}}
+                                  </div>
+                                  <div>
+                                    <h6>Duration:</h6>{{procedure.duration}} hours
+                                  </div>
+                                </div>
+                                  <h6>Description</h6>
+                                  {{procedure.description}}
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </form>
+              </ng-template>
+            </ngb-tab>
+            
+          </ngb-tabset>
+        </div>
+        <div class="col-12 col-sm-4 col-md-4">
+          <div id="myDoctors" *ngIf="currentUser.patient">
+            <h4>My Doctors</h4>
+            <div class="card">
+              <div class="card-body p-1">
+                <ul class="list-group">
+                  <li class="list-group-item text-center" *ngIf="currentUser.patient.history && currentUser.patient.history.length == 0">
+                      No Doctor Relationships
+                  </li>
+                  <li class="list-group-item p-0" *ngFor="let history of currentUser.patient.history">
+                    <div *ngIf = "history.doctor != null ">
+                      <app-stat *ngIf = "history.doctor._id != null " [routerLink]= "['/doctor/'+ history.doctor._id]" [icon]="history.doctor.picture" [showAddress]="false" [firstName]="history.doctor.firstName" [lastName]="history.doctor.lastName" [specialty]= "history.doctor.specialty" [address]="history.doctor.location"></app-stat>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div id="myDoctors" *ngIf="currentUser.doctor">
+            <h4>My Patients</h4>
+            <div class="card">
+              <div class="card-body p-1">
+                <ul class="list-group">
+                  <li class="list-group-item text-center" *ngIf="currentUser.doctor.history && currentUser.doctor.history.length == 0">
+                      No Patient Relationships
+                  </li>
+                  <li class="list-group-item p-0" *ngFor="let history of currentUser.doctor.history">
+                    <div *ngIf = "history.patient != null ">
+                      <app-stat *ngIf = "history.patient._id != null " [routerLink]= "['/patient/'+ history.patient._id]" [icon]="history.patient.picture" [isPatient]="true" [showAddress]="false" [firstName]="history.patient.firstName" [lastName]="history.patient.lastName" ></app-stat>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div id="chat">
+            <div class="card p-0">
+              <div class="card-header">
+                Chat -
+                <div>
+                  <select [(ngModel)]="currentChat" *ngIf="currentUser.doctor">
+                    <option [ngValue]="hist" *ngFor="let hist of currentUser.doctor.history">
+                      1
+                      {{hist.patient.firstName}} {{hist.patient.lastName}}
+                    </option>
+                  </select>
+                  <select [(ngModel)]="currentChat" *ngIf="currentUser.patient">
+                      <option [ngValue]="hist" *ngFor="let hist of currentUser.patient.history">
+                        {{hist.doctor.firstName}} {{hist.doctor.lastName}}
+                      </option>
+                    </select>
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <div id="chat-window" class="card">
+                  <div class="card-body">
+                    <div *ngIf="this.currentUser.patient">
+                      <div class="m-2 d-flex flex-column p-1" [ngClass]="{'speech-bubble-me': this.currentUser.patient._id == chat.sender, 'speech-bubble-them': this.currentUser.patient._id != chat.sender}" *ngFor="let chat of currentChat.chat">
+                        <div>
+                          {{chat.message}}
+                        </div>
+                        <div>
+                          <small>{{chat.date | date: 'short'}}</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div *ngIf="this.currentUser.doctor">
+                      <div class="m-2 d-flex flex-column p-1" [ngClass]="{'speech-bubble-me': this.currentUser.doctor._id == chat.sender, 'speech-bubble-them': this.currentUser.doctor._id != chat.sender}" *ngFor="let chat of currentChat.chat">
+                        <div>
+                          {{chat.message}}
+                        </div>
+                        <div>
+                          <small>{{chat.date | date: 'short'}}</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card" id="chat-type">
+                  <div class="card-body">
+                    <form (ngSubmit)="sendMessage()">
+                      <input name="message" type="text" [(ngModel)]="newChat.message"/>
+                      <button>Send</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title" *ngIf="accepting">Accept Appointment</h4>
+      <h4 class="modal-title" *ngIf="denying">Deny Appointment</h4>
+      <h4 class="modal-title" *ngIf="cancelling">Cancel Appointment</h4>
+      <h4 class="modal-title" *ngIf="completing">Complete Appointment</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <h4 *ngIf="currentUser.doctor">
+        {{clickedAppointment.procedure.name}} <small>with {{clickedAppointment.patient.firstName}}  {{clickedAppointment.patient.lastName}} </small>
+      </h4>
+      <h4 *ngIf="currentUser.patient">
+        {{clickedAppointment.procedure.name}} <small>with {{clickedAppointment.doctor.firstName}}  {{clickedAppointment.doctor.lastName}} </small>
+      </h4>
+      <div class="d-flex flex-row justify-content-between">
+        <div class="d-flex flex-column">
+          <div>
+            Date: {{clickedAppointment.timeIn | date }}
+          </div>
+          <div>
+            Start Time: {{clickedAppointment.timeIn | date:'shortTime' }}
+          </div>
+          <div class="d-flex flex-row">
+            End Time: {{clickedAppointment.timeOut | date:'shortTime'}}
+          </div>
+        </div>
+        <div class="d-flex flex-column">
+          <div>
+            {{clickedAppointment.doctor.location.line_1}}, {{clickedAppointment.doctor.location.line_2}} 
+          </div>
+          <div>
+            {{clickedAppointment.doctor.location.city}}, {{clickedAppointment.doctor.location.state}}, {{clickedAppointment.doctor.location.zip}} 
+          </div>
+        </div>
+      </div>
+      <hr>
+      <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+        <div class="form-content">
+            <div class="form-group">
+                <input type="text" name="comment" id="comment" [(ngModel)]="model.comment" #comment ="ngModel" class="form-control input-lg" placeholder="Comment" tabindex="1" required>
+            </div>
+        </div>
+        <button type="button" class="btn btn-outline-dark" *ngIf="cancelling" (click)="cancelAppointment(clickedAppointment)">Cancel Appointment</button>
+        <button type="button" class="btn btn-outline-dark" *ngIf="denying" (click)="denyAppointment(clickedAppointment)">Deny Appointment</button>
+        <button type="button" class="btn btn-outline-dark" *ngIf="accepting" (click)="acceptAppointment(clickedAppointment)">Accept Appointment</button>
+        <button type="button" class="btn btn-outline-dark" *ngIf="completing" (click)="completeAppointment(clickedAppointment)">Complete Appointment</button>
+      </form>
+    </div>
+  </ng-template>
+
+  <ng-template #pocedureEditor let-c="close" let-d="dismiss">
+    
+    <div class="modal-header">
+      <h4 class="modal-title" *ngIf="creating">Create Procedure</h4>
+      <h4 class="modal-title" *ngIf="editing">Edit Procedure</h4>
+      <h4 class="modal-title" *ngIf="deleting">Delete Procedure</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      
+      <form *ngIf="editing" (ngSubmit)="editForm.form. valid && updateProcedure()" #editForm="ngForm" novalidate>
+        <div class="form-content">
+          <div class="form-group">
+              <label for="name">Name???</label>
+              <input type="text" name="name" id="name" [(ngModel)]="procedureModel.name" #name ="ngModel" class="form-control input-lg" tabindex="1" required>
+              <div *ngIf="editForm.submitted && !name.valid" class="help-block">Name is required</div>
+          </div>
+          <div class="form-group">
+              <label for="price">Price</label>
+              <input type="number" step="0.01" min="0" name="price" id="price" [(ngModel)]="procedureModel.cost" #price ="ngModel" class="form-control input-lg" tabindex="1" required>
+              <div *ngIf="editForm.submitted && !price.valid" class="help-block">Price is required</div>
+          </div>
+          <div class="form-group">
+              <label for="price">Duration</label>
+              <input type="number" min="0" name="duration" id="price" [(ngModel)]="procedureModel.duration" #duration ="ngModel" class="form-control input-lg" tabindex="1" required>
+              <div *ngIf="editForm.submitted && !duration.valid" class="help-block">Price is required</div>
+          </div>
+          <div class="form-group">
+              <label for="description">Description</label>
+              <textarea class="form-control" rows = "10" name="description" #description = "ngModel" id="procedureDescription" required [(ngModel)]="procedureModel.description"></textarea>
+              <div *ngIf="editForm.submitted && !description.valid" class="help-block">Description is required</div>
+          </div>
+        </div>
+        <input class="btn btn-primary" type="submit" value="Save"/>
+        <button class="btn btn-danger" (click)="d('Cross click')">Cancel</button>
+      </form>
+
+      <form *ngIf="creating" (ngSubmit)="createForm.form. valid && createProcedure()" #createForm="ngForm" novalidate>
+        <div class="form-content">
+          <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" name="name" id="name" [(ngModel)]="procedureModel.name" #name ="ngModel" class="form-control input-lg" tabindex="1" required>
+              <div *ngIf="createForm.submitted && !name.valid" class="help-block">Name is required</div>
+          </div>
+          <div class="form-group">
+              <label for="price">Price</label>
+              <input type="number" step="0.01" min="0" name="price" id="price" [(ngModel)]="procedureModel.cost" #price ="ngModel" class="form-control input-lg" tabindex="1" required>
+              <div *ngIf="createForm.submitted && !price.valid" class="help-block">Price is required</div>
+          </div>
+          <div class="form-group">
+              <label for="price">Duration</label>
+              <input type="number" min="0" name="duration" id="price" [(ngModel)]="procedureModel.duration" #duration ="ngModel" class="form-control input-lg" tabindex="1" required>
+              <div *ngIf="createForm.submitted && !duration.valid" class="help-block">Price is required</div>
+          </div>
+          <div class="form-group">
+              <label for="description">Description</label>
+              <textarea class="form-control" rows = "10" name="description" #description = "ngModel" id="procedureDescription" required [(ngModel)]="procedureModel.description"></textarea>
+              <div *ngIf="createForm.submitted && !description.valid" class="help-block">Description is required</div>
+          </div>
+        </div>
+        <input class="btn btn-primary" type="submit" value="Create"/>
+        <button class="btn btn-danger" (click)="d('Cross click')">Cancel</button>
+      </form>
+
+      <div *ngIf="deleting">
+        <div class="d-flex flex-column text-center">
+          <div class="pb-2">
+            Are you sure you want to delete procedure {{procedureModel.name}}?
+          </div>
+          <div>
+            <button class="btn btn-primary" (click)="deleteProcedure()">Yes</button>
+            <button class="btn btn-danger" (click)="d('Cross click')" >No</button>
+          </div>
+        </div>
+      </div>
+     
+    </div>
+  </ng-template>
+
+</div>

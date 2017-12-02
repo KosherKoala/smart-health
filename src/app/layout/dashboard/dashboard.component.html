@@ -1,39 +1,25 @@
 <div [@routerTransition]>
-    <h2 class="text-muted">Welcome to Smart Health</h2>
-    <div class="row">
-        <div class="col-md-12">
-            <ngb-carousel>
-                <ng-template ngbSlide *ngFor="let slider of sliders">
-                    <img class="img-fluid mx-auto d-block" [src]="slider.imagePath" alt="Random first slide" width="100%">
-                    <div class="carousel-caption">
-                        <h3>{{slider.label}}</h3>
-                        <p>{{slider.text}}</p>
-                    </div>
-                </ng-template>
-            </ngb-carousel>
-        </div>
-    </div>
-    <hr>
+    
     <div class="row">
         <div class="col-12">
             <div class="row">
                 <div class="col-12">
-                    <h2>Find a Doctor</h2>  
+                    <h2>Feeling sick?<br> Find a doctor to help!</h2>  
                 </div>
             </div>
             <form>
                 <div class="form-row">
                     <div class="col-4">
-                        <input type="text" class="form-control form-control-lg" placeholder="Name">
+                        <input type="text" class="form-control form-control-lg"  placeholder="Name" name="name" [(ngModel)]="nameSearch">
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control form-control-lg" placeholder="Specialty (ex. Dentist)">
+                        <input type="text" class="form-control form-control-lg" placeholder="Specialty (ex. Dentist)"  name="specialty" [(ngModel)]="specSearch">
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control form-control-lg" placeholder="Service (ex. Root Canal)">
+                        <input type="text" class="form-control form-control-lg" placeholder="Service (ex. Root Canal)"  name="service" [(ngModel)]="serviceSearch">
                     </div>
                     <div class="col">
-                         <input type="text" class="form-control form-control-lg" placeholder="Zip">
+                         <input type="text" class="form-control form-control-lg" placeholder="Zip"  name="zip" [(ngModel)]="zipSearch">
                     </div>
                 </div>  
             </form>
@@ -41,18 +27,15 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xl-3 col-lg-6 mb-2" *ngFor="let doctor of doctors">
-            <app-stat [bgClass]="m" [icon]="'https://dummyimage.com/100x100/999/fff'" [name]="doctor.name" [specialty]= "doctor.specialty" [address]="doctor.address"></app-stat>
+        <div class="col-xl-3 col-lg-6 mb-2" *ngFor="let doctor of filtered | doctorSearch : nameSearch : specSearch : zipSearch :serviceSearch" [routerLink]= "['/doctor/'+ doctor._id]">
+            <app-stat [bgClass]="m" [icon]= "doctor.picture" [firstName]="doctor.firstName" [lastName]="doctor.lastName" [showAddress]="true" [specialty]= "doctor.specialty" [address]="doctor.location"></app-stat>
         </div>
     </div>
    
     <div class="row d-none">
         <!-- /.col-lg-8 -->
         <div class="col-lg-4">
-            
-
-            <app-chat></app-chat>
-            <!-- /.card .chat-card -->
+        <!-- <app-chat></app-chat>-->
         </div>
         <!-- /.col-lg-4 -->
     </div>

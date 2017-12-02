@@ -1,5 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgbCarouselModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { DoctorSearchPipe } from '../../shared/pipes/doctor-search.pipe';
+import {DoctorService} from '../../services'
+import { RouterModule, Router } from '@angular/router';
+import { MockDoctorService } from '../../mocks/mock-doctor-service'
+import { Http, HttpModule } from '@angular/http';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
   TimelineComponent,
@@ -19,12 +27,20 @@ describe('DashboardComponent', () => {
         NgbCarouselModule.forRoot(),
         NgbAlertModule.forRoot(),
         StatModule,
+        FormsModule,
+        RouterModule,
+        BrowserAnimationsModule
     ],
       declarations: [
         DashboardComponent,
         TimelineComponent,
         NotificationComponent,
-        ChatComponent
+        ChatComponent,
+        DoctorSearchPipe
+      ],
+      providers: [
+        { provide: DoctorService, useClass: MockDoctorService },
+        { provide: Http }
       ]
     })
     .compileComponents();

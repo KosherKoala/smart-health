@@ -25,16 +25,29 @@
         "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.5",
         "@ngx-translate/core": "^7.2.2",
         "@ngx-translate/http-loader": "^0.1.0",
+        "angular-2-dropdown-multiselect": "^1.6.2",
+        "angular-calendar": "^0.21.2",
         "body-parser": "^1.18.2",
         "bootstrap": "^4.0.0-beta",
+        "circular-dependency-plugin": "^4.2.1",
         "core-js": "^2.5.1",
+        "daypilot-pro-angular": "https://npm.daypilot.org/daypilot-pro-angular/trial/8.3.2573.tar.gz",
         "express": "^4.16.1",
+        "express-jwt": "^5.3.0",
         "font-awesome": "^4.7.0",
         "helmet": "^3.8.2",
-        "jsonwebtoken": "^8.0.1",
+        "jslint": "^0.11.0",
+        "jsonwebtoken": "^8.1.0",
+        "jwt-simple": "^0.5.1",
+        "lodash": "^4.17.4",
         "mongoose": "^4.12.0",
+        "mongoose-autopopulate": "^0.6.0",
         "multer": "^1.3.0",
+        "ng-pdf-make": "0.0.2",
         "ng2-charts": "^1.6.0",
+        "ng2-file-input": "^1.0.16",
+        "popper.js": "^1.12.7",
+        "rrule": "^2.2.0",
         "rxjs": "^5.4.3",
         "zone.js": "^0.8.18"
     },
@@ -56,6 +69,6 @@
         "protractor": "~5.1.2",
         "ts-node": "~3.0.4",
         "tslint": "~5.3.2",
-        "typescript": "~2.5.2"
+        "typescript": "^2.3.4"
     }
 }

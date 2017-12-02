@@ -1,0 +1,216 @@
+<div [@routerTransition]>  
+  <div class="row">
+    <div class="col-3">
+      <div class="card m-auto">
+        <img class="card-img-top" src="{{patient.picture}}"  alt="Card image cap">
+        <div class="card-body p-0">
+            <ul class="list-group">
+                <li class="list-group-item"><div class="badge badge-pill badge-primary"><i class="fa fa-phone pr-2"></i>407-455-3455</div></li>
+                <li class="list-group-item">
+                  <div class="d-flex flex-row" *ngIf = "history.patient != null ">
+                    <div *ngIf = "history.patient._id != null">{{history.patient.firstName}} {{history.patient.lastName}}</div>
+                    <div class="fa fa-download ml-auto" (click)="createHistory(history)"></div>
+                  </div>
+                </li>
+            </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-9">
+      <div class="row">
+        <div class="col-11">
+          <h4>
+            {{patient.firstName}} {{patient.lastName}}
+          </h4>
+          <hr class="thick">
+        <ngb-tabset>
+          <ngb-tab title="Upcoming Appointments">
+            <ng-template ngbTabContent>
+              <div class="card m-auto" id="appointment-card" *ngIf="appointments.length > 0">
+                    <div class="card-body p-0">
+                      <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let appt of appointments">
+                          <div class="d-flex">
+                            <div class="d-flex flex-column">
+                              <div>
+                                <h4>{{appt.procedure.name}}</h4>
+                              </div>
+                              <div>
+                                {{appt.timeIn | date: 'fullDate'}}
+                              </div>
+                              <div>
+                                Start: {{appt.timeIn | date: 'shortTime'}}
+                              </div>
+                              <div>
+                                End: {{appt.timeOut | date: 'shortTime'}}
+                              </div>
+                              <div class="d-flex pt-2">
+                                  <h5 *ngIf="appt.isPending && this.authService.currentUser.patient"> <div class="badge badge-pill badge-success">Awaiting Approval</div> </h5>
+                                  <h5 *ngIf="appt.isPending && this.authService.currentUser.doctor"  (click)="openAppointmentModal(appt, content, 'accept')"> <div class="badge badge-pill badge-success">Accept</div> </h5>
+                                  <h5 *ngIf="appt.isPending && this.authService.currentUser.doctor"  (click)="openAppointmentModal(appt, content, 'deny')"> <div class="badge badge-pill badge-danger">Deny</div> </h5>
+                                  <h5><div class="badge badge-pill badge-danger" (click)="openAppointmentModal(appt, content, 'cancel')">Cancel</div></h5>
+                              </div>
+                            </div>
+                            <div class="d-flex flex-column ml-auto">
+                              <div *ngIf = "this.authService.currentUser.patient">
+                                Dr {{appt.doctor.firstName}} {{appt.doctor.lastName}}
+                              </div>
+                              <div *ngIf = "this.authService.currentUser.patient">
+                                  {{appt.doctor.location.line_1}}, {{appt.doctor.location.line_2}}<br>
+                                  {{appt.doctor.location.city}} {{appt.doctor.location.state}}, {{appt.doctor.location.zip}},
+                              </div>
+                              <div *ngIf = "this.authService.currentUser.doctor">
+                                  {{appt.patient.firstName}} {{appt.patient.lastName}}
+                              </div>
+                              <div class="d-flex">
+                                <h5> <div class="badge badge-pill badge-primary"><i class="fa fa-phone pr-2"></i>407-455-3455</div> </h5>
+                                <h5> <div class="badge badge-pill badge-primary"><i class="fa fa-envelope pr-2"></i>strudel@toster.com</div> </h5>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="card m-auto" *ngIf="appointments.length == 0">
+                    <div class="card-body">
+                      You have no upcoming appointments.
+                    </div>
+                  </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab title="User Info">
+            <ng-template ngbTabContent>
+              <form>
+                <div class="row">
+                    <div class="col-2">
+                      User Info:
+                    </div>
+                    <div class="col">
+                      <hr class="thick">
+                    </div>
+                  </div>
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">First</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="staticEmail" value="{{patient.firstName}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-2 col-form-label">Last</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="staticEmail" value="{{patient.lastName}}">
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-2">
+                    Health:
+                  </div>
+                  <div class="col">
+                    <hr class="thick">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputHeight" class="col-sm-2 col-form-label">Height:</label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" id="inputHeight" value="{{patient.health.height}}">
+                  </div>
+                  <label for="inputWeight" class="col-sm-2 col-form-label">Weight:</label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" id="inputWeight" value="{{patient.health.weight}}">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputHeight" class="col-sm-2 col-form-label">Medication:</label>
+                  <div class="col-sm-10">
+                    <div class="d-flex flex-row">
+                      <div class="badge badge-pill badge-primary p-auto"  *ngFor="let med of patient.health.medication">
+                        {{med}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputHeight" class="col-sm-2 col-form-label">Allergies:</label>
+                  <div class="col-sm-10">
+                    <div class="d-flex flex-row">
+                      <div class="badge badge-pill badge-primary p-auto"  *ngFor="let al of patient.health.allergies">
+                        {{al}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="inputHeight" class="col-sm-2 col-form-label">Conditions:</label>
+                  <div class="col-sm-10">
+                    <div class="d-flex flex-row">
+                      <div class="badge badge-pill badge-primary p-auto"  *ngFor="let con of patient.health.conditions">
+                        {{con}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #content let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title" *ngIf="accepting">Accept Appointment</h4>
+        <h4 class="modal-title" *ngIf="denying">Deny Appointment</h4>
+        <h4 class="modal-title" *ngIf="cancelling">Cancel Appointment</h4>
+        <h4 class="modal-title" *ngIf="completing">Complete Appointment</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h4 *ngIf="authService.currentUser.doctor">
+          {{clickedAppointment.procedure.name}} <small>with {{clickedAppointment.patient.firstName}}  {{clickedAppointment.patient.lastName}} </small>
+        </h4>
+        <h4 *ngIf="authService.currentUser.patient">
+          {{clickedAppointment.procedure.name}} <small>with {{clickedAppointment.doctor.firstName}}  {{clickedAppointment.doctor.lastName}} </small>
+        </h4>
+        <div class="d-flex flex-row justify-content-between">
+          <div class="d-flex flex-column">
+            <div>
+              Date: {{clickedAppointment.timeIn | date }}
+            </div>
+            <div>
+              Start Time: {{clickedAppointment.timeIn | date:'shortTime' }}
+            </div>
+            <div class="d-flex flex-row">
+              End Time: {{clickedAppointment.timeOut | date:'shortTime'}}
+            </div>
+          </div>
+          <div class="d-flex flex-column">
+            <div>
+              {{clickedAppointment.doctor.location.line_1}}, {{clickedAppointment.doctor.location.line_2}} 
+            </div>
+            <div>
+              {{clickedAppointment.doctor.location.city}}, {{clickedAppointment.doctor.location.state}}, {{clickedAppointment.doctor.location.zip}} 
+            </div>
+          </div>
+        </div>
+        <hr>
+        <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate>
+          <div class="form-content">
+              <div class="form-group">
+                  <input type="text" name="comment" id="comment" [(ngModel)]="model.comment" #comment ="ngModel" class="form-control input-lg" placeholder="Comment" tabindex="1" required>
+              </div>
+          </div>
+          <button type="button" class="btn btn-outline-dark" *ngIf="cancelling" (click)="cancelAppointment(clickedAppointment)">Cancel Appointment</button>
+          <button type="button" class="btn btn-outline-dark" *ngIf="denying" (click)="denyAppointment(clickedAppointment)">Deny Appointment</button>
+          <button type="button" class="btn btn-outline-dark" *ngIf="accepting" (click)="acceptAppointment(clickedAppointment)">Accept Appointment</button>
+          <button type="button" class="btn btn-outline-dark" *ngIf="completing" (click)="completeAppointment(clickedAppointment)">Complete Appointment</button>
+        </form>
+      </div>
+    </ng-template>
+
+
+
+</div>

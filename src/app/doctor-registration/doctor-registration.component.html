@@ -1,0 +1,100 @@
+<div class="container registration-page">
+  <div class="row">
+    <div class="col-12 col-sm-8 col-md-8 mx-auto">
+      <h2>Doctor Registration</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-sm-8 col-md-8 mx-auto pt-4">
+      <form name="form" #f="ngForm"  (ngSubmit)="f.form.valid && register()"   novalidate >
+        
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="form-group">
+              <input type="text" name="firstName" id="firstName" #firstName="ngModel" [(ngModel)]="userModel.firstName" class="form-control input-lg" placeholder="First Name" required>
+              <div *ngIf="f.submitted  && !firstName.valid" class="help-block">First Name is required</div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="form-group">
+              <input type="text" name="lastName" id="lastName" [(ngModel)]="userModel.lastName" #lastName ="ngModel" class="form-control input-lg" placeholder="Last Name" required>
+              <div *ngIf="f.submitted && !lastName.valid" class="help-block">Last Name is required</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+            <input type="email" name="email" id="email" [(ngModel)]="userModel.email" #email ="ngModel" class="form-control input-lg" placeholder="Email" tabindex="1" required>
+            <div *ngIf="f.submitted && !email.valid" class="help-block">Email is required</div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="form-group">
+                <input type="password" name="password" id="password" [(ngModel)]="userModel.password" #password ="ngModel" class="form-control input-lg" placeholder="Password" tabindex="1" required>
+                <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-6">
+            <div class="form-group">
+                <input type="password" name="passwordConfirmation" id="passwordConfirmation" [(ngModel)]="userModel.passwordConfirmation" #passwordConfirmation ="ngModel" class="form-control input-lg" placeholder="Confirm Password" tabindex="1" required>
+                <div *ngIf="f.submitted && !passwordConfirmation.valid" class="help-block">Password Confirmation is required</div>
+            </div>
+            <div class="alert alert-danger w-100" *ngIf = "errors.password !== null">{{errors.password}}</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="file"/>
+        </div>
+        <h4>Practice Information</h4>
+        <div class="form-group">
+          <input type="text" name="practiceName" id="practiceName" #practiceName="ngModel" [(ngModel)]="doctorModel.practiceName" class="form-control input-lg" placeholder="Practice Name" required>
+          <div *ngIf="f.submitted  && !practiceName.valid" class="help-block">Practice Name is required</div>
+        </div>
+        <div class="form-group">
+          <input type="text" name="specialty" id="specialty" #specialty="ngModel" [(ngModel)]="doctorModel.specialty" class="form-control input-lg" placeholder="Specialty" required>
+          <div *ngIf="f.submitted  && !specialty.valid" class="help-block">Specialty is required</div>
+        </div>
+        <div class="form-group">
+          <input type="text" name="phone" id="phone" #phone="ngModel" [(ngModel)]="doctorModel.phone" class="form-control input-lg" placeholder="Phone" required>
+          <div *ngIf="f.submitted  && !phone.valid" class="help-block">Phone is required</div>
+        </div>
+        <div class="form-group">
+          <input type="email" name="email" id="email" #pEmail="ngModel" [(ngModel)]="doctorModel.email" class="form-control input-lg" placeholder="Practice Email" required>
+          <div *ngIf="f.submitted  && !pEmail.valid" class="help-block">Email is required</div>
+        </div>
+        <div class="form-group">
+            <h3>Accepted Insurance</h3>
+            <ss-multiselect-dropdown name="insurace" [options]="myOptions" [(ngModel)]="doctorModel.acceptedInsurance" (ngModelChange)="onChange($event)"></ss-multiselect-dropdown>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <h3>Address</h3>
+            <div class="col-12">
+              <input type="text" name="line_1" id="line_1" #line_1="ngModel" [(ngModel)]="doctorModel.location.line_1" class="form-control input-lg" placeholder="Line 1" required>
+              <div *ngIf="f.submitted  && !line_1.valid" class="help-block">Line 1 is required</div>
+            </div>
+            <div class="col-12">
+              <input type="text" name="line_2" id="line_2" #line_2="ngModel" [(ngModel)]="doctorModel.location.line_2" class="form-control input-lg" placeholder="Line 2">
+            </div>
+            <div class="col-12">
+              <input type="text" name="city" id="city" #city="ngModel" [(ngModel)]="doctorModel.location.city" class="form-control input-lg" placeholder="City" required>
+              <div *ngIf="f.submitted  && !city.valid" class="help-block">City is required</div>
+            </div>
+            <div class="col-6">
+              <input type="text" name="state" id="state" #state="ngModel" [(ngModel)]="doctorModel.location.state" class="form-control input-lg" placeholder="State" required>
+              <div *ngIf="f.submitted  && !state.valid" class="help-block">State is required</div>
+            </div>
+            <div class="col-6">
+                <input type="text" name="zip" id="zip" #zip="ngModel" [(ngModel)]="doctorModel.location.zip" class="form-control input-lg" placeholder="Zip" required>
+                <div *ngIf="f.submitted  && !zip.valid" class="help-block">Zip is required</div>
+              </div>
+          </div>
+        </div>
+       
+        <div class="row">
+          <div class="col-xs-12 col-md-6 mx-auto"><input type="submit" value="Register" class="btn rounded-btn" tabindex="7"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

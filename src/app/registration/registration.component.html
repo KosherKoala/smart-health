@@ -1,0 +1,139 @@
+<div class="registration-page">
+  <div class="container">
+    <div class="row ">
+      <div class="col-12 col-sm-8 col-md-8 mx-auto pt-4">
+        <h3>Patient Registration</h3>
+        <form name="form" #f="ngForm"  (ngSubmit)="patientModel.health.sex != null && register()"   novalidate >
+          
+          <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <div class="form-group">
+                <input type="text" name="firstName" id="firstName" #firstName="ngModel" [(ngModel)]="userModel.firstName" class="form-control input-lg" placeholder="First Name" required>
+                <div *ngIf="f.submitted  && !firstName.valid" class="help-block">First Name is required</div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <div class="form-group">
+                <input type="text" name="lastName" id="lastName" [(ngModel)]="userModel.lastName" #lastName ="ngModel" class="form-control input-lg" placeholder="Last Name" required>
+                <div *ngIf="f.submitted && !lastName.valid" class="help-block">Last Name is required</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+              <input type="email" name="email" id="email" [(ngModel)]="userModel.email" #email ="ngModel" class="form-control input-lg" placeholder="Email" tabindex="1" required>
+              <div *ngIf="f.submitted && !email.valid" class="help-block">Email is required</div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <div class="form-group">
+                  <input type="password" name="password" id="password" [(ngModel)]="userModel.password" #password ="ngModel" class="form-control input-lg" placeholder="Password" tabindex="1" required>
+                  <div *ngIf="f.submitted && !password.valid" class="help-block">Password is required</div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <div class="form-group">
+                  <input type="password" name="passwordConfirmation" id="passwordConfirmation" [(ngModel)]="userModel.passwordConfirmation" #passwordConfirmation ="ngModel" class="form-control input-lg" placeholder="Confirm Password" tabindex="1" required>
+                  <div *ngIf="f.submitted && !passwordConfirmation.valid" class="help-block">Password Confirmation is required</div>
+              </div>
+              <div class="alert alert-danger w-100" *ngIf = "errors.password !== null">{{errors.password}}</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <input type="file"/>    
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <div class="form-group">
+                <input type="Number" name="height" id="height" [(ngModel)]="patientModel.health.height" #height ="ngModel" class="form-control input-lg" placeholder="Height" tabindex="1" required>
+                <div *ngIf="f.submitted && !height.valid" class="help-block">Height is required</div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <div class="form-group">
+                <input type="Number" name="weight" id="weight" [(ngModel)]="patientModel.health.weight" #weight ="ngModel" class="form-control input-lg" placeholder="Weight" tabindex="1" required>
+                <div *ngIf="f.submitted && !weight.valid" class="help-block">Height is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <div class="form-group">
+                <input type="Number" step="1" name="age" id="age" [(ngModel)]="patientModel.health.age" #age ="ngModel" class="form-control input-lg" placeholder="Age" tabindex="1" required>
+                <div *ngIf="f.submitted && !age.valid" class="help-block">Age is required</div>
+              </div>
+            </div>
+            <div class="col-6 col-sm-6 col-md-3">
+              <div class="form-group">
+                  <div *ngFor="let gender of genders">
+                      <input type="radio" name="gender" (change)="patientModel.health.sex = gender" [value]="gender">
+                      {{gender}}
+                  </div>
+                  <div *ngIf="f.submitted && patientModel.health.sex == null" class="help-block">Gender is required</div>
+              </div>
+            </div>
+            <div class="col-6 col-sm-6 col-md-3">
+              <div class="form-group">
+                <label for="bloodType">Blood Type:</label>
+                <select [(ngModel)]="patientModel.health.bloodType" name="bloodType" #blood="ngModel">
+                  <option *ngFor="let type of bloodTypes" [ngValue]="type">{{type}}</option>
+                </select> 
+                <div *ngIf="f.submitted && !blood.valid" class="help-block">Blood Type is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="row">  
+            <div class="col-xs-12 col-sm-3 col-md-3">
+              <div class="form-group">
+                <label for="insurance">Insurances:</label>
+                <select [(ngModel)]="patientModel.insurance" name="insurance" #insurance="ngModel">
+                  <option *ngFor="let insurance of insurances" [ngValue]="insurance._id">{{insurance.name}}</option>
+                </select> 
+                <div *ngIf="f.submitted && !insurance.valid" class="help-block">Insurance is required</div>
+              </div>
+            </div>
+          </div>
+        
+          <div class="row">
+
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <div class="form-group">
+                <label for="medication">Medications:</label>
+                  <div class="badge badge-pill badge-primary" *ngFor="let med of patientModel.health.medication">{{med}}</div>
+                  <div class="d-flex">
+                      <input type="text" name="newMed" id="newMed" [(ngModel)]="newData.med" #newMed ="ngModel" class="form-control input-lg" placeholder="Medication Name" tabindex="1" required>
+                      <div class="btn btn-success" type="button" (click) = "addMed()">+Add</div>
+                  </div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <div class="form-group">
+                <label for="allergies">Allergies:</label>
+                  <div class="badge badge-pill badge-warning" *ngFor="let al of patientModel.health.allergies">{{al}}</div>
+                  <div class="d-flex">
+                      <input type="text" name="newAl" id="newAl" [(ngModel)]="newData.al" #newAl ="ngModel" class="form-control input-lg" placeholder="Allergy Name" tabindex="1" required>
+                      <div class="btn btn-success" type="button" (click) = "addAl()">+Add</div>
+                  </div>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+              <div class="form-group">
+                <label for="medication">Conditions:</label>
+                  <div class="badge badge-pill badge-danger" *ngFor="let al of patientModel.health.conditions">{{al}}</div>
+                  <div class="d-flex">
+                      <input type="text" name="newCon" id="newCon" [(ngModel)]="newData.con" #newCon ="ngModel" class="form-control input-lg" placeholder="Medication Name" tabindex="1" required>
+                      <div class="btn btn-success" type="button" (click) = "addCon()">+Add</div>
+                  </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12 col-md-6"><input type="submit" value="Register" class="btn rounded-btn" tabindex="7"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,19 +1,18 @@
 const mongoose = require('mongoose');
-const Character = require('./character');
-const Campaign = require('./campaign');
-const Party = require('./party');
 
 const Schema = mongoose.Schema;
+const autopopulate = require('mongoose-autopopulate');
 
-const userSchema = new Schema({
-	firstname: String,
-	lastname: String,
-	email: String,
-	password: String,
-	characters: [{ type: Schema.Types.ObjectId, ref: 'Character' }],
-	campaigns: [{ type: Schema.Types.ObjectId, ref: 'Campaign' }],
-	parties: [{ type: Schema.Types.ObjectId, ref: 'Party' }],
-	npcs:[String]
+
+const userSchema = new Schema ({
+    firstName: String,
+    lastName: String,
+    email: String,
+    password: String,
+    doctor: { type: Schema.Types.ObjectId, ref: 'Doctor', autopopulate: true},
+    patient: { type: Schema.Types.ObjectId, ref: 'Patient', autopopulate: true},
+    picture: String
 });
+userSchema.plugin(autopopulate);
 
 module.exports = mongoose.model('User', userSchema);

@@ -7,7 +7,10 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AuthGuard } from './shared';
+import { AuthGuard, NoAuthGuard } from './shared';
+import { AuthenticationService, PatientService, HistoryService, CalendarService, UserService, DoctorService } from './services';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: Http) {
     // for development
@@ -23,6 +26,7 @@ export function HttpLoaderFactory(http: Http) {
         BrowserAnimationsModule,
         FormsModule,
         HttpModule,
+        NgbModule.forRoot(),
         AppRoutingModule,
         TranslateModule.forRoot({
             loader: {
@@ -32,7 +36,7 @@ export function HttpLoaderFactory(http: Http) {
             }
         })
     ],
-    providers: [AuthGuard],
+    providers: [AuthGuard, NoAuthGuard, PatientService, UserService, DoctorService, HistoryService, CalendarService, AuthenticationService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,0 +1,111 @@
+<div [@routerTransition]>  
+  <div class="row">
+    <div class="col-3 d-none d-sm-block d-md-block">
+      <div class="card m-auto">
+        <img class="card-img-top"  src="{{doctor.picture}}"  alt="Card image cap">
+        <div class="card-body p-0">
+            <ul class="list-group">
+                <li class="list-group-item">{{doctor.specialty}}</li>
+                <li class="list-group-item">{{doctor.location.line_1}}, {{doctor.location.line_2}}, <br>{{doctor.location.city}}, {{doctor.location.state}}, {{doctor.location.zip}}</li>
+                <li class="list-group-item">Open 8am-5pm, MWF</li>
+                <li class="list-group-item"><div class="badge badge-pill badge-primary"><i class="fa fa-phone pr-2"></i>407-455-3455</div></li>
+                <li class="list-group-item"><div class="badge badge-pill badge-primary"><i class="fa fa-envelope pr-2"></i>{{doctor.email}}</div></li>
+                <li class="list-group-item"><div class="badge badge-pill badge-primary"><i class="fa fa-facebook pr-2"></i>Dr. {{doctor.firstName}} {{doctor.lastName}}</div></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-9 col-md-9">
+      <div class="row">
+        <div class="col-12">
+          <h4>
+            Dr. {{doctor.firstName}} {{doctor.lastName}}
+          </h4>
+          <hr class="thick">
+        <!--Calendar start-->
+        <div class="row">
+          <div class="col-12">
+            <h4>Request Appointment</h4>
+          </div>
+          <div class="col-12 mx-auto">
+            <mwl-demo-utils-calendar-header
+              [(view)]="view"
+              [(viewDate)]="viewDate"
+              (viewDateChange)="updateCalendarEvents()"
+              (viewChange)="updateCalendarEvents()">
+            </mwl-demo-utils-calendar-header>
+          </div>
+        </div>
+          <div class="row">
+          <!--Actual Calendar-->
+            <div id="calendar-col" class="col-12">
+              <div [ngSwitch]="view">
+                <mwl-calendar-month-view
+                  *ngSwitchCase="'month'"
+                  [viewDate]="viewDate"
+                  [events]="events"
+                  (dayClicked)="dayClicked($event, content)">
+                </mwl-calendar-month-view>
+                <mwl-calendar-week-view
+                  *ngSwitchCase="'week'"
+                  [viewDate]="viewDate"
+                  [events]="events"
+                  (dayHeaderClicked)="dayClicked($event, content)"
+                  (eventClicked)="eventClicked($event, content)">
+                </mwl-calendar-week-view>
+                <mwl-calendar-day-view
+                  *ngSwitchCase="'day'"
+                  [viewDate]="viewDate"
+                  [events]="events"
+                  (eventClicked)="eventClicked($event, content)">
+                </mwl-calendar-day-view>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title">Request Appointment</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <h4>
+        {{clickedEvent.title}}
+      </h4>
+      <div class="d-flex flex-row justify-content-between">
+        <div class="d-flex flex-column">
+          <div>
+            Date: {{clickedEvent.start | date }}
+          </div>
+          <div>
+            Start Time: {{clickedEvent.start | date:'shortTime' }}
+          </div>
+          <div class="d-flex flex-row">
+            End Time: {{clickedEvent.end | date:'shortTime'}}
+          </div>
+        </div>
+        <div class="d-flex flex-column">
+          <div>
+            {{doctor.location.line_1}}, {{doctor.location.line_2}} 
+          </div>
+          <div>
+            {{doctor.location.city}}, {{doctor.location.state}}, {{doctor.location.zip}} 
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="request(clickedEvent)">Request</button>
+      <button type="button" class="btn btn-outline-dark" (click)="c('Close click')">Cancel</button>
+    </div>
+  </ng-template>
+
+
+
+
+</div>

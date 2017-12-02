@@ -1,20 +1,19 @@
-<div class="card  {{bgClass}} bg-info">
+<div class="card  {{bgClass}}">
     <div class="card-header">
         <div class="row">
             <div class="col-5 col-xs-3">
-                <img src="https://lorempixel.com/100/100/people">
+                <img src={{icon}}>
             </div>
             <div class="col col-xs-9 text-right">
-                <div class="d-block huge">{{name}}</div>
+                <div class="d-block huge">
+                    <span *ngIf="isPatient == null">Dr </span> {{firstName}} {{lastName}}
+                </div>
                 <div class="d-block">{{specialty}}</div>
-                <div class="d-block">{{address}}</div>
+                <div *ngIf = "showAddress" class="d-block">
+                    {{address.line_1}}, {{address.line_2}}
+                    <br>{{address.city}}, {{address.zip}}
+                </div>
             </div>
         </div>
-    </div>
-    <div class="card-footer">
-        <span class="float-left">View Details {{data}}</span>
-        <a href="javascript:void(0)" class="float-right">
-            <span ><i class="fa fa-arrow-circle-right"></i></span>
-        </a>
     </div>
 </div>

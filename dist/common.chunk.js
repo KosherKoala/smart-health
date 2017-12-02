@@ -74,5728 +74,5811 @@ function slideToTop() {
 
 /***/ }),
 
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/accordion/accordion-config.js":
+/***/ "../../../../angular-calendar/dist/esm/src/calendar.module.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbAccordionConfig; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-
-/**
- * Configuration service for the NgbAccordion component.
- * You can inject this service, typically in your root component, and customize the values of its properties in
- * order to provide default values for all the accordions used in the application.
- */
-var NgbAccordionConfig = (function () {
-    function NgbAccordionConfig() {
-        this.closeOthers = false;
-    }
-    return NgbAccordionConfig;
-}());
-
-NgbAccordionConfig.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbAccordionConfig.ctorParameters = function () { return []; };
-//# sourceMappingURL=accordion-config.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/accordion/accordion.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return NgbPanelTitle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return NgbPanelContent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return NgbPanel; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbAccordion; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_util__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/util.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__accordion_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/accordion/accordion-config.js");
-
-
-
-var nextId = 0;
-/**
- * This directive should be used to wrap accordion panel titles that need to contain HTML markup or other directives.
- */
-var NgbPanelTitle = (function () {
-    function NgbPanelTitle(templateRef) {
-        this.templateRef = templateRef;
-    }
-    return NgbPanelTitle;
-}());
-
-NgbPanelTitle.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{ selector: 'ng-template[ngbPanelTitle]' },] },
-];
-/** @nocollapse */
-NgbPanelTitle.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["TemplateRef"], },
-]; };
-/**
- * This directive must be used to wrap accordion panel content.
- */
-var NgbPanelContent = (function () {
-    function NgbPanelContent(templateRef) {
-        this.templateRef = templateRef;
-    }
-    return NgbPanelContent;
-}());
-
-NgbPanelContent.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{ selector: 'ng-template[ngbPanelContent]' },] },
-];
-/** @nocollapse */
-NgbPanelContent.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["TemplateRef"], },
-]; };
-/**
- * The NgbPanel directive represents an individual panel with the title and collapsible
- * content
- */
-var NgbPanel = (function () {
-    function NgbPanel() {
-        /**
-         *  A flag determining whether the panel is disabled or not.
-         *  When disabled, the panel cannot be toggled.
-         */
-        this.disabled = false;
-        /**
-         *  An optional id for the panel. The id should be unique.
-         *  If not provided, it will be auto-generated.
-         */
-        this.id = "ngb-panel-" + nextId++;
-        /**
-         * A flag telling if the panel is currently open
-         */
-        this.isOpen = false;
-    }
-    return NgbPanel;
-}());
-
-NgbPanel.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{ selector: 'ngb-panel' },] },
-];
-/** @nocollapse */
-NgbPanel.ctorParameters = function () { return []; };
-NgbPanel.propDecorators = {
-    'disabled': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'id': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'title': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'type': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'contentTpl': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ContentChild"], args: [NgbPanelContent,] },],
-    'titleTpl': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ContentChild"], args: [NgbPanelTitle,] },],
-};
-/**
- * The NgbAccordion directive is a collection of panels.
- * It can assure that only one panel can be opened at a time.
- */
-var NgbAccordion = (function () {
-    function NgbAccordion(config) {
-        /**
-         * An array or comma separated strings of panel identifiers that should be opened
-         */
-        this.activeIds = [];
-        /**
-         * Whether the closed panels should be hidden without destroying them
-         */
-        this.destroyOnHide = true;
-        /**
-         * A panel change event fired right before the panel toggle happens. See NgbPanelChangeEvent for payload details
-         */
-        this.panelChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this.type = config.type;
-        this.closeOtherPanels = config.closeOthers;
-    }
-    /**
-     * Programmatically toggle a panel with a given id.
-     */
-    NgbAccordion.prototype.toggle = function (panelId) {
-        var panel = this.panels.find(function (p) { return p.id === panelId; });
-        if (panel && !panel.disabled) {
-            var defaultPrevented_1 = false;
-            this.panelChange.emit({ panelId: panelId, nextState: !panel.isOpen, preventDefault: function () { defaultPrevented_1 = true; } });
-            if (!defaultPrevented_1) {
-                panel.isOpen = !panel.isOpen;
-                if (this.closeOtherPanels) {
-                    this._closeOthers(panelId);
-                }
-                this._updateActiveIds();
-            }
-        }
-    };
-    NgbAccordion.prototype.ngAfterContentChecked = function () {
-        var _this = this;
-        // active id updates
-        if (Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["e" /* isString */])(this.activeIds)) {
-            this.activeIds = this.activeIds.split(/\s*,\s*/);
-        }
-        // update panels open states
-        this.panels.forEach(function (panel) { return panel.isOpen = !panel.disabled && _this.activeIds.indexOf(panel.id) > -1; });
-        // closeOthers updates
-        if (this.activeIds.length > 1 && this.closeOtherPanels) {
-            this._closeOthers(this.activeIds[0]);
-            this._updateActiveIds();
-        }
-    };
-    NgbAccordion.prototype._closeOthers = function (panelId) {
-        this.panels.forEach(function (panel) {
-            if (panel.id !== panelId) {
-                panel.isOpen = false;
-            }
-        });
-    };
-    NgbAccordion.prototype._updateActiveIds = function () {
-        this.activeIds = this.panels.filter(function (panel) { return panel.isOpen && !panel.disabled; }).map(function (panel) { return panel.id; });
-    };
-    return NgbAccordion;
-}());
-
-NgbAccordion.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
-                selector: 'ngb-accordion',
-                exportAs: 'ngbAccordion',
-                host: { 'role': 'tablist', '[attr.aria-multiselectable]': '!closeOtherPanels' },
-                template: "\n    <ng-template ngFor let-panel [ngForOf]=\"panels\">\n      <div class=\"card\">\n        <div role=\"tab\" id=\"{{panel.id}}-header\"\n          [class]=\"'card-header ' + (panel.type ? 'card-'+panel.type: type ? 'card-'+type : '')\" [class.active]=\"panel.isOpen\">\n          <a href (click)=\"!!toggle(panel.id)\" [class.text-muted]=\"panel.disabled\" [attr.tabindex]=\"(panel.disabled ? '-1' : null)\"\n            [attr.aria-expanded]=\"panel.isOpen\" [attr.aria-controls]=\"(panel.isOpen ? panel.id : null)\"\n            [attr.aria-disabled]=\"panel.disabled\">\n            {{panel.title}}<ng-template [ngTemplateOutlet]=\"panel.titleTpl?.templateRef\"></ng-template>\n          </a>\n        </div>\n        <div id=\"{{panel.id}}\" role=\"tabpanel\" [attr.aria-labelledby]=\"panel.id + '-header'\" \n             class=\"card-body {{panel.isOpen ? 'show' : null}}\" *ngIf=\"!destroyOnHide || panel.isOpen\">\n             <ng-template [ngTemplateOutlet]=\"panel.contentTpl.templateRef\"></ng-template>\n        </div>\n      </div>\n    </ng-template>\n  "
-            },] },
-];
-/** @nocollapse */
-NgbAccordion.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_2__accordion_config__["a" /* NgbAccordionConfig */], },
-]; };
-NgbAccordion.propDecorators = {
-    'panels': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ContentChildren"], args: [NgbPanel,] },],
-    'activeIds': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'closeOtherPanels': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"], args: ['closeOthers',] },],
-    'destroyOnHide': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'type': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'panelChange': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-};
-//# sourceMappingURL=accordion.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/accordion/accordion.module.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbAccordionModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__accordion__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/accordion/accordion.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__accordion_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/accordion/accordion-config.js");
-/* unused harmony reexport NgbAccordion */
-/* unused harmony reexport NgbPanel */
-/* unused harmony reexport NgbPanelTitle */
-/* unused harmony reexport NgbPanelContent */
-/* unused harmony reexport NgbAccordionConfig */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angular_resizable_element__ = __webpack_require__("../../../../angular-resizable-element/dist/esm/src/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular_draggable_droppable__ = __webpack_require__("../../../../angular-draggable-droppable/dist/esm/src/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_day_calendarDayView_component__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/components/day/calendarDayView.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_week_calendarWeekView_component__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/components/week/calendarWeekView.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_month_calendarMonthView_component__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/components/month/calendarMonthView.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_month_calendarMonthViewHeader_component__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/components/month/calendarMonthViewHeader.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_common_calendarEventActions_component__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/components/common/calendarEventActions.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_common_calendarEventTitle_component__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/components/common/calendarEventTitle.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__components_month_calendarMonthCell_component__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/components/month/calendarMonthCell.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__components_month_calendarOpenDayEvents_component__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/components/month/calendarOpenDayEvents.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__components_week_calendarWeekViewHeader_component__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/components/week/calendarWeekViewHeader.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__components_week_calendarWeekViewEvent_component__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/components/week/calendarWeekViewEvent.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__components_day_calendarAllDayEvent_component__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/components/day/calendarAllDayEvent.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_day_calendarDayViewHourSegment_component__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/components/day/calendarDayViewHourSegment.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__components_day_calendarDayViewEvent_component__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/components/day/calendarDayViewEvent.component.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__directives_calendarTooltip_directive__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/directives/calendarTooltip.directive.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__directives_calendarPreviousView_directive__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/directives/calendarPreviousView.directive.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__directives_calendarNextView_directive__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/directives/calendarNextView.directive.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__directives_calendarToday_directive__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/directives/calendarToday.directive.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__directives_click_directive__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/directives/click.directive.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pipes_calendarDate_pipe__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/pipes/calendarDate.pipe.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pipes_calendarEventTitle_pipe__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/pipes/calendarEventTitle.pipe.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__providers_calendarEventTitleFormatter_provider__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/calendarEventTitleFormatter.provider.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__providers_calendarDateFormatter_provider__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/calendarDateFormatter.provider.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__providers_calendarUtils_provider__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/calendarUtils.provider.js");
 
 
 
 
 
 
-var NGB_ACCORDION_DIRECTIVES = [__WEBPACK_IMPORTED_MODULE_2__accordion__["a" /* NgbAccordion */], __WEBPACK_IMPORTED_MODULE_2__accordion__["b" /* NgbPanel */], __WEBPACK_IMPORTED_MODULE_2__accordion__["d" /* NgbPanelTitle */], __WEBPACK_IMPORTED_MODULE_2__accordion__["c" /* NgbPanelContent */]];
-var NgbAccordionModule = (function () {
-    function NgbAccordionModule() {
-    }
-    NgbAccordionModule.forRoot = function () { return { ngModule: NgbAccordionModule, providers: [__WEBPACK_IMPORTED_MODULE_3__accordion_config__["a" /* NgbAccordionConfig */]] }; };
-    return NgbAccordionModule;
-}());
 
-NgbAccordionModule.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{ declarations: NGB_ACCORDION_DIRECTIVES, exports: NGB_ACCORDION_DIRECTIVES, imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]] },] },
-];
-/** @nocollapse */
-NgbAccordionModule.ctorParameters = function () { return []; };
-//# sourceMappingURL=accordion.module.js.map
 
-/***/ }),
 
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/alert/alert-config.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbAlertConfig; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 
-/**
- * Configuration service for the NgbAlert component.
- * You can inject this service, typically in your root component, and customize the values of its properties in
- * order to provide default values for all the alerts used in the application.
- */
-var NgbAlertConfig = (function () {
-    function NgbAlertConfig() {
-        this.dismissible = true;
-        this.type = 'warning';
-    }
-    return NgbAlertConfig;
-}());
 
-NgbAlertConfig.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbAlertConfig.ctorParameters = function () { return []; };
-//# sourceMappingURL=alert-config.js.map
 
-/***/ }),
 
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/alert/alert.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbAlert; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__alert_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/alert/alert-config.js");
+
+
+
+
+
+
+
+
+
+
 
 
 /**
- * Alerts can be used to provide feedback messages.
+ * The main module of this library. Example usage:
+ *
+ * ```typescript
+ * import { CalenderModule } from 'angular-calendar';
+ *
+ * &commat;NgModule({
+ *   imports: [
+ *     CalenderModule.forRoot()
+ *   ]
+ * })
+ * class MyModule {}
+ * ```
+ *
  */
-var NgbAlert = (function () {
-    function NgbAlert(config) {
-        /**
-         * An event emitted when the close button is clicked. This event has no payload. Only relevant for dismissible alerts.
-         */
-        this.close = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this.dismissible = config.dismissible;
-        this.type = config.type;
+var CalendarModule = /** @class */ (function () {
+    function CalendarModule() {
     }
-    NgbAlert.prototype.closeHandler = function () { this.close.emit(null); };
-    return NgbAlert;
-}());
-
-NgbAlert.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
-                selector: 'ngb-alert',
-                changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush,
-                template: "\n    <div [class]=\"'alert alert-' + type + (dismissible ? ' alert-dismissible' : '')\" role=\"alert\">\n      <button *ngIf=\"dismissible\" type=\"button\" class=\"close\" aria-label=\"Close\" (click)=\"closeHandler()\">\n            <span aria-hidden=\"true\">&times;</span>\n      </button>\n      <ng-content></ng-content>\n    </div>\n    "
-            },] },
-];
-/** @nocollapse */
-NgbAlert.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_1__alert_config__["a" /* NgbAlertConfig */], },
-]; };
-NgbAlert.propDecorators = {
-    'dismissible': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'type': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'close': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-};
-//# sourceMappingURL=alert.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/alert/alert.module.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbAlertModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__alert__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/alert/alert.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__alert_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/alert/alert-config.js");
-/* unused harmony reexport NgbAlert */
-/* unused harmony reexport NgbAlertConfig */
-
-
-
-
-
-
-var NgbAlertModule = (function () {
-    function NgbAlertModule() {
-    }
-    NgbAlertModule.forRoot = function () { return { ngModule: NgbAlertModule, providers: [__WEBPACK_IMPORTED_MODULE_3__alert_config__["a" /* NgbAlertConfig */]] }; };
-    return NgbAlertModule;
-}());
-
-NgbAlertModule.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{ declarations: [__WEBPACK_IMPORTED_MODULE_2__alert__["a" /* NgbAlert */]], exports: [__WEBPACK_IMPORTED_MODULE_2__alert__["a" /* NgbAlert */]], imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]], entryComponents: [__WEBPACK_IMPORTED_MODULE_2__alert__["a" /* NgbAlert */]] },] },
-];
-/** @nocollapse */
-NgbAlertModule.ctorParameters = function () { return []; };
-//# sourceMappingURL=alert.module.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/buttons/buttons.module.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbButtonsModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__label__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/buttons/label.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__checkbox__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/buttons/checkbox.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__radio__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/buttons/radio.js");
-/* unused harmony reexport NgbButtonLabel */
-/* unused harmony reexport NgbCheckBox */
-/* unused harmony reexport NgbRadio */
-/* unused harmony reexport NgbRadioGroup */
-
-
-
-
-
-
-
-var NGB_BUTTON_DIRECTIVES = [__WEBPACK_IMPORTED_MODULE_1__label__["a" /* NgbButtonLabel */], __WEBPACK_IMPORTED_MODULE_2__checkbox__["a" /* NgbCheckBox */], __WEBPACK_IMPORTED_MODULE_3__radio__["b" /* NgbRadioGroup */], __WEBPACK_IMPORTED_MODULE_3__radio__["a" /* NgbRadio */]];
-var NgbButtonsModule = (function () {
-    function NgbButtonsModule() {
-    }
-    NgbButtonsModule.forRoot = function () { return { ngModule: NgbButtonsModule, providers: [] }; };
-    return NgbButtonsModule;
-}());
-
-NgbButtonsModule.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{ declarations: NGB_BUTTON_DIRECTIVES, exports: NGB_BUTTON_DIRECTIVES },] },
-];
-/** @nocollapse */
-NgbButtonsModule.ctorParameters = function () { return []; };
-//# sourceMappingURL=buttons.module.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/buttons/checkbox.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbCheckBox; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__label__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/buttons/label.js");
-
-
-
-var NGB_CHECKBOX_VALUE_ACCESSOR = {
-    provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* NG_VALUE_ACCESSOR */],
-    useExisting: Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["forwardRef"])(function () { return NgbCheckBox; }),
-    multi: true
-};
-/**
- * Easily create Bootstrap-style checkbox buttons. A value of a checked button is bound to a variable
- * specified via ngModel.
- */
-var NgbCheckBox = (function () {
-    function NgbCheckBox(_label) {
-        this._label = _label;
-        /**
-         * A flag indicating if a given checkbox button is disabled.
-         */
-        this.disabled = false;
-        /**
-         * Value to be propagated as model when the checkbox is checked.
-         */
-        this.valueChecked = true;
-        /**
-         * Value to be propagated as model when the checkbox is unchecked.
-         */
-        this.valueUnChecked = false;
-        this.onChange = function (_) { };
-        this.onTouched = function () { };
-    }
-    Object.defineProperty(NgbCheckBox.prototype, "focused", {
-        set: function (isFocused) {
-            this._label.focused = isFocused;
-            if (!isFocused) {
-                this.onTouched();
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    NgbCheckBox.prototype.onInputChange = function ($event) {
-        var modelToPropagate = $event.target.checked ? this.valueChecked : this.valueUnChecked;
-        this.onChange(modelToPropagate);
-        this.onTouched();
-        this.writeValue(modelToPropagate);
-    };
-    NgbCheckBox.prototype.registerOnChange = function (fn) { this.onChange = fn; };
-    NgbCheckBox.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
-    NgbCheckBox.prototype.setDisabledState = function (isDisabled) {
-        this.disabled = isDisabled;
-        this._label.disabled = isDisabled;
-    };
-    NgbCheckBox.prototype.writeValue = function (value) {
-        this.checked = value === this.valueChecked;
-        this._label.active = this.checked;
-    };
-    return NgbCheckBox;
-}());
-
-NgbCheckBox.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{
-                selector: '[ngbButton][type=checkbox]',
-                host: {
-                    'autocomplete': 'off',
-                    '[checked]': 'checked',
-                    '[disabled]': 'disabled',
-                    '(change)': 'onInputChange($event)',
-                    '(focus)': 'focused = true',
-                    '(blur)': 'focused = false'
-                },
-                providers: [NGB_CHECKBOX_VALUE_ACCESSOR]
-            },] },
-];
-/** @nocollapse */
-NgbCheckBox.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_2__label__["a" /* NgbButtonLabel */], },
-]; };
-NgbCheckBox.propDecorators = {
-    'disabled': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'valueChecked': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'valueUnChecked': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-};
-//# sourceMappingURL=checkbox.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/buttons/label.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbButtonLabel; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-
-var NgbButtonLabel = (function () {
-    function NgbButtonLabel() {
-    }
-    return NgbButtonLabel;
-}());
-
-NgbButtonLabel.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{
-                selector: '[ngbButtonLabel]',
-                host: { '[class.btn]': 'true', '[class.active]': 'active', '[class.disabled]': 'disabled', '[class.focus]': 'focused' }
-            },] },
-];
-/** @nocollapse */
-NgbButtonLabel.ctorParameters = function () { return []; };
-//# sourceMappingURL=label.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/buttons/radio.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return NgbRadioGroup; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbRadio; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__label__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/buttons/label.js");
-
-
-
-var NGB_RADIO_VALUE_ACCESSOR = {
-    provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* NG_VALUE_ACCESSOR */],
-    useExisting: Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["forwardRef"])(function () { return NgbRadioGroup; }),
-    multi: true
-};
-var nextId = 0;
-/**
- * Easily create Bootstrap-style radio buttons. A value of a selected button is bound to a variable
- * specified via ngModel.
- */
-var NgbRadioGroup = (function () {
-    function NgbRadioGroup() {
-        this._radios = new Set();
-        this._value = null;
-        /**
-         * The name of the group. Unless enclosed inputs specify a name, this name is used as the name of the
-         * enclosed inputs. If not specified, a name is generated automatically.
-         */
-        this.name = "ngb-radio-" + nextId++;
-        this.onChange = function (_) { };
-        this.onTouched = function () { };
-    }
-    Object.defineProperty(NgbRadioGroup.prototype, "disabled", {
-        get: function () { return this._disabled; },
-        set: function (isDisabled) { this.setDisabledState(isDisabled); },
-        enumerable: true,
-        configurable: true
-    });
-    NgbRadioGroup.prototype.onRadioChange = function (radio) {
-        this.writeValue(radio.value);
-        this.onChange(radio.value);
-    };
-    NgbRadioGroup.prototype.onRadioValueUpdate = function () { this._updateRadiosValue(); };
-    NgbRadioGroup.prototype.register = function (radio) { this._radios.add(radio); };
-    NgbRadioGroup.prototype.registerOnChange = function (fn) { this.onChange = fn; };
-    NgbRadioGroup.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
-    NgbRadioGroup.prototype.setDisabledState = function (isDisabled) {
-        this._disabled = isDisabled;
-        this._updateRadiosDisabled();
-    };
-    NgbRadioGroup.prototype.unregister = function (radio) { this._radios.delete(radio); };
-    NgbRadioGroup.prototype.writeValue = function (value) {
-        this._value = value;
-        this._updateRadiosValue();
-    };
-    NgbRadioGroup.prototype._updateRadiosValue = function () {
-        var _this = this;
-        this._radios.forEach(function (radio) { return radio.updateValue(_this._value); });
-    };
-    NgbRadioGroup.prototype._updateRadiosDisabled = function () { this._radios.forEach(function (radio) { return radio.updateDisabled(); }); };
-    return NgbRadioGroup;
-}());
-
-NgbRadioGroup.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{
-                selector: '[ngbRadioGroup]',
-                host: { 'data-toggle': 'buttons', 'role': 'group' },
-                providers: [NGB_RADIO_VALUE_ACCESSOR]
-            },] },
-];
-/** @nocollapse */
-NgbRadioGroup.ctorParameters = function () { return []; };
-NgbRadioGroup.propDecorators = {
-    'name': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-};
-/**
- * Marks an input of type "radio" as part of the NgbRadioGroup.
- */
-var NgbRadio = (function () {
-    function NgbRadio(_group, _label, _renderer, _element) {
-        this._group = _group;
-        this._label = _label;
-        this._renderer = _renderer;
-        this._element = _element;
-        this._value = null;
-        this._group.register(this);
-    }
-    Object.defineProperty(NgbRadio.prototype, "value", {
-        get: function () { return this._value; },
-        /**
-         * You can specify model value of a given radio by binding to the value property.
-         */
-        set: function (value) {
-            this._value = value;
-            var stringValue = value ? value.toString() : '';
-            this._renderer.setProperty(this._element.nativeElement, 'value', stringValue);
-            this._group.onRadioValueUpdate();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgbRadio.prototype, "disabled", {
-        get: function () { return this._group.disabled || this._disabled; },
-        /**
-         * A flag indicating if a given radio button is disabled.
-         */
-        set: function (isDisabled) {
-            this._disabled = isDisabled !== false;
-            this.updateDisabled();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgbRadio.prototype, "focused", {
-        set: function (isFocused) {
-            if (this._label) {
-                this._label.focused = isFocused;
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgbRadio.prototype, "checked", {
-        get: function () { return this._checked; },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgbRadio.prototype, "nameAttr", {
-        get: function () { return this.name || this._group.name; },
-        enumerable: true,
-        configurable: true
-    });
-    NgbRadio.prototype.ngOnDestroy = function () { this._group.unregister(this); };
-    NgbRadio.prototype.onChange = function () { this._group.onRadioChange(this); };
-    NgbRadio.prototype.updateValue = function (value) {
-        this._checked = this.value === value;
-        this._label.active = this._checked;
-    };
-    NgbRadio.prototype.updateDisabled = function () { this._label.disabled = this.disabled; };
-    return NgbRadio;
-}());
-
-NgbRadio.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{
-                selector: '[ngbButton][type=radio]',
-                host: {
-                    '[checked]': 'checked',
-                    '[disabled]': 'disabled',
-                    '[name]': 'nameAttr',
-                    '(change)': 'onChange()',
-                    '(focus)': 'focused = true',
-                    '(blur)': 'focused = false'
-                }
-            },] },
-];
-/** @nocollapse */
-NgbRadio.ctorParameters = function () { return [
-    { type: NgbRadioGroup, },
-    { type: __WEBPACK_IMPORTED_MODULE_2__label__["a" /* NgbButtonLabel */], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"], },
-]; };
-NgbRadio.propDecorators = {
-    'name': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'value': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"], args: ['value',] },],
-    'disabled': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"], args: ['disabled',] },],
-};
-//# sourceMappingURL=radio.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/carousel/carousel-config.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbCarouselConfig; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-
-/**
- * Configuration service for the NgbCarousel component.
- * You can inject this service, typically in your root component, and customize the values of its properties in
- * order to provide default values for all the carousels used in the application.
- */
-var NgbCarouselConfig = (function () {
-    function NgbCarouselConfig() {
-        this.interval = 5000;
-        this.wrap = true;
-        this.keyboard = true;
-    }
-    return NgbCarouselConfig;
-}());
-
-NgbCarouselConfig.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbCarouselConfig.ctorParameters = function () { return []; };
-//# sourceMappingURL=carousel-config.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/carousel/carousel.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export NgbSlide */
-/* unused harmony export NgbCarousel */
-/* unused harmony export NgbSlideEventDirection */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NGB_CAROUSEL_DIRECTIVES; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__carousel_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/carousel/carousel-config.js");
-
-
-var nextId = 0;
-/**
- * Represents an individual slide to be used within a carousel.
- */
-var NgbSlide = (function () {
-    function NgbSlide(tplRef) {
-        this.tplRef = tplRef;
-        /**
-         * Unique slide identifier. Must be unique for the entire document for proper accessibility support.
-         * Will be auto-generated if not provided.
-         */
-        this.id = "ngb-slide-" + nextId++;
-    }
-    return NgbSlide;
-}());
-
-NgbSlide.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{ selector: 'ng-template[ngbSlide]' },] },
-];
-/** @nocollapse */
-NgbSlide.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["TemplateRef"], },
-]; };
-NgbSlide.propDecorators = {
-    'id': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-};
-/**
- * Directive to easily create carousels based on Bootstrap's markup.
- */
-var NgbCarousel = (function () {
-    function NgbCarousel(config) {
-        /**
-         * A carousel slide event fired when the slide transition is completed.
-         * See NgbSlideEvent for payload details
-         */
-        this.slide = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this.interval = config.interval;
-        this.wrap = config.wrap;
-        this.keyboard = config.keyboard;
-    }
-    NgbCarousel.prototype.ngAfterContentChecked = function () {
-        var activeSlide = this._getSlideById(this.activeId);
-        this.activeId = activeSlide ? activeSlide.id : (this.slides.length ? this.slides.first.id : null);
-    };
-    NgbCarousel.prototype.ngOnInit = function () { this._startTimer(); };
-    NgbCarousel.prototype.ngOnChanges = function (changes) {
-        if ('interval' in changes && !changes['interval'].isFirstChange()) {
-            this._restartTimer();
-        }
-    };
-    NgbCarousel.prototype.ngOnDestroy = function () { clearInterval(this._slideChangeInterval); };
-    /**
-     * Navigate to a slide with the specified identifier.
-     */
-    NgbCarousel.prototype.select = function (slideId) {
-        this.cycleToSelected(slideId, this._getSlideEventDirection(this.activeId, slideId));
-        this._restartTimer();
-    };
-    /**
-     * Navigate to the next slide.
-     */
-    NgbCarousel.prototype.prev = function () {
-        this.cycleToPrev();
-        this._restartTimer();
-    };
-    /**
-     * Navigate to the next slide.
-     */
-    NgbCarousel.prototype.next = function () {
-        this.cycleToNext();
-        this._restartTimer();
-    };
-    /**
-     * Stops the carousel from cycling through items.
-     */
-    NgbCarousel.prototype.pause = function () { this._stopTimer(); };
-    /**
-     * Restarts cycling through the carousel slides from left to right.
-     */
-    NgbCarousel.prototype.cycle = function () { this._startTimer(); };
-    NgbCarousel.prototype.cycleToNext = function () { this.cycleToSelected(this._getNextSlide(this.activeId), NgbSlideEventDirection.LEFT); };
-    NgbCarousel.prototype.cycleToPrev = function () { this.cycleToSelected(this._getPrevSlide(this.activeId), NgbSlideEventDirection.RIGHT); };
-    NgbCarousel.prototype.cycleToSelected = function (slideIdx, direction) {
-        var selectedSlide = this._getSlideById(slideIdx);
-        if (selectedSlide) {
-            if (selectedSlide.id !== this.activeId) {
-                this.slide.emit({ prev: this.activeId, current: selectedSlide.id, direction: direction });
-            }
-            this.activeId = selectedSlide.id;
-        }
-    };
-    NgbCarousel.prototype.keyPrev = function () {
-        if (this.keyboard) {
-            this.prev();
-        }
-    };
-    NgbCarousel.prototype.keyNext = function () {
-        if (this.keyboard) {
-            this.next();
-        }
-    };
-    NgbCarousel.prototype._restartTimer = function () {
-        this._stopTimer();
-        this._startTimer();
-    };
-    NgbCarousel.prototype._startTimer = function () {
-        var _this = this;
-        if (this.interval > 0) {
-            this._slideChangeInterval = setInterval(function () { _this.cycleToNext(); }, this.interval);
-        }
-    };
-    NgbCarousel.prototype._stopTimer = function () { clearInterval(this._slideChangeInterval); };
-    NgbCarousel.prototype._getSlideById = function (slideId) {
-        var slideWithId = this.slides.filter(function (slide) { return slide.id === slideId; });
-        return slideWithId.length ? slideWithId[0] : null;
-    };
-    NgbCarousel.prototype._getSlideIdxById = function (slideId) {
-        return this.slides.toArray().indexOf(this._getSlideById(slideId));
-    };
-    NgbCarousel.prototype._getNextSlide = function (currentSlideId) {
-        var slideArr = this.slides.toArray();
-        var currentSlideIdx = this._getSlideIdxById(currentSlideId);
-        var isLastSlide = currentSlideIdx === slideArr.length - 1;
-        return isLastSlide ? (this.wrap ? slideArr[0].id : slideArr[slideArr.length - 1].id) :
-            slideArr[currentSlideIdx + 1].id;
-    };
-    NgbCarousel.prototype._getPrevSlide = function (currentSlideId) {
-        var slideArr = this.slides.toArray();
-        var currentSlideIdx = this._getSlideIdxById(currentSlideId);
-        var isFirstSlide = currentSlideIdx === 0;
-        return isFirstSlide ? (this.wrap ? slideArr[slideArr.length - 1].id : slideArr[0].id) :
-            slideArr[currentSlideIdx - 1].id;
-    };
-    NgbCarousel.prototype._getSlideEventDirection = function (currentActiveSlideId, nextActiveSlideId) {
-        var currentActiveSlideIdx = this._getSlideIdxById(currentActiveSlideId);
-        var nextActiveSlideIdx = this._getSlideIdxById(nextActiveSlideId);
-        return currentActiveSlideIdx > nextActiveSlideIdx ? NgbSlideEventDirection.RIGHT : NgbSlideEventDirection.LEFT;
-    };
-    return NgbCarousel;
-}());
-
-NgbCarousel.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
-                selector: 'ngb-carousel',
-                exportAs: 'ngbCarousel',
-                host: {
-                    'class': 'carousel slide',
-                    '[style.display]': '"block"',
-                    'tabIndex': '0',
-                    '(mouseenter)': 'pause()',
-                    '(mouseleave)': 'cycle()',
-                    '(keydown.arrowLeft)': 'keyPrev()',
-                    '(keydown.arrowRight)': 'keyNext()'
-                },
-                template: "\n    <ol class=\"carousel-indicators\">\n      <li *ngFor=\"let slide of slides\" [id]=\"slide.id\" [class.active]=\"slide.id === activeId\" \n          (click)=\"cycleToSelected(slide.id, _getSlideEventDirection(activeId, slide.id))\"></li>\n    </ol>\n    <div class=\"carousel-inner\">\n      <div *ngFor=\"let slide of slides\" class=\"carousel-item\" [class.active]=\"slide.id === activeId\">\n        <ng-template [ngTemplateOutlet]=\"slide.tplRef\"></ng-template>\n      </div>\n    </div>\n    <a class=\"carousel-control-prev\" role=\"button\" (click)=\"cycleToPrev()\">\n      <span class=\"carousel-control-prev-icon\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\">Previous</span>\n    </a>\n    <a class=\"carousel-control-next\" role=\"button\" (click)=\"cycleToNext()\">\n      <span class=\"carousel-control-next-icon\" aria-hidden=\"true\"></span>\n      <span class=\"sr-only\">Next</span>\n    </a>\n    "
-            },] },
-];
-/** @nocollapse */
-NgbCarousel.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_1__carousel_config__["a" /* NgbCarouselConfig */], },
-]; };
-NgbCarousel.propDecorators = {
-    'slides': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ContentChildren"], args: [NgbSlide,] },],
-    'interval': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'wrap': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'keyboard': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'activeId': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'slide': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-};
-/**
- * Enum to define the carousel slide event direction
- */
-var NgbSlideEventDirection;
-(function (NgbSlideEventDirection) {
-    NgbSlideEventDirection[NgbSlideEventDirection["LEFT"] = 'left'] = "LEFT";
-    NgbSlideEventDirection[NgbSlideEventDirection["RIGHT"] = 'right'] = "RIGHT";
-})(NgbSlideEventDirection || (NgbSlideEventDirection = {}));
-var NGB_CAROUSEL_DIRECTIVES = [NgbCarousel, NgbSlide];
-//# sourceMappingURL=carousel.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/carousel/carousel.module.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbCarouselModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__carousel__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/carousel/carousel.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__carousel_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/carousel/carousel-config.js");
-/* unused harmony reexport NgbCarousel */
-/* unused harmony reexport NgbSlide */
-/* unused harmony reexport NgbCarouselConfig */
-
-
-
-
-
-
-var NgbCarouselModule = (function () {
-    function NgbCarouselModule() {
-    }
-    NgbCarouselModule.forRoot = function () { return { ngModule: NgbCarouselModule, providers: [__WEBPACK_IMPORTED_MODULE_3__carousel_config__["a" /* NgbCarouselConfig */]] }; };
-    return NgbCarouselModule;
-}());
-
-NgbCarouselModule.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{ declarations: __WEBPACK_IMPORTED_MODULE_2__carousel__["a" /* NGB_CAROUSEL_DIRECTIVES */], exports: __WEBPACK_IMPORTED_MODULE_2__carousel__["a" /* NGB_CAROUSEL_DIRECTIVES */], imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]] },] },
-];
-/** @nocollapse */
-NgbCarouselModule.ctorParameters = function () { return []; };
-//# sourceMappingURL=carousel.module.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/collapse/collapse.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbCollapse; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-
-/**
- * The NgbCollapse directive provides a simple way to hide and show an element with animations.
- */
-var NgbCollapse = (function () {
-    function NgbCollapse() {
-        /**
-         * A flag indicating collapsed (true) or open (false) state.
-         */
-        this.collapsed = false;
-    }
-    return NgbCollapse;
-}());
-
-NgbCollapse.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{
-                selector: '[ngbCollapse]',
-                exportAs: 'ngbCollapse',
-                host: { '[class.collapse]': 'true', '[class.show]': '!collapsed' }
-            },] },
-];
-/** @nocollapse */
-NgbCollapse.ctorParameters = function () { return []; };
-NgbCollapse.propDecorators = {
-    'collapsed': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"], args: ['ngbCollapse',] },],
-};
-//# sourceMappingURL=collapse.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/collapse/collapse.module.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbCollapseModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__collapse__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/collapse/collapse.js");
-/* unused harmony reexport NgbCollapse */
-
-
-
-var NgbCollapseModule = (function () {
-    function NgbCollapseModule() {
-    }
-    NgbCollapseModule.forRoot = function () { return { ngModule: NgbCollapseModule, providers: [] }; };
-    return NgbCollapseModule;
-}());
-
-NgbCollapseModule.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{ declarations: [__WEBPACK_IMPORTED_MODULE_1__collapse__["a" /* NgbCollapse */]], exports: [__WEBPACK_IMPORTED_MODULE_1__collapse__["a" /* NgbCollapse */]] },] },
-];
-/** @nocollapse */
-NgbCollapseModule.ctorParameters = function () { return []; };
-//# sourceMappingURL=collapse.module.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-config.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbDatepickerConfig; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-
-/**
- * Configuration service for the NgbDatepicker component.
- * You can inject this service, typically in your root component, and customize the values of its properties in
- * order to provide default values for all the datepickers used in the application.
- */
-var NgbDatepickerConfig = (function () {
-    function NgbDatepickerConfig() {
-        this.displayMonths = 1;
-        this.firstDayOfWeek = 1;
-        this.navigation = 'select';
-        this.outsideDays = 'visible';
-        this.showWeekdays = true;
-        this.showWeekNumbers = false;
-    }
-    return NgbDatepickerConfig;
-}());
-
-NgbDatepickerConfig.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbDatepickerConfig.ctorParameters = function () { return []; };
-//# sourceMappingURL=datepicker-config.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-day-view.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbDatepickerDayView; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-
-var NgbDatepickerDayView = (function () {
-    function NgbDatepickerDayView() {
-    }
-    NgbDatepickerDayView.prototype.isMuted = function () { return !this.selected && (this.date.month !== this.currentMonth || this.disabled); };
-    return NgbDatepickerDayView;
-}());
-
-NgbDatepickerDayView.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
-                selector: '[ngbDatepickerDayView]',
-                changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush,
-                styles: ["\n    :host {\n      text-align: center;\n      width: 2rem;\n      height: 2rem;\n      line-height: 2rem;\n      border-radius: 0.25rem;\n      background: transparent;\n    }\n    :host.outside {\n      opacity: 0.5;\n    }\n  "],
-                host: {
-                    'class': 'btn-light',
-                    '[class.bg-primary]': 'selected',
-                    '[class.text-white]': 'selected',
-                    '[class.text-muted]': 'isMuted()',
-                    '[class.outside]': 'isMuted()',
-                    '[class.active]': 'focused'
-                },
-                template: "{{ date.day }}"
-            },] },
-];
-/** @nocollapse */
-NgbDatepickerDayView.ctorParameters = function () { return []; };
-NgbDatepickerDayView.propDecorators = {
-    'currentMonth': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'date': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'disabled': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'focused': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'selected': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-};
-//# sourceMappingURL=datepicker-day-view.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-i18n.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbDatepickerI18n; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return NgbDatepickerI18nDefault; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-
-var WEEKDAYS_SHORT = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
-var MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-var MONTHS_FULL = [
-    'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November',
-    'December'
-];
-/**
- * Type of the service supplying month and weekday names to to NgbDatepicker component.
- * See the i18n demo for how to extend this class and define a custom provider for i18n.
- */
-var NgbDatepickerI18n = (function () {
-    function NgbDatepickerI18n() {
-    }
-    return NgbDatepickerI18n;
-}());
-
-NgbDatepickerI18n.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbDatepickerI18n.ctorParameters = function () { return []; };
-var NgbDatepickerI18nDefault = (function (_super) {
-    __extends(NgbDatepickerI18nDefault, _super);
-    function NgbDatepickerI18nDefault() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    NgbDatepickerI18nDefault.prototype.getWeekdayShortName = function (weekday) { return WEEKDAYS_SHORT[weekday - 1]; };
-    NgbDatepickerI18nDefault.prototype.getMonthShortName = function (month) { return MONTHS_SHORT[month - 1]; };
-    NgbDatepickerI18nDefault.prototype.getMonthFullName = function (month) { return MONTHS_FULL[month - 1]; };
-    return NgbDatepickerI18nDefault;
-}(NgbDatepickerI18n));
-
-NgbDatepickerI18nDefault.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbDatepickerI18nDefault.ctorParameters = function () { return []; };
-//# sourceMappingURL=datepicker-i18n.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-input.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbInputDatepicker; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ngb_date__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-date.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__datepicker__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ngb_date_parser_formatter__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-parser-formatter.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__util_positioning__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/positioning.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ngb_calendar__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__datepicker_service__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-service.js");
-
-
-
-
-
-
-
-
-var NGB_DATEPICKER_VALUE_ACCESSOR = {
-    provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* NG_VALUE_ACCESSOR */],
-    useExisting: Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["forwardRef"])(function () { return NgbInputDatepicker; }),
-    multi: true
-};
-var NGB_DATEPICKER_VALIDATOR = {
-    provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* NG_VALIDATORS */],
-    useExisting: Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["forwardRef"])(function () { return NgbInputDatepicker; }),
-    multi: true
-};
-/**
- * A directive that makes it possible to have datepickers on input fields.
- * Manages integration with the input field itself (data entry) and ngModel (validation etc.).
- */
-var NgbInputDatepicker = (function () {
-    function NgbInputDatepicker(_parserFormatter, _elRef, _vcRef, _renderer, _cfr, ngZone, _service, _calendar) {
-        var _this = this;
-        this._parserFormatter = _parserFormatter;
-        this._elRef = _elRef;
-        this._vcRef = _vcRef;
-        this._renderer = _renderer;
-        this._cfr = _cfr;
-        this._service = _service;
-        this._calendar = _calendar;
-        this._cRef = null;
-        /**
-            * Placement of a datepicker popup accepts:
-            *    "top", "top-left", "top-right", "bottom", "bottom-left", "bottom-right",
-            *    "left", "left-top", "left-bottom", "right", "right-top", "right-bottom"
-            * and array of above values.
-            */
-        this.placement = 'bottom-left';
-        /**
-         * An event fired when navigation happens and currently displayed month changes.
-         * See NgbDatepickerNavigateEvent for the payload info.
-         */
-        this.navigate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this._onChange = function (_) { };
-        this._onTouched = function () { };
-        this._validatorChange = function () { };
-        this._zoneSubscription = ngZone.onStable.subscribe(function () {
-            if (_this._cRef) {
-                Object(__WEBPACK_IMPORTED_MODULE_5__util_positioning__["a" /* positionElements */])(_this._elRef.nativeElement, _this._cRef.location.nativeElement, _this.placement);
-            }
-        });
-    }
-    NgbInputDatepicker.prototype.registerOnChange = function (fn) { this._onChange = fn; };
-    NgbInputDatepicker.prototype.registerOnTouched = function (fn) { this._onTouched = fn; };
-    NgbInputDatepicker.prototype.registerOnValidatorChange = function (fn) { this._validatorChange = fn; };
-    ;
-    NgbInputDatepicker.prototype.setDisabledState = function (isDisabled) {
-        this._renderer.setProperty(this._elRef.nativeElement, 'disabled', isDisabled);
-        if (this.isOpen()) {
-            this._cRef.instance.setDisabledState(isDisabled);
-        }
-    };
-    NgbInputDatepicker.prototype.validate = function (c) {
-        var value = c.value;
-        if (value === null || value === undefined) {
-            return null;
-        }
-        if (!this._calendar.isValid(value)) {
-            return { 'ngbDate': { invalid: c.value } };
-        }
-        if (this.minDate && __WEBPACK_IMPORTED_MODULE_2__ngb_date__["a" /* NgbDate */].from(value).before(__WEBPACK_IMPORTED_MODULE_2__ngb_date__["a" /* NgbDate */].from(this.minDate))) {
-            return { 'ngbDate': { requiredBefore: this.minDate } };
-        }
-        if (this.maxDate && __WEBPACK_IMPORTED_MODULE_2__ngb_date__["a" /* NgbDate */].from(value).after(__WEBPACK_IMPORTED_MODULE_2__ngb_date__["a" /* NgbDate */].from(this.maxDate))) {
-            return { 'ngbDate': { requiredAfter: this.maxDate } };
-        }
-    };
-    NgbInputDatepicker.prototype.writeValue = function (value) {
-        var ngbDate = value ? new __WEBPACK_IMPORTED_MODULE_2__ngb_date__["a" /* NgbDate */](value.year, value.month, value.day) : null;
-        this._model = this._calendar.isValid(value) ? ngbDate : null;
-        this._writeModelValue(this._model);
-    };
-    NgbInputDatepicker.prototype.manualDateChange = function (value, updateView) {
-        if (updateView === void 0) { updateView = false; }
-        this._model = this._service.toValidDate(this._parserFormatter.parse(value), null);
-        this._onChange(this._model ? this._model.toStruct() : (value === '' ? null : value));
-        if (updateView && this._model) {
-            this._writeModelValue(this._model);
-        }
-    };
-    NgbInputDatepicker.prototype.isOpen = function () { return !!this._cRef; };
-    /**
-     * Opens the datepicker with the selected date indicated by the ngModel value.
-     */
-    NgbInputDatepicker.prototype.open = function () {
-        var _this = this;
-        if (!this.isOpen()) {
-            var cf = this._cfr.resolveComponentFactory(__WEBPACK_IMPORTED_MODULE_3__datepicker__["a" /* NgbDatepicker */]);
-            this._cRef = this._vcRef.createComponent(cf);
-            this._applyPopupStyling(this._cRef.location.nativeElement);
-            this._cRef.instance.writeValue(this._model);
-            this._applyDatepickerInputs(this._cRef.instance);
-            this._subscribeForDatepickerOutputs(this._cRef.instance);
-            this._cRef.instance.ngOnInit();
-            // date selection event handling
-            this._cRef.instance.registerOnChange(function (selectedDate) {
-                _this.writeValue(selectedDate);
-                _this._onChange(selectedDate);
-                _this.close();
-            });
-            // focus handling
-            this._cRef.instance.focus();
-        }
-    };
-    /**
-     * Closes the datepicker popup.
-     */
-    NgbInputDatepicker.prototype.close = function () {
-        if (this.isOpen()) {
-            this._vcRef.remove(this._vcRef.indexOf(this._cRef.hostView));
-            this._cRef = null;
-        }
-    };
-    /**
-     * Toggles the datepicker popup (opens when closed and closes when opened).
-     */
-    NgbInputDatepicker.prototype.toggle = function () {
-        if (this.isOpen()) {
-            this.close();
-        }
-        else {
-            this.open();
-        }
-    };
-    /**
-     * Navigates current view to provided date.
-     * With default calendar we use ISO 8601: 'month' is 1=Jan ... 12=Dec.
-     * If nothing or invalid date provided calendar will open current month.
-     * Use 'startDate' input as an alternative
-     */
-    NgbInputDatepicker.prototype.navigateTo = function (date) {
-        if (this.isOpen()) {
-            this._cRef.instance.navigateTo(date);
-        }
-    };
-    NgbInputDatepicker.prototype.onBlur = function () { this._onTouched(); };
-    NgbInputDatepicker.prototype.ngOnChanges = function (changes) {
-        if (changes['minDate'] || changes['maxDate']) {
-            this._validatorChange();
-        }
-    };
-    NgbInputDatepicker.prototype.ngOnDestroy = function () {
-        this.close();
-        this._zoneSubscription.unsubscribe();
-    };
-    NgbInputDatepicker.prototype._applyDatepickerInputs = function (datepickerInstance) {
-        var _this = this;
-        ['dayTemplate', 'displayMonths', 'firstDayOfWeek', 'markDisabled', 'minDate', 'maxDate', 'navigation',
-            'outsideDays', 'showNavigation', 'showWeekdays', 'showWeekNumbers']
-            .forEach(function (optionName) {
-            if (_this[optionName] !== undefined) {
-                datepickerInstance[optionName] = _this[optionName];
-            }
-        });
-        datepickerInstance.startDate = this.startDate || this._model;
-    };
-    NgbInputDatepicker.prototype._applyPopupStyling = function (nativeElement) {
-        this._renderer.addClass(nativeElement, 'dropdown-menu');
-        this._renderer.setStyle(nativeElement, 'padding', '0');
-    };
-    NgbInputDatepicker.prototype._subscribeForDatepickerOutputs = function (datepickerInstance) {
-        var _this = this;
-        datepickerInstance.navigate.subscribe(function (date) { return _this.navigate.emit(date); });
-    };
-    NgbInputDatepicker.prototype._writeModelValue = function (model) {
-        this._renderer.setProperty(this._elRef.nativeElement, 'value', this._parserFormatter.format(model));
-        if (this.isOpen()) {
-            this._cRef.instance.writeValue(model);
-            this._onTouched();
-        }
-    };
-    return NgbInputDatepicker;
-}());
-
-NgbInputDatepicker.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{
-                selector: 'input[ngbDatepicker]',
-                exportAs: 'ngbDatepicker',
-                host: {
-                    '(input)': 'manualDateChange($event.target.value)',
-                    '(change)': 'manualDateChange($event.target.value, true)',
-                    '(keyup.esc)': 'close()',
-                    '(blur)': 'onBlur()'
-                },
-                providers: [NGB_DATEPICKER_VALUE_ACCESSOR, NGB_DATEPICKER_VALIDATOR, __WEBPACK_IMPORTED_MODULE_7__datepicker_service__["a" /* NgbDatepickerService */]]
-            },] },
-];
-/** @nocollapse */
-NgbInputDatepicker.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_4__ngb_date_parser_formatter__["b" /* NgbDateParserFormatter */], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ComponentFactoryResolver"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgZone"], },
-    { type: __WEBPACK_IMPORTED_MODULE_7__datepicker_service__["a" /* NgbDatepickerService */], },
-    { type: __WEBPACK_IMPORTED_MODULE_6__ngb_calendar__["a" /* NgbCalendar */], },
-]; };
-NgbInputDatepicker.propDecorators = {
-    'dayTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'displayMonths': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'firstDayOfWeek': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'markDisabled': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'minDate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'maxDate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'navigation': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'outsideDays': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'placement': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'showWeekdays': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'showWeekNumbers': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'startDate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'navigate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-};
-//# sourceMappingURL=datepicker-input.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-keymap-service.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbDatepickerKeyMapService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__datepicker_service__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-service.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ngb_calendar__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_util__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/util.js");
-
-
-
-
-var Key;
-(function (Key) {
-    Key[Key["Enter"] = 13] = "Enter";
-    Key[Key["Space"] = 32] = "Space";
-    Key[Key["PageUp"] = 33] = "PageUp";
-    Key[Key["PageDown"] = 34] = "PageDown";
-    Key[Key["End"] = 35] = "End";
-    Key[Key["Home"] = 36] = "Home";
-    Key[Key["ArrowLeft"] = 37] = "ArrowLeft";
-    Key[Key["ArrowUp"] = 38] = "ArrowUp";
-    Key[Key["ArrowRight"] = 39] = "ArrowRight";
-    Key[Key["ArrowDown"] = 40] = "ArrowDown";
-})(Key || (Key = {}));
-var NgbDatepickerKeyMapService = (function () {
-    function NgbDatepickerKeyMapService(_service, _calendar) {
-        var _this = this;
-        this._service = _service;
-        this._calendar = _calendar;
-        _service.model$.subscribe(function (model) {
-            _this._minDate = model.minDate;
-            _this._maxDate = model.maxDate;
-            _this._firstViewDate = model.firstDate;
-            _this._lastViewDate = model.lastDate;
-        });
-    }
-    NgbDatepickerKeyMapService.prototype.processKey = function (event) {
-        if (Key[Object(__WEBPACK_IMPORTED_MODULE_3__util_util__["i" /* toString */])(event.which)]) {
-            switch (event.which) {
-                case Key.PageUp:
-                    this._service.focusMove(event.shiftKey ? 'y' : 'm', -1);
-                    break;
-                case Key.PageDown:
-                    this._service.focusMove(event.shiftKey ? 'y' : 'm', 1);
-                    break;
-                case Key.End:
-                    this._service.focus(event.shiftKey ? this._maxDate : this._lastViewDate);
-                    break;
-                case Key.Home:
-                    this._service.focus(event.shiftKey ? this._minDate : this._firstViewDate);
-                    break;
-                case Key.ArrowLeft:
-                    this._service.focusMove('d', -1);
-                    break;
-                case Key.ArrowUp:
-                    this._service.focusMove('d', -this._calendar.getDaysPerWeek());
-                    break;
-                case Key.ArrowRight:
-                    this._service.focusMove('d', 1);
-                    break;
-                case Key.ArrowDown:
-                    this._service.focusMove('d', this._calendar.getDaysPerWeek());
-                    break;
-                case Key.Enter:
-                case Key.Space:
-                    this._service.focusSelect();
-                    break;
-                default:
-                    return;
-            }
-            event.preventDefault();
-            event.stopPropagation();
-        }
-    };
-    return NgbDatepickerKeyMapService;
-}());
-
-NgbDatepickerKeyMapService.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbDatepickerKeyMapService.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_1__datepicker_service__["a" /* NgbDatepickerService */], },
-    { type: __WEBPACK_IMPORTED_MODULE_2__ngb_calendar__["a" /* NgbCalendar */], },
-]; };
-//# sourceMappingURL=datepicker-keymap-service.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-month-view.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbDatepickerMonthView; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ngb_date__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-date.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__datepicker_i18n__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-i18n.js");
-
-
-
-var NgbDatepickerMonthView = (function () {
-    function NgbDatepickerMonthView(i18n) {
-        this.i18n = i18n;
-        this.select = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-    }
-    NgbDatepickerMonthView.prototype.doSelect = function (day) {
-        if (!day.context.disabled && !this.isHidden(day)) {
-            this.select.emit(__WEBPACK_IMPORTED_MODULE_1__ngb_date__["a" /* NgbDate */].from(day.date));
-        }
-    };
-    NgbDatepickerMonthView.prototype.isCollapsed = function (week) {
-        return this.outsideDays === 'collapsed' && week.days[0].date.month !== this.month.number &&
-            week.days[week.days.length - 1].date.month !== this.month.number;
-    };
-    NgbDatepickerMonthView.prototype.isHidden = function (day) {
-        return (this.outsideDays === 'hidden' || this.outsideDays === 'collapsed') && this.month.number !== day.date.month;
-    };
-    return NgbDatepickerMonthView;
-}());
-
-NgbDatepickerMonthView.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
-                selector: 'ngb-datepicker-month-view',
-                host: { 'class': 'd-block' },
-                styles: ["\n    .ngb-dp-weekday, .ngb-dp-week-number {\n      line-height: 2rem;\n    }\n    .ngb-dp-day, .ngb-dp-weekday, .ngb-dp-week-number {\n      width: 2rem;\n      height: 2rem;\n    }\n    .ngb-dp-day {\n      cursor: pointer;\n    }\n    .ngb-dp-day.disabled, .ngb-dp-day.hidden {\n      cursor: default;\n    }\n  "],
-                template: "\n    <div *ngIf=\"showWeekdays\" class=\"ngb-dp-week d-flex\">\n      <div *ngIf=\"showWeekNumbers\" class=\"ngb-dp-weekday\"></div>\n      <div *ngFor=\"let w of month.weekdays\" class=\"ngb-dp-weekday small text-center text-info font-italic\">\n        {{ i18n.getWeekdayShortName(w) }}\n      </div>\n    </div>\n    <ng-template ngFor let-week [ngForOf]=\"month.weeks\">\n      <div *ngIf=\"!isCollapsed(week)\" class=\"ngb-dp-week d-flex\">\n        <div *ngIf=\"showWeekNumbers\" class=\"ngb-dp-week-number small text-center font-italic text-muted\">{{ week.number }}</div>\n        <div *ngFor=\"let day of week.days\" (click)=\"doSelect(day)\" class=\"ngb-dp-day\" [class.disabled]=\"day.context.disabled\"\n         [class.hidden]=\"isHidden(day)\">\n          <ng-template [ngIf]=\"!isHidden(day)\">\n            <ng-template [ngTemplateOutlet]=\"dayTemplate\" [ngTemplateOutletContext]=\"day.context\"></ng-template>\n          </ng-template>\n        </div>\n      </div>\n    </ng-template>\n  "
-            },] },
-];
-/** @nocollapse */
-NgbDatepickerMonthView.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_2__datepicker_i18n__["a" /* NgbDatepickerI18n */], },
-]; };
-NgbDatepickerMonthView.propDecorators = {
-    'dayTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'month': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'outsideDays': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'showWeekdays': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'showWeekNumbers': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'select': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-};
-//# sourceMappingURL=datepicker-month-view.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation-select.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbDatepickerNavigationSelect; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ngb_date__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-date.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_util__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/util.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__datepicker_i18n__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-i18n.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ngb_calendar__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar.js");
-
-
-
-
-
-var NgbDatepickerNavigationSelect = (function () {
-    function NgbDatepickerNavigationSelect(i18n, calendar) {
-        this.i18n = i18n;
-        this.calendar = calendar;
-        this.years = [];
-        this.select = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this.months = calendar.getMonths();
-    }
-    NgbDatepickerNavigationSelect.prototype.ngOnChanges = function (changes) {
-        if (changes['maxDate'] || changes['minDate'] || changes['date']) {
-            this._generateYears();
-            this._generateMonths();
-        }
-    };
-    NgbDatepickerNavigationSelect.prototype.changeMonth = function (month) { this.select.emit(new __WEBPACK_IMPORTED_MODULE_1__ngb_date__["a" /* NgbDate */](this.date.year, Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["h" /* toInteger */])(month), 1)); };
-    NgbDatepickerNavigationSelect.prototype.changeYear = function (year) { this.select.emit(new __WEBPACK_IMPORTED_MODULE_1__ngb_date__["a" /* NgbDate */](Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["h" /* toInteger */])(year), this.date.month, 1)); };
-    NgbDatepickerNavigationSelect.prototype._generateMonths = function () {
-        var _this = this;
-        this.months = this.calendar.getMonths();
-        if (this.date && this.date.year === this.minDate.year) {
-            var index = this.months.findIndex(function (month) { return month === _this.minDate.month; });
-            this.months = this.months.slice(index);
-        }
-        if (this.date && this.date.year === this.maxDate.year) {
-            var index = this.months.findIndex(function (month) { return month === _this.maxDate.month; });
-            this.months = this.months.slice(0, index + 1);
-        }
-    };
-    NgbDatepickerNavigationSelect.prototype._generateYears = function () {
-        var _this = this;
-        this.years = Array.from({ length: this.maxDate.year - this.minDate.year + 1 }, function (e, i) { return _this.minDate.year + i; });
-    };
-    return NgbDatepickerNavigationSelect;
-}());
-
-NgbDatepickerNavigationSelect.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
-                selector: 'ngb-datepicker-navigation-select',
-                changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush,
-                styles: ["\n    select {\n      /* to align with btn-sm */\n      padding: 0.25rem 0.5rem;\n      font-size: 0.875rem;      \n      line-height: 1.25;\n      /* to cancel the custom height set by custom-select */\n      height: inherit;\n      width: 50%;\n    }\n  "],
-                template: "\n    <select\n      [disabled]=\"disabled\"\n      class=\"custom-select d-inline-block\"\n      [value]=\"date?.month\"\n      (change)=\"changeMonth($event.target.value)\"\n      tabindex=\"-1\">\n        <option *ngFor=\"let m of months\" [value]=\"m\">{{ i18n.getMonthShortName(m) }}</option>\n    </select><select\n      [disabled]=\"disabled\"\n      class=\"custom-select d-inline-block\"\n      [value]=\"date?.year\"\n      (change)=\"changeYear($event.target.value)\"\n      tabindex=\"-1\">\n        <option *ngFor=\"let y of years\" [value]=\"y\">{{ y }}</option>\n    </select> \n  "
-            },] },
-];
-/** @nocollapse */
-NgbDatepickerNavigationSelect.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_3__datepicker_i18n__["a" /* NgbDatepickerI18n */], },
-    { type: __WEBPACK_IMPORTED_MODULE_4__ngb_calendar__["a" /* NgbCalendar */], },
-]; };
-NgbDatepickerNavigationSelect.propDecorators = {
-    'date': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'disabled': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'maxDate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'minDate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'select': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-};
-//# sourceMappingURL=datepicker-navigation-select.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbDatepickerNavigation; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__datepicker_view_model__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__datepicker_i18n__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-i18n.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ngb_calendar__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar.js");
-
-
-
-
-var NgbDatepickerNavigation = (function () {
-    function NgbDatepickerNavigation(i18n, _calendar) {
-        this.i18n = i18n;
-        this._calendar = _calendar;
-        this.navigation = __WEBPACK_IMPORTED_MODULE_1__datepicker_view_model__["a" /* NavigationEvent */];
-        this.navigate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this.select = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-    }
-    NgbDatepickerNavigation.prototype.doNavigate = function (event) { this.navigate.emit(event); };
-    NgbDatepickerNavigation.prototype.nextDisabled = function () {
-        return this.disabled || (this.maxDate && this._calendar.getNext(this.date, 'm').after(this.maxDate));
-    };
-    NgbDatepickerNavigation.prototype.prevDisabled = function () {
-        var prevDate = this._calendar.getPrev(this.date, 'm');
-        return this.disabled || (this.minDate && prevDate.year <= this.minDate.year && prevDate.month < this.minDate.month);
-    };
-    NgbDatepickerNavigation.prototype.selectDate = function (date) { this.select.emit(date); };
-    return NgbDatepickerNavigation;
-}());
-
-NgbDatepickerNavigation.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
-                selector: 'ngb-datepicker-navigation',
-                changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush,
-                host: { 'class': 'd-flex justify-content-between', '[class.collapsed]': '!showSelect' },
-                styles: ["\n    :host {\n      height: 2rem;\n      line-height: 1.85rem;\n    }\n    :host.collapsed {\n      margin-bottom: -2rem;        \n    }\n    .ngb-dp-navigation-chevron::before {\n      border-style: solid;\n      border-width: 0.2em 0.2em 0 0;\n      content: '';\n      display: inline-block;\n      height: 0.75em;\n      transform: rotate(-135deg);\n      -webkit-transform: rotate(-135deg);\n      -ms-transform: rotate(-135deg);\n      width: 0.75em;\n      margin: 0 0 0 0.5rem;\n    }    \n    .ngb-dp-navigation-chevron.right:before {\n      -webkit-transform: rotate(45deg);\n      -ms-transform: rotate(45deg);\n      transform: rotate(45deg);\n      margin: 0 0.5rem 0 0;\n    }\n    .btn-link {\n      cursor: pointer;\n      outline: 0;\n    }\n    .btn-link[disabled] {\n      cursor: not-allowed;\n      opacity: .65;\n    }    \n  "],
-                template: "\n    <button type=\"button\" class=\"btn-link\" (click)=\"!!doNavigate(navigation.PREV)\" [disabled]=\"prevDisabled()\" tabindex=\"-1\">\n      <span class=\"ngb-dp-navigation-chevron\"></span>    \n    </button>\n    \n    <ngb-datepicker-navigation-select *ngIf=\"showSelect\" class=\"d-block\" [style.width.rem]=\"months * 9\"\n      [date]=\"date\"\n      [minDate]=\"minDate\"\n      [maxDate]=\"maxDate\"\n      [disabled] = \"disabled\"\n      (select)=\"selectDate($event)\">\n    </ngb-datepicker-navigation-select>\n    \n    <button type=\"button\" class=\"btn-link\" (click)=\"!!doNavigate(navigation.NEXT)\" [disabled]=\"nextDisabled()\" tabindex=\"-1\">\n      <span class=\"ngb-dp-navigation-chevron right\"></span>\n    </button>\n  "
-            },] },
-];
-/** @nocollapse */
-NgbDatepickerNavigation.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_2__datepicker_i18n__["a" /* NgbDatepickerI18n */], },
-    { type: __WEBPACK_IMPORTED_MODULE_3__ngb_calendar__["a" /* NgbCalendar */], },
-]; };
-NgbDatepickerNavigation.propDecorators = {
-    'date': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'disabled': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'maxDate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'minDate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'months': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'showSelect': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'showWeekNumbers': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'navigate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-    'select': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-};
-//# sourceMappingURL=datepicker-navigation.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-service.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbDatepickerService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ngb_calendar__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ngb_date__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-date.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_util__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/util.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__datepicker_tools__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-tools.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_operator_filter__ = __webpack_require__("../../../../rxjs/operator/filter.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_operator_filter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_rxjs_operator_filter__);
-
-
-
-
-
-
-
-var NgbDatepickerService = (function () {
-    function NgbDatepickerService(_calendar) {
-        this._calendar = _calendar;
-        this._model$ = new __WEBPACK_IMPORTED_MODULE_4_rxjs_Subject__["Subject"]();
-        this._state = { disabled: false, displayMonths: 1, firstDayOfWeek: 1, focusVisible: false, months: [], selectedDate: null };
-    }
-    Object.defineProperty(NgbDatepickerService.prototype, "model$", {
-        get: function () { return __WEBPACK_IMPORTED_MODULE_6_rxjs_operator_filter__["filter"].call(this._model$.asObservable(), function (model) { return model.months.length > 0; }); },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgbDatepickerService.prototype, "disabled", {
-        set: function (disabled) {
-            if (this._state.disabled !== disabled) {
-                this._nextState({ disabled: disabled });
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgbDatepickerService.prototype, "displayMonths", {
-        set: function (months) {
-            if (Object(__WEBPACK_IMPORTED_MODULE_3__util_util__["c" /* isInteger */])(months) && months > 0 && this._state.displayMonths !== months) {
-                this._nextState({ displayMonths: months });
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgbDatepickerService.prototype, "firstDayOfWeek", {
-        set: function (firstDayOfWeek) {
-            if (Object(__WEBPACK_IMPORTED_MODULE_3__util_util__["c" /* isInteger */])(firstDayOfWeek) && firstDayOfWeek >= 0 && this._state.firstDayOfWeek !== firstDayOfWeek) {
-                this._nextState({ firstDayOfWeek: firstDayOfWeek });
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgbDatepickerService.prototype, "focusVisible", {
-        set: function (focusVisible) {
-            if (this._state.focusVisible !== focusVisible && !this._state.disabled) {
-                this._nextState({ focusVisible: focusVisible });
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgbDatepickerService.prototype, "maxDate", {
-        set: function (date) {
-            if (date === undefined || this._calendar.isValid(date) && Object(__WEBPACK_IMPORTED_MODULE_5__datepicker_tools__["d" /* isChangedDate */])(this._state.maxDate, date)) {
-                this._nextState({ maxDate: date });
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgbDatepickerService.prototype, "markDisabled", {
-        set: function (markDisabled) {
-            if (this._state.markDisabled !== markDisabled) {
-                this._nextState({ markDisabled: markDisabled });
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(NgbDatepickerService.prototype, "minDate", {
-        set: function (date) {
-            if (date === undefined || this._calendar.isValid(date) && Object(__WEBPACK_IMPORTED_MODULE_5__datepicker_tools__["d" /* isChangedDate */])(this._state.minDate, date)) {
-                this._nextState({ minDate: date });
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    NgbDatepickerService.prototype.focus = function (date) {
-        if (!this._state.disabled && this._calendar.isValid(date) && Object(__WEBPACK_IMPORTED_MODULE_5__datepicker_tools__["d" /* isChangedDate */])(this._state.focusDate, date)) {
-            this._nextState({ focusDate: date });
-        }
-    };
-    NgbDatepickerService.prototype.focusMove = function (period, number) {
-        this.focus(this._calendar.getNext(this._state.focusDate, period, number));
-    };
-    NgbDatepickerService.prototype.focusSelect = function () {
-        if (Object(__WEBPACK_IMPORTED_MODULE_5__datepicker_tools__["e" /* isDateSelectable */])(this._state.months, this._state.focusDate)) {
-            this.select(this._state.focusDate);
-        }
-    };
-    NgbDatepickerService.prototype.open = function (date) {
-        if (!this._state.disabled && this._calendar.isValid(date)) {
-            this._nextState({ firstDate: date });
-        }
-    };
-    NgbDatepickerService.prototype.select = function (date) {
-        var validDate = this.toValidDate(date, null);
-        if (!this._state.disabled && Object(__WEBPACK_IMPORTED_MODULE_5__datepicker_tools__["d" /* isChangedDate */])(this._state.selectedDate, validDate)) {
-            this._nextState({ selectedDate: validDate });
-        }
-    };
-    NgbDatepickerService.prototype.toValidDate = function (date, defaultValue) {
-        var ngbDate = __WEBPACK_IMPORTED_MODULE_1__ngb_date__["a" /* NgbDate */].from(date);
-        if (defaultValue === undefined) {
-            defaultValue = this._calendar.getToday();
-        }
-        return this._calendar.isValid(ngbDate) ? ngbDate : defaultValue;
-    };
-    NgbDatepickerService.prototype._nextState = function (patch) {
-        var newState = this._updateState(patch);
-        this._patchContexts(newState);
-        this._state = newState;
-        this._model$.next(this._state);
-    };
-    NgbDatepickerService.prototype._patchContexts = function (state) {
-        state.months.forEach(function (month) {
-            month.weeks.forEach(function (week) {
-                week.days.forEach(function (day) {
-                    // patch focus flag
-                    if (state.focusDate) {
-                        day.context.focused = state.focusDate.equals(day.date) && state.focusVisible;
-                    }
-                    // override context disabled
-                    if (state.disabled === true) {
-                        day.context.disabled = true;
-                    }
-                    // patch selection flag
-                    if (state.selectedDate !== undefined) {
-                        day.context.selected = state.selectedDate !== null && state.selectedDate.equals(day.date);
-                    }
-                });
-            });
-        });
-    };
-    NgbDatepickerService.prototype._updateState = function (patch) {
-        // patching fields
-        var state = Object.assign({}, this._state, patch);
-        var startDate = state.firstDate;
-        // min/max dates changed
-        if ('minDate' in patch || 'maxDate' in patch) {
-            Object(__WEBPACK_IMPORTED_MODULE_5__datepicker_tools__["c" /* checkMinBeforeMax */])(state.minDate, state.maxDate);
-            state.focusDate = Object(__WEBPACK_IMPORTED_MODULE_5__datepicker_tools__["b" /* checkDateInRange */])(state.focusDate, state.minDate, state.maxDate);
-            state.firstDate = Object(__WEBPACK_IMPORTED_MODULE_5__datepicker_tools__["b" /* checkDateInRange */])(state.firstDate, state.minDate, state.maxDate);
-            startDate = state.focusDate;
-        }
-        // disabled
-        if ('disabled' in patch) {
-            state.focusVisible = false;
-        }
-        // focus date changed
-        if ('focusDate' in patch) {
-            state.focusDate = Object(__WEBPACK_IMPORTED_MODULE_5__datepicker_tools__["b" /* checkDateInRange */])(state.focusDate, state.minDate, state.maxDate);
-            startDate = state.focusDate;
-            // nothing to rebuild if only focus changed and it is still visible
-            if (state.months.length !== 0 && !state.focusDate.before(state.firstDate) &&
-                !state.focusDate.after(state.lastDate)) {
-                return state;
-            }
-        }
-        // first date changed
-        if ('firstDate' in patch) {
-            state.firstDate = Object(__WEBPACK_IMPORTED_MODULE_5__datepicker_tools__["b" /* checkDateInRange */])(state.firstDate, state.minDate, state.maxDate);
-            startDate = state.firstDate;
-        }
-        // rebuilding months
-        if (startDate) {
-            var forceRebuild = 'firstDayOfWeek' in patch || 'markDisabled' in patch || 'minDate' in patch ||
-                'maxDate' in patch || 'disabled' in patch;
-            var months = Object(__WEBPACK_IMPORTED_MODULE_5__datepicker_tools__["a" /* buildMonths */])(this._calendar, state.months, startDate, state.minDate, state.maxDate, state.displayMonths, state.firstDayOfWeek, state.markDisabled, forceRebuild);
-            // updating months and boundary dates
-            state.months = months;
-            state.firstDate = months.length > 0 ? months[0].firstDate : undefined;
-            state.lastDate = months.length > 0 ? months[months.length - 1].lastDate : undefined;
-            // adjusting focus after months were built
-            if ('firstDate' in patch) {
-                if (state.focusDate === undefined || state.focusDate.before(state.firstDate) ||
-                    state.focusDate.after(state.lastDate)) {
-                    state.focusDate = startDate;
-                }
-            }
-        }
-        return state;
-    };
-    return NgbDatepickerService;
-}());
-
-NgbDatepickerService.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbDatepickerService.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_0__ngb_calendar__["a" /* NgbCalendar */], },
-]; };
-//# sourceMappingURL=datepicker-service.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-tools.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["d"] = isChangedDate;
-/* unused harmony export dateComparator */
-/* harmony export (immutable) */ __webpack_exports__["c"] = checkMinBeforeMax;
-/* harmony export (immutable) */ __webpack_exports__["b"] = checkDateInRange;
-/* harmony export (immutable) */ __webpack_exports__["e"] = isDateSelectable;
-/* harmony export (immutable) */ __webpack_exports__["a"] = buildMonths;
-/* unused harmony export buildMonth */
-/* unused harmony export getFirstViewDate */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ngb_date__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-date.js");
-
-function isChangedDate(prev, next) {
-    return !dateComparator(prev, next);
-}
-function dateComparator(prev, next) {
-    return (!prev && !next) || (!!prev && !!next && prev.equals(next));
-}
-function checkMinBeforeMax(minDate, maxDate) {
-    if (maxDate && minDate && maxDate.before(minDate)) {
-        throw new Error("'maxDate' " + maxDate + " should be greater than 'minDate' " + minDate);
-    }
-}
-function checkDateInRange(date, minDate, maxDate) {
-    if (date && minDate && date.before(minDate)) {
-        return __WEBPACK_IMPORTED_MODULE_0__ngb_date__["a" /* NgbDate */].from(minDate);
-    }
-    if (date && maxDate && date.after(maxDate)) {
-        return __WEBPACK_IMPORTED_MODULE_0__ngb_date__["a" /* NgbDate */].from(maxDate);
-    }
-    return date;
-}
-function isDateSelectable(months, date) {
-    var selectable = false;
-    var month = months.find(function (curMonth) { return curMonth.year === date.year && curMonth.number === date.month; });
-    if (month) {
-        month.weeks.find(function (week) {
-            var day = week.days.find(function (day) { return date.equals(day.date); });
-            if (day && !day.context.disabled) {
-                selectable = true;
-            }
-            return !!day;
-        });
-    }
-    return selectable;
-}
-function buildMonths(calendar, months, date, minDate, maxDate, displayMonths, firstDayOfWeek, markDisabled, force) {
-    var newMonths = [];
-    var _loop_1 = function (i) {
-        var newDate = calendar.getNext(date, 'm', i);
-        var index = months.findIndex(function (month) { return month.firstDate.equals(newDate); });
-        if (force || index === -1) {
-            newMonths.push(buildMonth(calendar, newDate, minDate, maxDate, firstDayOfWeek, markDisabled));
-        }
-        else {
-            newMonths.push(months[index]);
-        }
-    };
-    for (var i = 0; i < displayMonths; i++) {
-        _loop_1(i);
-    }
-    return newMonths;
-}
-function buildMonth(calendar, date, minDate, maxDate, firstDayOfWeek, markDisabled) {
-    var month = { firstDate: null, lastDate: null, number: date.month, year: date.year, weeks: [], weekdays: [] };
-    date = getFirstViewDate(calendar, date, firstDayOfWeek);
-    // month has weeks
-    for (var week = 0; week < calendar.getWeeksPerMonth(); week++) {
-        var days = [];
-        // week has days
-        for (var day = 0; day < calendar.getDaysPerWeek(); day++) {
-            if (week === 0) {
-                month.weekdays.push(calendar.getWeekday(date));
-            }
-            var newDate = new __WEBPACK_IMPORTED_MODULE_0__ngb_date__["a" /* NgbDate */](date.year, date.month, date.day);
-            var nextDate = calendar.getNext(newDate);
-            // marking date as disabled
-            var disabled = !!((minDate && newDate.before(minDate)) || (maxDate && newDate.after(maxDate)));
-            if (!disabled && markDisabled) {
-                disabled = markDisabled(newDate, { month: month.number, year: month.year });
-            }
-            // saving first date of the month
-            if (month.firstDate === null && newDate.month === month.number) {
-                month.firstDate = newDate;
-            }
-            // saving last date of the month
-            if (newDate.month === month.number && nextDate.month !== month.number) {
-                month.lastDate = newDate;
-            }
-            days.push({
-                date: newDate,
-                context: {
-                    date: { year: newDate.year, month: newDate.month, day: newDate.day },
-                    currentMonth: month.number,
-                    disabled: disabled,
-                    focused: false,
-                    selected: false
-                }
-            });
-            date = nextDate;
-        }
-        month.weeks.push({ number: calendar.getWeekNumber(days.map(function (day) { return __WEBPACK_IMPORTED_MODULE_0__ngb_date__["a" /* NgbDate */].from(day.date); }), firstDayOfWeek), days: days });
-    }
-    return month;
-}
-function getFirstViewDate(calendar, date, firstDayOfWeek) {
-    var currentMonth = date.month;
-    var today = new __WEBPACK_IMPORTED_MODULE_0__ngb_date__["a" /* NgbDate */](date.year, date.month, date.day);
-    var yesterday = calendar.getPrev(today);
-    var firstDayOfCurrentMonthIsAlsoFirstDayOfWeek = function () { return today.month !== yesterday.month && firstDayOfWeek === calendar.getWeekday(today); };
-    var reachedTheFirstDayOfTheLastWeekOfPreviousMonth = function () { return today.month !== currentMonth && firstDayOfWeek === calendar.getWeekday(today); };
-    // going back in time
-    while (!reachedTheFirstDayOfTheLastWeekOfPreviousMonth() && !firstDayOfCurrentMonthIsAlsoFirstDayOfWeek()) {
-        today = new __WEBPACK_IMPORTED_MODULE_0__ngb_date__["a" /* NgbDate */](yesterday.year, yesterday.month, yesterday.day);
-        yesterday = calendar.getPrev(yesterday);
-    }
-    return today;
-}
-//# sourceMappingURL=datepicker-tools.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NavigationEvent; });
-// clang-format on
-var NavigationEvent;
-(function (NavigationEvent) {
-    NavigationEvent[NavigationEvent["PREV"] = 0] = "PREV";
-    NavigationEvent[NavigationEvent["NEXT"] = 1] = "NEXT";
-})(NavigationEvent || (NavigationEvent = {}));
-//# sourceMappingURL=datepicker-view-model.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbDatepicker; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ngb_calendar__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ngb_date__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-date.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__datepicker_service__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-service.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__datepicker_keymap_service__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-keymap-service.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__datepicker_view_model__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__util_util__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/util.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__datepicker_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-config.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__datepicker_i18n__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-i18n.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__datepicker_tools__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-tools.js");
-
-
-
-
-
-
-
-
-
-
-
-var NGB_DATEPICKER_VALUE_ACCESSOR = {
-    provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* NG_VALUE_ACCESSOR */],
-    useExisting: Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["forwardRef"])(function () { return NgbDatepicker; }),
-    multi: true
-};
-/**
- * A lightweight and highly configurable datepicker directive
- */
-var NgbDatepicker = (function () {
-    function NgbDatepicker(_keyMapService, _service, _calendar, i18n, config, _cd, _elementRef) {
-        var _this = this;
-        this._keyMapService = _keyMapService;
-        this._service = _service;
-        this._calendar = _calendar;
-        this.i18n = i18n;
-        this._cd = _cd;
-        this._elementRef = _elementRef;
-        /**
-         * An event fired when navigation happens and currently displayed month changes.
-         * See NgbDatepickerNavigateEvent for the payload info.
-         */
-        this.navigate = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this.onChange = function (_) { };
-        this.onTouched = function () { };
-        this.dayTemplate = config.dayTemplate;
-        this.displayMonths = config.displayMonths;
-        this.firstDayOfWeek = config.firstDayOfWeek;
-        this.markDisabled = config.markDisabled;
-        this.minDate = config.minDate;
-        this.maxDate = config.maxDate;
-        this.navigation = config.navigation;
-        this.outsideDays = config.outsideDays;
-        this.showWeekdays = config.showWeekdays;
-        this.showWeekNumbers = config.showWeekNumbers;
-        this.startDate = config.startDate;
-        this._subscription = _service.model$.subscribe(function (model) {
-            var newDate = model.firstDate;
-            var oldDate = _this.model ? _this.model.firstDate : null;
-            var newSelectedDate = model.selectedDate;
-            var oldSelectedDate = _this.model ? _this.model.selectedDate : null;
-            _this.model = model;
-            // handling selection change
-            if (Object(__WEBPACK_IMPORTED_MODULE_10__datepicker_tools__["d" /* isChangedDate */])(newSelectedDate, oldSelectedDate)) {
-                _this.onTouched();
-                _this.onChange(newSelectedDate ? { year: newSelectedDate.year, month: newSelectedDate.month, day: newSelectedDate.day } :
-                    null);
-            }
-            // emitting navigation event if the first month changes
-            if (!newDate.equals(oldDate)) {
-                _this.navigate.emit({
-                    current: oldDate ? { year: oldDate.year, month: oldDate.month } : null,
-                    next: { year: newDate.year, month: newDate.month }
-                });
-            }
-            _cd.markForCheck();
-        });
-    }
-    /**
-     * Manually focus the datepicker
-     */
-    NgbDatepicker.prototype.focus = function () { this._elementRef.nativeElement.focus(); };
-    NgbDatepicker.prototype.getHeaderHeight = function () {
-        var h = this.showWeekdays ? 6.25 : 4.25;
-        return this.displayMonths === 1 || this.navigation !== 'select' ? h - 2 : h;
-    };
-    NgbDatepicker.prototype.getHeaderMargin = function () {
-        var m = this.showWeekdays ? 2 : 0;
-        return this.displayMonths !== 1 || this.navigation !== 'select' ? m + 2 : m;
-    };
-    /**
-     * Navigates current view to provided date.
-     * With default calendar we use ISO 8601: 'month' is 1=Jan ... 12=Dec.
-     * If nothing or invalid date provided calendar will open current month.
-     * Use 'startDate' input as an alternative
-     */
-    NgbDatepicker.prototype.navigateTo = function (date) {
-        this._service.open(date ? new __WEBPACK_IMPORTED_MODULE_3__ngb_date__["a" /* NgbDate */](date.year, date.month, 1) : this._calendar.getToday());
-    };
-    NgbDatepicker.prototype.ngOnDestroy = function () { this._subscription.unsubscribe(); };
-    NgbDatepicker.prototype.ngOnInit = function () {
-        if (this.model === undefined) {
-            this._service.displayMonths = Object(__WEBPACK_IMPORTED_MODULE_7__util_util__["h" /* toInteger */])(this.displayMonths);
-            this._service.markDisabled = this.markDisabled;
-            this._service.firstDayOfWeek = this.firstDayOfWeek;
-            this._setDates();
-        }
-    };
-    NgbDatepicker.prototype.ngOnChanges = function (changes) {
-        if (changes['displayMonths']) {
-            this._service.displayMonths = Object(__WEBPACK_IMPORTED_MODULE_7__util_util__["h" /* toInteger */])(this.displayMonths);
-        }
-        if (changes['markDisabled']) {
-            this._service.markDisabled = this.markDisabled;
-        }
-        if (changes['firstDayOfWeek']) {
-            this._service.firstDayOfWeek = this.firstDayOfWeek;
-        }
-        this._setDates();
-    };
-    NgbDatepicker.prototype.onDateSelect = function (date) {
-        this._service.focus(date);
-        this.writeValue(date);
-    };
-    NgbDatepicker.prototype.onKeyDown = function (event) { this._keyMapService.processKey(event); };
-    NgbDatepicker.prototype.onNavigateDateSelect = function (date) { this._service.open(date); };
-    NgbDatepicker.prototype.onNavigateEvent = function (event) {
-        switch (event) {
-            case __WEBPACK_IMPORTED_MODULE_6__datepicker_view_model__["a" /* NavigationEvent */].PREV:
-                this._service.open(this._calendar.getPrev(this.model.firstDate, 'm', 1));
-                break;
-            case __WEBPACK_IMPORTED_MODULE_6__datepicker_view_model__["a" /* NavigationEvent */].NEXT:
-                this._service.open(this._calendar.getNext(this.model.firstDate, 'm', 1));
-                break;
-        }
-    };
-    NgbDatepicker.prototype.registerOnChange = function (fn) { this.onChange = fn; };
-    NgbDatepicker.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
-    NgbDatepicker.prototype.setDisabledState = function (isDisabled) { this._service.disabled = isDisabled; };
-    NgbDatepicker.prototype.showFocus = function (focusVisible) { this._service.focusVisible = focusVisible; };
-    NgbDatepicker.prototype.writeValue = function (value) { this._service.select(value); };
-    NgbDatepicker.prototype._setDates = function () {
-        var startDate = this._service.toValidDate(this.startDate, this._calendar.getToday());
-        var minDate = this._service.toValidDate(this.minDate, this._calendar.getPrev(startDate, 'y', 10));
-        var maxDate = this._service.toValidDate(this.maxDate, this._calendar.getPrev(this._calendar.getNext(startDate, 'y', 11)));
-        this.minDate = { year: minDate.year, month: minDate.month, day: minDate.day };
-        this.maxDate = { year: maxDate.year, month: maxDate.month, day: maxDate.day };
-        this._service.minDate = minDate;
-        this._service.maxDate = maxDate;
-        this.navigateTo(startDate);
-    };
-    return NgbDatepicker;
-}());
-
-NgbDatepicker.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
-                exportAs: 'ngbDatepicker',
-                selector: 'ngb-datepicker',
-                changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush,
-                host: {
-                    'class': 'd-inline-block rounded',
-                    'tabindex': '0',
-                    '[attr.tabindex]': 'model.disabled ? undefined : "0"',
-                    '(blur)': 'showFocus(false)',
-                    '(focus)': 'showFocus(true)',
-                    '(keydown)': 'onKeyDown($event)'
-                },
-                styles: ["\n    :host {\n      border: 1px solid rgba(0, 0, 0, 0.125);\n    }\n    .ngb-dp-header {\n      border-bottom: 1px solid rgba(0, 0, 0, 0.125);\n    }\n    .ngb-dp-month {\n      pointer-events: none;\n    }\n    ngb-datepicker-month-view {\n      pointer-events: auto;\n    }\n    .ngb-dp-month:first-child {\n      margin-left: 0 !important;\n    }\n    .ngb-dp-month-name {\n      font-size: larger;\n      height: 2rem;\n      line-height: 2rem;\n    }\n  "],
-                template: "\n    <ng-template #dt let-date=\"date\" let-currentMonth=\"currentMonth\" let-selected=\"selected\" let-disabled=\"disabled\" let-focused=\"focused\">\n      <div ngbDatepickerDayView\n        [date]=\"date\"\n        [currentMonth]=\"currentMonth\"\n        [selected]=\"selected\"\n        [disabled]=\"disabled\"\n        [focused]=\"focused\">\n      </div>\n    </ng-template>\n\n    <div class=\"ngb-dp-header bg-light pt-1 rounded-top\" [style.height.rem]=\"getHeaderHeight()\"\n         [style.marginBottom.rem]=\"-getHeaderMargin()\">\n      <ngb-datepicker-navigation *ngIf=\"navigation !== 'none'\"\n        [date]=\"model.firstDate\"\n        [minDate]=\"model.minDate\"\n        [maxDate]=\"model.maxDate\"\n        [months]=\"model.months.length\"\n        [disabled]=\"model.disabled\"\n        [showWeekNumbers]=\"showWeekNumbers\"\n        [showSelect]=\"navigation === 'select'\"\n        (navigate)=\"onNavigateEvent($event)\"\n        (select)=\"onNavigateDateSelect($event)\">\n      </ngb-datepicker-navigation>\n    </div>\n\n    <div class=\"ngb-dp-months d-flex px-1 pb-1\">\n      <ng-template ngFor let-month [ngForOf]=\"model.months\" let-i=\"index\">\n        <div class=\"ngb-dp-month d-block ml-3\">\n          <div *ngIf=\"navigation !== 'select' || displayMonths > 1\" class=\"ngb-dp-month-name text-center\">\n            {{ i18n.getMonthFullName(month.number) }} {{ month.year }}\n          </div>\n          <ngb-datepicker-month-view\n            [month]=\"month\"\n            [dayTemplate]=\"dayTemplate || dt\"\n            [showWeekdays]=\"showWeekdays\"\n            [showWeekNumbers]=\"showWeekNumbers\"\n            [outsideDays]=\"(displayMonths === 1 ? outsideDays : 'hidden')\"\n            (select)=\"onDateSelect($event)\">\n          </ngb-datepicker-month-view>\n        </div>\n      </ng-template>\n    </div>\n  ",
-                providers: [NGB_DATEPICKER_VALUE_ACCESSOR, __WEBPACK_IMPORTED_MODULE_4__datepicker_service__["a" /* NgbDatepickerService */], __WEBPACK_IMPORTED_MODULE_5__datepicker_keymap_service__["a" /* NgbDatepickerKeyMapService */]]
-            },] },
-];
-/** @nocollapse */
-NgbDatepicker.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_5__datepicker_keymap_service__["a" /* NgbDatepickerKeyMapService */], },
-    { type: __WEBPACK_IMPORTED_MODULE_4__datepicker_service__["a" /* NgbDatepickerService */], },
-    { type: __WEBPACK_IMPORTED_MODULE_2__ngb_calendar__["a" /* NgbCalendar */], },
-    { type: __WEBPACK_IMPORTED_MODULE_9__datepicker_i18n__["a" /* NgbDatepickerI18n */], },
-    { type: __WEBPACK_IMPORTED_MODULE_8__datepicker_config__["a" /* NgbDatepickerConfig */], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectorRef"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"], },
-]; };
-NgbDatepicker.propDecorators = {
-    'dayTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'displayMonths': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'firstDayOfWeek': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'markDisabled': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'maxDate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'minDate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'navigation': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'outsideDays': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'showWeekdays': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'showWeekNumbers': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'startDate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'navigate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-};
-//# sourceMappingURL=datepicker.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker.module.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbDatepickerModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__datepicker__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__datepicker_month_view__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-month-view.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__datepicker_navigation__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__datepicker_input__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-input.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__datepicker_day_view__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-day-view.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__datepicker_i18n__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-i18n.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ngb_calendar__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ngb_date_parser_formatter__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-parser-formatter.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__datepicker_navigation_select__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-navigation-select.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__datepicker_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker-config.js");
-/* unused harmony reexport NgbDatepicker */
-/* unused harmony reexport NgbInputDatepicker */
-/* unused harmony reexport NgbCalendar */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__hijri_ngb_calendar_islamic_civil__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/hijri/ngb-calendar-islamic-civil.js");
-/* unused harmony reexport NgbCalendarIslamicCivil */
-/* unused harmony reexport NgbDatepickerMonthView */
-/* unused harmony reexport NgbDatepickerDayView */
-/* unused harmony reexport NgbDatepickerNavigation */
-/* unused harmony reexport NgbDatepickerNavigationSelect */
-/* unused harmony reexport NgbDatepickerConfig */
-/* unused harmony reexport NgbDatepickerI18n */
-/* unused harmony reexport NgbDateParserFormatter */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var NgbDatepickerModule = (function () {
-    function NgbDatepickerModule() {
-    }
-    NgbDatepickerModule.forRoot = function () {
+    CalendarModule.forRoot = function (config) {
+        if (config === void 0) { config = {}; }
         return {
-            ngModule: NgbDatepickerModule,
+            ngModule: CalendarModule,
             providers: [
-                { provide: __WEBPACK_IMPORTED_MODULE_9__ngb_calendar__["a" /* NgbCalendar */], useClass: __WEBPACK_IMPORTED_MODULE_9__ngb_calendar__["b" /* NgbCalendarGregorian */] },
-                { provide: __WEBPACK_IMPORTED_MODULE_8__datepicker_i18n__["a" /* NgbDatepickerI18n */], useClass: __WEBPACK_IMPORTED_MODULE_8__datepicker_i18n__["b" /* NgbDatepickerI18nDefault */] },
-                { provide: __WEBPACK_IMPORTED_MODULE_10__ngb_date_parser_formatter__["b" /* NgbDateParserFormatter */], useClass: __WEBPACK_IMPORTED_MODULE_10__ngb_date_parser_formatter__["a" /* NgbDateISOParserFormatter */] }, __WEBPACK_IMPORTED_MODULE_12__datepicker_config__["a" /* NgbDatepickerConfig */]
+                __WEBPACK_IMPORTED_MODULE_3_angular_draggable_droppable__["b" /* DraggableHelper */],
+                config.eventTitleFormatter || __WEBPACK_IMPORTED_MODULE_24__providers_calendarEventTitleFormatter_provider__["a" /* CalendarEventTitleFormatter */],
+                config.dateFormatter || __WEBPACK_IMPORTED_MODULE_25__providers_calendarDateFormatter_provider__["a" /* CalendarDateFormatter */],
+                config.utils || __WEBPACK_IMPORTED_MODULE_26__providers_calendarUtils_provider__["a" /* CalendarUtils */]
             ]
         };
     };
-    return NgbDatepickerModule;
+    CalendarModule.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */], args: [{
+                    declarations: [
+                        __WEBPACK_IMPORTED_MODULE_4__components_day_calendarDayView_component__["a" /* CalendarDayViewComponent */],
+                        __WEBPACK_IMPORTED_MODULE_5__components_week_calendarWeekView_component__["a" /* CalendarWeekViewComponent */],
+                        __WEBPACK_IMPORTED_MODULE_6__components_month_calendarMonthView_component__["a" /* CalendarMonthViewComponent */],
+                        __WEBPACK_IMPORTED_MODULE_8__components_common_calendarEventActions_component__["a" /* CalendarEventActionsComponent */],
+                        __WEBPACK_IMPORTED_MODULE_9__components_common_calendarEventTitle_component__["a" /* CalendarEventTitleComponent */],
+                        __WEBPACK_IMPORTED_MODULE_10__components_month_calendarMonthCell_component__["a" /* CalendarMonthCellComponent */],
+                        __WEBPACK_IMPORTED_MODULE_11__components_month_calendarOpenDayEvents_component__["a" /* CalendarOpenDayEventsComponent */],
+                        __WEBPACK_IMPORTED_MODULE_12__components_week_calendarWeekViewHeader_component__["a" /* CalendarWeekViewHeaderComponent */],
+                        __WEBPACK_IMPORTED_MODULE_13__components_week_calendarWeekViewEvent_component__["a" /* CalendarWeekViewEventComponent */],
+                        __WEBPACK_IMPORTED_MODULE_14__components_day_calendarAllDayEvent_component__["a" /* CalendarAllDayEventComponent */],
+                        __WEBPACK_IMPORTED_MODULE_15__components_day_calendarDayViewHourSegment_component__["a" /* CalendarDayViewHourSegmentComponent */],
+                        __WEBPACK_IMPORTED_MODULE_17__directives_calendarTooltip_directive__["b" /* CalendarTooltipWindowComponent */],
+                        __WEBPACK_IMPORTED_MODULE_17__directives_calendarTooltip_directive__["a" /* CalendarTooltipDirective */],
+                        __WEBPACK_IMPORTED_MODULE_18__directives_calendarPreviousView_directive__["a" /* CalendarPreviousViewDirective */],
+                        __WEBPACK_IMPORTED_MODULE_19__directives_calendarNextView_directive__["a" /* CalendarNextViewDirective */],
+                        __WEBPACK_IMPORTED_MODULE_20__directives_calendarToday_directive__["a" /* CalendarTodayDirective */],
+                        __WEBPACK_IMPORTED_MODULE_22__pipes_calendarDate_pipe__["a" /* CalendarDatePipe */],
+                        __WEBPACK_IMPORTED_MODULE_23__pipes_calendarEventTitle_pipe__["a" /* CalendarEventTitlePipe */],
+                        __WEBPACK_IMPORTED_MODULE_7__components_month_calendarMonthViewHeader_component__["a" /* CalendarMonthViewHeaderComponent */],
+                        __WEBPACK_IMPORTED_MODULE_16__components_day_calendarDayViewEvent_component__["a" /* CalendarDayViewEventComponent */],
+                        __WEBPACK_IMPORTED_MODULE_21__directives_click_directive__["a" /* ClickDirective */]
+                    ],
+                    imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_2_angular_resizable_element__["a" /* ResizableModule */], __WEBPACK_IMPORTED_MODULE_3_angular_draggable_droppable__["a" /* DragAndDropModule */]],
+                    exports: [
+                        __WEBPACK_IMPORTED_MODULE_4__components_day_calendarDayView_component__["a" /* CalendarDayViewComponent */],
+                        __WEBPACK_IMPORTED_MODULE_5__components_week_calendarWeekView_component__["a" /* CalendarWeekViewComponent */],
+                        __WEBPACK_IMPORTED_MODULE_6__components_month_calendarMonthView_component__["a" /* CalendarMonthViewComponent */],
+                        __WEBPACK_IMPORTED_MODULE_8__components_common_calendarEventActions_component__["a" /* CalendarEventActionsComponent */],
+                        __WEBPACK_IMPORTED_MODULE_9__components_common_calendarEventTitle_component__["a" /* CalendarEventTitleComponent */],
+                        __WEBPACK_IMPORTED_MODULE_10__components_month_calendarMonthCell_component__["a" /* CalendarMonthCellComponent */],
+                        __WEBPACK_IMPORTED_MODULE_11__components_month_calendarOpenDayEvents_component__["a" /* CalendarOpenDayEventsComponent */],
+                        __WEBPACK_IMPORTED_MODULE_12__components_week_calendarWeekViewHeader_component__["a" /* CalendarWeekViewHeaderComponent */],
+                        __WEBPACK_IMPORTED_MODULE_13__components_week_calendarWeekViewEvent_component__["a" /* CalendarWeekViewEventComponent */],
+                        __WEBPACK_IMPORTED_MODULE_14__components_day_calendarAllDayEvent_component__["a" /* CalendarAllDayEventComponent */],
+                        __WEBPACK_IMPORTED_MODULE_15__components_day_calendarDayViewHourSegment_component__["a" /* CalendarDayViewHourSegmentComponent */],
+                        __WEBPACK_IMPORTED_MODULE_17__directives_calendarTooltip_directive__["b" /* CalendarTooltipWindowComponent */],
+                        __WEBPACK_IMPORTED_MODULE_17__directives_calendarTooltip_directive__["a" /* CalendarTooltipDirective */],
+                        __WEBPACK_IMPORTED_MODULE_18__directives_calendarPreviousView_directive__["a" /* CalendarPreviousViewDirective */],
+                        __WEBPACK_IMPORTED_MODULE_19__directives_calendarNextView_directive__["a" /* CalendarNextViewDirective */],
+                        __WEBPACK_IMPORTED_MODULE_20__directives_calendarToday_directive__["a" /* CalendarTodayDirective */],
+                        __WEBPACK_IMPORTED_MODULE_22__pipes_calendarDate_pipe__["a" /* CalendarDatePipe */],
+                        __WEBPACK_IMPORTED_MODULE_23__pipes_calendarEventTitle_pipe__["a" /* CalendarEventTitlePipe */],
+                        __WEBPACK_IMPORTED_MODULE_7__components_month_calendarMonthViewHeader_component__["a" /* CalendarMonthViewHeaderComponent */],
+                        __WEBPACK_IMPORTED_MODULE_16__components_day_calendarDayViewEvent_component__["a" /* CalendarDayViewEventComponent */],
+                        __WEBPACK_IMPORTED_MODULE_21__directives_click_directive__["a" /* ClickDirective */]
+                    ],
+                    entryComponents: [__WEBPACK_IMPORTED_MODULE_17__directives_calendarTooltip_directive__["b" /* CalendarTooltipWindowComponent */]]
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarModule.ctorParameters = function () { return []; };
+    return CalendarModule;
 }());
 
-NgbDatepickerModule.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{
-                declarations: [
-                    __WEBPACK_IMPORTED_MODULE_2__datepicker__["a" /* NgbDatepicker */], __WEBPACK_IMPORTED_MODULE_3__datepicker_month_view__["a" /* NgbDatepickerMonthView */], __WEBPACK_IMPORTED_MODULE_4__datepicker_navigation__["a" /* NgbDatepickerNavigation */], __WEBPACK_IMPORTED_MODULE_11__datepicker_navigation_select__["a" /* NgbDatepickerNavigationSelect */], __WEBPACK_IMPORTED_MODULE_7__datepicker_day_view__["a" /* NgbDatepickerDayView */],
-                    __WEBPACK_IMPORTED_MODULE_5__datepicker_input__["a" /* NgbInputDatepicker */]
-                ],
-                exports: [__WEBPACK_IMPORTED_MODULE_2__datepicker__["a" /* NgbDatepicker */], __WEBPACK_IMPORTED_MODULE_5__datepicker_input__["a" /* NgbInputDatepicker */]],
-                imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */], __WEBPACK_IMPORTED_MODULE_6__angular_forms__["b" /* FormsModule */]],
-                entryComponents: [__WEBPACK_IMPORTED_MODULE_2__datepicker__["a" /* NgbDatepicker */]]
-            },] },
-];
-/** @nocollapse */
-NgbDatepickerModule.ctorParameters = function () { return []; };
-//# sourceMappingURL=datepicker.module.js.map
+//# sourceMappingURL=calendar.module.js.map
 
 /***/ }),
 
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/datepicker/hijri/ngb-calendar-hijri.js":
+/***/ "../../../../angular-calendar/dist/esm/src/components/common/calendarEventActions.component.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbCalendarHijri; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ngb_calendar__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_util__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/util.js");
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-
-
-
-var NgbCalendarHijri = (function (_super) {
-    __extends(NgbCalendarHijri, _super);
-    function NgbCalendarHijri() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    NgbCalendarHijri.prototype.getDaysPerWeek = function () { return 7; };
-    NgbCalendarHijri.prototype.getMonths = function () { return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; };
-    NgbCalendarHijri.prototype.getWeeksPerMonth = function () { return 6; };
-    NgbCalendarHijri.prototype.isValid = function (date) {
-        return date && Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["d" /* isNumber */])(date.year) && Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["d" /* isNumber */])(date.month) && Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["d" /* isNumber */])(date.day) &&
-            !isNaN(this.toGregorian(date).getTime());
-    };
-    NgbCalendarHijri.prototype.setDay = function (date, day) {
-        day = +day;
-        var mDays = this.getDaysInIslamicMonth(date.month, date.year);
-        if (day <= 0) {
-            while (day <= 0) {
-                date = this.setMonth(date, date.month - 1);
-                mDays = this.getDaysInIslamicMonth(date.month, date.year);
-                day += mDays;
-            }
-        }
-        else if (day > mDays) {
-            while (day > mDays) {
-                day -= mDays;
-                date = this.setMonth(date, date.month + 1);
-                mDays = this.getDaysInIslamicMonth(date.month, date.year);
-            }
-        }
-        date.day = day;
-        return date;
-    };
-    NgbCalendarHijri.prototype.setMonth = function (date, month) {
-        month = +month;
-        date.year = date.year + Math.floor((month - 1) / 12);
-        date.month = Math.floor(((month - 1) % 12 + 12) % 12) + 1;
-        return date;
-    };
-    NgbCalendarHijri.prototype.setYear = function (date, yearValue) {
-        date.year = +yearValue;
-        return date;
-    };
-    NgbCalendarHijri.prototype._isIslamicLeapYear = function (year) { return (14 + 11 * year) % 30 < 11; };
-    /**
-     * Returns the start of Hijri Month.
-     * `month` is 0 for Muharram, 1 for Safar, etc.
-     * `year` is any Hijri year.
-     */
-    NgbCalendarHijri.prototype._getMonthStart = function (year, month) {
-        return Math.ceil(29.5 * month) + (year - 1) * 354 + Math.floor((3 + 11 * year) / 30.0);
-    };
-    /**
-     * Returns the start of Hijri year.
-     * `year` is any Hijri year.
-     */
-    NgbCalendarHijri.prototype._getYearStart = function (year) { return (year - 1) * 354 + Math.floor((3 + 11 * year) / 30.0); };
-    return NgbCalendarHijri;
-}(__WEBPACK_IMPORTED_MODULE_0__ngb_calendar__["a" /* NgbCalendar */]));
-
-NgbCalendarHijri.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbCalendarHijri.ctorParameters = function () { return []; };
-//# sourceMappingURL=ngb-calendar-hijri.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/datepicker/hijri/ngb-calendar-islamic-civil.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export NgbCalendarIslamicCivil */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ngb_calendar_hijri__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/hijri/ngb-calendar-hijri.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ngb_date__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-date.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-
-
-
-function isGregorianLeapYear(date) {
-    var year = date.getFullYear();
-    return year % 4 === 0 && year % 100 !== 0 || year % 400 === 0;
-}
-function mod(a, b) {
-    return a - b * Math.floor(a / b);
-}
-/**
- * The civil calendar is one type of Hijri calendars used in islamic countries.
- * Uses a fixed cycle of alternating 29- and 30-day months,
- * with a leap day added to the last month of 11 out of every 30 years.
- * http://cldr.unicode.org/development/development-process/design-proposals/islamic-calendar-types
- * All the calculations here are based on the equations from "Calendrical Calculations" By Edward M. Reingold, Nachum
- * Dershowitz.
- */
-var GREGORIAN_EPOCH = 1721425.5;
-var ISLAMIC_EPOCH = 1948439.5;
-var NgbCalendarIslamicCivil = (function (_super) {
-    __extends(NgbCalendarIslamicCivil, _super);
-    function NgbCalendarIslamicCivil() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    /**
-     * Returns the equivalent islamic(civil) date value for a give input Gregorian date.
-     * `gdate` is a JS Date to be converted to Hijri.
-     */
-    NgbCalendarIslamicCivil.prototype.fromGregorian = function (gdate) {
-        var date = new Date(gdate);
-        var gYear = date.getFullYear(), gMonth = date.getMonth(), gDay = date.getDate();
-        var julianDay = GREGORIAN_EPOCH - 1 + 365 * (gYear - 1) + Math.floor((gYear - 1) / 4) +
-            -Math.floor((gYear - 1) / 100) + Math.floor((gYear - 1) / 400) +
-            Math.floor((367 * (gMonth + 1) - 362) / 12 + (gMonth + 1 <= 2 ? 0 : isGregorianLeapYear(date) ? -1 : -2) + gDay);
-        julianDay = Math.floor(julianDay) + 0.5;
-        var days = julianDay - ISLAMIC_EPOCH;
-        var hYear = Math.floor((30 * days + 10646) / 10631.0);
-        var hMonth = Math.ceil((days - 29 - this._getYearStart(hYear)) / 29.5);
-        hMonth = Math.min(hMonth, 11);
-        var hDay = Math.ceil(days - this._getMonthStart(hYear, hMonth)) + 1;
-        return new __WEBPACK_IMPORTED_MODULE_1__ngb_date__["a" /* NgbDate */](hYear, hMonth + 1, hDay);
-    };
-    /**
-     * Returns the equivalent JS date value for a give input islamic(civil) date.
-     * `hijriDate` is an islamic(civil) date to be converted to Gregorian.
-     */
-    NgbCalendarIslamicCivil.prototype.toGregorian = function (hijriDate) {
-        var hYear = hijriDate.year;
-        var hMonth = hijriDate.month - 1;
-        var hDate = hijriDate.day;
-        var julianDay = hDate + Math.ceil(29.5 * hMonth) + (hYear - 1) * 354 + Math.floor((3 + 11 * hYear) / 30) + ISLAMIC_EPOCH - 1;
-        var wjd = Math.floor(julianDay - 0.5) + 0.5, depoch = wjd - GREGORIAN_EPOCH, quadricent = Math.floor(depoch / 146097), dqc = mod(depoch, 146097), cent = Math.floor(dqc / 36524), dcent = mod(dqc, 36524), quad = Math.floor(dcent / 1461), dquad = mod(dcent, 1461), yindex = Math.floor(dquad / 365);
-        var year = quadricent * 400 + cent * 100 + quad * 4 + yindex;
-        if (!(cent === 4 || yindex === 4)) {
-            year++;
-        }
-        var gYearStart = GREGORIAN_EPOCH + 365 * (year - 1) + Math.floor((year - 1) / 4) - Math.floor((year - 1) / 100) +
-            Math.floor((year - 1) / 400);
-        var yearday = wjd - gYearStart;
-        var tjd = GREGORIAN_EPOCH - 1 + 365 * (year - 1) + Math.floor((year - 1) / 4) - Math.floor((year - 1) / 100) +
-            Math.floor((year - 1) / 400) + Math.floor(739 / 12 + (isGregorianLeapYear(new Date(year, 3, 1)) ? -1 : -2) + 1);
-        var leapadj = wjd < tjd ? 0 : isGregorianLeapYear(new Date(year, 3, 1)) ? 1 : 2;
-        var month = Math.floor(((yearday + leapadj) * 12 + 373) / 367);
-        var tjd2 = GREGORIAN_EPOCH - 1 + 365 * (year - 1) + Math.floor((year - 1) / 4) - Math.floor((year - 1) / 100) +
-            Math.floor((year - 1) / 400) +
-            Math.floor((367 * month - 362) / 12 + (month <= 2 ? 0 : isGregorianLeapYear(new Date(year, month - 1, 1)) ? -1 : -2) +
-                1);
-        var day = wjd - tjd2 + 1;
-        return new Date(year, month - 1, day);
-    };
-    /**
-     * Returns the number of days in a specific Hijri month.
-     * `month` is 1 for Muharram, 2 for Safar, etc.
-     * `year` is any Hijri year.
-     */
-    NgbCalendarIslamicCivil.prototype.getDaysInIslamicMonth = function (month, year) {
-        year = year + Math.floor(month / 13);
-        month = ((month - 1) % 12) + 1;
-        var length = 29 + month % 2;
-        if (month === 12 && this._isIslamicLeapYear(year)) {
-            length++;
-        }
-        return length;
-    };
-    NgbCalendarIslamicCivil.prototype.getNext = function (date, period, number) {
-        if (period === void 0) { period = 'd'; }
-        if (number === void 0) { number = 1; }
-        date = __WEBPACK_IMPORTED_MODULE_1__ngb_date__["a" /* NgbDate */].from(date);
-        switch (period) {
-            case 'y':
-                date = this.setYear(date, date.year + number);
-                date.month = 1;
-                date.day = 1;
-                return date;
-            case 'm':
-                date = this.setMonth(date, date.month + number);
-                date.day = 1;
-                return date;
-            case 'd':
-                return this.setDay(date, date.day + number);
-            default:
-                return date;
-        }
-    };
-    NgbCalendarIslamicCivil.prototype.getPrev = function (date, period, number) {
-        if (period === void 0) { period = 'd'; }
-        if (number === void 0) { number = 1; }
-        return this.getNext(date, period, -number);
-    };
-    NgbCalendarIslamicCivil.prototype.getWeekday = function (date) {
-        var day = this.toGregorian(date).getDay();
-        // in JS Date Sun=0, in ISO 8601 Sun=7
-        return day === 0 ? 7 : day;
-    };
-    NgbCalendarIslamicCivil.prototype.getWeekNumber = function (week, firstDayOfWeek) {
-        // in JS Date Sun=0, in ISO 8601 Sun=7
-        if (firstDayOfWeek === 7) {
-            firstDayOfWeek = 0;
-        }
-        var thursdayIndex = (4 + 7 - firstDayOfWeek) % 7;
-        var date = week[thursdayIndex];
-        var jsDate = this.toGregorian(date);
-        jsDate.setDate(jsDate.getDate() + 4 - (jsDate.getDay() || 7)); // Thursday
-        var time = jsDate.getTime();
-        var MuhDate = this.toGregorian(new __WEBPACK_IMPORTED_MODULE_1__ngb_date__["a" /* NgbDate */](date.year, 1, 1)); // Compare with Muharram 1
-        return Math.floor(Math.round((time - MuhDate.getTime()) / 86400000) / 7) + 1;
-    };
-    NgbCalendarIslamicCivil.prototype.getToday = function () { return this.fromGregorian(new Date()); };
-    return NgbCalendarIslamicCivil;
-}(__WEBPACK_IMPORTED_MODULE_0__ngb_calendar_hijri__["a" /* NgbCalendarHijri */]));
-
-NgbCalendarIslamicCivil.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_2__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbCalendarIslamicCivil.ctorParameters = function () { return []; };
-//# sourceMappingURL=ngb-calendar-islamic-civil.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbCalendar; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return NgbCalendarGregorian; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ngb_date__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-date.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_util__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/util.js");
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-
-
-
-function fromJSDate(jsDate) {
-    return new __WEBPACK_IMPORTED_MODULE_0__ngb_date__["a" /* NgbDate */](jsDate.getFullYear(), jsDate.getMonth() + 1, jsDate.getDate());
-}
-function toJSDate(date) {
-    var jsDate = new Date(date.year, date.month - 1, date.day, 12);
-    // this is done avoid 30 -> 1930 conversion
-    if (!isNaN(jsDate.getTime())) {
-        jsDate.setFullYear(date.year);
-    }
-    return jsDate;
-}
-var NgbCalendar = (function () {
-    function NgbCalendar() {
-    }
-    return NgbCalendar;
-}());
-
-NgbCalendar.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbCalendar.ctorParameters = function () { return []; };
-var NgbCalendarGregorian = (function (_super) {
-    __extends(NgbCalendarGregorian, _super);
-    function NgbCalendarGregorian() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    NgbCalendarGregorian.prototype.getDaysPerWeek = function () { return 7; };
-    NgbCalendarGregorian.prototype.getMonths = function () { return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; };
-    NgbCalendarGregorian.prototype.getWeeksPerMonth = function () { return 6; };
-    NgbCalendarGregorian.prototype.getNext = function (date, period, number) {
-        if (period === void 0) { period = 'd'; }
-        if (number === void 0) { number = 1; }
-        var jsDate = toJSDate(date);
-        switch (period) {
-            case 'y':
-                return new __WEBPACK_IMPORTED_MODULE_0__ngb_date__["a" /* NgbDate */](date.year + number, 1, 1);
-            case 'm':
-                jsDate = new Date(date.year, date.month + number - 1, 1, 12);
-                break;
-            case 'd':
-                jsDate.setDate(jsDate.getDate() + number);
-                break;
-            default:
-                return date;
-        }
-        return fromJSDate(jsDate);
-    };
-    NgbCalendarGregorian.prototype.getPrev = function (date, period, number) {
-        if (period === void 0) { period = 'd'; }
-        if (number === void 0) { number = 1; }
-        return this.getNext(date, period, -number);
-    };
-    NgbCalendarGregorian.prototype.getWeekday = function (date) {
-        var jsDate = toJSDate(date);
-        var day = jsDate.getDay();
-        // in JS Date Sun=0, in ISO 8601 Sun=7
-        return day === 0 ? 7 : day;
-    };
-    NgbCalendarGregorian.prototype.getWeekNumber = function (week, firstDayOfWeek) {
-        // in JS Date Sun=0, in ISO 8601 Sun=7
-        if (firstDayOfWeek === 7) {
-            firstDayOfWeek = 0;
-        }
-        var thursdayIndex = (4 + 7 - firstDayOfWeek) % 7;
-        var date = week[thursdayIndex];
-        var jsDate = toJSDate(date);
-        jsDate.setDate(jsDate.getDate() + 4 - (jsDate.getDay() || 7)); // Thursday
-        var time = jsDate.getTime();
-        jsDate.setMonth(0); // Compare with Jan 1
-        jsDate.setDate(1);
-        return Math.floor(Math.round((time - jsDate.getTime()) / 86400000) / 7) + 1;
-    };
-    NgbCalendarGregorian.prototype.getToday = function () { return fromJSDate(new Date()); };
-    NgbCalendarGregorian.prototype.isValid = function (date) {
-        if (!date || !Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["c" /* isInteger */])(date.year) || !Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["c" /* isInteger */])(date.month) || !Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["c" /* isInteger */])(date.day)) {
-            return false;
-        }
-        var jsDate = toJSDate(date);
-        return !isNaN(jsDate.getTime()) && jsDate.getFullYear() === date.year && jsDate.getMonth() + 1 === date.month &&
-            jsDate.getDate() === date.day;
-    };
-    return NgbCalendarGregorian;
-}(NgbCalendar));
-
-NgbCalendarGregorian.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_1__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbCalendarGregorian.ctorParameters = function () { return []; };
-//# sourceMappingURL=ngb-calendar.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-parser-formatter.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return NgbDateParserFormatter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbDateISOParserFormatter; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_util__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/util.js");
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
-
-/**
- * Abstract type serving as a DI token for the service parsing and formatting dates for the NgbInputDatepicker
- * directive. A default implementation using the ISO 8601 format is provided, but you can provide another implementation
- * to use an alternative format.
- */
-var NgbDateParserFormatter = (function () {
-    function NgbDateParserFormatter() {
-    }
-    return NgbDateParserFormatter;
-}());
-
-var NgbDateISOParserFormatter = (function (_super) {
-    __extends(NgbDateISOParserFormatter, _super);
-    function NgbDateISOParserFormatter() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    NgbDateISOParserFormatter.prototype.parse = function (value) {
-        if (value) {
-            var dateParts = value.trim().split('-');
-            if (dateParts.length === 1 && Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["d" /* isNumber */])(dateParts[0])) {
-                return { year: Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["h" /* toInteger */])(dateParts[0]), month: null, day: null };
-            }
-            else if (dateParts.length === 2 && Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["d" /* isNumber */])(dateParts[0]) && Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["d" /* isNumber */])(dateParts[1])) {
-                return { year: Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["h" /* toInteger */])(dateParts[0]), month: Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["h" /* toInteger */])(dateParts[1]), day: null };
-            }
-            else if (dateParts.length === 3 && Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["d" /* isNumber */])(dateParts[0]) && Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["d" /* isNumber */])(dateParts[1]) && Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["d" /* isNumber */])(dateParts[2])) {
-                return { year: Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["h" /* toInteger */])(dateParts[0]), month: Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["h" /* toInteger */])(dateParts[1]), day: Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["h" /* toInteger */])(dateParts[2]) };
-            }
-        }
-        return null;
-    };
-    NgbDateISOParserFormatter.prototype.format = function (date) {
-        return date ?
-            date.year + "-" + (Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["d" /* isNumber */])(date.month) ? Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["f" /* padNumber */])(date.month) : '') + "-" + (Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["d" /* isNumber */])(date.day) ? Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["f" /* padNumber */])(date.day) : '') :
-            '';
-    };
-    return NgbDateISOParserFormatter;
-}(NgbDateParserFormatter));
-
-//# sourceMappingURL=ngb-date-parser-formatter.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/datepicker/ngb-date.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbDate; });
-var NgbDate = (function () {
-    function NgbDate(year, month, day) {
-        this.year = year;
-        this.month = month;
-        this.day = day;
-    }
-    NgbDate.from = function (date) {
-        return date ? new NgbDate(date.year, date.month, date.day ? date.day : 1) : null;
-    };
-    NgbDate.prototype.equals = function (other) {
-        return other && this.year === other.year && this.month === other.month && this.day === other.day;
-    };
-    NgbDate.prototype.before = function (other) {
-        if (!other) {
-            return false;
-        }
-        if (this.year === other.year) {
-            if (this.month === other.month) {
-                return this.day === other.day ? false : this.day < other.day;
-            }
-            else {
-                return this.month < other.month;
-            }
-        }
-        else {
-            return this.year < other.year;
-        }
-    };
-    NgbDate.prototype.after = function (other) {
-        if (!other) {
-            return false;
-        }
-        if (this.year === other.year) {
-            if (this.month === other.month) {
-                return this.day === other.day ? false : this.day > other.day;
-            }
-            else {
-                return this.month > other.month;
-            }
-        }
-        else {
-            return this.year > other.year;
-        }
-    };
-    NgbDate.prototype.toStruct = function () { return { year: this.year, month: this.month, day: this.day }; };
-    NgbDate.prototype.toString = function () { return this.year + "-" + this.month + "-" + this.day; };
-    return NgbDate;
-}());
-
-//# sourceMappingURL=ngb-date.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/dropdown/dropdown-config.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbDropdownConfig; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarEventActionsComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 
-/**
- * Configuration service for the NgbDropdown directive.
- * You can inject this service, typically in your root component, and customize the values of its properties in
- * order to provide default values for all the dropdowns used in the application.
- */
-var NgbDropdownConfig = (function () {
-    function NgbDropdownConfig() {
-        this.autoClose = true;
-        this.placement = 'bottom-left';
+var CalendarEventActionsComponent = /** @class */ (function () {
+    function CalendarEventActionsComponent() {
     }
-    return NgbDropdownConfig;
+    CalendarEventActionsComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
+                    selector: 'mwl-calendar-event-actions',
+                    template: "\n    <span *ngIf=\"event.actions\" class=\"cal-event-actions\">\n      <a\n        class=\"cal-event-action\"\n        href=\"javascript:;\"\n        *ngFor=\"let action of event.actions\"\n        (mwlClick)=\"action.onClick({event: event})\"\n        [ngClass]=\"action.cssClass\"\n        [innerHtml]=\"action.label\">\n      </a>\n    </span>\n  "
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarEventActionsComponent.ctorParameters = function () { return []; };
+    CalendarEventActionsComponent.propDecorators = {
+        'event': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    };
+    return CalendarEventActionsComponent;
 }());
 
-NgbDropdownConfig.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbDropdownConfig.ctorParameters = function () { return []; };
-//# sourceMappingURL=dropdown-config.js.map
+//# sourceMappingURL=calendarEventActions.component.js.map
 
 /***/ }),
 
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/dropdown/dropdown.js":
+/***/ "../../../../angular-calendar/dist/esm/src/components/common/calendarEventTitle.component.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return NgbDropdownMenu; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return NgbDropdownToggle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbDropdown; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarEventTitleComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dropdown_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/dropdown/dropdown-config.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_positioning__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/positioning.js");
+
+var CalendarEventTitleComponent = /** @class */ (function () {
+    function CalendarEventTitleComponent() {
+    }
+    CalendarEventTitleComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
+                    selector: 'mwl-calendar-event-title',
+                    template: "\n    <ng-template\n      #defaultTemplate\n      let-event=\"event\"\n      let-view=\"view\">\n      <a\n        class=\"cal-event-title\"\n        href=\"javascript:;\"\n        [innerHTML]=\"event.title | calendarEventTitle:view:event\">\n      </a>\n    </ng-template>\n    <ng-template\n      [ngTemplateOutlet]=\"customTemplate || defaultTemplate\"\n      [ngTemplateOutletContext]=\"{\n        event: event,\n        view: view\n      }\">\n    </ng-template>\n  "
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarEventTitleComponent.ctorParameters = function () { return []; };
+    CalendarEventTitleComponent.propDecorators = {
+        'event': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'customTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'view': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    };
+    return CalendarEventTitleComponent;
+}());
+
+//# sourceMappingURL=calendarEventTitle.component.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/components/day/calendarAllDayEvent.component.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarAllDayEventComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+
+var CalendarAllDayEventComponent = /** @class */ (function () {
+    function CalendarAllDayEventComponent() {
+        this.eventClicked = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+    }
+    CalendarAllDayEventComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
+                    selector: 'mwl-calendar-all-day-event',
+                    template: "\n    <ng-template\n      #defaultTemplate\n      let-event=\"event\"\n      let-eventClicked=\"eventClicked\">\n      <div\n        class=\"cal-all-day-event\"\n        [style.backgroundColor]=\"event.color.secondary\"\n        [style.borderColor]=\"event.color.primary\">\n        <mwl-calendar-event-actions [event]=\"event\"></mwl-calendar-event-actions>\n        <mwl-calendar-event-title\n          [event]=\"event\"\n          [customTemplate]=\"eventTitleTemplate\"\n          view=\"day\"\n          (mwlClick)=\"eventClicked.emit()\">\n        </mwl-calendar-event-title>\n      </div>\n    </ng-template>\n    <ng-template\n      [ngTemplateOutlet]=\"customTemplate || defaultTemplate\"\n      [ngTemplateOutletContext]=\"{\n        event: event,\n        eventClicked: eventClicked\n      }\">\n    </ng-template>\n  "
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarAllDayEventComponent.ctorParameters = function () { return []; };
+    CalendarAllDayEventComponent.propDecorators = {
+        'event': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'customTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'eventTitleTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'eventClicked': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+    };
+    return CalendarAllDayEventComponent;
+}());
+
+//# sourceMappingURL=calendarAllDayEvent.component.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/components/day/calendarDayView.component.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarDayViewComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_date_fns_add_minutes__ = __webpack_require__("../../../../date-fns/add_minutes/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_date_fns_add_minutes___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_date_fns_add_minutes__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_calendarDragHelper_provider__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/calendarDragHelper.provider.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_calendarResizeHelper_provider__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/calendarResizeHelper.provider.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_calendarUtils_provider__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/calendarUtils.provider.js");
+
+
 
 
 
 /**
+ * @hidden
  */
-var NgbDropdownMenu = (function () {
-    function NgbDropdownMenu(dropdown, _elementRef, _renderer) {
-        this.dropdown = dropdown;
-        this._elementRef = _elementRef;
-        this._renderer = _renderer;
-        this.placement = 'bottom';
-        this.isOpen = false;
-    }
-    NgbDropdownMenu.prototype.isEventFrom = function ($event) { return this._elementRef.nativeElement.contains($event.target); };
-    NgbDropdownMenu.prototype.position = function (triggerEl, placement) {
-        this.applyPlacement(Object(__WEBPACK_IMPORTED_MODULE_2__util_positioning__["a" /* positionElements */])(triggerEl, this._elementRef.nativeElement, placement));
-    };
-    NgbDropdownMenu.prototype.applyPlacement = function (_placement) {
-        // remove the current placement classes
-        this._renderer.removeClass(this._elementRef.nativeElement.parentElement, 'dropup');
-        this.placement = _placement;
+var SEGMENT_HEIGHT = 30;
+/**
+ * @hidden
+ */
+var MINUTES_IN_HOUR = 60;
+/**
+ * Shows all events on a given day. Example usage:
+ *
+ * ```typescript
+ * <mwl-calendar-day-view
+ *  [viewDate]="viewDate"
+ *  [events]="events">
+ * </mwl-calendar-day-view>
+ * ```
+ */
+var CalendarDayViewComponent = /** @class */ (function () {
+    /**
+     * @hidden
+     */
+    function CalendarDayViewComponent(cdr, utils, locale) {
+        this.cdr = cdr;
+        this.utils = utils;
         /**
-         * apply the new placement
-         * change the class only in case of top to show up arrow
-         * or use defualt which is dropdown to show down arrow
+         * An array of events to display on view
+         * The schema is available here: https://github.com/mattlewis92/calendar-utils/blob/c51689985f59a271940e30bc4e2c4e1fee3fcb5c/src/calendarUtils.ts#L49-L63
          */
-        if (_placement.search('^top') !== -1) {
-            this._renderer.addClass(this._elementRef.nativeElement.parentElement, 'dropup');
-        }
-    };
-    return NgbDropdownMenu;
-}());
-
-NgbDropdownMenu.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{ selector: '[ngbDropdownMenu]', host: { '[class.dropdown-menu]': 'true', '[class.show]': 'dropdown.isOpen()' } },] },
-];
-/** @nocollapse */
-NgbDropdownMenu.ctorParameters = function () { return [
-    { type: undefined, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"], args: [Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["forwardRef"])(function () { return NgbDropdown; }),] },] },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"], },
-]; };
-/**
- * Allows the dropdown to be toggled via click. This directive is optional.
- */
-var NgbDropdownToggle = (function () {
-    function NgbDropdownToggle(dropdown, _elementRef) {
-        this.dropdown = dropdown;
-        this._elementRef = _elementRef;
-        this.anchorEl = _elementRef.nativeElement;
+        this.events = [];
+        /**
+         * The number of segments in an hour. Must be <= 6
+         */
+        this.hourSegments = 2;
+        /**
+         * The day start hours in 24 hour time. Must be 0-23
+         */
+        this.dayStartHour = 0;
+        /**
+         * The day start minutes. Must be 0-59
+         */
+        this.dayStartMinute = 0;
+        /**
+         * The day end hours in 24 hour time. Must be 0-23
+         */
+        this.dayEndHour = 23;
+        /**
+         * The day end minutes. Must be 0-59
+         */
+        this.dayEndMinute = 59;
+        /**
+         * The width in pixels of each event on the view
+         */
+        this.eventWidth = 150;
+        /**
+         * The grid size to snap resizing and dragging of events to
+         */
+        this.eventSnapSize = 30;
+        /**
+         * The placement of the event tooltip
+         */
+        this.tooltipPlacement = 'top';
+        /**
+         * Whether to append tooltips to the body or next to the trigger element
+         */
+        this.tooltipAppendToBody = true;
+        /**
+         * Called when an event title is clicked
+         */
+        this.eventClicked = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        /**
+         * Called when an hour segment is clicked
+         */
+        this.hourSegmentClicked = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        /**
+         * Called when an event is resized or dragged and dropped
+         */
+        this.eventTimesChanged = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        /**
+         * An output that will be called before the view is rendered for the current day.
+         * If you add the `cssClass` property to a segment it will add that class to the hour segment in the template
+         */
+        this.beforeViewRender = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        /**
+         * @hidden
+         */
+        this.hours = [];
+        /**
+         * @hidden
+         */
+        this.width = 0;
+        /**
+         * @hidden
+         */
+        this.currentResizes = new Map();
+        this.locale = locale;
     }
-    NgbDropdownToggle.prototype.toggleOpen = function () { this.dropdown.toggle(); };
-    NgbDropdownToggle.prototype.isEventFrom = function ($event) { return this._elementRef.nativeElement.contains($event.target); };
-    return NgbDropdownToggle;
-}());
-
-NgbDropdownToggle.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{
-                selector: '[ngbDropdownToggle]',
-                host: {
-                    'class': 'dropdown-toggle',
-                    'aria-haspopup': 'true',
-                    '[attr.aria-expanded]': 'dropdown.isOpen()',
-                    '(click)': 'toggleOpen()'
-                }
-            },] },
-];
-/** @nocollapse */
-NgbDropdownToggle.ctorParameters = function () { return [
-    { type: undefined, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"], args: [Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["forwardRef"])(function () { return NgbDropdown; }),] },] },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"], },
-]; };
-/**
- * Transforms a node into a dropdown.
- */
-var NgbDropdown = (function () {
-    function NgbDropdown(config, ngZone) {
+    /**
+     * @hidden
+     */
+    CalendarDayViewComponent.prototype.ngOnInit = function () {
         var _this = this;
-        /**
-         *  Defines whether or not the dropdown-menu is open initially.
-         */
-        this._open = false;
-        /**
-         *  An event fired when the dropdown is opened or closed.
-         *  Event's payload equals whether dropdown is open.
-         */
-        this.openChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this.placement = config.placement;
-        this.autoClose = config.autoClose;
-        this._zoneSubscription = ngZone.onStable.subscribe(function () { _this._positionMenu(); });
-    }
-    NgbDropdown.prototype.ngOnInit = function () {
-        if (this._menu) {
-            this._menu.applyPlacement(Array.isArray(this.placement) ? (this.placement[0]) : this.placement);
+        if (this.refresh) {
+            this.refreshSubscription = this.refresh.subscribe(function () {
+                _this.refreshAll();
+                _this.cdr.markForCheck();
+            });
         }
     };
     /**
-     * Checks if the dropdown menu is open or not.
+     * @hidden
      */
-    NgbDropdown.prototype.isOpen = function () { return this._open; };
-    /**
-     * Opens the dropdown menu of a given navbar or tabbed navigation.
-     */
-    NgbDropdown.prototype.open = function () {
-        if (!this._open) {
-            this._open = true;
-            this._positionMenu();
-            this.openChange.emit(true);
+    CalendarDayViewComponent.prototype.ngOnDestroy = function () {
+        if (this.refreshSubscription) {
+            this.refreshSubscription.unsubscribe();
         }
     };
     /**
-     * Closes the dropdown menu of a given navbar or tabbed navigation.
+     * @hidden
      */
-    NgbDropdown.prototype.close = function () {
-        if (this._open) {
-            this._open = false;
-            this.openChange.emit(false);
+    CalendarDayViewComponent.prototype.ngOnChanges = function (changes) {
+        if (changes.viewDate ||
+            changes.dayStartHour ||
+            changes.dayStartMinute ||
+            changes.dayEndHour ||
+            changes.dayEndMinute) {
+            this.refreshHourGrid();
+        }
+        if (changes.viewDate ||
+            changes.events ||
+            changes.dayStartHour ||
+            changes.dayStartMinute ||
+            changes.dayEndHour ||
+            changes.dayEndMinute ||
+            changes.eventWidth) {
+            this.refreshView();
         }
     };
-    /**
-     * Toggles the dropdown menu of a given navbar or tabbed navigation.
-     */
-    NgbDropdown.prototype.toggle = function () {
-        if (this.isOpen()) {
-            this.close();
+    CalendarDayViewComponent.prototype.eventDropped = function (dropEvent, segment) {
+        if (dropEvent.dropData && dropEvent.dropData.event) {
+            this.eventTimesChanged.emit({
+                event: dropEvent.dropData.event,
+                newStart: segment.date
+            });
+        }
+    };
+    CalendarDayViewComponent.prototype.resizeStarted = function (event, resizeEvent, dayViewContainer) {
+        this.currentResizes.set(event, {
+            originalTop: event.top,
+            originalHeight: event.height,
+            edge: typeof resizeEvent.edges.top !== 'undefined' ? 'top' : 'bottom'
+        });
+        var resizeHelper = new __WEBPACK_IMPORTED_MODULE_3__providers_calendarResizeHelper_provider__["a" /* CalendarResizeHelper */](dayViewContainer);
+        this.validateResize = function (_a) {
+            var rectangle = _a.rectangle;
+            return resizeHelper.validateResize({ rectangle: rectangle });
+        };
+        this.cdr.markForCheck();
+    };
+    CalendarDayViewComponent.prototype.resizing = function (event, resizeEvent) {
+        var currentResize = this.currentResizes.get(event);
+        if (resizeEvent.edges.top) {
+            event.top = currentResize.originalTop + +resizeEvent.edges.top;
+            event.height = currentResize.originalHeight - +resizeEvent.edges.top;
+        }
+        else if (resizeEvent.edges.bottom) {
+            event.height = currentResize.originalHeight + +resizeEvent.edges.bottom;
+        }
+    };
+    CalendarDayViewComponent.prototype.resizeEnded = function (dayEvent) {
+        var currentResize = this.currentResizes.get(dayEvent);
+        var pixelsMoved;
+        if (currentResize.edge === 'top') {
+            pixelsMoved = dayEvent.top - currentResize.originalTop;
         }
         else {
-            this.open();
+            pixelsMoved = dayEvent.height - currentResize.originalHeight;
         }
+        dayEvent.top = currentResize.originalTop;
+        dayEvent.height = currentResize.originalHeight;
+        var pixelAmountInMinutes = MINUTES_IN_HOUR / (this.hourSegments * SEGMENT_HEIGHT);
+        var minutesMoved = pixelsMoved * pixelAmountInMinutes;
+        var newStart = dayEvent.event.start;
+        var newEnd = dayEvent.event.end;
+        if (currentResize.edge === 'top') {
+            newStart = __WEBPACK_IMPORTED_MODULE_1_date_fns_add_minutes___default()(newStart, minutesMoved);
+        }
+        else if (newEnd) {
+            newEnd = __WEBPACK_IMPORTED_MODULE_1_date_fns_add_minutes___default()(newEnd, minutesMoved);
+        }
+        this.eventTimesChanged.emit({ newStart: newStart, newEnd: newEnd, event: dayEvent.event });
+        this.currentResizes.delete(dayEvent);
     };
-    NgbDropdown.prototype.closeFromClick = function ($event) {
-        if (this.autoClose && $event.button !== 2 && !this._isEventFromToggle($event)) {
-            if (this.autoClose === true) {
-                this.close();
+    CalendarDayViewComponent.prototype.dragStart = function (event, dayViewContainer) {
+        var _this = this;
+        var dragHelper = new __WEBPACK_IMPORTED_MODULE_2__providers_calendarDragHelper_provider__["a" /* CalendarDragHelper */](dayViewContainer, event);
+        this.validateDrag = function (_a) {
+            var x = _a.x, y = _a.y;
+            return _this.currentResizes.size === 0 && dragHelper.validateDrag({ x: x, y: y });
+        };
+        this.cdr.markForCheck();
+    };
+    CalendarDayViewComponent.prototype.eventDragged = function (dayEvent, draggedInPixels) {
+        var pixelAmountInMinutes = MINUTES_IN_HOUR / (this.hourSegments * SEGMENT_HEIGHT);
+        var minutesMoved = draggedInPixels * pixelAmountInMinutes;
+        var newStart = __WEBPACK_IMPORTED_MODULE_1_date_fns_add_minutes___default()(dayEvent.event.start, minutesMoved);
+        var newEnd;
+        if (dayEvent.event.end) {
+            newEnd = __WEBPACK_IMPORTED_MODULE_1_date_fns_add_minutes___default()(dayEvent.event.end, minutesMoved);
+        }
+        this.eventTimesChanged.emit({ newStart: newStart, newEnd: newEnd, event: dayEvent.event });
+    };
+    CalendarDayViewComponent.prototype.refreshHourGrid = function () {
+        this.hours = this.utils.getDayViewHourGrid({
+            viewDate: this.viewDate,
+            hourSegments: this.hourSegments,
+            dayStart: {
+                hour: this.dayStartHour,
+                minute: this.dayStartMinute
+            },
+            dayEnd: {
+                hour: this.dayEndHour,
+                minute: this.dayEndMinute
             }
-            else if (this.autoClose === 'inside' && this._isEventFromMenu($event)) {
-                this.close();
-            }
-            else if (this.autoClose === 'outside' && !this._isEventFromMenu($event)) {
-                this.close();
-            }
-        }
+        });
+        this.beforeViewRender.emit({
+            body: this.hours
+        });
     };
-    NgbDropdown.prototype.closeFromOutsideEsc = function () {
-        if (this.autoClose) {
-            this.close();
-        }
+    CalendarDayViewComponent.prototype.refreshView = function () {
+        this.view = this.utils.getDayView({
+            events: this.events,
+            viewDate: this.viewDate,
+            hourSegments: this.hourSegments,
+            dayStart: {
+                hour: this.dayStartHour,
+                minute: this.dayStartMinute
+            },
+            dayEnd: {
+                hour: this.dayEndHour,
+                minute: this.dayEndMinute
+            },
+            eventWidth: this.eventWidth,
+            segmentHeight: SEGMENT_HEIGHT
+        });
     };
-    NgbDropdown.prototype.ngOnDestroy = function () { this._zoneSubscription.unsubscribe(); };
-    NgbDropdown.prototype._isEventFromToggle = function ($event) { return this._toggle ? this._toggle.isEventFrom($event) : false; };
-    NgbDropdown.prototype._isEventFromMenu = function ($event) { return this._menu ? this._menu.isEventFrom($event) : false; };
-    NgbDropdown.prototype._positionMenu = function () {
-        if (this.isOpen() && this._menu && this._toggle) {
-            this._menu.position(this._toggle.anchorEl, this.placement);
-        }
+    CalendarDayViewComponent.prototype.refreshAll = function () {
+        this.refreshHourGrid();
+        this.refreshView();
     };
-    return NgbDropdown;
+    CalendarDayViewComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
+                    selector: 'mwl-calendar-day-view',
+                    template: "\n    <div class=\"cal-day-view\" #dayViewContainer>\n      <mwl-calendar-all-day-event\n        *ngFor=\"let event of view.allDayEvents\"\n        [event]=\"event\"\n        [customTemplate]=\"allDayEventTemplate\"\n        [eventTitleTemplate]=\"eventTitleTemplate\"\n        (eventClicked)=\"eventClicked.emit({event: event})\">\n      </mwl-calendar-all-day-event>\n      <div class=\"cal-hour-rows\">\n        <div class=\"cal-events\">\n          <div\n            #event\n            *ngFor=\"let dayEvent of view?.events\"\n            class=\"cal-event-container\"\n            [class.cal-draggable]=\"dayEvent.event.draggable\"\n            [class.cal-starts-within-day]=\"!dayEvent.startsBeforeDay\"\n            [class.cal-ends-within-day]=\"!dayEvent.endsAfterDay\"\n            [ngClass]=\"dayEvent.event.cssClass\"\n            mwlResizable\n            [resizeEdges]=\"{top: dayEvent.event?.resizable?.beforeStart, bottom: dayEvent.event?.resizable?.afterEnd}\"\n            [resizeSnapGrid]=\"{top: eventSnapSize, bottom: eventSnapSize}\"\n            [validateResize]=\"validateResize\"\n            (resizeStart)=\"resizeStarted(dayEvent, $event, dayViewContainer)\"\n            (resizing)=\"resizing(dayEvent, $event)\"\n            (resizeEnd)=\"resizeEnded(dayEvent)\"\n            mwlDraggable\n            [dragAxis]=\"{x: false, y: dayEvent.event.draggable && currentResizes.size === 0}\"\n            [dragSnapGrid]=\"{y: eventSnapSize}\"\n            [validateDrag]=\"validateDrag\"\n            (dragStart)=\"dragStart(event, dayViewContainer)\"\n            (dragEnd)=\"eventDragged(dayEvent, $event.y)\"\n            [style.marginTop.px]=\"dayEvent.top\"\n            [style.height.px]=\"dayEvent.height\"\n            [style.marginLeft.px]=\"dayEvent.left + 70\"\n            [style.width.px]=\"dayEvent.width - 1\">\n            <mwl-calendar-day-view-event\n              [dayEvent]=\"dayEvent\"\n              [tooltipPlacement]=\"tooltipPlacement\"\n              [tooltipTemplate]=\"tooltipTemplate\"\n              [tooltipAppendToBody]=\"tooltipAppendToBody\"\n              [customTemplate]=\"eventTemplate\"\n              [eventTitleTemplate]=\"eventTitleTemplate\"\n              (eventClicked)=\"eventClicked.emit({event: dayEvent.event})\">\n            </mwl-calendar-day-view-event>\n          </div>\n        </div>\n        <div class=\"cal-hour\" *ngFor=\"let hour of hours\" [style.minWidth.px]=\"view?.width + 70\">\n          <mwl-calendar-day-view-hour-segment\n            *ngFor=\"let segment of hour.segments\"\n            [segment]=\"segment\"\n            [locale]=\"locale\"\n            [customTemplate]=\"hourSegmentTemplate\"\n            (mwlClick)=\"hourSegmentClicked.emit({date: segment.date})\"\n            [class.cal-drag-over]=\"segment.dragOver\"\n            mwlDroppable\n            (dragEnter)=\"segment.dragOver = true\"\n            (dragLeave)=\"segment.dragOver = false\"\n            (drop)=\"segment.dragOver = false; eventDropped($event, segment)\">\n          </mwl-calendar-day-view-hour-segment>\n        </div>\n      </div>\n    </div>\n  "
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarDayViewComponent.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["l" /* ChangeDetectorRef */], },
+        { type: __WEBPACK_IMPORTED_MODULE_4__providers_calendarUtils_provider__["a" /* CalendarUtils */], },
+        { type: undefined, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */], args: [__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* LOCALE_ID */],] },] },
+    ]; };
+    CalendarDayViewComponent.propDecorators = {
+        'viewDate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'events': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'hourSegments': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'dayStartHour': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'dayStartMinute': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'dayEndHour': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'dayEndMinute': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'eventWidth': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'refresh': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'locale': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'eventSnapSize': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'tooltipPlacement': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'tooltipTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'tooltipAppendToBody': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'hourSegmentTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'allDayEventTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'eventTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'eventTitleTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'eventClicked': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'hourSegmentClicked': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'eventTimesChanged': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'beforeViewRender': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+    };
+    return CalendarDayViewComponent;
 }());
 
-NgbDropdown.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{
-                selector: '[ngbDropdown]',
-                exportAs: 'ngbDropdown',
-                host: {
-                    '[class.show]': 'isOpen()',
-                    '(keyup.esc)': 'closeFromOutsideEsc()',
-                    '(document:click)': 'closeFromClick($event)'
-                }
-            },] },
-];
-/** @nocollapse */
-NgbDropdown.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_1__dropdown_config__["a" /* NgbDropdownConfig */], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgZone"], },
-]; };
-NgbDropdown.propDecorators = {
-    '_menu': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ContentChild"], args: [NgbDropdownMenu,] },],
-    '_toggle': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ContentChild"], args: [NgbDropdownToggle,] },],
-    'autoClose': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    '_open': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"], args: ['open',] },],
-    'placement': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'openChange': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-};
-//# sourceMappingURL=dropdown.js.map
+//# sourceMappingURL=calendarDayView.component.js.map
 
 /***/ }),
 
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/dropdown/dropdown.module.js":
+/***/ "../../../../angular-calendar/dist/esm/src/components/day/calendarDayViewEvent.component.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbDropdownModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarDayViewEventComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__dropdown__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/dropdown/dropdown.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__dropdown_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/dropdown/dropdown-config.js");
-/* unused harmony reexport NgbDropdown */
-/* unused harmony reexport NgbDropdownToggle */
-/* unused harmony reexport NgbDropdownMenu */
-/* unused harmony reexport NgbDropdownConfig */
 
-
-
-
-
-var NGB_DROPDOWN_DIRECTIVES = [__WEBPACK_IMPORTED_MODULE_1__dropdown__["a" /* NgbDropdown */], __WEBPACK_IMPORTED_MODULE_1__dropdown__["c" /* NgbDropdownToggle */], __WEBPACK_IMPORTED_MODULE_1__dropdown__["b" /* NgbDropdownMenu */]];
-var NgbDropdownModule = (function () {
-    function NgbDropdownModule() {
+var CalendarDayViewEventComponent = /** @class */ (function () {
+    function CalendarDayViewEventComponent() {
+        this.eventClicked = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
     }
-    NgbDropdownModule.forRoot = function () { return { ngModule: NgbDropdownModule, providers: [__WEBPACK_IMPORTED_MODULE_2__dropdown_config__["a" /* NgbDropdownConfig */]] }; };
-    return NgbDropdownModule;
+    CalendarDayViewEventComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
+                    selector: 'mwl-calendar-day-view-event',
+                    template: "\n    <ng-template\n      #defaultTemplate\n      let-dayEvent=\"dayEvent\"\n      let-tooltipPlacement=\"tooltipPlacement\"\n      let-eventClicked=\"eventClicked\"\n      let-tooltipTemplate=\"tooltipTemplate\"\n      let-tooltipAppendToBody=\"tooltipAppendToBody\">\n      <div\n        class=\"cal-event\"\n        [style.backgroundColor]=\"dayEvent.event.color.secondary\"\n        [style.borderColor]=\"dayEvent.event.color.primary\"\n        [mwlCalendarTooltip]=\"dayEvent.event.title | calendarEventTitle:'dayTooltip':dayEvent.event\"\n        [tooltipPlacement]=\"tooltipPlacement\"\n        [tooltipEvent]=\"dayEvent.event\"\n        [tooltipTemplate]=\"tooltipTemplate\"\n        [tooltipAppendToBody]=\"tooltipAppendToBody\">\n        <mwl-calendar-event-actions [event]=\"dayEvent.event\"></mwl-calendar-event-actions>\n        <mwl-calendar-event-title\n          [event]=\"dayEvent.event\"\n          [customTemplate]=\"eventTitleTemplate\"\n          view=\"day\"\n          (mwlClick)=\"eventClicked.emit()\">\n        </mwl-calendar-event-title>\n      </div>\n    </ng-template>\n    <ng-template\n      [ngTemplateOutlet]=\"customTemplate || defaultTemplate\"\n      [ngTemplateOutletContext]=\"{\n        dayEvent: dayEvent,\n        tooltipPlacement: tooltipPlacement,\n        eventClicked: eventClicked,\n        tooltipTemplate: tooltipTemplate,\n        tooltipAppendToBody: tooltipAppendToBody\n      }\">\n    </ng-template>\n  "
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarDayViewEventComponent.ctorParameters = function () { return []; };
+    CalendarDayViewEventComponent.propDecorators = {
+        'dayEvent': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'tooltipPlacement': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'tooltipAppendToBody': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'customTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'eventTitleTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'tooltipTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'eventClicked': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+    };
+    return CalendarDayViewEventComponent;
 }());
 
-NgbDropdownModule.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{ declarations: NGB_DROPDOWN_DIRECTIVES, exports: NGB_DROPDOWN_DIRECTIVES },] },
-];
-/** @nocollapse */
-NgbDropdownModule.ctorParameters = function () { return []; };
-//# sourceMappingURL=dropdown.module.js.map
+//# sourceMappingURL=calendarDayViewEvent.component.js.map
 
 /***/ }),
 
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/index.js":
+/***/ "../../../../angular-calendar/dist/esm/src/components/day/calendarDayViewHourSegment.component.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export NgbRootModule */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return NgbModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarDayViewHourSegmentComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__accordion_accordion_module__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/accordion/accordion.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__alert_alert_module__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/alert/alert.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__buttons_buttons_module__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/buttons/buttons.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__carousel_carousel_module__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/carousel/carousel.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__collapse_collapse_module__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/collapse/collapse.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__datepicker_datepicker_module__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/datepicker/datepicker.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__dropdown_dropdown_module__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/dropdown/dropdown.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__modal_modal_module__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/modal/modal.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pagination_pagination_module__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/pagination/pagination.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__popover_popover_module__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/popover/popover.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__progressbar_progressbar_module__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/progressbar/progressbar.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__rating_rating_module__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/rating/rating.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__tabset_tabset_module__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/tabset/tabset.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__timepicker_timepicker_module__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/timepicker/timepicker.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__tooltip_tooltip_module__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/tooltip/tooltip.module.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__typeahead_typeahead_module__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/typeahead/typeahead.module.js");
-/* unused harmony reexport NgbAccordionModule */
-/* unused harmony reexport NgbAccordionConfig */
-/* unused harmony reexport NgbAccordion */
-/* unused harmony reexport NgbPanel */
-/* unused harmony reexport NgbPanelTitle */
-/* unused harmony reexport NgbPanelContent */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_2__alert_alert_module__["a"]; });
-/* unused harmony reexport NgbAlertConfig */
-/* unused harmony reexport NgbAlert */
-/* unused harmony reexport NgbButtonsModule */
-/* unused harmony reexport NgbCheckBox */
-/* unused harmony reexport NgbRadioGroup */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_4__carousel_carousel_module__["a"]; });
-/* unused harmony reexport NgbCarouselConfig */
-/* unused harmony reexport NgbCarousel */
-/* unused harmony reexport NgbSlide */
-/* unused harmony reexport NgbCollapseModule */
-/* unused harmony reexport NgbCollapse */
-/* unused harmony reexport NgbCalendar */
-/* unused harmony reexport NgbCalendarIslamicCivil */
-/* unused harmony reexport NgbDatepickerModule */
-/* unused harmony reexport NgbDatepickerI18n */
-/* unused harmony reexport NgbDatepickerConfig */
-/* unused harmony reexport NgbDateParserFormatter */
-/* unused harmony reexport NgbDatepicker */
-/* unused harmony reexport NgbInputDatepicker */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_7__dropdown_dropdown_module__["a"]; });
-/* unused harmony reexport NgbDropdownConfig */
-/* unused harmony reexport NgbDropdown */
-/* unused harmony reexport NgbModalModule */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_8__modal_modal_module__["b"]; });
-/* unused harmony reexport NgbActiveModal */
-/* unused harmony reexport NgbModalRef */
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_8__modal_modal_module__["a"]; });
-/* unused harmony reexport NgbPaginationModule */
-/* unused harmony reexport NgbPaginationConfig */
-/* unused harmony reexport NgbPagination */
-/* unused harmony reexport NgbPopoverModule */
-/* unused harmony reexport NgbPopoverConfig */
-/* unused harmony reexport NgbPopover */
-/* unused harmony reexport NgbProgressbarModule */
-/* unused harmony reexport NgbProgressbarConfig */
-/* unused harmony reexport NgbProgressbar */
-/* unused harmony reexport NgbRatingModule */
-/* unused harmony reexport NgbRatingConfig */
-/* unused harmony reexport NgbRating */
-/* unused harmony reexport NgbTabsetModule */
-/* unused harmony reexport NgbTabsetConfig */
-/* unused harmony reexport NgbTabset */
-/* unused harmony reexport NgbTab */
-/* unused harmony reexport NgbTabContent */
-/* unused harmony reexport NgbTabTitle */
-/* unused harmony reexport NgbTimepickerModule */
-/* unused harmony reexport NgbTimepickerConfig */
-/* unused harmony reexport NgbTimepicker */
-/* unused harmony reexport NgbTooltipModule */
-/* unused harmony reexport NgbTooltipConfig */
-/* unused harmony reexport NgbTooltip */
-/* unused harmony reexport NgbHighlight */
-/* unused harmony reexport NgbTypeaheadModule */
-/* unused harmony reexport NgbTypeaheadConfig */
-/* unused harmony reexport NgbTypeahead */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var NGB_MODULES = [
-    __WEBPACK_IMPORTED_MODULE_1__accordion_accordion_module__["a" /* NgbAccordionModule */], __WEBPACK_IMPORTED_MODULE_2__alert_alert_module__["a" /* NgbAlertModule */], __WEBPACK_IMPORTED_MODULE_3__buttons_buttons_module__["a" /* NgbButtonsModule */], __WEBPACK_IMPORTED_MODULE_4__carousel_carousel_module__["a" /* NgbCarouselModule */], __WEBPACK_IMPORTED_MODULE_5__collapse_collapse_module__["a" /* NgbCollapseModule */], __WEBPACK_IMPORTED_MODULE_6__datepicker_datepicker_module__["a" /* NgbDatepickerModule */],
-    __WEBPACK_IMPORTED_MODULE_7__dropdown_dropdown_module__["a" /* NgbDropdownModule */], __WEBPACK_IMPORTED_MODULE_8__modal_modal_module__["c" /* NgbModalModule */], __WEBPACK_IMPORTED_MODULE_9__pagination_pagination_module__["a" /* NgbPaginationModule */], __WEBPACK_IMPORTED_MODULE_10__popover_popover_module__["a" /* NgbPopoverModule */], __WEBPACK_IMPORTED_MODULE_11__progressbar_progressbar_module__["a" /* NgbProgressbarModule */], __WEBPACK_IMPORTED_MODULE_12__rating_rating_module__["a" /* NgbRatingModule */],
-    __WEBPACK_IMPORTED_MODULE_13__tabset_tabset_module__["a" /* NgbTabsetModule */], __WEBPACK_IMPORTED_MODULE_14__timepicker_timepicker_module__["a" /* NgbTimepickerModule */], __WEBPACK_IMPORTED_MODULE_15__tooltip_tooltip_module__["a" /* NgbTooltipModule */], __WEBPACK_IMPORTED_MODULE_16__typeahead_typeahead_module__["a" /* NgbTypeaheadModule */]
-];
-var NgbRootModule = (function () {
-    function NgbRootModule() {
+var CalendarDayViewHourSegmentComponent = /** @class */ (function () {
+    function CalendarDayViewHourSegmentComponent() {
     }
-    return NgbRootModule;
+    CalendarDayViewHourSegmentComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
+                    selector: 'mwl-calendar-day-view-hour-segment',
+                    template: "\n    <ng-template\n      #defaultTemplate\n      let-segment=\"segment\"\n      let-locale=\"locale\">\n      <div\n        class=\"cal-hour-segment\"\n        [class.cal-hour-start]=\"segment.isStart\"\n        [class.cal-after-hour-start]=\"!segment.isStart\"\n        [ngClass]=\"segment.cssClass\">\n        <div class=\"cal-time\">\n          {{ segment.date | calendarDate:'dayViewHour':locale }}\n        </div>\n      </div>\n    </ng-template>\n    <ng-template\n      [ngTemplateOutlet]=\"customTemplate || defaultTemplate\"\n      [ngTemplateOutletContext]=\"{\n        segment: segment,\n        locale: locale\n      }\">\n    </ng-template>\n  "
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarDayViewHourSegmentComponent.ctorParameters = function () { return []; };
+    CalendarDayViewHourSegmentComponent.propDecorators = {
+        'segment': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'locale': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'customTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    };
+    return CalendarDayViewHourSegmentComponent;
 }());
 
-NgbRootModule.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{
-                imports: [
-                    __WEBPACK_IMPORTED_MODULE_2__alert_alert_module__["a" /* NgbAlertModule */].forRoot(), __WEBPACK_IMPORTED_MODULE_3__buttons_buttons_module__["a" /* NgbButtonsModule */].forRoot(), __WEBPACK_IMPORTED_MODULE_5__collapse_collapse_module__["a" /* NgbCollapseModule */].forRoot(), __WEBPACK_IMPORTED_MODULE_11__progressbar_progressbar_module__["a" /* NgbProgressbarModule */].forRoot(),
-                    __WEBPACK_IMPORTED_MODULE_15__tooltip_tooltip_module__["a" /* NgbTooltipModule */].forRoot(), __WEBPACK_IMPORTED_MODULE_16__typeahead_typeahead_module__["a" /* NgbTypeaheadModule */].forRoot(), __WEBPACK_IMPORTED_MODULE_1__accordion_accordion_module__["a" /* NgbAccordionModule */].forRoot(), __WEBPACK_IMPORTED_MODULE_4__carousel_carousel_module__["a" /* NgbCarouselModule */].forRoot(),
-                    __WEBPACK_IMPORTED_MODULE_6__datepicker_datepicker_module__["a" /* NgbDatepickerModule */].forRoot(), __WEBPACK_IMPORTED_MODULE_7__dropdown_dropdown_module__["a" /* NgbDropdownModule */].forRoot(), __WEBPACK_IMPORTED_MODULE_8__modal_modal_module__["c" /* NgbModalModule */].forRoot(), __WEBPACK_IMPORTED_MODULE_9__pagination_pagination_module__["a" /* NgbPaginationModule */].forRoot(),
-                    __WEBPACK_IMPORTED_MODULE_10__popover_popover_module__["a" /* NgbPopoverModule */].forRoot(), __WEBPACK_IMPORTED_MODULE_11__progressbar_progressbar_module__["a" /* NgbProgressbarModule */].forRoot(), __WEBPACK_IMPORTED_MODULE_12__rating_rating_module__["a" /* NgbRatingModule */].forRoot(), __WEBPACK_IMPORTED_MODULE_13__tabset_tabset_module__["a" /* NgbTabsetModule */].forRoot(),
-                    __WEBPACK_IMPORTED_MODULE_14__timepicker_timepicker_module__["a" /* NgbTimepickerModule */].forRoot(), __WEBPACK_IMPORTED_MODULE_15__tooltip_tooltip_module__["a" /* NgbTooltipModule */].forRoot()
-                ],
-                exports: NGB_MODULES
-            },] },
-];
-/** @nocollapse */
-NgbRootModule.ctorParameters = function () { return []; };
-var NgbModule = (function () {
-    function NgbModule() {
+//# sourceMappingURL=calendarDayViewHourSegment.component.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/components/month/calendarMonthCell.component.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarMonthCellComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+
+var CalendarMonthCellComponent = /** @class */ (function () {
+    function CalendarMonthCellComponent() {
+        this.highlightDay = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.unhighlightDay = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.eventClicked = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
     }
-    NgbModule.forRoot = function () { return { ngModule: NgbRootModule }; };
-    return NgbModule;
+    /**
+     * @hidden
+     */
+    CalendarMonthCellComponent.prototype.onEventClick = function (mouseEvent, calendarEvent) {
+        if (mouseEvent.stopPropagation) {
+            mouseEvent.stopPropagation();
+        }
+        this.eventClicked.emit({ event: calendarEvent });
+    };
+    CalendarMonthCellComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
+                    selector: 'mwl-calendar-month-cell',
+                    template: "\n    <ng-template\n      #defaultTemplate\n      let-day=\"day\"\n      let-openDay=\"openDay\"\n      let-locale=\"locale\"\n      let-tooltipPlacement=\"tooltipPlacement\"\n      let-highlightDay=\"highlightDay\"\n      let-unhighlightDay=\"unhighlightDay\"\n      let-eventClicked=\"eventClicked\"\n      let-tooltipTemplate=\"tooltipTemplate\"\n      let-tooltipAppendToBody=\"tooltipAppendToBody\">\n      <div class=\"cal-cell-top\">\n        <span class=\"cal-day-badge\" *ngIf=\"day.badgeTotal > 0\">{{ day.badgeTotal }}</span>\n        <span class=\"cal-day-number\">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>\n      </div>\n      <div class=\"cal-events\" *ngIf=\"day.events.length > 0\">\n        <div\n          class=\"cal-event\"\n          *ngFor=\"let event of day.events\"\n          [style.backgroundColor]=\"event.color.primary\"\n          [ngClass]=\"event?.cssClass\"\n          (mouseenter)=\"highlightDay.emit({event: event})\"\n          (mouseleave)=\"unhighlightDay.emit({event: event})\"\n          [mwlCalendarTooltip]=\"event.title | calendarEventTitle:'monthTooltip':event\"\n          [tooltipPlacement]=\"tooltipPlacement\"\n          [tooltipEvent]=\"event\"\n          [tooltipTemplate]=\"tooltipTemplate\"\n          [tooltipAppendToBody]=\"tooltipAppendToBody\"\n          mwlDraggable\n          [dropData]=\"{event: event}\"\n          [dragAxis]=\"{x: event.draggable, y: event.draggable}\"\n          (mwlClick)=\"onEventClick($event, event)\">\n        </div>\n      </div>\n    </ng-template>\n    <ng-template\n      [ngTemplateOutlet]=\"customTemplate || defaultTemplate\"\n      [ngTemplateOutletContext]=\"{\n        day: day,\n        openDay: openDay,\n        locale: locale,\n        tooltipPlacement: tooltipPlacement,\n        highlightDay: highlightDay,\n        unhighlightDay: unhighlightDay,\n        eventClicked: eventClicked,\n        tooltipTemplate: tooltipTemplate,\n        tooltipAppendToBody: tooltipAppendToBody\n      }\">\n    </ng-template>\n  ",
+                    host: {
+                        class: 'cal-cell cal-day-cell',
+                        '[class.cal-past]': 'day.isPast',
+                        '[class.cal-today]': 'day.isToday',
+                        '[class.cal-future]': 'day.isFuture',
+                        '[class.cal-weekend]': 'day.isWeekend',
+                        '[class.cal-in-month]': 'day.inMonth',
+                        '[class.cal-out-month]': '!day.inMonth',
+                        '[class.cal-has-events]': 'day.events.length > 0',
+                        '[class.cal-open]': 'day === openDay',
+                        '[style.backgroundColor]': 'day.backgroundColor'
+                    }
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarMonthCellComponent.ctorParameters = function () { return []; };
+    CalendarMonthCellComponent.propDecorators = {
+        'day': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'openDay': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'locale': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'tooltipPlacement': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'tooltipAppendToBody': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'customTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'tooltipTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'highlightDay': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'unhighlightDay': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'eventClicked': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+    };
+    return CalendarMonthCellComponent;
 }());
 
-NgbModule.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{ imports: NGB_MODULES, exports: NGB_MODULES },] },
-];
-/** @nocollapse */
-NgbModule.ctorParameters = function () { return []; };
+//# sourceMappingURL=calendarMonthCell.component.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/components/month/calendarMonthView.component.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarMonthViewComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_date_fns_is_same_day__ = __webpack_require__("../../../../date-fns/is_same_day/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_date_fns_is_same_day___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_date_fns_is_same_day__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_date_fns_set_date__ = __webpack_require__("../../../../date-fns/set_date/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_date_fns_set_date___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_date_fns_set_date__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_date_fns_set_month__ = __webpack_require__("../../../../date-fns/set_month/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_date_fns_set_month___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_date_fns_set_month__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns_set_year__ = __webpack_require__("../../../../date-fns/set_year/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns_set_year___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_date_fns_set_year__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_get_date__ = __webpack_require__("../../../../date-fns/get_date/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_get_date___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_date_fns_get_date__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_get_month__ = __webpack_require__("../../../../date-fns/get_month/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_get_month___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_date_fns_get_month__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_get_year__ = __webpack_require__("../../../../date-fns/get_year/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_get_year___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_date_fns_get_year__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_date_fns_difference_in_seconds__ = __webpack_require__("../../../../date-fns/difference_in_seconds/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_date_fns_difference_in_seconds___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_date_fns_difference_in_seconds__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_date_fns_add_seconds__ = __webpack_require__("../../../../date-fns/add_seconds/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_date_fns_add_seconds___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_date_fns_add_seconds__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__providers_calendarUtils_provider__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/calendarUtils.provider.js");
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Shows all events on a given month. Example usage:
+ *
+ * ```typescript
+ * <mwl-calendar-month-view
+ *  [viewDate]="viewDate"
+ *  [events]="events">
+ * </mwl-calendar-month-view>
+ * ```
+ */
+var CalendarMonthViewComponent = /** @class */ (function () {
+    /**
+     * @hidden
+     */
+    function CalendarMonthViewComponent(cdr, utils, locale) {
+        this.cdr = cdr;
+        this.utils = utils;
+        /**
+         * An array of events to display on view.
+         * The schema is available here: https://github.com/mattlewis92/calendar-utils/blob/c51689985f59a271940e30bc4e2c4e1fee3fcb5c/src/calendarUtils.ts#L49-L63
+         */
+        this.events = [];
+        /**
+         * An array of day indexes (0 = sunday, 1 = monday etc) that will be hidden on the view
+         */
+        this.excludeDays = [];
+        /**
+         * Whether the events list for the day of the `viewDate` option is visible or not
+         */
+        this.activeDayIsOpen = false;
+        /**
+         * The placement of the event tooltip
+         */
+        this.tooltipPlacement = 'top';
+        /**
+         * Whether to append tooltips to the body or next to the trigger element
+         */
+        this.tooltipAppendToBody = true;
+        /**
+         * An output that will be called before the view is rendered for the current month.
+         * If you add the `cssClass` property to a day in the body it will add that class to the cell element in the template
+         */
+        this.beforeViewRender = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        /**
+         * Called when the day cell is clicked
+         */
+        this.dayClicked = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        /**
+         * Called when the event title is clicked
+         */
+        this.eventClicked = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        /**
+         * Called when an event is dragged and dropped
+         */
+        this.eventTimesChanged = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.locale = locale;
+    }
+    /**
+     * @hidden
+     */
+    CalendarMonthViewComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        if (this.refresh) {
+            this.refreshSubscription = this.refresh.subscribe(function () {
+                _this.refreshAll();
+                _this.cdr.markForCheck();
+            });
+        }
+    };
+    /**
+     * @hidden
+     */
+    CalendarMonthViewComponent.prototype.ngOnChanges = function (changes) {
+        if (changes.viewDate || changes.excludeDays || changes.weekendDays) {
+            this.refreshHeader();
+        }
+        if (changes.viewDate ||
+            changes.events ||
+            changes.excludeDays ||
+            changes.weekendDays) {
+            this.refreshBody();
+        }
+        if (changes.activeDayIsOpen ||
+            changes.viewDate ||
+            changes.events ||
+            changes.excludeDays) {
+            this.checkActiveDayIsOpen();
+        }
+    };
+    /**
+     * @hidden
+     */
+    CalendarMonthViewComponent.prototype.ngOnDestroy = function () {
+        if (this.refreshSubscription) {
+            this.refreshSubscription.unsubscribe();
+        }
+    };
+    /**
+     * @hidden
+     */
+    CalendarMonthViewComponent.prototype.toggleDayHighlight = function (event, isHighlighted) {
+        this.view.days.forEach(function (day) {
+            if (isHighlighted && day.events.indexOf(event) > -1) {
+                day.backgroundColor = event.color.secondary;
+            }
+            else {
+                delete day.backgroundColor;
+            }
+        });
+    };
+    /**
+     * @hidden
+     */
+    CalendarMonthViewComponent.prototype.eventDropped = function (day, event) {
+        var year = __WEBPACK_IMPORTED_MODULE_7_date_fns_get_year___default()(day.date);
+        var month = __WEBPACK_IMPORTED_MODULE_6_date_fns_get_month___default()(day.date);
+        var date = __WEBPACK_IMPORTED_MODULE_5_date_fns_get_date___default()(day.date);
+        var newStart = __WEBPACK_IMPORTED_MODULE_2_date_fns_set_date___default()(__WEBPACK_IMPORTED_MODULE_3_date_fns_set_month___default()(__WEBPACK_IMPORTED_MODULE_4_date_fns_set_year___default()(event.start, year), month), date);
+        var newEnd;
+        if (event.end) {
+            var secondsDiff = __WEBPACK_IMPORTED_MODULE_8_date_fns_difference_in_seconds___default()(newStart, event.start);
+            newEnd = __WEBPACK_IMPORTED_MODULE_9_date_fns_add_seconds___default()(event.end, secondsDiff);
+        }
+        this.eventTimesChanged.emit({ event: event, newStart: newStart, newEnd: newEnd });
+    };
+    /**
+     * @hidden
+     */
+    CalendarMonthViewComponent.prototype.handleDayClick = function (clickEvent, day) {
+        // when using hammerjs, stopPropagation doesn't work. See https://github.com/mattlewis92/angular-calendar/issues/318
+        if (!clickEvent.target.classList.contains('cal-event')) {
+            this.dayClicked.emit({ day: day });
+        }
+    };
+    CalendarMonthViewComponent.prototype.refreshHeader = function () {
+        this.columnHeaders = this.utils.getWeekViewHeader({
+            viewDate: this.viewDate,
+            weekStartsOn: this.weekStartsOn,
+            excluded: this.excludeDays,
+            weekendDays: this.weekendDays
+        });
+        this.emitBeforeViewRender();
+    };
+    CalendarMonthViewComponent.prototype.refreshBody = function () {
+        this.view = this.utils.getMonthView({
+            events: this.events,
+            viewDate: this.viewDate,
+            weekStartsOn: this.weekStartsOn,
+            excluded: this.excludeDays,
+            weekendDays: this.weekendDays
+        });
+        this.emitBeforeViewRender();
+    };
+    CalendarMonthViewComponent.prototype.checkActiveDayIsOpen = function () {
+        var _this = this;
+        if (this.activeDayIsOpen === true) {
+            this.openDay = this.view.days.find(function (day) {
+                return __WEBPACK_IMPORTED_MODULE_1_date_fns_is_same_day___default()(day.date, _this.viewDate);
+            });
+            var index = this.view.days.indexOf(this.openDay);
+            this.openRowIndex =
+                Math.floor(index / this.view.totalDaysVisibleInWeek) *
+                    this.view.totalDaysVisibleInWeek;
+        }
+        else {
+            this.openRowIndex = null;
+            this.openDay = null;
+        }
+    };
+    CalendarMonthViewComponent.prototype.refreshAll = function () {
+        this.columnHeaders = null;
+        this.view = null;
+        this.refreshHeader();
+        this.refreshBody();
+        this.checkActiveDayIsOpen();
+    };
+    CalendarMonthViewComponent.prototype.emitBeforeViewRender = function () {
+        if (this.columnHeaders && this.view) {
+            this.beforeViewRender.emit({
+                header: this.columnHeaders,
+                body: this.view.days
+            });
+        }
+    };
+    CalendarMonthViewComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
+                    selector: 'mwl-calendar-month-view',
+                    template: "\n    <div class=\"cal-month-view\">\n      <mwl-calendar-month-view-header\n        [days]=\"columnHeaders\"\n        [locale]=\"locale\"\n        [customTemplate]=\"headerTemplate\">\n      </mwl-calendar-month-view-header>\n      <div class=\"cal-days\">\n        <div *ngFor=\"let rowIndex of view.rowOffsets\">\n          <div class=\"cal-cell-row\">\n            <mwl-calendar-month-cell\n              *ngFor=\"let day of view.days | slice : rowIndex : rowIndex + (view.totalDaysVisibleInWeek)\"\n              [class.cal-drag-over]=\"day.dragOver\"\n              [ngClass]=\"day?.cssClass\"\n              [day]=\"day\"\n              [openDay]=\"openDay\"\n              [locale]=\"locale\"\n              [tooltipPlacement]=\"tooltipPlacement\"\n              [tooltipAppendToBody]=\"tooltipAppendToBody\"\n              [tooltipTemplate]=\"tooltipTemplate\"\n              [customTemplate]=\"cellTemplate\"\n              (click)=\"handleDayClick($event, day)\"\n              (highlightDay)=\"toggleDayHighlight($event.event, true)\"\n              (unhighlightDay)=\"toggleDayHighlight($event.event, false)\"\n              mwlDroppable\n              (dragEnter)=\"day.dragOver = true\"\n              (dragLeave)=\"day.dragOver = false\"\n              (drop)=\"day.dragOver = false; eventDropped(day, $event.dropData.event)\"\n              (eventClicked)=\"eventClicked.emit({event: $event.event})\">\n            </mwl-calendar-month-cell>\n          </div>\n          <mwl-calendar-open-day-events\n            [isOpen]=\"openRowIndex === rowIndex\"\n            [events]=\"openDay?.events\"\n            [customTemplate]=\"openDayEventsTemplate\"\n            [eventTitleTemplate]=\"eventTitleTemplate\"\n            (eventClicked)=\"eventClicked.emit({event: $event.event})\">\n          </mwl-calendar-open-day-events>\n        </div>\n      </div>\n    </div>\n  "
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarMonthViewComponent.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["l" /* ChangeDetectorRef */], },
+        { type: __WEBPACK_IMPORTED_MODULE_10__providers_calendarUtils_provider__["a" /* CalendarUtils */], },
+        { type: undefined, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */], args: [__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* LOCALE_ID */],] },] },
+    ]; };
+    CalendarMonthViewComponent.propDecorators = {
+        'viewDate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'events': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'excludeDays': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'activeDayIsOpen': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'refresh': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'locale': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'tooltipPlacement': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'tooltipTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'tooltipAppendToBody': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'weekStartsOn': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'headerTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'cellTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'openDayEventsTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'eventTitleTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'weekendDays': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'beforeViewRender': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'dayClicked': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'eventClicked': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'eventTimesChanged': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+    };
+    return CalendarMonthViewComponent;
+}());
+
+//# sourceMappingURL=calendarMonthView.component.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/components/month/calendarMonthViewHeader.component.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarMonthViewHeaderComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+
+var CalendarMonthViewHeaderComponent = /** @class */ (function () {
+    function CalendarMonthViewHeaderComponent() {
+    }
+    CalendarMonthViewHeaderComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
+                    selector: 'mwl-calendar-month-view-header',
+                    template: "\n    <ng-template\n      #defaultTemplate\n      let-days=\"days\"\n      let-locale=\"locale\">\n      <div class=\"cal-cell-row cal-header\">\n        <div\n          class=\"cal-cell\"\n          *ngFor=\"let day of days\"\n          [class.cal-past]=\"day.isPast\"\n          [class.cal-today]=\"day.isToday\"\n          [class.cal-future]=\"day.isFuture\"\n          [class.cal-weekend]=\"day.isWeekend\"\n          [ngClass]=\"day.cssClass\">\n          {{ day.date | calendarDate:'monthViewColumnHeader':locale }}\n        </div>\n      </div>\n    </ng-template>\n    <ng-template\n      [ngTemplateOutlet]=\"customTemplate || defaultTemplate\"\n      [ngTemplateOutletContext]=\"{days: days, locale: locale}\">\n    </ng-template>\n  "
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarMonthViewHeaderComponent.ctorParameters = function () { return []; };
+    CalendarMonthViewHeaderComponent.propDecorators = {
+        'days': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'locale': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'customTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    };
+    return CalendarMonthViewHeaderComponent;
+}());
+
+//# sourceMappingURL=calendarMonthViewHeader.component.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/components/month/calendarOpenDayEvents.component.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarOpenDayEventsComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_animations__ = __webpack_require__("../../../animations/@angular/animations.es5.js");
+
+
+var CalendarOpenDayEventsComponent = /** @class */ (function () {
+    function CalendarOpenDayEventsComponent() {
+        this.isOpen = false;
+        this.eventClicked = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+    }
+    CalendarOpenDayEventsComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
+                    selector: 'mwl-calendar-open-day-events',
+                    template: "\n    <ng-template\n      #defaultTemplate\n      let-events=\"events\"\n      let-eventClicked=\"eventClicked\">\n      <div\n        *ngFor=\"let event of events\"\n        [ngClass]=\"event?.cssClass\"\n        mwlDraggable\n        [dropData]=\"{event: event}\"\n        [dragAxis]=\"{x: event.draggable, y: event.draggable}\">\n        <span\n          class=\"cal-event\"\n          [style.backgroundColor]=\"event.color.primary\">\n        </span>\n        <mwl-calendar-event-title\n          [event]=\"event\"\n          [customTemplate]=\"eventTitleTemplate\"\n          view=\"month\"\n          (mwlClick)=\"eventClicked.emit({event: event})\">\n        </mwl-calendar-event-title>\n        <mwl-calendar-event-actions [event]=\"event\"></mwl-calendar-event-actions>\n      </div>\n    </ng-template>\n    <div class=\"cal-open-day-events\" [@collapse] *ngIf=\"isOpen\">\n      <ng-template\n        [ngTemplateOutlet]=\"customTemplate || defaultTemplate\"\n        [ngTemplateOutletContext]=\"{\n          events: events,\n          eventClicked: eventClicked\n        }\">\n      </ng-template>\n    </div>\n  ",
+                    animations: [
+                        Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["j" /* trigger */])('collapse', [
+                            Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["i" /* transition */])('void => *', [
+                                Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ height: 0, overflow: 'hidden' }),
+                                Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('150ms', Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ height: '*' }))
+                            ]),
+                            Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["i" /* transition */])('* => void', [
+                                Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ height: '*', overflow: 'hidden' }),
+                                Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["e" /* animate */])('150ms', Object(__WEBPACK_IMPORTED_MODULE_1__angular_animations__["h" /* style */])({ height: 0 }))
+                            ])
+                        ])
+                    ]
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarOpenDayEventsComponent.ctorParameters = function () { return []; };
+    CalendarOpenDayEventsComponent.propDecorators = {
+        'isOpen': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'events': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'customTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'eventTitleTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'eventClicked': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+    };
+    return CalendarOpenDayEventsComponent;
+}());
+
+//# sourceMappingURL=calendarOpenDayEvents.component.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/components/week/calendarWeekView.component.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarWeekViewComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_date_fns_add_days__ = __webpack_require__("../../../../date-fns/add_days/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_date_fns_add_days___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_date_fns_add_days__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_calendarDragHelper_provider__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/calendarDragHelper.provider.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_calendarResizeHelper_provider__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/calendarResizeHelper.provider.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_calendarUtils_provider__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/calendarUtils.provider.js");
+
+
+
+
+
+/**
+ * Shows all events on a given week. Example usage:
+ *
+ * ```typescript
+ * <mwl-calendar-week-view
+ *  [viewDate]="viewDate"
+ *  [events]="events">
+ * </mwl-calendar-week-view>
+ * ```
+ */
+var CalendarWeekViewComponent = /** @class */ (function () {
+    /**
+     * @hidden
+     */
+    function CalendarWeekViewComponent(cdr, utils, locale) {
+        this.cdr = cdr;
+        this.utils = utils;
+        /**
+         * An array of events to display on view
+         * The schema is available here: https://github.com/mattlewis92/calendar-utils/blob/c51689985f59a271940e30bc4e2c4e1fee3fcb5c/src/calendarUtils.ts#L49-L63
+         */
+        this.events = [];
+        /**
+         * An array of day indexes (0 = sunday, 1 = monday etc) that will be hidden on the view
+         */
+        this.excludeDays = [];
+        /**
+         * The placement of the event tooltip
+         */
+        this.tooltipPlacement = 'bottom';
+        /**
+         * Whether to append tooltips to the body or next to the trigger element
+         */
+        this.tooltipAppendToBody = true;
+        /**
+         * The precision to display events.
+         * `days` will round event start and end dates to the nearest day and `minutes` will not do this rounding
+         */
+        this.precision = 'days';
+        /**
+         * Called when a header week day is clicked. Adding a `cssClass` property on `$event.day` will add that class to the header element
+         */
+        this.dayHeaderClicked = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        /**
+         * Called when the event title is clicked
+         */
+        this.eventClicked = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        /**
+         * Called when an event is resized or dragged and dropped
+         */
+        this.eventTimesChanged = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        /**
+         * An output that will be called before the view is rendered for the current week.
+         * If you add the `cssClass` property to a day in the header it will add that class to the cell element in the template
+         */
+        this.beforeViewRender = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        /**
+         * @hidden
+         */
+        this.eventRows = [];
+        /**
+         * @hidden
+         */
+        this.currentResizes = new Map();
+        this.locale = locale;
+    }
+    /**
+     * @hidden
+     */
+    CalendarWeekViewComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        if (this.refresh) {
+            this.refreshSubscription = this.refresh.subscribe(function () {
+                _this.refreshAll();
+                _this.cdr.markForCheck();
+            });
+        }
+    };
+    /**
+     * @hidden
+     */
+    CalendarWeekViewComponent.prototype.ngOnChanges = function (changes) {
+        if (changes.viewDate || changes.excludeDays || changes.weekendDays) {
+            this.refreshHeader();
+        }
+        if (changes.events || changes.viewDate || changes.excludeDays) {
+            this.refreshBody();
+        }
+    };
+    /**
+     * @hidden
+     */
+    CalendarWeekViewComponent.prototype.ngOnDestroy = function () {
+        if (this.refreshSubscription) {
+            this.refreshSubscription.unsubscribe();
+        }
+    };
+    /**
+     * @hidden
+     */
+    CalendarWeekViewComponent.prototype.resizeStarted = function (weekViewContainer, weekEvent, resizeEvent) {
+        this.currentResizes.set(weekEvent, {
+            originalOffset: weekEvent.offset,
+            originalSpan: weekEvent.span,
+            edge: typeof resizeEvent.edges.left !== 'undefined' ? 'left' : 'right'
+        });
+        this.dayColumnWidth = this.getDayColumnWidth(weekViewContainer);
+        var resizeHelper = new __WEBPACK_IMPORTED_MODULE_3__providers_calendarResizeHelper_provider__["a" /* CalendarResizeHelper */](weekViewContainer, this.dayColumnWidth);
+        this.validateResize = function (_a) {
+            var rectangle = _a.rectangle;
+            return resizeHelper.validateResize({ rectangle: rectangle });
+        };
+        this.cdr.markForCheck();
+    };
+    /**
+     * @hidden
+     */
+    CalendarWeekViewComponent.prototype.resizing = function (weekEvent, resizeEvent, dayWidth) {
+        var currentResize = this.currentResizes.get(weekEvent);
+        if (resizeEvent.edges.left) {
+            var diff = Math.round(+resizeEvent.edges.left / dayWidth);
+            weekEvent.offset = currentResize.originalOffset + diff;
+            weekEvent.span = currentResize.originalSpan - diff;
+        }
+        else if (resizeEvent.edges.right) {
+            var diff = Math.round(+resizeEvent.edges.right / dayWidth);
+            weekEvent.span = currentResize.originalSpan + diff;
+        }
+    };
+    /**
+     * @hidden
+     */
+    CalendarWeekViewComponent.prototype.resizeEnded = function (weekEvent) {
+        var currentResize = this.currentResizes.get(weekEvent);
+        var daysDiff;
+        if (currentResize.edge === 'left') {
+            daysDiff = weekEvent.offset - currentResize.originalOffset;
+        }
+        else {
+            daysDiff = weekEvent.span - currentResize.originalSpan;
+        }
+        weekEvent.offset = currentResize.originalOffset;
+        weekEvent.span = currentResize.originalSpan;
+        var newStart = weekEvent.event.start;
+        var newEnd = weekEvent.event.end;
+        if (currentResize.edge === 'left') {
+            newStart = __WEBPACK_IMPORTED_MODULE_1_date_fns_add_days___default()(newStart, daysDiff);
+        }
+        else if (newEnd) {
+            newEnd = __WEBPACK_IMPORTED_MODULE_1_date_fns_add_days___default()(newEnd, daysDiff);
+        }
+        this.eventTimesChanged.emit({ newStart: newStart, newEnd: newEnd, event: weekEvent.event });
+        this.currentResizes.delete(weekEvent);
+    };
+    /**
+     * @hidden
+     */
+    CalendarWeekViewComponent.prototype.eventDragged = function (weekEvent, draggedByPx, dayWidth) {
+        var daysDragged = draggedByPx / dayWidth;
+        var newStart = __WEBPACK_IMPORTED_MODULE_1_date_fns_add_days___default()(weekEvent.event.start, daysDragged);
+        var newEnd;
+        if (weekEvent.event.end) {
+            newEnd = __WEBPACK_IMPORTED_MODULE_1_date_fns_add_days___default()(weekEvent.event.end, daysDragged);
+        }
+        this.eventTimesChanged.emit({ newStart: newStart, newEnd: newEnd, event: weekEvent.event });
+    };
+    /**
+     * @hidden
+     */
+    CalendarWeekViewComponent.prototype.getDayColumnWidth = function (eventRowContainer) {
+        return Math.floor(eventRowContainer.offsetWidth / this.days.length);
+    };
+    /**
+     * @hidden
+     */
+    CalendarWeekViewComponent.prototype.dragStart = function (weekViewContainer, event) {
+        var _this = this;
+        this.dayColumnWidth = this.getDayColumnWidth(weekViewContainer);
+        var dragHelper = new __WEBPACK_IMPORTED_MODULE_2__providers_calendarDragHelper_provider__["a" /* CalendarDragHelper */](weekViewContainer, event);
+        this.validateDrag = function (_a) {
+            var x = _a.x, y = _a.y;
+            return _this.currentResizes.size === 0 && dragHelper.validateDrag({ x: x, y: y });
+        };
+        this.cdr.markForCheck();
+    };
+    CalendarWeekViewComponent.prototype.refreshHeader = function () {
+        this.days = this.utils.getWeekViewHeader({
+            viewDate: this.viewDate,
+            weekStartsOn: this.weekStartsOn,
+            excluded: this.excludeDays,
+            weekendDays: this.weekendDays
+        });
+        this.beforeViewRender.emit({
+            header: this.days
+        });
+    };
+    CalendarWeekViewComponent.prototype.refreshBody = function () {
+        this.eventRows = this.utils.getWeekView({
+            events: this.events,
+            viewDate: this.viewDate,
+            weekStartsOn: this.weekStartsOn,
+            excluded: this.excludeDays,
+            precision: this.precision,
+            absolutePositionedEvents: true
+        });
+    };
+    CalendarWeekViewComponent.prototype.refreshAll = function () {
+        this.refreshHeader();
+        this.refreshBody();
+    };
+    CalendarWeekViewComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
+                    selector: 'mwl-calendar-week-view',
+                    template: "\n    <div class=\"cal-week-view\" #weekViewContainer>\n      <mwl-calendar-week-view-header\n        [days]=\"days\"\n        [locale]=\"locale\"\n        [customTemplate]=\"headerTemplate\"\n        (dayHeaderClicked)=\"dayHeaderClicked.emit($event)\"\n        (eventDropped)=\"eventTimesChanged.emit($event)\">\n      </mwl-calendar-week-view-header>\n      <div *ngFor=\"let eventRow of eventRows\" #eventRowContainer class=\"cal-events-row\">\n        <div\n          *ngFor=\"let weekEvent of eventRow.row\"\n          #event\n          class=\"cal-event-container\"\n          [class.cal-draggable]=\"weekEvent.event.draggable\"\n          [class.cal-starts-within-week]=\"!weekEvent.startsBeforeWeek\"\n          [class.cal-ends-within-week]=\"!weekEvent.endsAfterWeek\"\n          [ngClass]=\"weekEvent.event?.cssClass\"\n          [style.width]=\"((100 / days.length) * weekEvent.span) + '%'\"\n          [style.marginLeft]=\"((100 / days.length) * weekEvent.offset) + '%'\"\n          mwlResizable\n          [resizeEdges]=\"{left: weekEvent.event?.resizable?.beforeStart, right: weekEvent.event?.resizable?.afterEnd}\"\n          [resizeSnapGrid]=\"{left: dayColumnWidth, right: dayColumnWidth}\"\n          [validateResize]=\"validateResize\"\n          (resizeStart)=\"resizeStarted(weekViewContainer, weekEvent, $event)\"\n          (resizing)=\"resizing(weekEvent, $event, dayColumnWidth)\"\n          (resizeEnd)=\"resizeEnded(weekEvent)\"\n          mwlDraggable\n          [dragAxis]=\"{x: weekEvent.event.draggable && currentResizes.size === 0, y: false}\"\n          [dragSnapGrid]=\"{x: dayColumnWidth}\"\n          [validateDrag]=\"validateDrag\"\n          (dragStart)=\"dragStart(weekViewContainer, event)\"\n          (dragEnd)=\"eventDragged(weekEvent, $event.x, dayColumnWidth)\">\n          <mwl-calendar-week-view-event\n            [weekEvent]=\"weekEvent\"\n            [tooltipPlacement]=\"tooltipPlacement\"\n            [tooltipTemplate]=\"tooltipTemplate\"\n            [tooltipAppendToBody]=\"tooltipAppendToBody\"\n            [customTemplate]=\"eventTemplate\"\n            [eventTitleTemplate]=\"eventTitleTemplate\"\n            (eventClicked)=\"eventClicked.emit({event: weekEvent.event})\">\n          </mwl-calendar-week-view-event>\n        </div>\n      </div>\n    </div>\n  "
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarWeekViewComponent.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["l" /* ChangeDetectorRef */], },
+        { type: __WEBPACK_IMPORTED_MODULE_4__providers_calendarUtils_provider__["a" /* CalendarUtils */], },
+        { type: undefined, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */], args: [__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* LOCALE_ID */],] },] },
+    ]; };
+    CalendarWeekViewComponent.propDecorators = {
+        'viewDate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'events': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'excludeDays': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'refresh': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'locale': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'tooltipPlacement': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'tooltipTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'tooltipAppendToBody': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'weekStartsOn': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'headerTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'eventTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'eventTitleTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'precision': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'weekendDays': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'dayHeaderClicked': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'eventClicked': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'eventTimesChanged': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'beforeViewRender': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+    };
+    return CalendarWeekViewComponent;
+}());
+
+//# sourceMappingURL=calendarWeekView.component.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/components/week/calendarWeekViewEvent.component.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarWeekViewEventComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+
+var CalendarWeekViewEventComponent = /** @class */ (function () {
+    function CalendarWeekViewEventComponent() {
+        this.eventClicked = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+    }
+    CalendarWeekViewEventComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
+                    selector: 'mwl-calendar-week-view-event',
+                    template: "\n    <ng-template\n      #defaultTemplate\n      let-weekEvent=\"weekEvent\"\n      let-tooltipPlacement=\"tooltipPlacement\"\n      let-eventClicked=\"eventClicked\"\n      let-tooltipTemplate=\"tooltipTemplate\"\n      let-tooltipAppendToBody=\"tooltipAppendToBody\">\n      <div\n        class=\"cal-event\"\n        [style.backgroundColor]=\"weekEvent.event.color.secondary\"\n        [mwlCalendarTooltip]=\"weekEvent.event.title | calendarEventTitle:'weekTooltip':weekEvent.event\"\n        [tooltipPlacement]=\"tooltipPlacement\"\n        [tooltipEvent]=\"weekEvent.event\"\n        [tooltipTemplate]=\"tooltipTemplate\"\n        [tooltipAppendToBody]=\"tooltipAppendToBody\">\n        <mwl-calendar-event-actions [event]=\"weekEvent.event\"></mwl-calendar-event-actions>\n        <mwl-calendar-event-title\n          [event]=\"weekEvent.event\"\n          [customTemplate]=\"eventTitleTemplate\"\n          view=\"week\"\n          (mwlClick)=\"eventClicked.emit()\">\n        </mwl-calendar-event-title>\n      </div>\n    </ng-template>\n    <ng-template\n      [ngTemplateOutlet]=\"customTemplate || defaultTemplate\"\n      [ngTemplateOutletContext]=\"{\n        weekEvent: weekEvent,\n        tooltipPlacement: tooltipPlacement,\n        eventClicked: eventClicked,\n        tooltipTemplate: tooltipTemplate,\n        tooltipAppendToBody: tooltipAppendToBody\n      }\">\n    </ng-template>\n  "
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarWeekViewEventComponent.ctorParameters = function () { return []; };
+    CalendarWeekViewEventComponent.propDecorators = {
+        'weekEvent': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'tooltipPlacement': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'tooltipAppendToBody': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'customTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'eventTitleTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'tooltipTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'eventClicked': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+    };
+    return CalendarWeekViewEventComponent;
+}());
+
+//# sourceMappingURL=calendarWeekViewEvent.component.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/components/week/calendarWeekViewHeader.component.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarWeekViewHeaderComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+
+var CalendarWeekViewHeaderComponent = /** @class */ (function () {
+    function CalendarWeekViewHeaderComponent() {
+        this.dayHeaderClicked = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.eventDropped = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+    }
+    CalendarWeekViewHeaderComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
+                    selector: 'mwl-calendar-week-view-header',
+                    template: "\n    <ng-template\n      #defaultTemplate\n      let-days=\"days\"\n      let-locale=\"locale\"\n      let-dayHeaderClicked=\"dayHeaderClicked\"\n      let-eventDropped=\"eventDropped\">\n      <div class=\"cal-day-headers\">\n        <div\n          class=\"cal-header\"\n          *ngFor=\"let day of days\"\n          [class.cal-past]=\"day.isPast\"\n          [class.cal-today]=\"day.isToday\"\n          [class.cal-future]=\"day.isFuture\"\n          [class.cal-weekend]=\"day.isWeekend\"\n          [class.cal-drag-over]=\"day.dragOver\"\n          [ngClass]=\"day.cssClass\"\n          (mwlClick)=\"dayHeaderClicked.emit({day: day})\"\n          mwlDroppable\n          (dragEnter)=\"day.dragOver = true\"\n          (dragLeave)=\"day.dragOver = false\"\n          (drop)=\"day.dragOver = false; eventDropped.emit({event: $event.dropData.event, newStart: day.date})\">\n          <b>{{ day.date | calendarDate:'weekViewColumnHeader':locale }}</b><br>\n          <span>{{ day.date | calendarDate:'weekViewColumnSubHeader':locale }}</span>\n        </div>\n      </div>\n    </ng-template>\n    <ng-template\n      [ngTemplateOutlet]=\"customTemplate || defaultTemplate\"\n      [ngTemplateOutletContext]=\"{days: days, locale: locale, dayHeaderClicked: dayHeaderClicked, eventDropped: eventDropped}\">\n    </ng-template>\n  "
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarWeekViewHeaderComponent.ctorParameters = function () { return []; };
+    CalendarWeekViewHeaderComponent.propDecorators = {
+        'days': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'locale': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'customTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'dayHeaderClicked': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'eventDropped': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+    };
+    return CalendarWeekViewHeaderComponent;
+}());
+
+//# sourceMappingURL=calendarWeekViewHeader.component.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/directives/calendarNextView.directive.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarNextViewDirective; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_date_fns_add_days__ = __webpack_require__("../../../../date-fns/add_days/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_date_fns_add_days___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_date_fns_add_days__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_date_fns_add_weeks__ = __webpack_require__("../../../../date-fns/add_weeks/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_date_fns_add_weeks___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_date_fns_add_weeks__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_date_fns_add_months__ = __webpack_require__("../../../../date-fns/add_months/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_date_fns_add_months___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_date_fns_add_months__);
+
+
+
+
+/**
+ * Change the view date to the next view. For example:
+ *
+ * ```typescript
+ * <button
+ *  mwlCalendarNextView
+ *  [(viewDate)]="viewDate"
+ *  [view]="view">
+ *  Next
+ * </button>
+ * ```
+ */
+var CalendarNextViewDirective = /** @class */ (function () {
+    function CalendarNextViewDirective() {
+        /**
+         * Called when the view date is changed
+         */
+        this.viewDateChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+    }
+    /**
+     * @hidden
+     */
+    CalendarNextViewDirective.prototype.onClick = function () {
+        var addFn = {
+            day: __WEBPACK_IMPORTED_MODULE_1_date_fns_add_days___default.a,
+            week: __WEBPACK_IMPORTED_MODULE_2_date_fns_add_weeks___default.a,
+            month: __WEBPACK_IMPORTED_MODULE_3_date_fns_add_months___default.a
+        }[this.view];
+        this.viewDateChange.emit(addFn(this.viewDate, 1));
+    };
+    CalendarNextViewDirective.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
+                    selector: '[mwlCalendarNextView]'
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarNextViewDirective.ctorParameters = function () { return []; };
+    CalendarNextViewDirective.propDecorators = {
+        'view': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'viewDate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'viewDateChange': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'onClick': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['click',] },],
+    };
+    return CalendarNextViewDirective;
+}());
+
+//# sourceMappingURL=calendarNextView.directive.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/directives/calendarPreviousView.directive.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarPreviousViewDirective; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_date_fns_sub_days__ = __webpack_require__("../../../../date-fns/sub_days/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_date_fns_sub_days___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_date_fns_sub_days__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_date_fns_sub_weeks__ = __webpack_require__("../../../../date-fns/sub_weeks/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_date_fns_sub_weeks___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_date_fns_sub_weeks__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_date_fns_sub_months__ = __webpack_require__("../../../../date-fns/sub_months/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_date_fns_sub_months___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_date_fns_sub_months__);
+
+
+
+
+/**
+ * Change the view date to the previous view. For example:
+ *
+ * ```typescript
+ * <button
+ *  mwlCalendarPreviousView
+ *  [(viewDate)]="viewDate"
+ *  [view]="view">
+ *  Previous
+ * </button>
+ * ```
+ */
+var CalendarPreviousViewDirective = /** @class */ (function () {
+    function CalendarPreviousViewDirective() {
+        /**
+         * Called when the view date is changed
+         */
+        this.viewDateChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+    }
+    /**
+     * @hidden
+     */
+    CalendarPreviousViewDirective.prototype.onClick = function () {
+        var subFn = {
+            day: __WEBPACK_IMPORTED_MODULE_1_date_fns_sub_days___default.a,
+            week: __WEBPACK_IMPORTED_MODULE_2_date_fns_sub_weeks___default.a,
+            month: __WEBPACK_IMPORTED_MODULE_3_date_fns_sub_months___default.a
+        }[this.view];
+        this.viewDateChange.emit(subFn(this.viewDate, 1));
+    };
+    CalendarPreviousViewDirective.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
+                    selector: '[mwlCalendarPreviousView]'
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarPreviousViewDirective.ctorParameters = function () { return []; };
+    CalendarPreviousViewDirective.propDecorators = {
+        'view': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'viewDate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'viewDateChange': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'onClick': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['click',] },],
+    };
+    return CalendarPreviousViewDirective;
+}());
+
+//# sourceMappingURL=calendarPreviousView.directive.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/directives/calendarToday.directive.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarTodayDirective; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_date_fns_start_of_today__ = __webpack_require__("../../../../date-fns/start_of_today/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_date_fns_start_of_today___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_date_fns_start_of_today__);
+
+
+/**
+ * Change the view date to the current day. For example:
+ *
+ * ```typescript
+ * <button
+ *  mwlCalendarToday
+ *  [(viewDate)]="viewDate">
+ *  Today
+ * </button>
+ * ```
+ */
+var CalendarTodayDirective = /** @class */ (function () {
+    function CalendarTodayDirective() {
+        /**
+         * Called when the view date is changed
+         */
+        this.viewDateChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+    }
+    /**
+     * @hidden
+     */
+    CalendarTodayDirective.prototype.onClick = function () {
+        this.viewDateChange.emit(__WEBPACK_IMPORTED_MODULE_1_date_fns_start_of_today___default()());
+    };
+    CalendarTodayDirective.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
+                    selector: '[mwlCalendarToday]'
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarTodayDirective.ctorParameters = function () { return []; };
+    CalendarTodayDirective.propDecorators = {
+        'viewDate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'viewDateChange': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'onClick': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['click',] },],
+    };
+    return CalendarTodayDirective;
+}());
+
+//# sourceMappingURL=calendarToday.directive.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/directives/calendarTooltip.directive.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return CalendarTooltipWindowComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarTooltipDirective; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__("../../../platform-browser/@angular/platform-browser.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_positioning__ = __webpack_require__("../../../../positioning/dist/positioning.js");
+
+
+
+var CalendarTooltipWindowComponent = /** @class */ (function () {
+    function CalendarTooltipWindowComponent() {
+    }
+    CalendarTooltipWindowComponent.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["o" /* Component */], args: [{
+                    template: "\n    <ng-template\n      #defaultTemplate\n      let-contents=\"contents\"\n      let-placement=\"placement\"\n      let-event=\"event\">\n      <div class=\"cal-tooltip\" [ngClass]=\"'cal-tooltip-' + placement\">\n        <div class=\"cal-tooltip-arrow\"></div>\n        <div class=\"cal-tooltip-inner\" [innerHtml]=\"contents\"></div>\n      </div>\n    </ng-template>\n    <ng-template\n      [ngTemplateOutlet]=\"customTemplate || defaultTemplate\"\n      [ngTemplateOutletContext]=\"{\n        contents: contents,\n        placement: placement,\n        event: event\n      }\">\n    </ng-template>\n  "
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarTooltipWindowComponent.ctorParameters = function () { return []; };
+    CalendarTooltipWindowComponent.propDecorators = {
+        'contents': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'placement': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'event': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'customTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    };
+    return CalendarTooltipWindowComponent;
+}());
+
+var CalendarTooltipDirective = /** @class */ (function () {
+    function CalendarTooltipDirective(elementRef, injector, renderer, componentFactoryResolver, viewContainerRef, document //tslint:disable-line
+    ) {
+        this.elementRef = elementRef;
+        this.injector = injector;
+        this.renderer = renderer;
+        this.viewContainerRef = viewContainerRef;
+        this.document = document; //tslint:disable-line
+        this.placement = 'top'; // tslint:disable-line no-input-rename
+        this.positioning = new __WEBPACK_IMPORTED_MODULE_2_positioning__["a" /* Positioning */]();
+        this.tooltipFactory = componentFactoryResolver.resolveComponentFactory(CalendarTooltipWindowComponent);
+    }
+    CalendarTooltipDirective.prototype.ngOnDestroy = function () {
+        this.hide();
+    };
+    CalendarTooltipDirective.prototype.onMouseOver = function () {
+        this.show();
+    };
+    CalendarTooltipDirective.prototype.onMouseOut = function () {
+        this.hide();
+    };
+    CalendarTooltipDirective.prototype.show = function () {
+        var _this = this;
+        if (!this.tooltipRef && this.contents) {
+            this.tooltipRef = this.viewContainerRef.createComponent(this.tooltipFactory, 0, this.injector, []);
+            this.tooltipRef.instance.contents = this.contents;
+            this.tooltipRef.instance.placement = this.placement;
+            this.tooltipRef.instance.customTemplate = this.customTemplate;
+            this.tooltipRef.instance.event = this.event;
+            if (this.appendToBody) {
+                this.document.body.appendChild(this.tooltipRef.location.nativeElement);
+            }
+            requestAnimationFrame(function () {
+                _this.positionTooltip();
+            });
+        }
+    };
+    CalendarTooltipDirective.prototype.hide = function () {
+        if (this.tooltipRef) {
+            this.viewContainerRef.remove(this.viewContainerRef.indexOf(this.tooltipRef.hostView));
+            this.tooltipRef = null;
+        }
+    };
+    CalendarTooltipDirective.prototype.positionTooltip = function () {
+        if (this.tooltipRef) {
+            var targetPosition = this.positioning.positionElements(this.elementRef.nativeElement, this.tooltipRef.location.nativeElement.children[0], this.placement, this.appendToBody);
+            var elm = this.tooltipRef.location.nativeElement
+                .children[0];
+            this.renderer.setStyle(elm, 'top', targetPosition.top + "px");
+            this.renderer.setStyle(elm, 'left', targetPosition.left + "px");
+        }
+    };
+    CalendarTooltipDirective.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
+                    selector: '[mwlCalendarTooltip]'
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarTooltipDirective.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["E" /* Injector */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_3" /* Renderer2 */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* ComponentFactoryResolver */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_19" /* ViewContainerRef */], },
+        { type: undefined, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */], args: [__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["b" /* DOCUMENT */],] },] },
+    ]; };
+    CalendarTooltipDirective.propDecorators = {
+        'contents': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */], args: ['mwlCalendarTooltip',] },],
+        'placement': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */], args: ['tooltipPlacement',] },],
+        'customTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */], args: ['tooltipTemplate',] },],
+        'event': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */], args: ['tooltipEvent',] },],
+        'appendToBody': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */], args: ['tooltipAppendToBody',] },],
+        'onMouseOver': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['mouseenter',] },],
+        'onMouseOut': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['mouseleave',] },],
+    };
+    return CalendarTooltipDirective;
+}());
+
+//# sourceMappingURL=calendarTooltip.directive.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/directives/click.directive.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ClickDirective; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+
+var ClickDirective = /** @class */ (function () {
+    function ClickDirective(renderer, elm) {
+        this.renderer = renderer;
+        this.elm = elm;
+        this.click = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */](); // tslint:disable-line
+    }
+    ClickDirective.prototype.ngOnInit = function () {
+        var _this = this;
+        var eventName = typeof window['Hammer'] !== 'undefined' ? 'tap' : 'click';
+        this.removeListener = this.renderer.listen(this.elm.nativeElement, eventName, function (event) {
+            _this.click.next(event);
+        });
+    };
+    ClickDirective.prototype.ngOnDestroy = function () {
+        this.removeListener();
+    };
+    ClickDirective.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
+                    selector: '[mwlClick]'
+                },] },
+    ];
+    /** @nocollapse */
+    ClickDirective.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_3" /* Renderer2 */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], },
+    ]; };
+    ClickDirective.propDecorators = {
+        'click': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */], args: ['mwlClick',] },],
+    };
+    return ClickDirective;
+}());
+
+//# sourceMappingURL=click.directive.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__providers_calendarEventTitleFormatter_provider__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/calendarEventTitleFormatter.provider.js");
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__providers_calendarMomentDateFormatter_provider__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/calendarMomentDateFormatter.provider.js");
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_calendarNativeDateFormatter_provider__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/calendarNativeDateFormatter.provider.js");
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_calendarDateFormatter_provider__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/calendarDateFormatter.provider.js");
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_calendarUtils_provider__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/calendarUtils.provider.js");
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__calendar_module__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/calendar.module.js");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_5__calendar_module__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_day_calendarDayView_component__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/components/day/calendarDayView.component.js");
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_month_calendarMonthView_component__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/components/month/calendarMonthView.component.js");
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__components_week_calendarWeekView_component__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/components/week/calendarWeekView.component.js");
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_calendar_utils__ = __webpack_require__("../../../../calendar-utils/dist/calendar-utils.js");
+/* unused harmony reexport DAYS_OF_WEEK */
+
+
+
+
+
+
+
+
+
+
 //# sourceMappingURL=index.js.map
 
 /***/ }),
 
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/modal/modal-backdrop.js":
+/***/ "../../../../angular-calendar/dist/esm/src/pipes/calendarDate.pipe.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbModalBackdrop; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarDatePipe; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__providers_calendarDateFormatter_provider__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/calendarDateFormatter.provider.js");
+
+
+/**
+ * This pipe is primarily for rendering the current view title. Example usage:
+ * ```typescript
+ * // where `viewDate` is a `Date` and view is `'month' | 'week' | 'day'`
+ * {{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}
+ * ```
+ */
+var CalendarDatePipe = /** @class */ (function () {
+    function CalendarDatePipe(dateFormatter, locale) {
+        this.dateFormatter = dateFormatter;
+        this.locale = locale;
+    }
+    CalendarDatePipe.prototype.transform = function (date, method, locale) {
+        if (locale === void 0) { locale = this.locale; }
+        return this.dateFormatter[method]({ date: date, locale: locale });
+    };
+    CalendarDatePipe.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Y" /* Pipe */], args: [{
+                    name: 'calendarDate'
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarDatePipe.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_1__providers_calendarDateFormatter_provider__["a" /* CalendarDateFormatter */], },
+        { type: undefined, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */], args: [__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* LOCALE_ID */],] },] },
+    ]; };
+    return CalendarDatePipe;
+}());
+
+//# sourceMappingURL=calendarDate.pipe.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/pipes/calendarEventTitle.pipe.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarEventTitlePipe; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__providers_calendarEventTitleFormatter_provider__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/calendarEventTitleFormatter.provider.js");
+
+
+var CalendarEventTitlePipe = /** @class */ (function () {
+    function CalendarEventTitlePipe(calendarEventTitle) {
+        this.calendarEventTitle = calendarEventTitle;
+    }
+    CalendarEventTitlePipe.prototype.transform = function (title, titleType, event) {
+        return this.calendarEventTitle[titleType](event);
+    };
+    CalendarEventTitlePipe.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Y" /* Pipe */], args: [{
+                    name: 'calendarEventTitle'
+                },] },
+    ];
+    /** @nocollapse */
+    CalendarEventTitlePipe.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_1__providers_calendarEventTitleFormatter_provider__["a" /* CalendarEventTitleFormatter */], },
+    ]; };
+    return CalendarEventTitlePipe;
+}());
+
+//# sourceMappingURL=calendarEventTitle.pipe.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/providers/calendarDateFormatter.provider.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarDateFormatter; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__calendarNativeDateFormatter_provider__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/calendarNativeDateFormatter.provider.js");
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+/**
+ * This class is responsible for all formatting of dates. There are 2 implementations available, the `CalendarNativeDateFormatter` (default) which will use the <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Intl" target="_blank">Intl</a> API to format dates, or there is the `CalendarMomentDateFormatter` which uses <a href="http://momentjs.com/" target="_blank">moment</a>.
+ *
+ * If you wish, you may override any of the defaults via angulars DI. For example:
+ *
+ * ```typescript
+ * import { CalendarDateFormatter, DateFormatterParams } from 'angular-calendar';
+ *
+ * class CustomDateFormatter extends CalendarDateFormatter {
+ *
+ *   public monthViewColumnHeader({date, locale}: DateFormatterParams): string {
+ *     return new Intl.DateTimeFormat(locale, {weekday: 'short'}).format(date); // use short week days
+ *   }
+ *
+ * }
+ *
+ * // in your component that uses the calendar
+ * providers: [{
+ *   provide: CalendarDateFormatter,
+ *   useClass: CustomDateFormatter
+ * }]
+ * ```
+ */
+var CalendarDateFormatter = /** @class */ (function (_super) {
+    __extends(CalendarDateFormatter, _super);
+    function CalendarDateFormatter() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    return CalendarDateFormatter;
+}(__WEBPACK_IMPORTED_MODULE_0__calendarNativeDateFormatter_provider__["a" /* CalendarNativeDateFormatter */]));
+
+//# sourceMappingURL=calendarDateFormatter.provider.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/providers/calendarDragHelper.provider.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarDragHelper; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/util.js");
+
+var CalendarDragHelper = /** @class */ (function () {
+    function CalendarDragHelper(dragContainerElement, draggableElement) {
+        this.dragContainerElement = dragContainerElement;
+        this.startPosition = draggableElement.getBoundingClientRect();
+    }
+    CalendarDragHelper.prototype.validateDrag = function (_a) {
+        var x = _a.x, y = _a.y;
+        var newRect = Object.assign({}, this.startPosition, {
+            left: this.startPosition.left + x,
+            right: this.startPosition.right + x,
+            top: this.startPosition.top + y,
+            bottom: this.startPosition.bottom + y
+        });
+        return Object(__WEBPACK_IMPORTED_MODULE_0__util__["a" /* isInside */])(this.dragContainerElement.getBoundingClientRect(), newRect);
+    };
+    return CalendarDragHelper;
+}());
+
+//# sourceMappingURL=calendarDragHelper.provider.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/providers/calendarEventTitleFormatter.provider.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarEventTitleFormatter; });
+/**
+ * This class is responsible for displaying all event titles within the calendar. You may override any of its methods via angulars DI to suit your requirements. For example:
+ *
+ * ```typescript
+ * import { CalendarEventTitleFormatter, CalendarEvent } from 'angular-calendar';
+ *
+ * class CustomEventTitleFormatter extends CalendarEventTitleFormatter {
+ *
+ *   month(event: CalendarEvent): string {
+ *     return `Custom prefix: ${event.title}`;
+ *   }
+ *
+ * }
+ *
+ * // in your component
+ * providers: [{
+ *  provide: CalendarEventTitleFormatter,
+ *  useClass: CustomEventTitleFormatter
+ * }]
+ * ```
+ */
+var CalendarEventTitleFormatter = /** @class */ (function () {
+    function CalendarEventTitleFormatter() {
+    }
+    /**
+     * The month view event title.
+     */
+    CalendarEventTitleFormatter.prototype.month = function (event) {
+        return event.title;
+    };
+    /**
+     * The month view event tooltip. Return a falsey value from this to disable the tooltip.
+     */
+    CalendarEventTitleFormatter.prototype.monthTooltip = function (event) {
+        return event.title;
+    };
+    /**
+     * The week view event title.
+     */
+    CalendarEventTitleFormatter.prototype.week = function (event) {
+        return event.title;
+    };
+    /**
+     * The week view event tooltip. Return a falsey value from this to disable the tooltip.
+     */
+    CalendarEventTitleFormatter.prototype.weekTooltip = function (event) {
+        return event.title;
+    };
+    /**
+     * The day view event title.
+     */
+    CalendarEventTitleFormatter.prototype.day = function (event) {
+        return event.title;
+    };
+    /**
+     * The day view event tooltip. Return a falsey value from this to disable the tooltip.
+     */
+    CalendarEventTitleFormatter.prototype.dayTooltip = function (event) {
+        return event.title;
+    };
+    return CalendarEventTitleFormatter;
+}());
+
+//# sourceMappingURL=calendarEventTitleFormatter.provider.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/providers/calendarMomentDateFormatter.provider.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export MOMENT */
+/* unused harmony export CalendarMomentDateFormatter */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 
-var NgbModalBackdrop = (function () {
-    function NgbModalBackdrop() {
+var MOMENT = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* InjectionToken */]('Moment');
+/**
+ * This will use <a href="http://momentjs.com/" target="_blank">moment</a> to do all date formatting. To use this class:
+ *
+ * ```typescript
+ * import { CalendarDateFormatter, CalendarMomentDateFormatter, MOMENT } from 'angular-calendar';
+ * import * as moment from 'moment';
+ *
+ * // in your component
+ * provide: [{
+ *   provide: MOMENT, useValue: moment
+ * }, {
+ *   provide: CalendarDateFormatter, useClass: CalendarMomentDateFormatter
+ * }]
+ *
+ * ```
+ */
+var CalendarMomentDateFormatter = /** @class */ (function () {
+    /**
+     * @hidden
+     */
+    function CalendarMomentDateFormatter(moment) {
+        this.moment = moment;
     }
-    return NgbModalBackdrop;
+    /**
+     * The month view header week day labels
+     */
+    CalendarMomentDateFormatter.prototype.monthViewColumnHeader = function (_a) {
+        var date = _a.date, locale = _a.locale;
+        return this.moment(date)
+            .locale(locale)
+            .format('dddd');
+    };
+    /**
+     * The month view cell day number
+     */
+    CalendarMomentDateFormatter.prototype.monthViewDayNumber = function (_a) {
+        var date = _a.date, locale = _a.locale;
+        return this.moment(date)
+            .locale(locale)
+            .format('D');
+    };
+    /**
+     * The month view title
+     */
+    CalendarMomentDateFormatter.prototype.monthViewTitle = function (_a) {
+        var date = _a.date, locale = _a.locale;
+        return this.moment(date)
+            .locale(locale)
+            .format('MMMM YYYY');
+    };
+    /**
+     * The week view header week day labels
+     */
+    CalendarMomentDateFormatter.prototype.weekViewColumnHeader = function (_a) {
+        var date = _a.date, locale = _a.locale;
+        return this.moment(date)
+            .locale(locale)
+            .format('dddd');
+    };
+    /**
+     * The week view sub header day and month labels
+     */
+    CalendarMomentDateFormatter.prototype.weekViewColumnSubHeader = function (_a) {
+        var date = _a.date, locale = _a.locale;
+        return this.moment(date)
+            .locale(locale)
+            .format('D MMM');
+    };
+    /**
+     * The week view title
+     */
+    CalendarMomentDateFormatter.prototype.weekViewTitle = function (_a) {
+        var date = _a.date, locale = _a.locale;
+        return this.moment(date)
+            .locale(locale)
+            .format('[Week] W [of] YYYY');
+    };
+    /**
+     * The time formatting down the left hand side of the day view
+     */
+    CalendarMomentDateFormatter.prototype.dayViewHour = function (_a) {
+        var date = _a.date, locale = _a.locale;
+        return this.moment(date)
+            .locale(locale)
+            .format('ha');
+    };
+    /**
+     * The day view title
+     */
+    CalendarMomentDateFormatter.prototype.dayViewTitle = function (_a) {
+        var date = _a.date, locale = _a.locale;
+        return this.moment(date)
+            .locale(locale)
+            .format('dddd, D MMMM, YYYY');
+    };
+    /** @nocollapse */
+    CalendarMomentDateFormatter.ctorParameters = function () { return [
+        { type: undefined, decorators: [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Inject */], args: [MOMENT,] },] },
+    ]; };
+    return CalendarMomentDateFormatter;
 }());
 
-NgbModalBackdrop.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{ selector: 'ngb-modal-backdrop', template: '', host: { 'class': 'modal-backdrop fade show' } },] },
-];
-/** @nocollapse */
-NgbModalBackdrop.ctorParameters = function () { return []; };
-//# sourceMappingURL=modal-backdrop.js.map
+//# sourceMappingURL=calendarMomentDateFormatter.provider.js.map
 
 /***/ }),
 
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/modal/modal-dismiss-reasons.js":
+/***/ "../../../../angular-calendar/dist/esm/src/providers/calendarNativeDateFormatter.provider.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ModalDismissReasons; });
-var ModalDismissReasons;
-(function (ModalDismissReasons) {
-    ModalDismissReasons[ModalDismissReasons["BACKDROP_CLICK"] = 0] = "BACKDROP_CLICK";
-    ModalDismissReasons[ModalDismissReasons["ESC"] = 1] = "ESC";
-})(ModalDismissReasons || (ModalDismissReasons = {}));
-//# sourceMappingURL=modal-dismiss-reasons.js.map
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarNativeDateFormatter; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_date_fns_get_iso_week__ = __webpack_require__("../../../../date-fns/get_iso_week/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_date_fns_get_iso_week___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_date_fns_get_iso_week__);
+
+/**
+ * This will use <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Intl" target="_blank">Intl</a> API to do all date formatting. It is the default date formatter used by the calendar.
+ *
+ * You will need to include a <a href="https://github.com/andyearnshaw/Intl.js/">polyfill</a> for older browsers.
+ */
+var CalendarNativeDateFormatter = /** @class */ (function () {
+    function CalendarNativeDateFormatter() {
+    }
+    /**
+     * The month view header week day labels
+     */
+    CalendarNativeDateFormatter.prototype.monthViewColumnHeader = function (_a) {
+        var date = _a.date, locale = _a.locale;
+        return new Intl.DateTimeFormat(locale, { weekday: 'long' }).format(date);
+    };
+    /**
+     * The month view cell day number
+     */
+    CalendarNativeDateFormatter.prototype.monthViewDayNumber = function (_a) {
+        var date = _a.date, locale = _a.locale;
+        return new Intl.DateTimeFormat(locale, { day: 'numeric' }).format(date);
+    };
+    /**
+     * The month view title
+     */
+    CalendarNativeDateFormatter.prototype.monthViewTitle = function (_a) {
+        var date = _a.date, locale = _a.locale;
+        return new Intl.DateTimeFormat(locale, {
+            year: 'numeric',
+            month: 'long'
+        }).format(date);
+    };
+    /**
+     * The week view header week day labels
+     */
+    CalendarNativeDateFormatter.prototype.weekViewColumnHeader = function (_a) {
+        var date = _a.date, locale = _a.locale;
+        return new Intl.DateTimeFormat(locale, { weekday: 'long' }).format(date);
+    };
+    /**
+     * The week view sub header day and month labels
+     */
+    CalendarNativeDateFormatter.prototype.weekViewColumnSubHeader = function (_a) {
+        var date = _a.date, locale = _a.locale;
+        return new Intl.DateTimeFormat(locale, {
+            day: 'numeric',
+            month: 'short'
+        }).format(date);
+    };
+    /**
+     * The week view title
+     */
+    CalendarNativeDateFormatter.prototype.weekViewTitle = function (_a) {
+        var date = _a.date, locale = _a.locale;
+        var year = new Intl.DateTimeFormat(locale, {
+            year: 'numeric'
+        }).format(date);
+        var weekNumber = __WEBPACK_IMPORTED_MODULE_0_date_fns_get_iso_week___default()(date);
+        return "Week " + weekNumber + " of " + year;
+    };
+    /**
+     * The time formatting down the left hand side of the day view
+     */
+    CalendarNativeDateFormatter.prototype.dayViewHour = function (_a) {
+        var date = _a.date, locale = _a.locale;
+        return new Intl.DateTimeFormat(locale, { hour: 'numeric' }).format(date);
+    };
+    /**
+     * The day view title
+     */
+    CalendarNativeDateFormatter.prototype.dayViewTitle = function (_a) {
+        var date = _a.date, locale = _a.locale;
+        return new Intl.DateTimeFormat(locale, {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            weekday: 'long'
+        }).format(date);
+    };
+    return CalendarNativeDateFormatter;
+}());
+
+//# sourceMappingURL=calendarNativeDateFormatter.provider.js.map
 
 /***/ }),
 
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/modal/modal-ref.js":
+/***/ "../../../../angular-calendar/dist/esm/src/providers/calendarResizeHelper.provider.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbActiveModal; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return NgbModalRef; });
-/**
- * A reference to an active (currently opened) modal. Instances of this class
- * can be injected into components passed as modal content.
- */
-var NgbActiveModal = (function () {
-    function NgbActiveModal() {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarResizeHelper; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util__ = __webpack_require__("../../../../angular-calendar/dist/esm/src/providers/util.js");
+
+var CalendarResizeHelper = /** @class */ (function () {
+    function CalendarResizeHelper(resizeContainerElement, minWidth) {
+        this.resizeContainerElement = resizeContainerElement;
+        this.minWidth = minWidth;
     }
-    /**
-     * Can be used to close a modal, passing an optional result.
-     */
-    NgbActiveModal.prototype.close = function (result) { };
-    /**
-     * Can be used to dismiss a modal, passing an optional reason.
-     */
-    NgbActiveModal.prototype.dismiss = function (reason) { };
-    return NgbActiveModal;
+    CalendarResizeHelper.prototype.validateResize = function (_a) {
+        var rectangle = _a.rectangle;
+        if (this.minWidth && rectangle.width < this.minWidth) {
+            return false;
+        }
+        return Object(__WEBPACK_IMPORTED_MODULE_0__util__["a" /* isInside */])(this.resizeContainerElement.getBoundingClientRect(), rectangle);
+    };
+    return CalendarResizeHelper;
 }());
 
-/**
- * A reference to a newly opened modal.
- */
-var NgbModalRef = (function () {
-    function NgbModalRef(_windowCmptRef, _contentRef, _backdropCmptRef, _beforeDismiss) {
+//# sourceMappingURL=calendarResizeHelper.provider.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/providers/calendarUtils.provider.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarUtils; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_calendar_utils__ = __webpack_require__("../../../../calendar-utils/dist/calendar-utils.js");
+
+
+var CalendarUtils = /** @class */ (function () {
+    function CalendarUtils() {
+    }
+    CalendarUtils.prototype.getMonthView = function (args) {
+        return Object(__WEBPACK_IMPORTED_MODULE_1_calendar_utils__["c" /* getMonthView */])(args);
+    };
+    CalendarUtils.prototype.getWeekViewHeader = function (args) {
+        return Object(__WEBPACK_IMPORTED_MODULE_1_calendar_utils__["e" /* getWeekViewHeader */])(args);
+    };
+    CalendarUtils.prototype.getWeekView = function (args) {
+        return Object(__WEBPACK_IMPORTED_MODULE_1_calendar_utils__["d" /* getWeekView */])(args);
+    };
+    CalendarUtils.prototype.getDayView = function (args) {
+        return Object(__WEBPACK_IMPORTED_MODULE_1_calendar_utils__["a" /* getDayView */])(args);
+    };
+    CalendarUtils.prototype.getDayViewHourGrid = function (args) {
+        return Object(__WEBPACK_IMPORTED_MODULE_1_calendar_utils__["b" /* getDayViewHourGrid */])(args);
+    };
+    CalendarUtils.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["C" /* Injectable */] },
+    ];
+    /** @nocollapse */
+    CalendarUtils.ctorParameters = function () { return []; };
+    return CalendarUtils;
+}());
+
+//# sourceMappingURL=calendarUtils.provider.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-calendar/dist/esm/src/providers/util.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = isInside;
+function isInside(outer, inner) {
+    return (outer.left <= inner.left &&
+        inner.left <= outer.right &&
+        outer.left <= inner.right &&
+        inner.right <= outer.right &&
+        outer.top <= inner.top &&
+        inner.top <= outer.bottom &&
+        outer.top <= inner.bottom &&
+        inner.bottom <= outer.bottom);
+}
+//# sourceMappingURL=util.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-draggable-droppable/dist/esm/src/drag-and-drop.module.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DragAndDropModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__draggable_directive__ = __webpack_require__("../../../../angular-draggable-droppable/dist/esm/src/draggable.directive.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__droppable_directive__ = __webpack_require__("../../../../angular-draggable-droppable/dist/esm/src/droppable.directive.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__draggable_helper_provider__ = __webpack_require__("../../../../angular-draggable-droppable/dist/esm/src/draggable-helper.provider.js");
+
+
+
+
+var DragAndDropModule = /** @class */ (function () {
+    function DragAndDropModule() {
+    }
+    DragAndDropModule.forRoot = function () {
+        return {
+            ngModule: DragAndDropModule,
+            providers: [__WEBPACK_IMPORTED_MODULE_3__draggable_helper_provider__["a" /* DraggableHelper */]]
+        };
+    };
+    DragAndDropModule.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */], args: [{
+                    declarations: [__WEBPACK_IMPORTED_MODULE_1__draggable_directive__["a" /* DraggableDirective */], __WEBPACK_IMPORTED_MODULE_2__droppable_directive__["a" /* DroppableDirective */]],
+                    exports: [__WEBPACK_IMPORTED_MODULE_1__draggable_directive__["a" /* DraggableDirective */], __WEBPACK_IMPORTED_MODULE_2__droppable_directive__["a" /* DroppableDirective */]]
+                },] },
+    ];
+    /** @nocollapse */
+    DragAndDropModule.ctorParameters = function () { return []; };
+    return DragAndDropModule;
+}());
+
+//# sourceMappingURL=drag-and-drop.module.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-draggable-droppable/dist/esm/src/draggable-helper.provider.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DraggableHelper; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__);
+
+var DraggableHelper = /** @class */ (function () {
+    function DraggableHelper() {
+        this.currentDrag = new __WEBPACK_IMPORTED_MODULE_0_rxjs_Subject__["Subject"]();
+    }
+    return DraggableHelper;
+}());
+
+//# sourceMappingURL=draggable-helper.provider.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-draggable-droppable/dist/esm/src/draggable.directive.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DraggableDirective; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_observable_merge__ = __webpack_require__("../../../../rxjs/add/observable/merge.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_observable_merge___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_observable_merge__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_mergeMap__ = __webpack_require__("../../../../rxjs/add/operator/mergeMap.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_mergeMap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_mergeMap__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_takeUntil__ = __webpack_require__("../../../../rxjs/add/operator/takeUntil.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_takeUntil___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_takeUntil__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_take__ = __webpack_require__("../../../../rxjs/add/operator/take.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_take___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_take__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_takeLast__ = __webpack_require__("../../../../rxjs/add/operator/takeLast.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_takeLast___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_takeLast__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_add_operator_pairwise__ = __webpack_require__("../../../../rxjs/add/operator/pairwise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_add_operator_pairwise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_rxjs_add_operator_pairwise__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rxjs_add_operator_share__ = __webpack_require__("../../../../rxjs/add/operator/share.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rxjs_add_operator_share___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_rxjs_add_operator_share__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__draggable_helper_provider__ = __webpack_require__("../../../../angular-draggable-droppable/dist/esm/src/draggable-helper.provider.js");
+
+
+
+
+
+
+
+
+
+
+
+
+var MOVE_CURSOR = 'move';
+var DraggableDirective = /** @class */ (function () {
+    /**
+     * @hidden
+     */
+    function DraggableDirective(element, renderer, draggableHelper, zone) {
+        this.element = element;
+        this.renderer = renderer;
+        this.draggableHelper = draggableHelper;
+        this.zone = zone;
+        this.dragAxis = { x: true, y: true };
+        this.dragSnapGrid = {};
+        this.ghostDragEnabled = true;
+        this.dragCursor = MOVE_CURSOR;
+        this.dragStart = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.dragging = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.dragEnd = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        /**
+         * @hidden
+         */
+        this.pointerDown = new __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__["Subject"]();
+        /**
+         * @hidden
+         */
+        this.pointerMove = new __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__["Subject"]();
+        /**
+         * @hidden
+         */
+        this.pointerUp = new __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__["Subject"]();
+        this.eventListenerSubscriptions = {};
+    }
+    DraggableDirective.prototype.ngOnInit = function () {
         var _this = this;
-        this._windowCmptRef = _windowCmptRef;
-        this._contentRef = _contentRef;
-        this._backdropCmptRef = _backdropCmptRef;
-        this._beforeDismiss = _beforeDismiss;
-        _windowCmptRef.instance.dismissEvent.subscribe(function (reason) { _this.dismiss(reason); });
-        this.result = new Promise(function (resolve, reject) {
-            _this._resolve = resolve;
-            _this._reject = reject;
-        });
-        this.result.then(null, function () { });
-    }
-    Object.defineProperty(NgbModalRef.prototype, "componentInstance", {
-        /**
-         * The instance of component used as modal's content.
-         * Undefined when a TemplateRef is used as modal's content.
-         */
-        get: function () {
-            if (this._contentRef.componentRef) {
-                return this._contentRef.componentRef.instance;
-            }
-        },
-        // only needed to keep TS1.8 compatibility
-        set: function (instance) { },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * Can be used to close a modal, passing an optional result.
-     */
-    NgbModalRef.prototype.close = function (result) {
-        if (this._windowCmptRef) {
-            this._resolve(result);
-            this._removeModalElements();
-        }
-    };
-    /**
-     * Can be used to dismiss a modal, passing an optional reason.
-     */
-    NgbModalRef.prototype.dismiss = function (reason) {
-        if (this._windowCmptRef) {
-            if (!this._beforeDismiss || this._beforeDismiss() !== false) {
-                this._reject(reason);
-                this._removeModalElements();
-            }
-        }
-    };
-    NgbModalRef.prototype._removeModalElements = function () {
-        var windowNativeEl = this._windowCmptRef.location.nativeElement;
-        windowNativeEl.parentNode.removeChild(windowNativeEl);
-        this._windowCmptRef.destroy();
-        if (this._backdropCmptRef) {
-            var backdropNativeEl = this._backdropCmptRef.location.nativeElement;
-            backdropNativeEl.parentNode.removeChild(backdropNativeEl);
-            this._backdropCmptRef.destroy();
-        }
-        if (this._contentRef && this._contentRef.viewRef) {
-            this._contentRef.viewRef.destroy();
-        }
-        this._windowCmptRef = null;
-        this._backdropCmptRef = null;
-        this._contentRef = null;
-    };
-    return NgbModalRef;
-}());
-
-//# sourceMappingURL=modal-ref.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/modal/modal-stack.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbModalStack; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_popup__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/popup.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_util__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/util.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modal_backdrop__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/modal/modal-backdrop.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modal_window__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/modal/modal-window.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modal_ref__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/modal/modal-ref.js");
-
-
-
-
-
-
-var NgbModalStack = (function () {
-    function NgbModalStack(_applicationRef, _injector, _componentFactoryResolver) {
-        this._applicationRef = _applicationRef;
-        this._injector = _injector;
-        this._componentFactoryResolver = _componentFactoryResolver;
-        this._backdropFactory = _componentFactoryResolver.resolveComponentFactory(__WEBPACK_IMPORTED_MODULE_3__modal_backdrop__["a" /* NgbModalBackdrop */]);
-        this._windowFactory = _componentFactoryResolver.resolveComponentFactory(__WEBPACK_IMPORTED_MODULE_4__modal_window__["a" /* NgbModalWindow */]);
-    }
-    NgbModalStack.prototype.open = function (moduleCFR, contentInjector, content, options) {
-        var containerSelector = options.container || 'body';
-        var containerEl = document.querySelector(containerSelector);
-        if (!containerEl) {
-            throw new Error("The specified modal container \"" + containerSelector + "\" was not found in the DOM.");
-        }
-        var activeModal = new __WEBPACK_IMPORTED_MODULE_5__modal_ref__["a" /* NgbActiveModal */]();
-        var contentRef = this._getContentRef(moduleCFR, options.injector || contentInjector, content, activeModal);
-        var windowCmptRef;
-        var backdropCmptRef;
-        var ngbModalRef;
-        if (options.backdrop !== false) {
-            backdropCmptRef = this._backdropFactory.create(this._injector);
-            this._applicationRef.attachView(backdropCmptRef.hostView);
-            containerEl.appendChild(backdropCmptRef.location.nativeElement);
-        }
-        windowCmptRef = this._windowFactory.create(this._injector, contentRef.nodes);
-        this._applicationRef.attachView(windowCmptRef.hostView);
-        containerEl.appendChild(windowCmptRef.location.nativeElement);
-        ngbModalRef = new __WEBPACK_IMPORTED_MODULE_5__modal_ref__["b" /* NgbModalRef */](windowCmptRef, contentRef, backdropCmptRef, options.beforeDismiss);
-        activeModal.close = function (result) { ngbModalRef.close(result); };
-        activeModal.dismiss = function (reason) { ngbModalRef.dismiss(reason); };
-        this._applyWindowOptions(windowCmptRef.instance, options);
-        return ngbModalRef;
-    };
-    NgbModalStack.prototype._applyWindowOptions = function (windowInstance, options) {
-        ['backdrop', 'keyboard', 'size', 'windowClass'].forEach(function (optionName) {
-            if (Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["b" /* isDefined */])(options[optionName])) {
-                windowInstance[optionName] = options[optionName];
-            }
-        });
-    };
-    NgbModalStack.prototype._getContentRef = function (moduleCFR, contentInjector, content, context) {
-        if (!content) {
-            return new __WEBPACK_IMPORTED_MODULE_1__util_popup__["a" /* ContentRef */]([]);
-        }
-        else if (content instanceof __WEBPACK_IMPORTED_MODULE_0__angular_core__["TemplateRef"]) {
-            var viewRef = content.createEmbeddedView(context);
-            this._applicationRef.attachView(viewRef);
-            return new __WEBPACK_IMPORTED_MODULE_1__util_popup__["a" /* ContentRef */]([viewRef.rootNodes], viewRef);
-        }
-        else if (Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["e" /* isString */])(content)) {
-            return new __WEBPACK_IMPORTED_MODULE_1__util_popup__["a" /* ContentRef */]([[document.createTextNode("" + content)]]);
-        }
-        else {
-            var contentCmptFactory = moduleCFR.resolveComponentFactory(content);
-            var modalContentInjector = __WEBPACK_IMPORTED_MODULE_0__angular_core__["ReflectiveInjector"].resolveAndCreate([{ provide: __WEBPACK_IMPORTED_MODULE_5__modal_ref__["a" /* NgbActiveModal */], useValue: context }], contentInjector);
-            var componentRef = contentCmptFactory.create(modalContentInjector);
-            this._applicationRef.attachView(componentRef.hostView);
-            return new __WEBPACK_IMPORTED_MODULE_1__util_popup__["a" /* ContentRef */]([[componentRef.location.nativeElement]], componentRef.hostView, componentRef);
-        }
-    };
-    return NgbModalStack;
-}());
-
-NgbModalStack.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbModalStack.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ApplicationRef"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injector"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ComponentFactoryResolver"], },
-]; };
-//# sourceMappingURL=modal-stack.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/modal/modal-window.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbModalWindow; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modal_dismiss_reasons__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/modal/modal-dismiss-reasons.js");
-
-
-var NgbModalWindow = (function () {
-    function NgbModalWindow(_elRef, _renderer) {
-        this._elRef = _elRef;
-        this._renderer = _renderer;
-        this.backdrop = true;
-        this.keyboard = true;
-        this.dismissEvent = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-    }
-    NgbModalWindow.prototype.backdropClick = function ($event) {
-        if (this.backdrop === true && this._elRef.nativeElement === $event.target) {
-            this.dismiss(__WEBPACK_IMPORTED_MODULE_1__modal_dismiss_reasons__["a" /* ModalDismissReasons */].BACKDROP_CLICK);
-        }
-    };
-    NgbModalWindow.prototype.escKey = function ($event) {
-        if (this.keyboard && !$event.defaultPrevented) {
-            this.dismiss(__WEBPACK_IMPORTED_MODULE_1__modal_dismiss_reasons__["a" /* ModalDismissReasons */].ESC);
-        }
-    };
-    NgbModalWindow.prototype.dismiss = function (reason) { this.dismissEvent.emit(reason); };
-    NgbModalWindow.prototype.ngOnInit = function () {
-        this._elWithFocus = document.activeElement;
-        this._renderer.addClass(document.body, 'modal-open');
-    };
-    NgbModalWindow.prototype.ngAfterViewInit = function () {
-        if (!this._elRef.nativeElement.contains(document.activeElement)) {
-            this._elRef.nativeElement['focus'].apply(this._elRef.nativeElement, []);
-        }
-    };
-    NgbModalWindow.prototype.ngOnDestroy = function () {
-        var body = document.body;
-        var elWithFocus = this._elWithFocus;
-        var elementToFocus;
-        if (elWithFocus && elWithFocus['focus'] && body.contains(elWithFocus)) {
-            elementToFocus = elWithFocus;
-        }
-        else {
-            elementToFocus = body;
-        }
-        elementToFocus['focus'].apply(elementToFocus, []);
-        this._elWithFocus = null;
-        this._renderer.removeClass(body, 'modal-open');
-    };
-    return NgbModalWindow;
-}());
-
-NgbModalWindow.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
-                selector: 'ngb-modal-window',
-                host: {
-                    '[class]': '"modal fade show" + (windowClass ? " " + windowClass : "")',
-                    'role': 'dialog',
-                    'tabindex': '-1',
-                    'style': 'display: block;',
-                    '(keyup.esc)': 'escKey($event)',
-                    '(click)': 'backdropClick($event)'
-                },
-                template: "\n    <div [class]=\"'modal-dialog' + (size ? ' modal-' + size : '')\" role=\"document\">\n        <div class=\"modal-content\"><ng-content></ng-content></div>\n    </div>\n    "
-            },] },
-];
-/** @nocollapse */
-NgbModalWindow.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"], },
-]; };
-NgbModalWindow.propDecorators = {
-    'backdrop': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'keyboard': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'size': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'windowClass': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'dismissEvent': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"], args: ['dismiss',] },],
-};
-//# sourceMappingURL=modal-window.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/modal/modal.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbModal; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modal_stack__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/modal/modal-stack.js");
-
-
-/**
- * A service to open modal windows. Creating a modal is straightforward: create a template and pass it as an argument to
- * the "open" method!
- */
-var NgbModal = (function () {
-    function NgbModal(_moduleCFR, _injector, _modalStack) {
-        this._moduleCFR = _moduleCFR;
-        this._injector = _injector;
-        this._modalStack = _modalStack;
-    }
-    /**
-     * Opens a new modal window with the specified content and using supplied options. Content can be provided
-     * as a TemplateRef or a component type. If you pass a component type as content than instances of those
-     * components can be injected with an instance of the NgbActiveModal class. You can use methods on the
-     * NgbActiveModal class to close / dismiss modals from "inside" of a component.
-     */
-    NgbModal.prototype.open = function (content, options) {
-        if (options === void 0) { options = {}; }
-        return this._modalStack.open(this._moduleCFR, this._injector, content, options);
-    };
-    return NgbModal;
-}());
-
-NgbModal.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbModal.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ComponentFactoryResolver"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injector"], },
-    { type: __WEBPACK_IMPORTED_MODULE_1__modal_stack__["a" /* NgbModalStack */], },
-]; };
-//# sourceMappingURL=modal.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/modal/modal.module.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return NgbModalModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modal_backdrop__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/modal/modal-backdrop.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modal_window__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/modal/modal-window.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modal_stack__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/modal/modal-stack.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modal__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/modal/modal.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_4__modal__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modal_ref__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/modal/modal-ref.js");
-/* unused harmony reexport NgbModalRef */
-/* unused harmony reexport NgbActiveModal */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__modal_dismiss_reasons__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/modal/modal-dismiss-reasons.js");
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_6__modal_dismiss_reasons__["a"]; });
-
-
-
-
-
-
-
-
-var NgbModalModule = (function () {
-    function NgbModalModule() {
-    }
-    NgbModalModule.forRoot = function () { return { ngModule: NgbModalModule, providers: [__WEBPACK_IMPORTED_MODULE_4__modal__["a" /* NgbModal */], __WEBPACK_IMPORTED_MODULE_3__modal_stack__["a" /* NgbModalStack */]] }; };
-    return NgbModalModule;
-}());
-
-NgbModalModule.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{
-                declarations: [__WEBPACK_IMPORTED_MODULE_1__modal_backdrop__["a" /* NgbModalBackdrop */], __WEBPACK_IMPORTED_MODULE_2__modal_window__["a" /* NgbModalWindow */]],
-                entryComponents: [__WEBPACK_IMPORTED_MODULE_1__modal_backdrop__["a" /* NgbModalBackdrop */], __WEBPACK_IMPORTED_MODULE_2__modal_window__["a" /* NgbModalWindow */]],
-                providers: [__WEBPACK_IMPORTED_MODULE_4__modal__["a" /* NgbModal */]]
-            },] },
-];
-/** @nocollapse */
-NgbModalModule.ctorParameters = function () { return []; };
-//# sourceMappingURL=modal.module.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/pagination/pagination-config.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbPaginationConfig; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-
-/**
- * Configuration service for the NgbPagination component.
- * You can inject this service, typically in your root component, and customize the values of its properties in
- * order to provide default values for all the paginations used in the application.
- */
-var NgbPaginationConfig = (function () {
-    function NgbPaginationConfig() {
-        this.disabled = false;
-        this.boundaryLinks = false;
-        this.directionLinks = true;
-        this.ellipses = true;
-        this.maxSize = 0;
-        this.pageSize = 10;
-        this.rotate = false;
-    }
-    return NgbPaginationConfig;
-}());
-
-NgbPaginationConfig.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbPaginationConfig.ctorParameters = function () { return []; };
-//# sourceMappingURL=pagination-config.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/pagination/pagination.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbPagination; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_util__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/util.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pagination_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/pagination/pagination-config.js");
-
-
-
-/**
- * A directive that will take care of visualising a pagination bar and enable / disable buttons correctly!
- */
-var NgbPagination = (function () {
-    function NgbPagination(config) {
-        this.pageCount = 0;
-        this.pages = [];
-        /**
-         *  Current page.
-         */
-        this.page = 0;
-        /**
-         *  An event fired when the page is changed.
-         *  Event's payload equals to the newly selected page.
-         */
-        this.pageChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"](true);
-        this.disabled = config.disabled;
-        this.boundaryLinks = config.boundaryLinks;
-        this.directionLinks = config.directionLinks;
-        this.ellipses = config.ellipses;
-        this.maxSize = config.maxSize;
-        this.pageSize = config.pageSize;
-        this.rotate = config.rotate;
-        this.size = config.size;
-    }
-    NgbPagination.prototype.hasPrevious = function () { return this.page > 1; };
-    NgbPagination.prototype.hasNext = function () { return this.page < this.pageCount; };
-    NgbPagination.prototype.selectPage = function (pageNumber) { this._updatePages(pageNumber); };
-    NgbPagination.prototype.ngOnChanges = function (changes) { this._updatePages(this.page); };
-    /**
-     * @internal
-     */
-    NgbPagination.prototype.isEllipsis = function (pageNumber) { return pageNumber === -1; };
-    /**
-     * Appends ellipses and first/last page number to the displayed pages
-     */
-    NgbPagination.prototype._applyEllipses = function (start, end) {
-        if (this.ellipses) {
-            if (start > 0) {
-                if (start > 1) {
-                    this.pages.unshift(-1);
+        this.checkEventListeners();
+        var pointerDrag = this.pointerDown
+            .filter(function () { return _this.canDrag(); })
+            .flatMap(function (pointerDownEvent) {
+            pointerDownEvent.event.preventDefault();
+            _this.zone.run(function () {
+                _this.dragStart.next({ x: 0, y: 0 });
+            });
+            _this.setCursor(_this.dragCursor);
+            var currentDrag = new __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__["Subject"]();
+            _this.draggableHelper.currentDrag.next(currentDrag);
+            var pointerMove = _this.pointerMove
+                .map(function (pointerMoveEvent) {
+                pointerMoveEvent.event.preventDefault();
+                return {
+                    currentDrag: currentDrag,
+                    x: pointerMoveEvent.clientX - pointerDownEvent.clientX,
+                    y: pointerMoveEvent.clientY - pointerDownEvent.clientY,
+                    clientX: pointerMoveEvent.clientX,
+                    clientY: pointerMoveEvent.clientY
+                };
+            })
+                .map(function (moveData) {
+                if (_this.dragSnapGrid.x) {
+                    moveData.x =
+                        Math.floor(moveData.x / _this.dragSnapGrid.x) *
+                            _this.dragSnapGrid.x;
                 }
-                this.pages.unshift(1);
-            }
-            if (end < this.pageCount) {
-                if (end < (this.pageCount - 1)) {
-                    this.pages.push(-1);
+                if (_this.dragSnapGrid.y) {
+                    moveData.y =
+                        Math.floor(moveData.y / _this.dragSnapGrid.y) *
+                            _this.dragSnapGrid.y;
                 }
-                this.pages.push(this.pageCount);
+                return moveData;
+            })
+                .map(function (moveData) {
+                if (!_this.dragAxis.x) {
+                    moveData.x = 0;
+                }
+                if (!_this.dragAxis.y) {
+                    moveData.y = 0;
+                }
+                return moveData;
+            })
+                .filter(function (_a) {
+                var x = _a.x, y = _a.y;
+                return !_this.validateDrag || _this.validateDrag({ x: x, y: y });
+            })
+                .takeUntil(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].merge(_this.pointerUp, _this.pointerDown));
+            pointerMove.takeLast(1).subscribe(function (_a) {
+                var x = _a.x, y = _a.y;
+                _this.zone.run(function () {
+                    _this.dragEnd.next({ x: x, y: y });
+                });
+                currentDrag.complete();
+                _this.setCssTransform(null);
+                if (_this.ghostDragEnabled) {
+                    _this.renderer.setStyle(_this.element.nativeElement, 'pointerEvents', null);
+                }
+            });
+            _this.pointerMove.next(pointerDownEvent);
+            return pointerMove;
+        })
+            .share();
+        __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"].merge(pointerDrag.take(1).map(function (value) { return [, value]; }), pointerDrag.pairwise())
+            .filter(function (_a) {
+            var previous = _a[0], next = _a[1];
+            if (!previous) {
+                return true;
             }
-        }
-    };
-    /**
-     * Rotates page numbers based on maxSize items visible.
-     * Currently selected page stays in the middle:
-     *
-     * Ex. for selected page = 6:
-     * [5,*6*,7] for maxSize = 3
-     * [4,5,*6*,7] for maxSize = 4
-     */
-    NgbPagination.prototype._applyRotation = function () {
-        var start = 0;
-        var end = this.pageCount;
-        var leftOffset = Math.floor(this.maxSize / 2);
-        var rightOffset = this.maxSize % 2 === 0 ? leftOffset - 1 : leftOffset;
-        if (this.page <= leftOffset) {
-            // very beginning, no rotation -> [0..maxSize]
-            end = this.maxSize;
-        }
-        else if (this.pageCount - this.page < leftOffset) {
-            // very end, no rotation -> [len-maxSize..len]
-            start = this.pageCount - this.maxSize;
-        }
-        else {
-            // rotate
-            start = this.page - leftOffset - 1;
-            end = this.page + rightOffset;
-        }
-        return [start, end];
-    };
-    /**
-     * Paginates page numbers based on maxSize items per page
-     */
-    NgbPagination.prototype._applyPagination = function () {
-        var page = Math.ceil(this.page / this.maxSize) - 1;
-        var start = page * this.maxSize;
-        var end = start + this.maxSize;
-        return [start, end];
-    };
-    NgbPagination.prototype._setPageInRange = function (newPageNo) {
-        var prevPageNo = this.page;
-        this.page = Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["a" /* getValueInRange */])(newPageNo, this.pageCount, 1);
-        if (this.page !== prevPageNo) {
-            this.pageChange.emit(this.page);
-        }
-    };
-    NgbPagination.prototype._updatePages = function (newPage) {
-        this.pageCount = Math.ceil(this.collectionSize / this.pageSize);
-        if (!Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["d" /* isNumber */])(this.pageCount)) {
-            this.pageCount = 0;
-        }
-        // fill-in model needed to render pages
-        this.pages.length = 0;
-        for (var i = 1; i <= this.pageCount; i++) {
-            this.pages.push(i);
-        }
-        // set page within 1..max range
-        this._setPageInRange(newPage);
-        // apply maxSize if necessary
-        if (this.maxSize > 0 && this.pageCount > this.maxSize) {
-            var start = 0;
-            var end = this.pageCount;
-            // either paginating or rotating page numbers
-            if (this.rotate) {
-                _a = this._applyRotation(), start = _a[0], end = _a[1];
+            return previous.x !== next.x || previous.y !== next.y;
+        })
+            .map(function (_a) {
+            var previous = _a[0], next = _a[1];
+            return next;
+        })
+            .subscribe(function (_a) {
+            var x = _a.x, y = _a.y, currentDrag = _a.currentDrag, clientX = _a.clientX, clientY = _a.clientY;
+            _this.zone.run(function () {
+                _this.dragging.next({ x: x, y: y });
+            });
+            if (_this.ghostDragEnabled) {
+                _this.renderer.setStyle(_this.element.nativeElement, 'pointerEvents', 'none');
             }
-            else {
-                _b = this._applyPagination(), start = _b[0], end = _b[1];
-            }
-            this.pages = this.pages.slice(start, end);
-            // adding ellipses
-            this._applyEllipses(start, end);
-        }
-        var _a, _b;
-    };
-    return NgbPagination;
-}());
-
-NgbPagination.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
-                selector: 'ngb-pagination',
-                changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush,
-                host: { 'role': 'navigation' },
-                template: "\n    <ul [class]=\"'pagination' + (size ? ' pagination-' + size : '')\">\n      <li *ngIf=\"boundaryLinks\" class=\"page-item\"\n        [class.disabled]=\"!hasPrevious() || disabled\">\n        <a aria-label=\"First\" class=\"page-link\" href (click)=\"!!selectPage(1)\" [attr.tabindex]=\"(hasPrevious() ? null : '-1')\">\n          <span aria-hidden=\"true\">&laquo;&laquo;</span>\n        </a>\n      </li>\n\n      <li *ngIf=\"directionLinks\" class=\"page-item\"\n        [class.disabled]=\"!hasPrevious() || disabled\">\n        <a aria-label=\"Previous\" class=\"page-link\" href (click)=\"!!selectPage(page-1)\" [attr.tabindex]=\"(hasPrevious() ? null : '-1')\">\n          <span aria-hidden=\"true\">&laquo;</span>\n        </a>\n      </li>\n      <li *ngFor=\"let pageNumber of pages\" class=\"page-item\" [class.active]=\"pageNumber === page\"\n        [class.disabled]=\"isEllipsis(pageNumber) || disabled\">\n        <a *ngIf=\"isEllipsis(pageNumber)\" class=\"page-link\">...</a>\n        <a *ngIf=\"!isEllipsis(pageNumber)\" class=\"page-link\" href (click)=\"!!selectPage(pageNumber)\">\n          {{pageNumber}}\n          <span *ngIf=\"pageNumber === page\" class=\"sr-only\">(current)</span>\n        </a>\n      </li>\n      <li *ngIf=\"directionLinks\" class=\"page-item\" [class.disabled]=\"!hasNext() || disabled\">\n        <a aria-label=\"Next\" class=\"page-link\" href (click)=\"!!selectPage(page+1)\" [attr.tabindex]=\"(hasNext() ? null : '-1')\">\n          <span aria-hidden=\"true\">&raquo;</span>\n        </a>\n      </li>\n\n      <li *ngIf=\"boundaryLinks\" class=\"page-item\" [class.disabled]=\"!hasNext() || disabled\">\n        <a aria-label=\"Last\" class=\"page-link\" href (click)=\"!!selectPage(pageCount)\" [attr.tabindex]=\"(hasNext() ? null : '-1')\">\n          <span aria-hidden=\"true\">&raquo;&raquo;</span>\n        </a>\n      </li>\n    </ul>\n  "
-            },] },
-];
-/** @nocollapse */
-NgbPagination.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_2__pagination_config__["a" /* NgbPaginationConfig */], },
-]; };
-NgbPagination.propDecorators = {
-    'disabled': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'boundaryLinks': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'directionLinks': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'ellipses': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'rotate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'collectionSize': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'maxSize': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'page': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'pageSize': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'pageChange': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-    'size': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-};
-//# sourceMappingURL=pagination.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/pagination/pagination.module.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbPaginationModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pagination__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/pagination/pagination.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pagination_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/pagination/pagination-config.js");
-/* unused harmony reexport NgbPagination */
-/* unused harmony reexport NgbPaginationConfig */
-
-
-
-
-
-
-var NgbPaginationModule = (function () {
-    function NgbPaginationModule() {
-    }
-    NgbPaginationModule.forRoot = function () { return { ngModule: NgbPaginationModule, providers: [__WEBPACK_IMPORTED_MODULE_3__pagination_config__["a" /* NgbPaginationConfig */]] }; };
-    return NgbPaginationModule;
-}());
-
-NgbPaginationModule.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{ declarations: [__WEBPACK_IMPORTED_MODULE_2__pagination__["a" /* NgbPagination */]], exports: [__WEBPACK_IMPORTED_MODULE_2__pagination__["a" /* NgbPagination */]], imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]] },] },
-];
-/** @nocollapse */
-NgbPaginationModule.ctorParameters = function () { return []; };
-//# sourceMappingURL=pagination.module.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/popover/popover-config.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbPopoverConfig; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-
-/**
- * Configuration service for the NgbPopover directive.
- * You can inject this service, typically in your root component, and customize the values of its properties in
- * order to provide default values for all the popovers used in the application.
- */
-var NgbPopoverConfig = (function () {
-    function NgbPopoverConfig() {
-        this.placement = 'top';
-        this.triggers = 'click';
-    }
-    return NgbPopoverConfig;
-}());
-
-NgbPopoverConfig.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbPopoverConfig.ctorParameters = function () { return []; };
-//# sourceMappingURL=popover-config.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/popover/popover.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return NgbPopoverWindow; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbPopover; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_triggers__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/triggers.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_positioning__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/positioning.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_popup__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/popup.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__popover_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/popover/popover-config.js");
-
-
-
-
-
-var nextId = 0;
-var NgbPopoverWindow = (function () {
-    function NgbPopoverWindow(_element, _renderer) {
-        this._element = _element;
-        this._renderer = _renderer;
-        this.placement = 'top';
-    }
-    NgbPopoverWindow.prototype.applyPlacement = function (_placement) {
-        // remove the current placement classes
-        this._renderer.removeClass(this._element.nativeElement, 'bs-popover-' + this.placement.toString().split('-')[0]);
-        this._renderer.removeClass(this._element.nativeElement, 'bs-popover-' + this.placement.toString());
-        // set the new placement classes
-        this.placement = _placement;
-        // apply the new placement
-        this._renderer.addClass(this._element.nativeElement, 'bs-popover-' + this.placement.toString().split('-')[0]);
-        this._renderer.addClass(this._element.nativeElement, 'bs-popover-' + this.placement.toString());
-    };
-    return NgbPopoverWindow;
-}());
-
-NgbPopoverWindow.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
-                selector: 'ngb-popover-window',
-                changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush,
-                host: {
-                    '[class]': '"popover bs-popover-" + placement.split("-")[0]+" bs-popover-" + placement',
-                    'role': 'tooltip',
-                    '[id]': 'id'
-                },
-                template: "\n    <div class=\"arrow\"></div>\n    <h3 class=\"popover-header\">{{title}}</h3><div class=\"popover-body\"><ng-content></ng-content></div>",
-                styles: ["\n    :host.bs-popover-top .arrow, :host.bs-popover-bottom .arrow {\n      left: 50%;\n    }\n\n    :host.bs-popover-top-left .arrow, :host.bs-popover-bottom-left .arrow {\n      left: 2em;\n    }\n\n    :host.bs-popover-top-right .arrow, :host.bs-popover-bottom-right .arrow {\n      left: auto;\n      right: 2em;\n    }\n\n    :host.bs-popover-left .arrow, :host.bs-popover-right .arrow {\n      top: 50%;\n    }\n    \n    :host.bs-popover-left-top .arrow, :host.bs-popover-right-top .arrow {\n      top: 0.7em;\n    }\n\n    :host.bs-popover-left-bottom .arrow, :host.bs-popover-right-bottom .arrow {\n      top: auto;\n      bottom: 0.7em;\n    }\n  "]
-            },] },
-];
-/** @nocollapse */
-NgbPopoverWindow.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"], },
-]; };
-NgbPopoverWindow.propDecorators = {
-    'placement': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'title': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'id': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-};
-/**
- * A lightweight, extensible directive for fancy popover creation.
- */
-var NgbPopover = (function () {
-    function NgbPopover(_elementRef, _renderer, injector, componentFactoryResolver, viewContainerRef, config, ngZone) {
-        var _this = this;
-        this._elementRef = _elementRef;
-        this._renderer = _renderer;
-        /**
-         * Emits an event when the popover is shown
-         */
-        this.shown = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        /**
-         * Emits an event when the popover is hidden
-         */
-        this.hidden = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this._ngbPopoverWindowId = "ngb-popover-" + nextId++;
-        this.placement = config.placement;
-        this.triggers = config.triggers;
-        this.container = config.container;
-        this._popupService = new __WEBPACK_IMPORTED_MODULE_3__util_popup__["b" /* PopupService */](NgbPopoverWindow, injector, viewContainerRef, _renderer, componentFactoryResolver);
-        this._zoneSubscription = ngZone.onStable.subscribe(function () {
-            if (_this._windowRef) {
-                _this._windowRef.instance.applyPlacement(Object(__WEBPACK_IMPORTED_MODULE_2__util_positioning__["a" /* positionElements */])(_this._elementRef.nativeElement, _this._windowRef.location.nativeElement, _this.placement, _this.container === 'body'));
-            }
+            _this.setCssTransform("translate(" + x + "px, " + y + "px)");
+            currentDrag.next({
+                clientX: clientX,
+                clientY: clientY,
+                dropData: _this.dropData
+            });
         });
-    }
-    /**
-     * Opens an element’s popover. This is considered a “manual” triggering of the popover.
-     * The context is an optional value to be injected into the popover template when it is created.
-     */
-    NgbPopover.prototype.open = function (context) {
-        if (!this._windowRef) {
-            this._windowRef = this._popupService.open(this.ngbPopover, context);
-            this._windowRef.instance.title = this.popoverTitle;
-            this._windowRef.instance.id = this._ngbPopoverWindowId;
-            this._renderer.setAttribute(this._elementRef.nativeElement, 'aria-describedby', this._ngbPopoverWindowId);
-            if (this.container === 'body') {
-                window.document.querySelector(this.container).appendChild(this._windowRef.location.nativeElement);
-            }
-            // apply styling to set basic css-classes on target element, before going for positioning
-            this._windowRef.changeDetectorRef.detectChanges();
-            this._windowRef.changeDetectorRef.markForCheck();
-            // position popover along the element
-            this._windowRef.instance.applyPlacement(Object(__WEBPACK_IMPORTED_MODULE_2__util_positioning__["a" /* positionElements */])(this._elementRef.nativeElement, this._windowRef.location.nativeElement, this.placement, this.container === 'body'));
-            this.shown.emit();
+    };
+    DraggableDirective.prototype.ngOnChanges = function (changes) {
+        if (changes['dragAxis']) {
+            this.checkEventListeners();
         }
     };
-    /**
-     * Closes an element’s popover. This is considered a “manual” triggering of the popover.
-     */
-    NgbPopover.prototype.close = function () {
-        if (this._windowRef) {
-            this._renderer.removeAttribute(this._elementRef.nativeElement, 'aria-describedby');
-            this._popupService.close();
-            this._windowRef = null;
-            this.hidden.emit();
-        }
+    DraggableDirective.prototype.ngOnDestroy = function () {
+        this.unsubscribeEventListeners();
+        this.pointerDown.complete();
+        this.pointerMove.complete();
+        this.pointerUp.complete();
     };
-    /**
-     * Toggles an element’s popover. This is considered a “manual” triggering of the popover.
-     */
-    NgbPopover.prototype.toggle = function () {
-        if (this._windowRef) {
-            this.close();
-        }
-        else {
-            this.open();
-        }
-    };
-    /**
-     * Returns whether or not the popover is currently being shown
-     */
-    NgbPopover.prototype.isOpen = function () { return this._windowRef != null; };
-    NgbPopover.prototype.ngOnInit = function () {
-        this._unregisterListenersFn = Object(__WEBPACK_IMPORTED_MODULE_1__util_triggers__["a" /* listenToTriggers */])(this._renderer, this._elementRef.nativeElement, this.triggers, this.open.bind(this), this.close.bind(this), this.toggle.bind(this));
-    };
-    NgbPopover.prototype.ngOnDestroy = function () {
-        this.close();
-        this._unregisterListenersFn();
-        this._zoneSubscription.unsubscribe();
-    };
-    return NgbPopover;
-}());
-
-NgbPopover.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{ selector: '[ngbPopover]', exportAs: 'ngbPopover' },] },
-];
-/** @nocollapse */
-NgbPopover.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injector"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ComponentFactoryResolver"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"], },
-    { type: __WEBPACK_IMPORTED_MODULE_4__popover_config__["a" /* NgbPopoverConfig */], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgZone"], },
-]; };
-NgbPopover.propDecorators = {
-    'ngbPopover': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'popoverTitle': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'placement': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'triggers': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'container': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'shown': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-    'hidden': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-};
-//# sourceMappingURL=popover.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/popover/popover.module.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbPopoverModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__popover__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/popover/popover.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__popover_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/popover/popover-config.js");
-/* unused harmony reexport NgbPopover */
-/* unused harmony reexport NgbPopoverConfig */
-
-
-
-
-
-var NgbPopoverModule = (function () {
-    function NgbPopoverModule() {
-    }
-    NgbPopoverModule.forRoot = function () { return { ngModule: NgbPopoverModule, providers: [__WEBPACK_IMPORTED_MODULE_2__popover_config__["a" /* NgbPopoverConfig */]] }; };
-    return NgbPopoverModule;
-}());
-
-NgbPopoverModule.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{ declarations: [__WEBPACK_IMPORTED_MODULE_1__popover__["a" /* NgbPopover */], __WEBPACK_IMPORTED_MODULE_1__popover__["b" /* NgbPopoverWindow */]], exports: [__WEBPACK_IMPORTED_MODULE_1__popover__["a" /* NgbPopover */]], entryComponents: [__WEBPACK_IMPORTED_MODULE_1__popover__["b" /* NgbPopoverWindow */]] },] },
-];
-/** @nocollapse */
-NgbPopoverModule.ctorParameters = function () { return []; };
-//# sourceMappingURL=popover.module.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/progressbar/progressbar-config.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbProgressbarConfig; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-
-/**
- * Configuration service for the NgbProgressbar component.
- * You can inject this service, typically in your root component, and customize the values of its properties in
- * order to provide default values for all the progress bars used in the application.
- */
-var NgbProgressbarConfig = (function () {
-    function NgbProgressbarConfig() {
-        this.max = 100;
-        this.animated = false;
-        this.striped = false;
-        this.showValue = false;
-    }
-    return NgbProgressbarConfig;
-}());
-
-NgbProgressbarConfig.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbProgressbarConfig.ctorParameters = function () { return []; };
-//# sourceMappingURL=progressbar-config.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/progressbar/progressbar.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbProgressbar; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_util__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/util.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__progressbar_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/progressbar/progressbar-config.js");
-
-
-
-/**
- * Directive that can be used to provide feedback on the progress of a workflow or an action.
- */
-var NgbProgressbar = (function () {
-    function NgbProgressbar(config) {
-        /**
-         * Current value to be displayed in the progressbar. Should be smaller or equal to "max" value.
-         */
-        this.value = 0;
-        this.max = config.max;
-        this.animated = config.animated;
-        this.striped = config.striped;
-        this.type = config.type;
-        this.showValue = config.showValue;
-    }
-    NgbProgressbar.prototype.getValue = function () { return Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["a" /* getValueInRange */])(this.value, this.max); };
-    NgbProgressbar.prototype.getPercentValue = function () { return 100 * this.getValue() / this.max; };
-    return NgbProgressbar;
-}());
-
-NgbProgressbar.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
-                selector: 'ngb-progressbar',
-                changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush,
-                template: "\n    <div class=\"progress\">\n      <div class=\"progress-bar{{type ? ' bg-' + type : ''}}{{animated ? ' progress-bar-animated' : ''}}{{striped ?\n    ' progress-bar-striped' : ''}}\" role=\"progressbar\" [style.width.%]=\"getPercentValue()\"\n    [attr.aria-valuenow]=\"getValue()\" aria-valuemin=\"0\" [attr.aria-valuemax]=\"max\">\n        <span *ngIf=\"showValue\">{{getPercentValue()}}%</span><ng-content></ng-content>\n      </div>\n    </div>\n  "
-            },] },
-];
-/** @nocollapse */
-NgbProgressbar.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_2__progressbar_config__["a" /* NgbProgressbarConfig */], },
-]; };
-NgbProgressbar.propDecorators = {
-    'max': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'animated': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'striped': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'showValue': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'type': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'value': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-};
-//# sourceMappingURL=progressbar.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/progressbar/progressbar.module.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbProgressbarModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__progressbar__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/progressbar/progressbar.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__progressbar_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/progressbar/progressbar-config.js");
-/* unused harmony reexport NgbProgressbar */
-/* unused harmony reexport NgbProgressbarConfig */
-
-
-
-
-
-
-var NgbProgressbarModule = (function () {
-    function NgbProgressbarModule() {
-    }
-    NgbProgressbarModule.forRoot = function () { return { ngModule: NgbProgressbarModule, providers: [__WEBPACK_IMPORTED_MODULE_3__progressbar_config__["a" /* NgbProgressbarConfig */]] }; };
-    return NgbProgressbarModule;
-}());
-
-NgbProgressbarModule.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{ declarations: [__WEBPACK_IMPORTED_MODULE_2__progressbar__["a" /* NgbProgressbar */]], exports: [__WEBPACK_IMPORTED_MODULE_2__progressbar__["a" /* NgbProgressbar */]], imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]] },] },
-];
-/** @nocollapse */
-NgbProgressbarModule.ctorParameters = function () { return []; };
-//# sourceMappingURL=progressbar.module.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/rating/rating-config.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbRatingConfig; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-
-/**
- * Configuration service for the NgbRating component.
- * You can inject this service, typically in your root component, and customize the values of its properties in
- * order to provide default values for all the ratings used in the application.
- */
-var NgbRatingConfig = (function () {
-    function NgbRatingConfig() {
-        this.max = 10;
-        this.readonly = false;
-        this.resettable = false;
-    }
-    return NgbRatingConfig;
-}());
-
-NgbRatingConfig.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbRatingConfig.ctorParameters = function () { return []; };
-//# sourceMappingURL=rating-config.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/rating/rating.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbRating; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__rating_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/rating/rating-config.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_util__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/util.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-
-
-
-
-var Key;
-(function (Key) {
-    Key[Key["End"] = 35] = "End";
-    Key[Key["Home"] = 36] = "Home";
-    Key[Key["ArrowLeft"] = 37] = "ArrowLeft";
-    Key[Key["ArrowUp"] = 38] = "ArrowUp";
-    Key[Key["ArrowRight"] = 39] = "ArrowRight";
-    Key[Key["ArrowDown"] = 40] = "ArrowDown";
-})(Key || (Key = {}));
-var NGB_RATING_VALUE_ACCESSOR = {
-    provide: __WEBPACK_IMPORTED_MODULE_3__angular_forms__["d" /* NG_VALUE_ACCESSOR */],
-    useExisting: Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["forwardRef"])(function () { return NgbRating; }),
-    multi: true
-};
-/**
- * Rating directive that will take care of visualising a star rating bar.
- */
-var NgbRating = (function () {
-    function NgbRating(config, _changeDetectorRef) {
-        this._changeDetectorRef = _changeDetectorRef;
-        this.contexts = [];
-        this.disabled = false;
-        /**
-         * An event fired when a user is hovering over a given rating.
-         * Event's payload equals to the rating being hovered over.
-         */
-        this.hover = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        /**
-         * An event fired when a user stops hovering over a given rating.
-         * Event's payload equals to the rating of the last item being hovered over.
-         */
-        this.leave = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        /**
-         * An event fired when a user selects a new rating.
-         * Event's payload equals to the newly selected rating.
-         */
-        this.rateChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"](true);
-        this.onChange = function (_) { };
-        this.onTouched = function () { };
-        this.max = config.max;
-        this.readonly = config.readonly;
-    }
-    NgbRating.prototype.ariaValueText = function () { return this.nextRate + " out of " + this.max; };
-    NgbRating.prototype.enter = function (value) {
-        if (!this.readonly && !this.disabled) {
-            this._updateState(value);
-        }
-        this.hover.emit(value);
-    };
-    NgbRating.prototype.handleBlur = function () { this.onTouched(); };
-    NgbRating.prototype.handleClick = function (value) { this.update(this.resettable && this.rate === value ? 0 : value); };
-    NgbRating.prototype.handleKeyDown = function (event) {
-        if (Key[Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["i" /* toString */])(event.which)]) {
-            event.preventDefault();
-            switch (event.which) {
-                case Key.ArrowDown:
-                case Key.ArrowLeft:
-                    this.update(this.rate - 1);
-                    break;
-                case Key.ArrowUp:
-                case Key.ArrowRight:
-                    this.update(this.rate + 1);
-                    break;
-                case Key.Home:
-                    this.update(0);
-                    break;
-                case Key.End:
-                    this.update(this.max);
-                    break;
-            }
-        }
-    };
-    NgbRating.prototype.ngOnChanges = function (changes) {
-        if (changes['rate']) {
-            this.update(this.rate);
-        }
-    };
-    NgbRating.prototype.ngOnInit = function () {
-        this.contexts = Array.from({ length: this.max }, function () { return ({ fill: 0 }); });
-        this._updateState(this.rate);
-    };
-    NgbRating.prototype.registerOnChange = function (fn) { this.onChange = fn; };
-    NgbRating.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
-    NgbRating.prototype.reset = function () {
-        this.leave.emit(this.nextRate);
-        this._updateState(this.rate);
-    };
-    NgbRating.prototype.setDisabledState = function (isDisabled) { this.disabled = isDisabled; };
-    NgbRating.prototype.update = function (value, internalChange) {
-        if (internalChange === void 0) { internalChange = true; }
-        var newRate = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["a" /* getValueInRange */])(value, this.max, 0);
-        if (!this.readonly && !this.disabled && this.rate !== newRate) {
-            this.rate = newRate;
-            this.rateChange.emit(this.rate);
-        }
-        if (internalChange) {
-            this.onChange(this.rate);
-            this.onTouched();
-        }
-        this._updateState(this.rate);
-    };
-    NgbRating.prototype.writeValue = function (value) {
-        this.update(value, false);
-        this._changeDetectorRef.markForCheck();
-    };
-    NgbRating.prototype._getFillValue = function (index) {
-        var diff = this.nextRate - index;
-        if (diff >= 1) {
-            return 100;
-        }
-        if (diff < 1 && diff > 0) {
-            return Number.parseInt((diff * 100).toFixed(2));
-        }
-        return 0;
-    };
-    NgbRating.prototype._updateState = function (nextValue) {
+    DraggableDirective.prototype.checkEventListeners = function () {
         var _this = this;
-        this.nextRate = nextValue;
-        this.contexts.forEach(function (context, index) { return context.fill = _this._getFillValue(index); });
-    };
-    return NgbRating;
-}());
-
-NgbRating.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
-                selector: 'ngb-rating',
-                changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush,
-                host: {
-                    'class': 'd-inline-flex',
-                    'tabindex': '0',
-                    'role': 'slider',
-                    'aria-valuemin': '0',
-                    '[attr.aria-valuemax]': 'max',
-                    '[attr.aria-valuenow]': 'nextRate',
-                    '[attr.aria-valuetext]': 'ariaValueText()',
-                    '[attr.aria-disabled]': 'readonly ? true : null',
-                    '(blur)': 'handleBlur()',
-                    '(keydown)': 'handleKeyDown($event)',
-                    '(mouseleave)': 'reset()'
-                },
-                template: "\n    <ng-template #t let-fill=\"fill\">{{ fill === 100 ? '&#9733;' : '&#9734;' }}</ng-template>\n    <ng-template ngFor [ngForOf]=\"contexts\" let-index=\"index\">\n      <span class=\"sr-only\">({{ index < nextRate ? '*' : ' ' }})</span>\n      <span (mouseenter)=\"enter(index + 1)\" (click)=\"handleClick(index + 1)\" [style.cursor]=\"readonly || disabled ? 'default' : 'pointer'\">\n        <ng-template [ngTemplateOutlet]=\"starTemplate || t\" [ngTemplateOutletContext]=\"contexts[index]\"></ng-template>\n      </span>\n    </ng-template>\n  ",
-                providers: [NGB_RATING_VALUE_ACCESSOR]
-            },] },
-];
-/** @nocollapse */
-NgbRating.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_1__rating_config__["a" /* NgbRatingConfig */], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectorRef"], },
-]; };
-NgbRating.propDecorators = {
-    'max': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'rate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'readonly': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'resettable': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'starTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] }, { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ContentChild"], args: [__WEBPACK_IMPORTED_MODULE_0__angular_core__["TemplateRef"],] },],
-    'hover': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-    'leave': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-    'rateChange': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-};
-//# sourceMappingURL=rating.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/rating/rating.module.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbRatingModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__rating_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/rating/rating-config.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__rating__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/rating/rating.js");
-/* unused harmony reexport NgbRating */
-/* unused harmony reexport NgbRatingConfig */
-
-
-
-
-
-
-var NgbRatingModule = (function () {
-    function NgbRatingModule() {
-    }
-    NgbRatingModule.forRoot = function () { return { ngModule: NgbRatingModule, providers: [__WEBPACK_IMPORTED_MODULE_2__rating_config__["a" /* NgbRatingConfig */]] }; };
-    return NgbRatingModule;
-}());
-
-NgbRatingModule.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{ declarations: [__WEBPACK_IMPORTED_MODULE_3__rating__["a" /* NgbRating */]], exports: [__WEBPACK_IMPORTED_MODULE_3__rating__["a" /* NgbRating */]], imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]] },] },
-];
-/** @nocollapse */
-NgbRatingModule.ctorParameters = function () { return []; };
-//# sourceMappingURL=rating.module.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/tabset/tabset-config.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbTabsetConfig; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-
-/**
- * Configuration service for the NgbTabset component.
- * You can inject this service, typically in your root component, and customize the values of its properties in
- * order to provide default values for all the tabsets used in the application.
- */
-var NgbTabsetConfig = (function () {
-    function NgbTabsetConfig() {
-        this.justify = 'start';
-        this.orientation = 'horizontal';
-        this.type = 'tabs';
-    }
-    return NgbTabsetConfig;
-}());
-
-NgbTabsetConfig.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbTabsetConfig.ctorParameters = function () { return []; };
-//# sourceMappingURL=tabset-config.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/tabset/tabset.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return NgbTabTitle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return NgbTabContent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbTab; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return NgbTabset; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tabset_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/tabset/tabset-config.js");
-
-
-var nextId = 0;
-/**
- * This directive should be used to wrap tab titles that need to contain HTML markup or other directives.
- */
-var NgbTabTitle = (function () {
-    function NgbTabTitle(templateRef) {
-        this.templateRef = templateRef;
-    }
-    return NgbTabTitle;
-}());
-
-NgbTabTitle.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{ selector: 'ng-template[ngbTabTitle]' },] },
-];
-/** @nocollapse */
-NgbTabTitle.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["TemplateRef"], },
-]; };
-/**
- * This directive must be used to wrap content to be displayed in a tab.
- */
-var NgbTabContent = (function () {
-    function NgbTabContent(templateRef) {
-        this.templateRef = templateRef;
-    }
-    return NgbTabContent;
-}());
-
-NgbTabContent.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{ selector: 'ng-template[ngbTabContent]' },] },
-];
-/** @nocollapse */
-NgbTabContent.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["TemplateRef"], },
-]; };
-/**
- * A directive representing an individual tab.
- */
-var NgbTab = (function () {
-    function NgbTab() {
-        /**
-         * Unique tab identifier. Must be unique for the entire document for proper accessibility support.
-         */
-        this.id = "ngb-tab-" + nextId++;
-        /**
-         * Allows toggling disabled state of a given state. Disabled tabs can't be selected.
-         */
-        this.disabled = false;
-    }
-    return NgbTab;
-}());
-
-NgbTab.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{ selector: 'ngb-tab' },] },
-];
-/** @nocollapse */
-NgbTab.ctorParameters = function () { return []; };
-NgbTab.propDecorators = {
-    'id': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'title': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'disabled': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'contentTpl': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ContentChild"], args: [NgbTabContent,] },],
-    'titleTpl': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ContentChild"], args: [NgbTabTitle,] },],
-};
-/**
- * A component that makes it easy to create tabbed interface.
- */
-var NgbTabset = (function () {
-    function NgbTabset(config) {
-        /**
-         * Whether the closed tabs should be hidden without destroying them
-         */
-        this.destroyOnHide = true;
-        /**
-         * A tab change event fired right before the tab selection happens. See NgbTabChangeEvent for payload details
-         */
-        this.tabChange = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this.type = config.type;
-        this.justify = config.justify;
-        this.orientation = config.orientation;
-    }
-    Object.defineProperty(NgbTabset.prototype, "justify", {
-        /**
-         * The horizontal alignment of the nav with flexbox utilities. Can be one of 'start', 'center', 'end', 'fill' or
-         * 'justified'
-         * The default value is 'start'.
-         */
-        set: function (className) {
-            if (className === 'fill' || className === 'justified') {
-                this.justifyClass = "nav-" + className;
-            }
-            else {
-                this.justifyClass = "justify-content-" + className;
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * Selects the tab with the given id and shows its associated pane.
-     * Any other tab that was previously selected becomes unselected and its associated pane is hidden.
-     */
-    NgbTabset.prototype.select = function (tabId) {
-        var selectedTab = this._getTabById(tabId);
-        if (selectedTab && !selectedTab.disabled && this.activeId !== selectedTab.id) {
-            var defaultPrevented_1 = false;
-            this.tabChange.emit({ activeId: this.activeId, nextId: selectedTab.id, preventDefault: function () { defaultPrevented_1 = true; } });
-            if (!defaultPrevented_1) {
-                this.activeId = selectedTab.id;
-            }
-        }
-    };
-    NgbTabset.prototype.ngAfterContentChecked = function () {
-        // auto-correct activeId that might have been set incorrectly as input
-        var activeTab = this._getTabById(this.activeId);
-        this.activeId = activeTab ? activeTab.id : (this.tabs.length ? this.tabs.first.id : null);
-    };
-    NgbTabset.prototype._getTabById = function (id) {
-        var tabsWithId = this.tabs.filter(function (tab) { return tab.id === id; });
-        return tabsWithId.length ? tabsWithId[0] : null;
-    };
-    return NgbTabset;
-}());
-
-NgbTabset.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
-                selector: 'ngb-tabset',
-                exportAs: 'ngbTabset',
-                template: "\n    <ul [class]=\"'nav nav-' + type + (orientation == 'horizontal'?  ' ' + justifyClass : ' flex-column')\" role=\"tablist\">\n      <li class=\"nav-item\" *ngFor=\"let tab of tabs\">\n        <a [id]=\"tab.id\" class=\"nav-link\" [class.active]=\"tab.id === activeId\" [class.disabled]=\"tab.disabled\"\n          href (click)=\"!!select(tab.id)\" role=\"tab\" [attr.tabindex]=\"(tab.disabled ? '-1': undefined)\"\n          [attr.aria-controls]=\"(!destroyOnHide || tab.id === activeId ? tab.id + '-panel' : null)\"\n          [attr.aria-expanded]=\"tab.id === activeId\" [attr.aria-disabled]=\"tab.disabled\">\n          {{tab.title}}<ng-template [ngTemplateOutlet]=\"tab.titleTpl?.templateRef\"></ng-template>\n        </a>\n      </li>\n    </ul>\n    <div class=\"tab-content\">\n      <ng-template ngFor let-tab [ngForOf]=\"tabs\">\n        <div\n          class=\"tab-pane {{tab.id === activeId ? 'active' : null}}\"\n          *ngIf=\"!destroyOnHide || tab.id === activeId\"\n          role=\"tabpanel\"\n          [attr.aria-labelledby]=\"tab.id\" id=\"{{tab.id}}-panel\"\n          [attr.aria-expanded]=\"tab.id === activeId\">\n          <ng-template [ngTemplateOutlet]=\"tab.contentTpl.templateRef\"></ng-template>\n        </div>\n      </ng-template>\n    </div>\n  "
-            },] },
-];
-/** @nocollapse */
-NgbTabset.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_1__tabset_config__["a" /* NgbTabsetConfig */], },
-]; };
-NgbTabset.propDecorators = {
-    'tabs': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ContentChildren"], args: [NgbTab,] },],
-    'activeId': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'destroyOnHide': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'justify': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'orientation': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'type': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'tabChange': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-};
-//# sourceMappingURL=tabset.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/tabset/tabset.module.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbTabsetModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabset__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/tabset/tabset.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tabset_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/tabset/tabset-config.js");
-/* unused harmony reexport NgbTabset */
-/* unused harmony reexport NgbTab */
-/* unused harmony reexport NgbTabContent */
-/* unused harmony reexport NgbTabTitle */
-/* unused harmony reexport NgbTabsetConfig */
-
-
-
-
-
-
-var NGB_TABSET_DIRECTIVES = [__WEBPACK_IMPORTED_MODULE_2__tabset__["d" /* NgbTabset */], __WEBPACK_IMPORTED_MODULE_2__tabset__["a" /* NgbTab */], __WEBPACK_IMPORTED_MODULE_2__tabset__["b" /* NgbTabContent */], __WEBPACK_IMPORTED_MODULE_2__tabset__["c" /* NgbTabTitle */]];
-var NgbTabsetModule = (function () {
-    function NgbTabsetModule() {
-    }
-    NgbTabsetModule.forRoot = function () { return { ngModule: NgbTabsetModule, providers: [__WEBPACK_IMPORTED_MODULE_3__tabset_config__["a" /* NgbTabsetConfig */]] }; };
-    return NgbTabsetModule;
-}());
-
-NgbTabsetModule.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{ declarations: NGB_TABSET_DIRECTIVES, exports: NGB_TABSET_DIRECTIVES, imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]] },] },
-];
-/** @nocollapse */
-NgbTabsetModule.ctorParameters = function () { return []; };
-//# sourceMappingURL=tabset.module.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/timepicker/ngb-time.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbTime; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_util__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/util.js");
-
-var NgbTime = (function () {
-    function NgbTime(hour, minute, second) {
-        this.hour = Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["h" /* toInteger */])(hour);
-        this.minute = Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["h" /* toInteger */])(minute);
-        this.second = Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["h" /* toInteger */])(second);
-    }
-    NgbTime.prototype.changeHour = function (step) {
-        if (step === void 0) { step = 1; }
-        this.updateHour((isNaN(this.hour) ? 0 : this.hour) + step);
-    };
-    NgbTime.prototype.updateHour = function (hour) {
-        if (Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["d" /* isNumber */])(hour)) {
-            this.hour = (hour < 0 ? 24 + hour : hour) % 24;
-        }
-        else {
-            this.hour = NaN;
-        }
-    };
-    NgbTime.prototype.changeMinute = function (step) {
-        if (step === void 0) { step = 1; }
-        this.updateMinute((isNaN(this.minute) ? 0 : this.minute) + step);
-    };
-    NgbTime.prototype.updateMinute = function (minute) {
-        if (Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["d" /* isNumber */])(minute)) {
-            this.minute = minute % 60 < 0 ? 60 + minute % 60 : minute % 60;
-            this.changeHour(Math.floor(minute / 60));
-        }
-        else {
-            this.minute = NaN;
-        }
-    };
-    NgbTime.prototype.changeSecond = function (step) {
-        if (step === void 0) { step = 1; }
-        this.updateSecond((isNaN(this.second) ? 0 : this.second) + step);
-    };
-    NgbTime.prototype.updateSecond = function (second) {
-        if (Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["d" /* isNumber */])(second)) {
-            this.second = second < 0 ? 60 + second % 60 : second % 60;
-            this.changeMinute(Math.floor(second / 60));
-        }
-        else {
-            this.second = NaN;
-        }
-    };
-    NgbTime.prototype.isValid = function (checkSecs) {
-        if (checkSecs === void 0) { checkSecs = true; }
-        return Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["d" /* isNumber */])(this.hour) && Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["d" /* isNumber */])(this.minute) && (checkSecs ? Object(__WEBPACK_IMPORTED_MODULE_0__util_util__["d" /* isNumber */])(this.second) : true);
-    };
-    NgbTime.prototype.toString = function () { return (this.hour || 0) + ":" + (this.minute || 0) + ":" + (this.second || 0); };
-    return NgbTime;
-}());
-
-//# sourceMappingURL=ngb-time.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/timepicker/timepicker-config.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbTimepickerConfig; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-
-/**
- * Configuration service for the NgbTimepicker component.
- * You can inject this service, typically in your root component, and customize the values of its properties in
- * order to provide default values for all the timepickers used in the application.
- */
-var NgbTimepickerConfig = (function () {
-    function NgbTimepickerConfig() {
-        this.meridian = false;
-        this.spinners = true;
-        this.seconds = false;
-        this.hourStep = 1;
-        this.minuteStep = 1;
-        this.secondStep = 1;
-        this.disabled = false;
-        this.readonlyInputs = false;
-        this.size = 'medium';
-    }
-    return NgbTimepickerConfig;
-}());
-
-NgbTimepickerConfig.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbTimepickerConfig.ctorParameters = function () { return []; };
-//# sourceMappingURL=timepicker-config.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/timepicker/timepicker.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbTimepicker; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_util__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/util.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ngb_time__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/timepicker/ngb-time.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__timepicker_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/timepicker/timepicker-config.js");
-
-
-
-
-
-var NGB_TIMEPICKER_VALUE_ACCESSOR = {
-    provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* NG_VALUE_ACCESSOR */],
-    useExisting: Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["forwardRef"])(function () { return NgbTimepicker; }),
-    multi: true
-};
-/**
- * A lightweight & configurable timepicker directive.
- */
-var NgbTimepicker = (function () {
-    function NgbTimepicker(config) {
-        this.onChange = function (_) { };
-        this.onTouched = function () { };
-        this.meridian = config.meridian;
-        this.spinners = config.spinners;
-        this.seconds = config.seconds;
-        this.hourStep = config.hourStep;
-        this.minuteStep = config.minuteStep;
-        this.secondStep = config.secondStep;
-        this.disabled = config.disabled;
-        this.readonlyInputs = config.readonlyInputs;
-        this.size = config.size;
-    }
-    NgbTimepicker.prototype.writeValue = function (value) {
-        this.model = value ? new __WEBPACK_IMPORTED_MODULE_3__ngb_time__["a" /* NgbTime */](value.hour, value.minute, value.second) : new __WEBPACK_IMPORTED_MODULE_3__ngb_time__["a" /* NgbTime */]();
-        if (!this.seconds && (!value || !Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["d" /* isNumber */])(value.second))) {
-            this.model.second = 0;
-        }
-    };
-    NgbTimepicker.prototype.registerOnChange = function (fn) { this.onChange = fn; };
-    NgbTimepicker.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
-    NgbTimepicker.prototype.setDisabledState = function (isDisabled) { this.disabled = isDisabled; };
-    NgbTimepicker.prototype.changeHour = function (step) {
-        this.model.changeHour(step);
-        this.propagateModelChange();
-    };
-    NgbTimepicker.prototype.changeMinute = function (step) {
-        this.model.changeMinute(step);
-        this.propagateModelChange();
-    };
-    NgbTimepicker.prototype.changeSecond = function (step) {
-        this.model.changeSecond(step);
-        this.propagateModelChange();
-    };
-    NgbTimepicker.prototype.updateHour = function (newVal) {
-        var isPM = this.model.hour >= 12;
-        var enteredHour = Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["h" /* toInteger */])(newVal);
-        if (this.meridian && (isPM && enteredHour < 12 || !isPM && enteredHour === 12)) {
-            this.model.updateHour(enteredHour + 12);
-        }
-        else {
-            this.model.updateHour(enteredHour);
-        }
-        this.propagateModelChange();
-    };
-    NgbTimepicker.prototype.updateMinute = function (newVal) {
-        this.model.updateMinute(Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["h" /* toInteger */])(newVal));
-        this.propagateModelChange();
-    };
-    NgbTimepicker.prototype.updateSecond = function (newVal) {
-        this.model.updateSecond(Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["h" /* toInteger */])(newVal));
-        this.propagateModelChange();
-    };
-    NgbTimepicker.prototype.toggleMeridian = function () {
-        if (this.meridian) {
-            this.changeHour(12);
-        }
-    };
-    NgbTimepicker.prototype.formatHour = function (value) {
-        if (Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["d" /* isNumber */])(value)) {
-            if (this.meridian) {
-                return Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["f" /* padNumber */])(value % 12 === 0 ? 12 : value % 12);
-            }
-            else {
-                return Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["f" /* padNumber */])(value % 24);
-            }
-        }
-        else {
-            return Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["f" /* padNumber */])(NaN);
-        }
-    };
-    NgbTimepicker.prototype.formatMinSec = function (value) { return Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["f" /* padNumber */])(value); };
-    NgbTimepicker.prototype.setFormControlSize = function () { return { 'form-control-sm': this.size === 'small', 'form-control-lg': this.size === 'large' }; };
-    NgbTimepicker.prototype.setButtonSize = function () { return { 'btn-sm': this.size === 'small', 'btn-lg': this.size === 'large' }; };
-    NgbTimepicker.prototype.ngOnChanges = function (changes) {
-        if (changes['seconds'] && !this.seconds && this.model && !Object(__WEBPACK_IMPORTED_MODULE_2__util_util__["d" /* isNumber */])(this.model.second)) {
-            this.model.second = 0;
-            this.propagateModelChange(false);
-        }
-    };
-    NgbTimepicker.prototype.propagateModelChange = function (touched) {
-        if (touched === void 0) { touched = true; }
-        if (touched) {
-            this.onTouched();
-        }
-        if (this.model.isValid(this.seconds)) {
-            this.onChange({ hour: this.model.hour, minute: this.model.minute, second: this.model.second });
-        }
-        else {
-            this.onChange(null);
-        }
-    };
-    return NgbTimepicker;
-}());
-
-NgbTimepicker.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
-                selector: 'ngb-timepicker',
-                styles: ["\n    .ngb-tp {\n      display: flex;\n      align-items: center;\n    }\n\n    .ngb-tp-hour, .ngb-tp-minute, .ngb-tp-second, .ngb-tp-meridian {\n      display: flex;\n      flex-direction: column;\n      align-items: center;\n      justify-content: space-around;\n    }\n\n    .ngb-tp-spacer {\n      width: 1em;\n      text-align: center;\n    }\n\n    .chevron::before {\n      border-style: solid;\n      border-width: 0.29em 0.29em 0 0;\n      content: '';\n      display: inline-block;\n      height: 0.69em;\n      left: 0.05em;\n      position: relative;\n      top: 0.15em;\n      transform: rotate(-45deg);\n      -webkit-transform: rotate(-45deg);\n      -ms-transform: rotate(-45deg);\n      vertical-align: middle;\n      width: 0.71em;\n    }\n\n    .chevron.bottom:before {\n      top: -.3em;\n      -webkit-transform: rotate(135deg);\n      -ms-transform: rotate(135deg);\n      transform: rotate(135deg);\n    }\n\n    .btn-link {\n      outline: 0;\n    }\n\n    .btn-link.disabled {\n      cursor: not-allowed;\n      opacity: .65;\n    }\n\n    input {\n      text-align: center;\n      display: inline-block;\n      width: auto;\n    }\n  "],
-                template: "\n    <fieldset [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n      <div class=\"ngb-tp\">\n        <div class=\"ngb-tp-hour\">\n          <button *ngIf=\"spinners\" type=\"button\" class=\"btn-link\" [ngClass]=\"setButtonSize()\" (click)=\"changeHour(hourStep)\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n            <span class=\"chevron\"></span>\n            <span class=\"sr-only\">Increment hours</span>\n          </button>\n          <input type=\"text\" class=\"form-control\" [ngClass]=\"setFormControlSize()\" maxlength=\"2\" size=\"2\" placeholder=\"HH\"\n            [value]=\"formatHour(model?.hour)\" (change)=\"updateHour($event.target.value)\"\n            [readonly]=\"readonlyInputs\" [disabled]=\"disabled\" aria-label=\"Hours\">\n          <button *ngIf=\"spinners\" type=\"button\" class=\"btn-link\" [ngClass]=\"setButtonSize()\" (click)=\"changeHour(-hourStep)\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n            <span class=\"chevron bottom\"></span>\n            <span class=\"sr-only\">Decrement hours</span>\n          </button>\n        </div>\n        <div class=\"ngb-tp-spacer\">:</div>\n        <div class=\"ngb-tp-minute\">\n          <button *ngIf=\"spinners\" type=\"button\" class=\"btn-link\" [ngClass]=\"setButtonSize()\" (click)=\"changeMinute(minuteStep)\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n            <span class=\"chevron\"></span>\n            <span class=\"sr-only\">Increment minutes</span>\n          </button>\n          <input type=\"text\" class=\"form-control\" [ngClass]=\"setFormControlSize()\" maxlength=\"2\" size=\"2\" placeholder=\"MM\"\n            [value]=\"formatMinSec(model?.minute)\" (change)=\"updateMinute($event.target.value)\"\n            [readonly]=\"readonlyInputs\" [disabled]=\"disabled\" aria-label=\"Minutes\">\n          <button *ngIf=\"spinners\" type=\"button\" class=\"btn-link\" [ngClass]=\"setButtonSize()\" (click)=\"changeMinute(-minuteStep)\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n            <span class=\"chevron bottom\"></span>\n            <span class=\"sr-only\">Decrement minutes</span>\n          </button>\n        </div>\n        <div *ngIf=\"seconds\" class=\"ngb-tp-spacer\">:</div>\n        <div *ngIf=\"seconds\" class=\"ngb-tp-second\">\n          <button *ngIf=\"spinners\" type=\"button\" class=\"btn-link\" [ngClass]=\"setButtonSize()\" (click)=\"changeSecond(secondStep)\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n            <span class=\"chevron\"></span>\n            <span class=\"sr-only\">Increment seconds</span>\n          </button>\n          <input type=\"text\" class=\"form-control\" [ngClass]=\"setFormControlSize()\" maxlength=\"2\" size=\"2\" placeholder=\"SS\"\n            [value]=\"formatMinSec(model?.second)\" (change)=\"updateSecond($event.target.value)\"\n            [readonly]=\"readonlyInputs\" [disabled]=\"disabled\" aria-label=\"Seconds\">\n          <button *ngIf=\"spinners\" type=\"button\" class=\"btn-link\" [ngClass]=\"setButtonSize()\" (click)=\"changeSecond(-secondStep)\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\">\n            <span class=\"chevron bottom\"></span>\n            <span class=\"sr-only\">Decrement seconds</span>\n          </button>\n        </div>\n        <div *ngIf=\"meridian\" class=\"ngb-tp-spacer\"></div>\n        <div *ngIf=\"meridian\" class=\"ngb-tp-meridian\">\n          <button type=\"button\" class=\"btn btn-outline-primary\" [ngClass]=\"setButtonSize()\"\n            [disabled]=\"disabled\" [class.disabled]=\"disabled\"\n            (click)=\"toggleMeridian()\">{{model?.hour >= 12 ? 'PM' : 'AM'}}</button>\n        </div>\n      </div>\n    </fieldset>\n  ",
-                providers: [NGB_TIMEPICKER_VALUE_ACCESSOR]
-            },] },
-];
-/** @nocollapse */
-NgbTimepicker.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_4__timepicker_config__["a" /* NgbTimepickerConfig */], },
-]; };
-NgbTimepicker.propDecorators = {
-    'meridian': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'spinners': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'seconds': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'hourStep': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'minuteStep': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'secondStep': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'readonlyInputs': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'size': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-};
-//# sourceMappingURL=timepicker.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/timepicker/timepicker.module.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbTimepickerModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__timepicker__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/timepicker/timepicker.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__timepicker_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/timepicker/timepicker-config.js");
-/* unused harmony reexport NgbTimepicker */
-/* unused harmony reexport NgbTimepickerConfig */
-
-
-
-
-
-
-var NgbTimepickerModule = (function () {
-    function NgbTimepickerModule() {
-    }
-    NgbTimepickerModule.forRoot = function () { return { ngModule: NgbTimepickerModule, providers: [__WEBPACK_IMPORTED_MODULE_3__timepicker_config__["a" /* NgbTimepickerConfig */]] }; };
-    return NgbTimepickerModule;
-}());
-
-NgbTimepickerModule.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{ declarations: [__WEBPACK_IMPORTED_MODULE_2__timepicker__["a" /* NgbTimepicker */]], exports: [__WEBPACK_IMPORTED_MODULE_2__timepicker__["a" /* NgbTimepicker */]], imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]] },] },
-];
-/** @nocollapse */
-NgbTimepickerModule.ctorParameters = function () { return []; };
-//# sourceMappingURL=timepicker.module.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/tooltip/tooltip-config.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbTooltipConfig; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-
-/**
- * Configuration service for the NgbTooltip directive.
- * You can inject this service, typically in your root component, and customize the values of its properties in
- * order to provide default values for all the tooltips used in the application.
- */
-var NgbTooltipConfig = (function () {
-    function NgbTooltipConfig() {
-        this.placement = 'top';
-        this.triggers = 'hover';
-    }
-    return NgbTooltipConfig;
-}());
-
-NgbTooltipConfig.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbTooltipConfig.ctorParameters = function () { return []; };
-//# sourceMappingURL=tooltip-config.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/tooltip/tooltip.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return NgbTooltipWindow; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbTooltip; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_triggers__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/triggers.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__util_positioning__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/positioning.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__util_popup__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/popup.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__tooltip_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/tooltip/tooltip-config.js");
-
-
-
-
-
-var nextId = 0;
-var NgbTooltipWindow = (function () {
-    function NgbTooltipWindow(_element, _renderer) {
-        this._element = _element;
-        this._renderer = _renderer;
-        this.placement = 'top';
-    }
-    NgbTooltipWindow.prototype.applyPlacement = function (_placement) {
-        // remove the current placement classes
-        this._renderer.removeClass(this._element.nativeElement, 'bs-tooltip-' + this.placement.toString().split('-')[0]);
-        this._renderer.removeClass(this._element.nativeElement, 'bs-tooltip-' + this.placement.toString());
-        // set the new placement classes
-        this.placement = _placement;
-        // apply the new placement
-        this._renderer.addClass(this._element.nativeElement, 'bs-tooltip-' + this.placement.toString().split('-')[0]);
-        this._renderer.addClass(this._element.nativeElement, 'bs-tooltip-' + this.placement.toString());
-    };
-    return NgbTooltipWindow;
-}());
-
-NgbTooltipWindow.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
-                selector: 'ngb-tooltip-window',
-                changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush,
-                host: {
-                    '[class]': '"tooltip show bs-tooltip-" + placement.split("-")[0]+" bs-tooltip-" + placement',
-                    'role': 'tooltip',
-                    '[id]': 'id'
-                },
-                template: "<div class=\"arrow\"></div><div class=\"tooltip-inner\"><ng-content></ng-content></div>",
-                styles: ["\n    :host.bs-tooltip-top .arrow, :host.bs-tooltip-bottom .arrow {\n      left: 50%;\n    }\n\n    :host.bs-tooltip-top-left .arrow, :host.bs-tooltip-bottom-left .arrow {\n      left: 1em;\n    }\n\n    :host.bs-tooltip-top-right .arrow, :host.bs-tooltip-bottom-right .arrow {\n      left: auto;\n      right: 1em;\n    }\n\n    :host.bs-tooltip-left .arrow, :host.bs-tooltip-right .arrow {\n      top: 50%;\n    }\n    \n    :host.bs-tooltip-left-top .arrow, :host.bs-tooltip-right-top .arrow {\n      top: 0.7em;\n    }\n\n    :host.bs-tooltip-left-bottom .arrow, :host.bs-tooltip-right-bottom .arrow {\n      top: auto;\n      bottom: 0.7em;\n    }\n  "]
-            },] },
-];
-/** @nocollapse */
-NgbTooltipWindow.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"], },
-]; };
-NgbTooltipWindow.propDecorators = {
-    'placement': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'id': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-};
-/**
- * A lightweight, extensible directive for fancy tooltip creation.
- */
-var NgbTooltip = (function () {
-    function NgbTooltip(_elementRef, _renderer, injector, componentFactoryResolver, viewContainerRef, config, ngZone) {
-        var _this = this;
-        this._elementRef = _elementRef;
-        this._renderer = _renderer;
-        /**
-         * Emits an event when the tooltip is shown
-         */
-        this.shown = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        /**
-         * Emits an event when the tooltip is hidden
-         */
-        this.hidden = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this._ngbTooltipWindowId = "ngb-tooltip-" + nextId++;
-        this.placement = config.placement;
-        this.triggers = config.triggers;
-        this.container = config.container;
-        this._popupService = new __WEBPACK_IMPORTED_MODULE_3__util_popup__["b" /* PopupService */](NgbTooltipWindow, injector, viewContainerRef, _renderer, componentFactoryResolver);
-        this._zoneSubscription = ngZone.onStable.subscribe(function () {
-            if (_this._windowRef) {
-                _this._windowRef.instance.applyPlacement(Object(__WEBPACK_IMPORTED_MODULE_2__util_positioning__["a" /* positionElements */])(_this._elementRef.nativeElement, _this._windowRef.location.nativeElement, _this.placement, _this.container === 'body'));
-            }
-        });
-    }
-    Object.defineProperty(NgbTooltip.prototype, "ngbTooltip", {
-        get: function () { return this._ngbTooltip; },
-        /**
-         * Content to be displayed as tooltip. If falsy, the tooltip won't open.
-         */
-        set: function (value) {
-            this._ngbTooltip = value;
-            if (!value && this._windowRef) {
-                this.close();
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * Opens an element’s tooltip. This is considered a “manual” triggering of the tooltip.
-     * The context is an optional value to be injected into the tooltip template when it is created.
-     */
-    NgbTooltip.prototype.open = function (context) {
-        if (!this._windowRef && this._ngbTooltip) {
-            this._windowRef = this._popupService.open(this._ngbTooltip, context);
-            this._windowRef.instance.id = this._ngbTooltipWindowId;
-            this._renderer.setAttribute(this._elementRef.nativeElement, 'aria-describedby', this._ngbTooltipWindowId);
-            if (this.container === 'body') {
-                window.document.querySelector(this.container).appendChild(this._windowRef.location.nativeElement);
-            }
-            this._windowRef.instance.placement = Array.isArray(this.placement) ? this.placement[0] : this.placement;
-            // apply styling to set basic css-classes on target element, before going for positioning
-            this._windowRef.changeDetectorRef.detectChanges();
-            this._windowRef.changeDetectorRef.markForCheck();
-            // position tooltip along the element
-            this._windowRef.instance.applyPlacement(Object(__WEBPACK_IMPORTED_MODULE_2__util_positioning__["a" /* positionElements */])(this._elementRef.nativeElement, this._windowRef.location.nativeElement, this.placement, this.container === 'body'));
-            this.shown.emit();
-        }
-    };
-    /**
-     * Closes an element’s tooltip. This is considered a “manual” triggering of the tooltip.
-     */
-    NgbTooltip.prototype.close = function () {
-        if (this._windowRef != null) {
-            this._renderer.removeAttribute(this._elementRef.nativeElement, 'aria-describedby');
-            this._popupService.close();
-            this._windowRef = null;
-            this.hidden.emit();
-        }
-    };
-    /**
-     * Toggles an element’s tooltip. This is considered a “manual” triggering of the tooltip.
-     */
-    NgbTooltip.prototype.toggle = function () {
-        if (this._windowRef) {
-            this.close();
-        }
-        else {
-            this.open();
-        }
-    };
-    /**
-     * Returns whether or not the tooltip is currently being shown
-     */
-    NgbTooltip.prototype.isOpen = function () { return this._windowRef != null; };
-    NgbTooltip.prototype.ngOnInit = function () {
-        this._unregisterListenersFn = Object(__WEBPACK_IMPORTED_MODULE_1__util_triggers__["a" /* listenToTriggers */])(this._renderer, this._elementRef.nativeElement, this.triggers, this.open.bind(this), this.close.bind(this), this.toggle.bind(this));
-    };
-    NgbTooltip.prototype.ngOnDestroy = function () {
-        this.close();
-        this._unregisterListenersFn();
-        this._zoneSubscription.unsubscribe();
-    };
-    return NgbTooltip;
-}());
-
-NgbTooltip.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{ selector: '[ngbTooltip]', exportAs: 'ngbTooltip' },] },
-];
-/** @nocollapse */
-NgbTooltip.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injector"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ComponentFactoryResolver"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"], },
-    { type: __WEBPACK_IMPORTED_MODULE_4__tooltip_config__["a" /* NgbTooltipConfig */], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgZone"], },
-]; };
-NgbTooltip.propDecorators = {
-    'placement': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'triggers': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'container': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'shown': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-    'hidden': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-    'ngbTooltip': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-};
-//# sourceMappingURL=tooltip.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/tooltip/tooltip.module.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbTooltipModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__tooltip__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/tooltip/tooltip.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tooltip_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/tooltip/tooltip-config.js");
-/* unused harmony reexport NgbTooltipConfig */
-/* unused harmony reexport NgbTooltip */
-
-
-
-
-
-var NgbTooltipModule = (function () {
-    function NgbTooltipModule() {
-    }
-    NgbTooltipModule.forRoot = function () { return { ngModule: NgbTooltipModule, providers: [__WEBPACK_IMPORTED_MODULE_2__tooltip_config__["a" /* NgbTooltipConfig */]] }; };
-    return NgbTooltipModule;
-}());
-
-NgbTooltipModule.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{ declarations: [__WEBPACK_IMPORTED_MODULE_1__tooltip__["a" /* NgbTooltip */], __WEBPACK_IMPORTED_MODULE_1__tooltip__["b" /* NgbTooltipWindow */]], exports: [__WEBPACK_IMPORTED_MODULE_1__tooltip__["a" /* NgbTooltip */]], entryComponents: [__WEBPACK_IMPORTED_MODULE_1__tooltip__["b" /* NgbTooltipWindow */]] },] },
-];
-/** @nocollapse */
-NgbTooltipModule.ctorParameters = function () { return []; };
-//# sourceMappingURL=tooltip.module.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/typeahead/highlight.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbHighlight; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_util__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/util.js");
-
-
-var NgbHighlight = (function () {
-    function NgbHighlight() {
-        this.highlightClass = 'ngb-highlight';
-    }
-    NgbHighlight.prototype.ngOnChanges = function (changes) {
-        var resultStr = Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["i" /* toString */])(this.result);
-        var resultLC = resultStr.toLowerCase();
-        var termLC = Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["i" /* toString */])(this.term).toLowerCase();
-        var currentIdx = 0;
-        if (termLC.length > 0) {
-            this.parts = resultLC.split(new RegExp("(" + Object(__WEBPACK_IMPORTED_MODULE_1__util_util__["g" /* regExpEscape */])(termLC) + ")")).map(function (part) {
-                var originalPart = resultStr.substr(currentIdx, part.length);
-                currentIdx += part.length;
-                return originalPart;
+        var canDrag = this.canDrag();
+        var hasEventListeners = Object.keys(this.eventListenerSubscriptions).length > 0;
+        if (canDrag && !hasEventListeners) {
+            this.zone.runOutsideAngular(function () {
+                _this.eventListenerSubscriptions.mousedown = _this.renderer.listen(_this.element.nativeElement, 'mousedown', function (event) {
+                    _this.onMouseDown(event);
+                });
+                _this.eventListenerSubscriptions.mouseup = _this.renderer.listen('document', 'mouseup', function (event) {
+                    _this.onMouseUp(event);
+                });
+                _this.eventListenerSubscriptions.touchstart = _this.renderer.listen(_this.element.nativeElement, 'touchstart', function (event) {
+                    _this.onTouchStart(event);
+                });
+                _this.eventListenerSubscriptions.touchend = _this.renderer.listen('document', 'touchend', function (event) {
+                    _this.onTouchEnd(event);
+                });
+                _this.eventListenerSubscriptions.touchcancel = _this.renderer.listen('document', 'touchcancel', function (event) {
+                    _this.onTouchEnd(event);
+                });
+                _this.eventListenerSubscriptions.mouseenter = _this.renderer.listen(_this.element.nativeElement, 'mouseenter', function () {
+                    _this.onMouseEnter();
+                });
+                _this.eventListenerSubscriptions.mouseleave = _this.renderer.listen(_this.element.nativeElement, 'mouseleave', function () {
+                    _this.onMouseLeave();
+                });
             });
         }
-        else {
-            this.parts = [resultStr];
+        else if (!canDrag && hasEventListeners) {
+            this.unsubscribeEventListeners();
         }
     };
-    return NgbHighlight;
-}());
-
-NgbHighlight.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
-                selector: 'ngb-highlight',
-                changeDetection: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ChangeDetectionStrategy"].OnPush,
-                template: "<ng-template ngFor [ngForOf]=\"parts\" let-part let-isOdd=\"odd\">" +
-                    "<span *ngIf=\"isOdd\" class=\"{{highlightClass}}\">{{part}}</span><ng-template [ngIf]=\"!isOdd\">{{part}}</ng-template>" +
-                    "</ng-template>",
-                styles: ["\n    .ngb-highlight {\n      font-weight: bold;\n    }\n  "]
-            },] },
-];
-/** @nocollapse */
-NgbHighlight.ctorParameters = function () { return []; };
-NgbHighlight.propDecorators = {
-    'highlightClass': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'result': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'term': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-};
-//# sourceMappingURL=highlight.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/typeahead/typeahead-config.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbTypeaheadConfig; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-
-/**
- * Configuration service for the NgbTypeahead component.
- * You can inject this service, typically in your root component, and customize the values of its properties in
- * order to provide default values for all the typeaheads used in the application.
- */
-var NgbTypeaheadConfig = (function () {
-    function NgbTypeaheadConfig() {
-        this.editable = true;
-        this.focusFirst = true;
-        this.showHint = false;
-        this.placement = 'bottom-left';
-    }
-    return NgbTypeaheadConfig;
-}());
-
-NgbTypeaheadConfig.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"] },
-];
-/** @nocollapse */
-NgbTypeaheadConfig.ctorParameters = function () { return []; };
-//# sourceMappingURL=typeahead-config.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/typeahead/typeahead-window.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbTypeaheadWindow; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__util_util__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/util.js");
-
-
-var NgbTypeaheadWindow = (function () {
-    function NgbTypeaheadWindow() {
-        this.activeIdx = 0;
-        /**
-         * Flag indicating if the first row should be active initially
-         */
-        this.focusFirst = true;
-        /**
-         * A function used to format a given result before display. This function should return a formatted string without any
-         * HTML markup
-         */
-        this.formatter = __WEBPACK_IMPORTED_MODULE_1__util_util__["i" /* toString */];
-        /**
-         * Event raised when user selects a particular result row
-         */
-        this.selectEvent = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this.activeChangeEvent = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-    }
-    NgbTypeaheadWindow.prototype.getActive = function () { return this.results[this.activeIdx]; };
-    NgbTypeaheadWindow.prototype.markActive = function (activeIdx) {
-        this.activeIdx = activeIdx;
-        this._activeChanged();
-    };
-    NgbTypeaheadWindow.prototype.next = function () {
-        if (this.activeIdx === this.results.length - 1) {
-            this.activeIdx = this.focusFirst ? (this.activeIdx + 1) % this.results.length : -1;
-        }
-        else {
-            this.activeIdx++;
-        }
-        this._activeChanged();
-    };
-    NgbTypeaheadWindow.prototype.prev = function () {
-        if (this.activeIdx < 0) {
-            this.activeIdx = this.results.length - 1;
-        }
-        else if (this.activeIdx === 0) {
-            this.activeIdx = this.focusFirst ? this.results.length - 1 : -1;
-        }
-        else {
-            this.activeIdx--;
-        }
-        this._activeChanged();
-    };
-    NgbTypeaheadWindow.prototype.select = function (item) { this.selectEvent.emit(item); };
-    NgbTypeaheadWindow.prototype.ngOnInit = function () {
-        this.activeIdx = this.focusFirst ? 0 : -1;
-        this._activeChanged();
-    };
-    NgbTypeaheadWindow.prototype._activeChanged = function () {
-        this.activeChangeEvent.emit(this.activeIdx >= 0 ? this.id + '-' + this.activeIdx : undefined);
-    };
-    return NgbTypeaheadWindow;
-}());
-
-NgbTypeaheadWindow.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"], args: [{
-                selector: 'ngb-typeahead-window',
-                exportAs: 'ngbTypeaheadWindow',
-                host: { 'class': 'dropdown-menu', 'style': 'display: block', 'role': 'listbox', '[id]': 'id' },
-                template: "\n    <ng-template #rt let-result=\"result\" let-term=\"term\" let-formatter=\"formatter\">\n      <ngb-highlight [result]=\"formatter(result)\" [term]=\"term\"></ngb-highlight>\n    </ng-template>\n    <ng-template ngFor [ngForOf]=\"results\" let-result let-idx=\"index\">\n      <button type=\"button\" class=\"dropdown-item\" role=\"option\"\n        [id]=\"id + '-' + idx\"\n        [class.active]=\"idx === activeIdx\"\n        (mouseenter)=\"markActive(idx)\"\n        (click)=\"select(result)\">\n          <ng-template [ngTemplateOutlet]=\"resultTemplate || rt\"\n          [ngTemplateOutletContext]=\"{result: result, term: term, formatter: formatter}\"></ng-template>\n      </button>\n    </ng-template>\n  "
-            },] },
-];
-/** @nocollapse */
-NgbTypeaheadWindow.ctorParameters = function () { return []; };
-NgbTypeaheadWindow.propDecorators = {
-    'id': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'focusFirst': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'results': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'term': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'formatter': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'resultTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'selectEvent': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"], args: ['select',] },],
-    'activeChangeEvent': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"], args: ['activeChange',] },],
-};
-//# sourceMappingURL=typeahead-window.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/typeahead/typeahead.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbTypeahead; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__ = __webpack_require__("../../../../rxjs/BehaviorSubject.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operator_let__ = __webpack_require__("../../../../rxjs/operator/let.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_operator_let___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_operator_let__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_operator_do__ = __webpack_require__("../../../../rxjs/operator/do.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_operator_do___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_operator_do__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_operator_switchMap__ = __webpack_require__("../../../../rxjs/operator/switchMap.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_operator_switchMap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_operator_switchMap__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_observable_fromEvent__ = __webpack_require__("../../../../rxjs/observable/fromEvent.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_observable_fromEvent___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_rxjs_observable_fromEvent__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__util_positioning__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/positioning.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__typeahead_window__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/typeahead/typeahead-window.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__util_popup__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/popup.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__util_util__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/util/util.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__typeahead_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/typeahead/typeahead-config.js");
-
-
-
-
-
-
-
-
-
-
-
-
-var Key;
-(function (Key) {
-    Key[Key["Tab"] = 9] = "Tab";
-    Key[Key["Enter"] = 13] = "Enter";
-    Key[Key["Escape"] = 27] = "Escape";
-    Key[Key["ArrowUp"] = 38] = "ArrowUp";
-    Key[Key["ArrowDown"] = 40] = "ArrowDown";
-})(Key || (Key = {}));
-var NGB_TYPEAHEAD_VALUE_ACCESSOR = {
-    provide: __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* NG_VALUE_ACCESSOR */],
-    useExisting: Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["forwardRef"])(function () { return NgbTypeahead; }),
-    multi: true
-};
-var nextWindowId = 0;
-/**
- * NgbTypeahead directive provides a simple way of creating powerful typeaheads from any text input
- */
-var NgbTypeahead = (function () {
-    function NgbTypeahead(_elementRef, _viewContainerRef, _renderer, _injector, componentFactoryResolver, config, ngZone) {
+    DraggableDirective.prototype.onMouseDown = function (event) {
         var _this = this;
-        this._elementRef = _elementRef;
-        this._viewContainerRef = _viewContainerRef;
-        this._renderer = _renderer;
-        this._injector = _injector;
-        /** Placement of a typeahead accepts:
-         *    "top", "top-left", "top-right", "bottom", "bottom-left", "bottom-right",
-         *    "left", "left-top", "left-bottom", "right", "right-top", "right-bottom"
-         * and array of above values.
-        */
-        this.placement = 'bottom-left';
-        /**
-         * An event emitted when a match is selected. Event payload is of type NgbTypeaheadSelectItemEvent.
-         */
-        this.selectItem = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["EventEmitter"]();
-        this.popupId = "ngb-typeahead-" + nextWindowId++;
-        this._onTouched = function () { };
-        this._onChange = function (_) { };
-        this.container = config.container;
-        this.editable = config.editable;
-        this.focusFirst = config.focusFirst;
-        this.showHint = config.showHint;
-        this.placement = config.placement;
-        this._valueChanges = Object(__WEBPACK_IMPORTED_MODULE_6_rxjs_observable_fromEvent__["fromEvent"])(_elementRef.nativeElement, 'input', function ($event) { return $event.target.value; });
-        this._resubscribeTypeahead = new __WEBPACK_IMPORTED_MODULE_2_rxjs_BehaviorSubject__["BehaviorSubject"](null);
-        this._popupService = new __WEBPACK_IMPORTED_MODULE_9__util_popup__["b" /* PopupService */](__WEBPACK_IMPORTED_MODULE_8__typeahead_window__["a" /* NgbTypeaheadWindow */], _injector, _viewContainerRef, _renderer, componentFactoryResolver);
-        this._zoneSubscription = ngZone.onStable.subscribe(function () {
-            if (_this.isPopupOpen()) {
-                Object(__WEBPACK_IMPORTED_MODULE_7__util_positioning__["a" /* positionElements */])(_this._elementRef.nativeElement, _this._windowRef.location.nativeElement, _this.placement, _this.container === 'body');
-            }
+        if (!this.eventListenerSubscriptions.mousemove) {
+            this.eventListenerSubscriptions.mousemove = this.renderer.listen('document', 'mousemove', function (mouseMoveEvent) {
+                _this.pointerMove.next({
+                    event: mouseMoveEvent,
+                    clientX: mouseMoveEvent.clientX,
+                    clientY: mouseMoveEvent.clientY
+                });
+            });
+        }
+        this.pointerDown.next({
+            event: event,
+            clientX: event.clientX,
+            clientY: event.clientY
         });
-    }
-    NgbTypeahead.prototype.ngOnInit = function () {
+    };
+    DraggableDirective.prototype.onMouseUp = function (event) {
+        if (this.eventListenerSubscriptions.mousemove) {
+            this.eventListenerSubscriptions.mousemove();
+            delete this.eventListenerSubscriptions.mousemove;
+        }
+        this.pointerUp.next({
+            event: event,
+            clientX: event.clientX,
+            clientY: event.clientY
+        });
+    };
+    DraggableDirective.prototype.onTouchStart = function (event) {
         var _this = this;
-        var inputValues$ = __WEBPACK_IMPORTED_MODULE_4_rxjs_operator_do__["_do"].call(this._valueChanges, function (value) {
-            _this._userInput = value;
-            if (_this.editable) {
-                _this._onChange(value);
-            }
+        if (!this.eventListenerSubscriptions.touchmove) {
+            this.eventListenerSubscriptions.touchmove = this.renderer.listen('document', 'touchmove', function (touchMoveEvent) {
+                _this.pointerMove.next({
+                    event: touchMoveEvent,
+                    clientX: touchMoveEvent.targetTouches[0].clientX,
+                    clientY: touchMoveEvent.targetTouches[0].clientY
+                });
+            });
+        }
+        this.pointerDown.next({
+            event: event,
+            clientX: event.touches[0].clientX,
+            clientY: event.touches[0].clientY
         });
-        var results$ = __WEBPACK_IMPORTED_MODULE_3_rxjs_operator_let__["letProto"].call(inputValues$, this.ngbTypeahead);
-        var processedResults$ = __WEBPACK_IMPORTED_MODULE_4_rxjs_operator_do__["_do"].call(results$, function () {
-            if (!_this.editable) {
-                _this._onChange(undefined);
-            }
+    };
+    DraggableDirective.prototype.onTouchEnd = function (event) {
+        if (this.eventListenerSubscriptions.touchmove) {
+            this.eventListenerSubscriptions.touchmove();
+            delete this.eventListenerSubscriptions.touchmove;
+        }
+        this.pointerUp.next({
+            event: event,
+            clientX: event.changedTouches[0].clientX,
+            clientY: event.changedTouches[0].clientY
         });
-        var userInput$ = __WEBPACK_IMPORTED_MODULE_5_rxjs_operator_switchMap__["switchMap"].call(this._resubscribeTypeahead, function () { return processedResults$; });
-        this._subscription = this._subscribeToUserInput(userInput$);
     };
-    NgbTypeahead.prototype.ngOnDestroy = function () {
-        this._closePopup();
-        this._unsubscribeFromUserInput();
-        this._zoneSubscription.unsubscribe();
+    DraggableDirective.prototype.onMouseEnter = function () {
+        this.setCursor(this.dragCursor);
     };
-    NgbTypeahead.prototype.registerOnChange = function (fn) { this._onChange = fn; };
-    NgbTypeahead.prototype.registerOnTouched = function (fn) { this._onTouched = fn; };
-    NgbTypeahead.prototype.writeValue = function (value) { this._writeInputValue(this._formatItemForInput(value)); };
-    NgbTypeahead.prototype.setDisabledState = function (isDisabled) {
-        this._renderer.setProperty(this._elementRef.nativeElement, 'disabled', isDisabled);
+    DraggableDirective.prototype.onMouseLeave = function () {
+        this.setCursor(null);
     };
-    NgbTypeahead.prototype.dismissPopup = function () {
-        if (this.isPopupOpen()) {
-            this._closePopup();
-            this._writeInputValue(this._userInput);
+    DraggableDirective.prototype.setCssTransform = function (value) {
+        if (this.ghostDragEnabled) {
+            this.renderer.setStyle(this.element.nativeElement, 'transform', value);
+            this.renderer.setStyle(this.element.nativeElement, '-webkit-transform', value);
+            this.renderer.setStyle(this.element.nativeElement, '-ms-transform', value);
+            this.renderer.setStyle(this.element.nativeElement, '-moz-transform', value);
+            this.renderer.setStyle(this.element.nativeElement, '-o-transform', value);
         }
     };
-    NgbTypeahead.prototype.isPopupOpen = function () { return this._windowRef != null; };
-    NgbTypeahead.prototype.handleBlur = function () {
-        this._resubscribeTypeahead.next(null);
-        this._onTouched();
+    DraggableDirective.prototype.canDrag = function () {
+        return this.dragAxis.x || this.dragAxis.y;
     };
-    NgbTypeahead.prototype.handleKeyDown = function (event) {
-        if (!this.isPopupOpen()) {
-            return;
-        }
-        if (Key[Object(__WEBPACK_IMPORTED_MODULE_10__util_util__["i" /* toString */])(event.which)]) {
-            switch (event.which) {
-                case Key.ArrowDown:
-                    event.preventDefault();
-                    this._windowRef.instance.next();
-                    this._showHint();
-                    break;
-                case Key.ArrowUp:
-                    event.preventDefault();
-                    this._windowRef.instance.prev();
-                    this._showHint();
-                    break;
-                case Key.Enter:
-                case Key.Tab:
-                    var result = this._windowRef.instance.getActive();
-                    if (Object(__WEBPACK_IMPORTED_MODULE_10__util_util__["b" /* isDefined */])(result)) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                        this._selectResult(result);
+    DraggableDirective.prototype.setCursor = function (value) {
+        this.renderer.setStyle(this.element.nativeElement, 'cursor', value);
+    };
+    DraggableDirective.prototype.unsubscribeEventListeners = function () {
+        var _this = this;
+        Object.keys(this.eventListenerSubscriptions).forEach(function (type) {
+            _this.eventListenerSubscriptions[type]();
+            delete _this.eventListenerSubscriptions[type];
+        });
+    };
+    DraggableDirective.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
+                    selector: '[mwlDraggable]'
+                },] },
+    ];
+    /** @nocollapse */
+    DraggableDirective.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_3" /* Renderer2 */], },
+        { type: __WEBPACK_IMPORTED_MODULE_11__draggable_helper_provider__["a" /* DraggableHelper */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["R" /* NgZone */], },
+    ]; };
+    DraggableDirective.propDecorators = {
+        'dropData': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'dragAxis': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'dragSnapGrid': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'ghostDragEnabled': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'validateDrag': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'dragCursor': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+        'dragStart': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'dragging': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'dragEnd': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+    };
+    return DraggableDirective;
+}());
+
+//# sourceMappingURL=draggable.directive.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-draggable-droppable/dist/esm/src/droppable.directive.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DroppableDirective; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_distinctUntilChanged__ = __webpack_require__("../../../../rxjs/add/operator/distinctUntilChanged.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_distinctUntilChanged___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_distinctUntilChanged__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_pairwise__ = __webpack_require__("../../../../rxjs/add/operator/pairwise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_pairwise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_pairwise__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter__ = __webpack_require__("../../../../rxjs/add/operator/filter.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_filter__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__draggable_helper_provider__ = __webpack_require__("../../../../angular-draggable-droppable/dist/esm/src/draggable-helper.provider.js");
+
+
+
+
+
+function isCoordinateWithinRectangle(clientX, clientY, rect) {
+    return (clientX >= rect.left &&
+        clientX <= rect.right &&
+        clientY >= rect.top &&
+        clientY <= rect.bottom);
+}
+var DroppableDirective = /** @class */ (function () {
+    function DroppableDirective(element, draggableHelper, zone) {
+        this.element = element;
+        this.draggableHelper = draggableHelper;
+        this.zone = zone;
+        this.dragEnter = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.dragLeave = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.dragOver = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        this.drop = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+    }
+    DroppableDirective.prototype.ngOnInit = function () {
+        var _this = this;
+        this.currentDragSubscription = this.draggableHelper.currentDrag.subscribe(function (drag) {
+            var droppableRectangle = _this.element.nativeElement.getBoundingClientRect();
+            var currentDragDropData;
+            var overlaps = drag.map(function (_a) {
+                var clientX = _a.clientX, clientY = _a.clientY, dropData = _a.dropData;
+                currentDragDropData = dropData;
+                return isCoordinateWithinRectangle(clientX, clientY, droppableRectangle);
+            });
+            var overlapsChanged = overlaps.distinctUntilChanged();
+            var dragOverActive; // TODO - see if there's a way of doing this via rxjs
+            overlapsChanged.filter(function (overlapsNow) { return overlapsNow; }).subscribe(function () {
+                dragOverActive = true;
+                _this.zone.run(function () {
+                    _this.dragEnter.next({
+                        dropData: currentDragDropData
+                    });
+                });
+            });
+            overlaps.filter(function (overlapsNow) { return overlapsNow; }).subscribe(function () {
+                _this.zone.run(function () {
+                    _this.dragOver.next({
+                        dropData: currentDragDropData
+                    });
+                });
+            });
+            overlapsChanged
+                .pairwise()
+                .filter(function (_a) {
+                var didOverlap = _a[0], overlapsNow = _a[1];
+                return didOverlap && !overlapsNow;
+            })
+                .subscribe(function () {
+                dragOverActive = false;
+                _this.zone.run(function () {
+                    _this.dragLeave.next({
+                        dropData: currentDragDropData
+                    });
+                });
+            });
+            drag.flatMap(function () { return overlaps; }).subscribe({
+                complete: function () {
+                    if (dragOverActive) {
+                        _this.zone.run(function () {
+                            _this.drop.next({
+                                dropData: currentDragDropData
+                            });
+                        });
                     }
-                    this._closePopup();
-                    break;
-                case Key.Escape:
-                    event.preventDefault();
-                    this._resubscribeTypeahead.next(null);
-                    this.dismissPopup();
-                    break;
-            }
-        }
-    };
-    NgbTypeahead.prototype._openPopup = function () {
-        var _this = this;
-        if (!this.isPopupOpen()) {
-            this._windowRef = this._popupService.open();
-            this._windowRef.instance.id = this.popupId;
-            this._windowRef.instance.selectEvent.subscribe(function (result) { return _this._selectResultClosePopup(result); });
-            this._windowRef.instance.activeChangeEvent.subscribe(function (activeId) { return _this.activeDescendant = activeId; });
-            if (this.container === 'body') {
-                window.document.querySelector(this.container).appendChild(this._windowRef.location.nativeElement);
-            }
-        }
-    };
-    NgbTypeahead.prototype._closePopup = function () {
-        this._popupService.close();
-        this._windowRef = null;
-        this.activeDescendant = undefined;
-    };
-    NgbTypeahead.prototype._selectResult = function (result) {
-        var defaultPrevented = false;
-        this.selectItem.emit({ item: result, preventDefault: function () { defaultPrevented = true; } });
-        this._resubscribeTypeahead.next(null);
-        if (!defaultPrevented) {
-            this.writeValue(result);
-            this._onChange(result);
-        }
-    };
-    NgbTypeahead.prototype._selectResultClosePopup = function (result) {
-        this._selectResult(result);
-        this._closePopup();
-    };
-    NgbTypeahead.prototype._showHint = function () {
-        if (this.showHint) {
-            var userInputLowerCase = this._userInput.toLowerCase();
-            var formattedVal = this._formatItemForInput(this._windowRef.instance.getActive());
-            if (userInputLowerCase === formattedVal.substr(0, this._userInput.length).toLowerCase()) {
-                this._writeInputValue(this._userInput + formattedVal.substr(this._userInput.length));
-                this._elementRef.nativeElement['setSelectionRange'].apply(this._elementRef.nativeElement, [this._userInput.length, formattedVal.length]);
-            }
-            else {
-                this.writeValue(this._windowRef.instance.getActive());
-            }
-        }
-    };
-    NgbTypeahead.prototype._formatItemForInput = function (item) {
-        return item && this.inputFormatter ? this.inputFormatter(item) : Object(__WEBPACK_IMPORTED_MODULE_10__util_util__["i" /* toString */])(item);
-    };
-    NgbTypeahead.prototype._writeInputValue = function (value) {
-        this._renderer.setProperty(this._elementRef.nativeElement, 'value', value);
-    };
-    NgbTypeahead.prototype._subscribeToUserInput = function (userInput$) {
-        var _this = this;
-        return userInput$.subscribe(function (results) {
-            if (!results || results.length === 0) {
-                _this._closePopup();
-            }
-            else {
-                _this._openPopup();
-                _this._windowRef.instance.focusFirst = _this.focusFirst;
-                _this._windowRef.instance.results = results;
-                _this._windowRef.instance.term = _this._elementRef.nativeElement.value;
-                if (_this.resultFormatter) {
-                    _this._windowRef.instance.formatter = _this.resultFormatter;
                 }
-                if (_this.resultTemplate) {
-                    _this._windowRef.instance.resultTemplate = _this.resultTemplate;
+            });
+        });
+    };
+    DroppableDirective.prototype.ngOnDestroy = function () {
+        this.currentDragSubscription.unsubscribe();
+    };
+    DroppableDirective.decorators = [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
+                    selector: '[mwlDroppable]'
+                },] },
+    ];
+    /** @nocollapse */
+    DroppableDirective.ctorParameters = function () { return [
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], },
+        { type: __WEBPACK_IMPORTED_MODULE_4__draggable_helper_provider__["a" /* DraggableHelper */], },
+        { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["R" /* NgZone */], },
+    ]; };
+    DroppableDirective.propDecorators = {
+        'dragEnter': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'dragLeave': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'dragOver': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+        'drop': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+    };
+    return DroppableDirective;
+}());
+
+//# sourceMappingURL=droppable.directive.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-draggable-droppable/dist/esm/src/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__drag_and_drop_module__ = __webpack_require__("../../../../angular-draggable-droppable/dist/esm/src/drag-and-drop.module.js");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__drag_and_drop_module__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__draggable_helper_provider__ = __webpack_require__("../../../../angular-draggable-droppable/dist/esm/src/draggable-helper.provider.js");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__draggable_helper_provider__["a"]; });
+
+
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-resizable-element/dist/esm/src/index.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__resizable_module__ = __webpack_require__("../../../../angular-resizable-element/dist/esm/src/resizable.module.js");
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__resizable_module__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__resizable_directive__ = __webpack_require__("../../../../angular-resizable-element/dist/esm/src/resizable.directive.js");
+/* unused harmony reexport Resizable */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__resizeHandle_directive__ = __webpack_require__("../../../../angular-resizable-element/dist/esm/src/resizeHandle.directive.js");
+/* unused harmony reexport ResizeHandle */
+
+ // tslint:disable-line
+ // tslint:disable-line
+//# sourceMappingURL=index.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-resizable-element/dist/esm/src/resizable.directive.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export MOUSE_MOVE_THROTTLE_MS */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Resizable; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__ = __webpack_require__("../../../../rxjs/Subject.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__ = __webpack_require__("../../../../rxjs/Observable.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_observable_merge__ = __webpack_require__("../../../../rxjs/observable/merge.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_observable_merge___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_merge__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_observable_interval__ = __webpack_require__("../../../../rxjs/observable/interval.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_observable_interval___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_observable_interval__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_mergeMap__ = __webpack_require__("../../../../rxjs/add/operator/mergeMap.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_mergeMap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_rxjs_add_operator_mergeMap__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_takeUntil__ = __webpack_require__("../../../../rxjs/add/operator/takeUntil.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_takeUntil___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_rxjs_add_operator_takeUntil__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_filter__ = __webpack_require__("../../../../rxjs/add/operator/filter.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_filter___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_rxjs_add_operator_filter__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_add_operator_pairwise__ = __webpack_require__("../../../../rxjs/add/operator/pairwise.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_rxjs_add_operator_pairwise___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_rxjs_add_operator_pairwise__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rxjs_add_operator_take__ = __webpack_require__("../../../../rxjs/add/operator/take.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_rxjs_add_operator_take___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_rxjs_add_operator_take__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_rxjs_add_operator_throttle__ = __webpack_require__("../../../../rxjs/add/operator/throttle.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_rxjs_add_operator_throttle___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_rxjs_add_operator_throttle__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_rxjs_add_operator_share__ = __webpack_require__("../../../../rxjs/add/operator/share.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_rxjs_add_operator_share___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12_rxjs_add_operator_share__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__resizeHandle_directive__ = __webpack_require__("../../../../angular-resizable-element/dist/esm/src/resizeHandle.directive.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function isNumberCloseTo(value1, value2, precision) {
+    if (precision === void 0) { precision = 3; }
+    var diff = Math.abs(value1 - value2);
+    return diff < precision;
+}
+function getNewBoundingRectangle(startingRect, edges, clientX, clientY) {
+    var newBoundingRect = {
+        top: startingRect.top,
+        bottom: startingRect.bottom,
+        left: startingRect.left,
+        right: startingRect.right
+    };
+    if (edges.top) {
+        newBoundingRect.top += clientY;
+    }
+    if (edges.bottom) {
+        newBoundingRect.bottom += clientY;
+    }
+    if (edges.left) {
+        newBoundingRect.left += clientX;
+    }
+    if (edges.right) {
+        newBoundingRect.right += clientX;
+    }
+    newBoundingRect.height = newBoundingRect.bottom - newBoundingRect.top;
+    newBoundingRect.width = newBoundingRect.right - newBoundingRect.left;
+    return newBoundingRect;
+}
+function getElementRect(element, ghostElementPositioning) {
+    if (ghostElementPositioning === 'absolute') {
+        return {
+            height: element.nativeElement.offsetHeight,
+            width: element.nativeElement.offsetWidth,
+            top: element.nativeElement.offsetTop,
+            bottom: element.nativeElement.offsetHeight + element.nativeElement.offsetTop,
+            left: element.nativeElement.offsetLeft,
+            right: element.nativeElement.offsetWidth + element.nativeElement.offsetLeft
+        };
+    }
+    else {
+        var boundingRect = element.nativeElement.getBoundingClientRect();
+        return {
+            height: boundingRect.height,
+            width: boundingRect.width,
+            top: boundingRect.top,
+            bottom: boundingRect.bottom,
+            left: boundingRect.left,
+            right: boundingRect.right,
+            scrollTop: element.nativeElement.scrollTop,
+            scrollLeft: element.nativeElement.scrollLeft
+        };
+    }
+}
+function isWithinBoundingY(_a) {
+    var clientY = _a.clientY, rect = _a.rect;
+    return clientY >= rect.top && clientY <= rect.bottom;
+}
+function isWithinBoundingX(_a) {
+    var clientX = _a.clientX, rect = _a.rect;
+    return clientX >= rect.left && clientX <= rect.right;
+}
+function getResizeEdges(_a) {
+    var clientX = _a.clientX, clientY = _a.clientY, elm = _a.elm, allowedEdges = _a.allowedEdges, cursorPrecision = _a.cursorPrecision;
+    var elmPosition = elm.nativeElement.getBoundingClientRect();
+    var edges = {};
+    if (allowedEdges.left &&
+        isNumberCloseTo(clientX, elmPosition.left, cursorPrecision) &&
+        isWithinBoundingY({ clientY: clientY, rect: elmPosition })) {
+        edges.left = true;
+    }
+    if (allowedEdges.right &&
+        isNumberCloseTo(clientX, elmPosition.right, cursorPrecision) &&
+        isWithinBoundingY({ clientY: clientY, rect: elmPosition })) {
+        edges.right = true;
+    }
+    if (allowedEdges.top &&
+        isNumberCloseTo(clientY, elmPosition.top, cursorPrecision) &&
+        isWithinBoundingX({ clientX: clientX, rect: elmPosition })) {
+        edges.top = true;
+    }
+    if (allowedEdges.bottom &&
+        isNumberCloseTo(clientY, elmPosition.bottom, cursorPrecision) &&
+        isWithinBoundingX({ clientX: clientX, rect: elmPosition })) {
+        edges.bottom = true;
+    }
+    return edges;
+}
+var DEFAULT_RESIZE_CURSORS = Object.freeze({
+    topLeft: 'nw-resize',
+    topRight: 'ne-resize',
+    bottomLeft: 'sw-resize',
+    bottomRight: 'se-resize',
+    leftOrRight: 'ew-resize',
+    topOrBottom: 'ns-resize'
+});
+function getResizeCursor(edges, cursors) {
+    if (edges.left && edges.top) {
+        return cursors.topLeft;
+    }
+    else if (edges.right && edges.top) {
+        return cursors.topRight;
+    }
+    else if (edges.left && edges.bottom) {
+        return cursors.bottomLeft;
+    }
+    else if (edges.right && edges.bottom) {
+        return cursors.bottomRight;
+    }
+    else if (edges.left || edges.right) {
+        return cursors.leftOrRight;
+    }
+    else if (edges.top || edges.bottom) {
+        return cursors.topOrBottom;
+    }
+    else {
+        return '';
+    }
+}
+function getEdgesDiff(_a) {
+    var edges = _a.edges, initialRectangle = _a.initialRectangle, newRectangle = _a.newRectangle;
+    var edgesDiff = {};
+    Object.keys(edges).forEach(function (edge) {
+        edgesDiff[edge] = newRectangle[edge] - initialRectangle[edge];
+    });
+    return edgesDiff;
+}
+var RESIZE_ACTIVE_CLASS = 'resize-active';
+var RESIZE_LEFT_HOVER_CLASS = 'resize-left-hover';
+var RESIZE_RIGHT_HOVER_CLASS = 'resize-right-hover';
+var RESIZE_TOP_HOVER_CLASS = 'resize-top-hover';
+var RESIZE_BOTTOM_HOVER_CLASS = 'resize-bottom-hover';
+var RESIZE_GHOST_ELEMENT_CLASS = 'resize-ghost-element';
+var MOUSE_MOVE_THROTTLE_MS = 50;
+/**
+ * Place this on an element to make it resizable
+ *
+ * For example
+ *
+ * ```
+ * &lt;div mwlResizable [resizeEdges]="{bottom: true, right: true, top: true, left: true}" [enableGhostResize]="true"&gt;&lt;/div&gt;
+ * ```
+ */
+var Resizable = (function () {
+    /**
+     * @hidden
+     */
+    function Resizable(renderer, elm, zone) {
+        this.renderer = renderer;
+        this.elm = elm;
+        this.zone = zone;
+        /**
+         * The edges that an element can be resized from. Pass an object like `{top: true, bottom: false}`. By default no edges can be resized.
+         */
+        this.resizeEdges = {};
+        /**
+         * Set to `true` to enable a temporary resizing effect of the element in between the `resizeStart` and `resizeEnd` events.
+         */
+        this.enableGhostResize = false;
+        /**
+         * A snap grid that resize events will be locked to.
+         *
+         * e.g. to only allow the element to be resized every 10px set it to `{left: 10, right: 10}`
+         */
+        this.resizeSnapGrid = {};
+        /**
+         * The mouse cursors that will be set on the resize edges
+         */
+        this.resizeCursors = DEFAULT_RESIZE_CURSORS;
+        /**
+         * Mouse over thickness to active cursor.
+         */
+        this.resizeCursorPrecision = 3;
+        /**
+         * Define the positioning of the ghost element (can be fixed or absolute)
+         */
+        this.ghostElementPositioning = 'fixed';
+        /**
+         * Called when the mouse is pressed and a resize event is about to begin. `$event` is a `ResizeEvent` object.
+         */
+        this.resizeStart = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        /**
+         * Called as the mouse is dragged after a resize event has begun. `$event` is a `ResizeEvent` object.
+         */
+        this.resizing = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        /**
+         * Called after the mouse is released after a resize event. `$event` is a `ResizeEvent` object.
+         */
+        this.resizeEnd = new __WEBPACK_IMPORTED_MODULE_0__angular_core__["x" /* EventEmitter */]();
+        /**
+         * @hidden
+         */
+        this.mouseup = new __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__["Subject"]();
+        /**
+         * @hidden
+         */
+        this.mousedown = new __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__["Subject"]();
+        /**
+         * @hidden
+         */
+        this.mousemove = new __WEBPACK_IMPORTED_MODULE_1_rxjs_Subject__["Subject"]();
+        this.pointerEventListenerSubscriptions = {};
+        this.pointerEventListeners = PointerEventListeners.getInstance(renderer, zone);
+    }
+    /**
+     * @hidden
+     */
+    Resizable.prototype.ngOnInit = function () {
+        var _this = this;
+        // TODO - use some fancy Observable.merge's for this
+        this.pointerEventListenerSubscriptions.pointerDown = this.pointerEventListeners.pointerDown.subscribe(function (_a) {
+            var clientX = _a.clientX, clientY = _a.clientY;
+            _this.mousedown.next({ clientX: clientX, clientY: clientY });
+        });
+        this.pointerEventListenerSubscriptions.pointerMove = this.pointerEventListeners.pointerMove.subscribe(function (_a) {
+            var clientX = _a.clientX, clientY = _a.clientY, event = _a.event;
+            _this.mousemove.next({ clientX: clientX, clientY: clientY, event: event });
+        });
+        this.pointerEventListenerSubscriptions.pointerUp = this.pointerEventListeners.pointerUp.subscribe(function (_a) {
+            var clientX = _a.clientX, clientY = _a.clientY;
+            _this.mouseup.next({ clientX: clientX, clientY: clientY });
+        });
+        var currentResize;
+        var removeGhostElement = function () {
+            if (currentResize.clonedNode) {
+                _this.elm.nativeElement.parentElement.removeChild(currentResize.clonedNode);
+                _this.renderer.setStyle(_this.elm.nativeElement, 'visibility', 'inherit');
+            }
+        };
+        var mouseMove = this.mousemove.share();
+        mouseMove
+            .filter(function () { return !!currentResize; })
+            .subscribe(function (_a) {
+            var event = _a.event;
+            event.preventDefault();
+        });
+        mouseMove.throttle(function (val) { return Object(__WEBPACK_IMPORTED_MODULE_4_rxjs_observable_interval__["interval"])(MOUSE_MOVE_THROTTLE_MS); }).subscribe(function (_a) {
+            var clientX = _a.clientX, clientY = _a.clientY;
+            var resizeEdges = getResizeEdges({
+                clientX: clientX, clientY: clientY,
+                elm: _this.elm,
+                allowedEdges: _this.resizeEdges,
+                cursorPrecision: _this.resizeCursorPrecision
+            });
+            var resizeCursors = Object.assign({}, DEFAULT_RESIZE_CURSORS, _this.resizeCursors);
+            var cursor = currentResize ? '' : getResizeCursor(resizeEdges, resizeCursors);
+            _this.renderer.setStyle(_this.elm.nativeElement, 'cursor', cursor);
+            _this.setElementClass(_this.elm, RESIZE_ACTIVE_CLASS, !!currentResize);
+            _this.setElementClass(_this.elm, RESIZE_LEFT_HOVER_CLASS, resizeEdges.left === true);
+            _this.setElementClass(_this.elm, RESIZE_RIGHT_HOVER_CLASS, resizeEdges.right === true);
+            _this.setElementClass(_this.elm, RESIZE_TOP_HOVER_CLASS, resizeEdges.top === true);
+            _this.setElementClass(_this.elm, RESIZE_BOTTOM_HOVER_CLASS, resizeEdges.bottom === true);
+        });
+        var mousedrag = this.mousedown.flatMap(function (startCoords) {
+            var getDiff = function (moveCoords) {
+                return {
+                    clientX: moveCoords.clientX - startCoords.clientX,
+                    clientY: moveCoords.clientY - startCoords.clientY
+                };
+            };
+            var getSnapGrid = function () {
+                var snapGrid = { x: 1, y: 1 };
+                if (currentResize) {
+                    if (_this.resizeSnapGrid.left && currentResize.edges.left) {
+                        snapGrid.x = +_this.resizeSnapGrid.left;
+                    }
+                    else if (_this.resizeSnapGrid.right && currentResize.edges.right) {
+                        snapGrid.x = +_this.resizeSnapGrid.right;
+                    }
+                    if (_this.resizeSnapGrid.top && currentResize.edges.top) {
+                        snapGrid.y = +_this.resizeSnapGrid.top;
+                    }
+                    else if (_this.resizeSnapGrid.bottom && currentResize.edges.bottom) {
+                        snapGrid.y = +_this.resizeSnapGrid.bottom;
+                    }
                 }
-                _this._showHint();
-                // The observable stream we are subscribing to might have async steps
-                // and if a component containing typeahead is using the OnPush strategy
-                // the change detection turn wouldn't be invoked automatically.
-                _this._windowRef.changeDetectorRef.detectChanges();
+                return snapGrid;
+            };
+            var getGrid = function (coords, snapGrid) {
+                return {
+                    x: Math.ceil(coords.clientX / snapGrid.x),
+                    y: Math.ceil(coords.clientY / snapGrid.y)
+                };
+            };
+            return Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_merge__["merge"])(mouseMove.take(1).map(function (coords) { return [, coords]; }), mouseMove.pairwise()).map(function (_a) {
+                var previousCoords = _a[0], newCoords = _a[1];
+                return [previousCoords ? getDiff(previousCoords) : previousCoords, getDiff(newCoords)];
+            }).filter(function (_a) {
+                var previousCoords = _a[0], newCoords = _a[1];
+                if (!previousCoords) {
+                    return true;
+                }
+                var snapGrid = getSnapGrid();
+                var previousGrid = getGrid(previousCoords, snapGrid);
+                var newGrid = getGrid(newCoords, snapGrid);
+                return (previousGrid.x !== newGrid.x || previousGrid.y !== newGrid.y);
+            }).map(function (_a) {
+                var newCoords = _a[1];
+                var snapGrid = getSnapGrid();
+                return {
+                    clientX: Math.round(newCoords.clientX / snapGrid.x) * snapGrid.x,
+                    clientY: Math.round(newCoords.clientY / snapGrid.y) * snapGrid.y
+                };
+            }).takeUntil(Object(__WEBPACK_IMPORTED_MODULE_3_rxjs_observable_merge__["merge"])(_this.mouseup, _this.mousedown));
+        }).filter(function () { return !!currentResize; });
+        mousedrag.map(function (_a) {
+            var clientX = _a.clientX, clientY = _a.clientY;
+            return getNewBoundingRectangle(currentResize.startingRect, currentResize.edges, clientX, clientY);
+        }).filter(function (newBoundingRect) {
+            return newBoundingRect.height > 0 && newBoundingRect.width > 0;
+        }).filter(function (newBoundingRect) {
+            return _this.validateResize ? _this.validateResize({
+                rectangle: newBoundingRect,
+                edges: getEdgesDiff({
+                    edges: currentResize.edges,
+                    initialRectangle: currentResize.startingRect,
+                    newRectangle: newBoundingRect
+                })
+            }) : true;
+        }).subscribe(function (newBoundingRect) {
+            if (currentResize.clonedNode) {
+                _this.renderer.setStyle(currentResize.clonedNode, 'height', newBoundingRect.height + "px");
+                _this.renderer.setStyle(currentResize.clonedNode, 'width', newBoundingRect.width + "px");
+                _this.renderer.setStyle(currentResize.clonedNode, 'top', newBoundingRect.top + "px");
+                _this.renderer.setStyle(currentResize.clonedNode, 'left', newBoundingRect.left + "px");
+            }
+            _this.zone.run(function () {
+                _this.resizing.emit({
+                    edges: getEdgesDiff({
+                        edges: currentResize.edges,
+                        initialRectangle: currentResize.startingRect,
+                        newRectangle: newBoundingRect
+                    }),
+                    rectangle: newBoundingRect
+                });
+            });
+            currentResize.currentRect = newBoundingRect;
+        });
+        this.mousedown.map(function (_a) {
+            var clientX = _a.clientX, clientY = _a.clientY, edges = _a.edges;
+            return edges || getResizeEdges({
+                clientX: clientX, clientY: clientY,
+                elm: _this.elm,
+                allowedEdges: _this.resizeEdges,
+                cursorPrecision: _this.resizeCursorPrecision
+            });
+        }).filter(function (edges) {
+            return Object.keys(edges).length > 0;
+        }).subscribe(function (edges) {
+            if (currentResize) {
+                removeGhostElement();
+            }
+            var startingRect = getElementRect(_this.elm, _this.ghostElementPositioning);
+            currentResize = {
+                edges: edges,
+                startingRect: startingRect,
+                currentRect: startingRect
+            };
+            if (_this.enableGhostResize) {
+                currentResize.clonedNode = _this.elm.nativeElement.cloneNode(true);
+                var resizeCursors = Object.assign({}, DEFAULT_RESIZE_CURSORS, _this.resizeCursors);
+                _this.elm.nativeElement.parentElement.appendChild(currentResize.clonedNode);
+                _this.renderer.setStyle(_this.elm.nativeElement, 'visibility', 'hidden');
+                _this.renderer.setStyle(currentResize.clonedNode, 'position', _this.ghostElementPositioning);
+                _this.renderer.setStyle(currentResize.clonedNode, 'left', currentResize.startingRect.left + "px");
+                _this.renderer.setStyle(currentResize.clonedNode, 'top', currentResize.startingRect.top + "px");
+                _this.renderer.setStyle(currentResize.clonedNode, 'height', currentResize.startingRect.height + "px");
+                _this.renderer.setStyle(currentResize.clonedNode, 'width', currentResize.startingRect.width + "px");
+                _this.renderer.setStyle(currentResize.clonedNode, 'cursor', getResizeCursor(currentResize.edges, resizeCursors));
+                _this.renderer.addClass(currentResize.clonedNode, RESIZE_GHOST_ELEMENT_CLASS);
+                currentResize.clonedNode.scrollTop = currentResize.startingRect.scrollTop;
+                currentResize.clonedNode.scrollLeft = currentResize.startingRect.scrollLeft;
+            }
+            _this.zone.run(function () {
+                _this.resizeStart.emit({
+                    edges: getEdgesDiff({ edges: edges, initialRectangle: startingRect, newRectangle: startingRect }),
+                    rectangle: getNewBoundingRectangle(startingRect, {}, 0, 0)
+                });
+            });
+        });
+        this.mouseup.subscribe(function () {
+            if (currentResize) {
+                _this.renderer.removeClass(_this.elm.nativeElement, RESIZE_ACTIVE_CLASS);
+                _this.zone.run(function () {
+                    _this.resizeEnd.emit({
+                        edges: getEdgesDiff({
+                            edges: currentResize.edges,
+                            initialRectangle: currentResize.startingRect,
+                            newRectangle: currentResize.currentRect
+                        }),
+                        rectangle: currentResize.currentRect
+                    });
+                });
+                removeGhostElement();
+                currentResize = null;
             }
         });
     };
-    NgbTypeahead.prototype._unsubscribeFromUserInput = function () {
-        if (this._subscription) {
-            this._subscription.unsubscribe();
-        }
-        this._subscription = null;
+    /**
+     * @hidden
+     */
+    Resizable.prototype.ngAfterViewInit = function () {
+        var _this = this;
+        this.resizeHandles.forEach(function (handle) {
+            handle.resizable = _this;
+        });
     };
-    return NgbTypeahead;
-}());
-
-NgbTypeahead.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Directive"], args: [{
-                selector: 'input[ngbTypeahead]',
-                host: {
-                    '(blur)': 'handleBlur()',
-                    '[class.open]': 'isPopupOpen()',
-                    '(document:click)': 'dismissPopup()',
-                    '(keydown)': 'handleKeyDown($event)',
-                    'autocomplete': 'off',
-                    'autocapitalize': 'off',
-                    'autocorrect': 'off',
-                    'role': 'combobox',
-                    'aria-multiline': 'false',
-                    '[attr.aria-autocomplete]': 'showHint ? "both" : "list"',
-                    '[attr.aria-activedescendant]': 'activeDescendant',
-                    '[attr.aria-owns]': 'isPopupOpen() ? popupId : null',
-                    '[attr.aria-expanded]': 'isPopupOpen()'
-                },
-                providers: [NGB_TYPEAHEAD_VALUE_ACCESSOR]
-            },] },
-];
-/** @nocollapse */
-NgbTypeahead.ctorParameters = function () { return [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ElementRef"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Renderer2"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Injector"], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ComponentFactoryResolver"], },
-    { type: __WEBPACK_IMPORTED_MODULE_11__typeahead_config__["a" /* NgbTypeaheadConfig */], },
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgZone"], },
-]; };
-NgbTypeahead.propDecorators = {
-    'container': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'editable': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'focusFirst': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'inputFormatter': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'ngbTypeahead': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'resultFormatter': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'resultTemplate': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'showHint': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'placement': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Input"] },],
-    'selectItem': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["Output"] },],
-};
-//# sourceMappingURL=typeahead.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/typeahead/typeahead.module.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NgbTypeaheadModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__highlight__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/typeahead/highlight.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__typeahead_window__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/typeahead/typeahead-window.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__typeahead__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/typeahead/typeahead.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__typeahead_config__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/typeahead/typeahead-config.js");
-/* unused harmony reexport NgbHighlight */
-/* unused harmony reexport NgbTypeaheadWindow */
-/* unused harmony reexport NgbTypeaheadConfig */
-/* unused harmony reexport NgbTypeahead */
-
-
-
-
-
-
-
-
-
-
-var NgbTypeaheadModule = (function () {
-    function NgbTypeaheadModule() {
-    }
-    NgbTypeaheadModule.forRoot = function () { return { ngModule: NgbTypeaheadModule, providers: [__WEBPACK_IMPORTED_MODULE_5__typeahead_config__["a" /* NgbTypeaheadConfig */]] }; };
-    return NgbTypeaheadModule;
-}());
-
-NgbTypeaheadModule.decorators = [
-    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{
-                declarations: [__WEBPACK_IMPORTED_MODULE_4__typeahead__["a" /* NgbTypeahead */], __WEBPACK_IMPORTED_MODULE_2__highlight__["a" /* NgbHighlight */], __WEBPACK_IMPORTED_MODULE_3__typeahead_window__["a" /* NgbTypeaheadWindow */]],
-                exports: [__WEBPACK_IMPORTED_MODULE_4__typeahead__["a" /* NgbTypeahead */], __WEBPACK_IMPORTED_MODULE_2__highlight__["a" /* NgbHighlight */]],
-                imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["b" /* CommonModule */]],
-                entryComponents: [__WEBPACK_IMPORTED_MODULE_3__typeahead_window__["a" /* NgbTypeaheadWindow */]]
-            },] },
-];
-/** @nocollapse */
-NgbTypeaheadModule.ctorParameters = function () { return []; };
-//# sourceMappingURL=typeahead.module.js.map
-
-/***/ }),
-
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/util/popup.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContentRef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return PopupService; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-
-var ContentRef = (function () {
-    function ContentRef(nodes, viewRef, componentRef) {
-        this.nodes = nodes;
-        this.viewRef = viewRef;
-        this.componentRef = componentRef;
-    }
-    return ContentRef;
-}());
-
-var PopupService = (function () {
-    function PopupService(type, _injector, _viewContainerRef, _renderer, componentFactoryResolver) {
-        this._injector = _injector;
-        this._viewContainerRef = _viewContainerRef;
-        this._renderer = _renderer;
-        this._windowFactory = componentFactoryResolver.resolveComponentFactory(type);
-    }
-    PopupService.prototype.open = function (content, context) {
-        if (!this._windowRef) {
-            this._contentRef = this._getContentRef(content, context);
-            this._windowRef =
-                this._viewContainerRef.createComponent(this._windowFactory, 0, this._injector, this._contentRef.nodes);
-        }
-        return this._windowRef;
+    /**
+     * @hidden
+     */
+    Resizable.prototype.ngOnDestroy = function () {
+        this.mousedown.complete();
+        this.mouseup.complete();
+        this.mousemove.complete();
+        this.pointerEventListenerSubscriptions.pointerDown.unsubscribe();
+        this.pointerEventListenerSubscriptions.pointerMove.unsubscribe();
+        this.pointerEventListenerSubscriptions.pointerUp.unsubscribe();
     };
-    PopupService.prototype.close = function () {
-        if (this._windowRef) {
-            this._viewContainerRef.remove(this._viewContainerRef.indexOf(this._windowRef.hostView));
-            this._windowRef = null;
-            if (this._contentRef.viewRef) {
-                this._viewContainerRef.remove(this._viewContainerRef.indexOf(this._contentRef.viewRef));
-                this._contentRef = null;
-            }
-        }
-    };
-    PopupService.prototype._getContentRef = function (content, context) {
-        if (!content) {
-            return new ContentRef([]);
-        }
-        else if (content instanceof __WEBPACK_IMPORTED_MODULE_0__angular_core__["TemplateRef"]) {
-            var viewRef = this._viewContainerRef.createEmbeddedView(content, context);
-            return new ContentRef([viewRef.rootNodes], viewRef);
+    Resizable.prototype.setElementClass = function (elm, name, add) {
+        if (add) {
+            this.renderer.addClass(elm.nativeElement, name);
         }
         else {
-            return new ContentRef([[this._renderer.createText("" + content)]]);
+            this.renderer.removeClass(elm.nativeElement, name);
         }
     };
-    return PopupService;
+    return Resizable;
 }());
 
-//# sourceMappingURL=popup.js.map
+Resizable.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
+                selector: '[mwlResizable]'
+            },] },
+];
+/** @nocollapse */
+Resizable.ctorParameters = function () { return [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_3" /* Renderer2 */], },
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], },
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["R" /* NgZone */], },
+]; };
+Resizable.propDecorators = {
+    'validateResize': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    'resizeEdges': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    'enableGhostResize': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    'resizeSnapGrid': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    'resizeCursors': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    'resizeCursorPrecision': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    'ghostElementPositioning': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    'resizeStart': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+    'resizing': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+    'resizeEnd': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["U" /* Output */] },],
+    'resizeHandles': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["t" /* ContentChildren */], args: [__WEBPACK_IMPORTED_MODULE_13__resizeHandle_directive__["a" /* ResizeHandle */],] },],
+};
+var PointerEventListeners = (function () {
+    function PointerEventListeners(renderer, zone) {
+        this.pointerDown = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"](function (observer) {
+            var unsubscribeMouseDown, unsubscribeTouchStart;
+            zone.runOutsideAngular(function () {
+                unsubscribeMouseDown = renderer.listen('document', 'mousedown', function (event) {
+                    observer.next({ clientX: event.clientX, clientY: event.clientY, event: event });
+                });
+                unsubscribeTouchStart = renderer.listen('document', 'touchstart', function (event) {
+                    observer.next({ clientX: event.touches[0].clientX, clientY: event.touches[0].clientY, event: event });
+                });
+            });
+            return function () {
+                unsubscribeMouseDown();
+                unsubscribeTouchStart();
+            };
+        }).share();
+        this.pointerMove = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"](function (observer) {
+            var unsubscribeMouseMove, unsubscribeTouchMove;
+            zone.runOutsideAngular(function () {
+                unsubscribeMouseMove = renderer.listen('document', 'mousemove', function (event) {
+                    observer.next({ clientX: event.clientX, clientY: event.clientY, event: event });
+                });
+                unsubscribeTouchMove = renderer.listen('document', 'touchmove', function (event) {
+                    observer.next({ clientX: event.targetTouches[0].clientX, clientY: event.targetTouches[0].clientY, event: event });
+                });
+            });
+            return function () {
+                unsubscribeMouseMove();
+                unsubscribeTouchMove();
+            };
+        }).share();
+        this.pointerUp = new __WEBPACK_IMPORTED_MODULE_2_rxjs_Observable__["Observable"](function (observer) {
+            var unsubscribeMouseUp, unsubscribeTouchEnd, unsubscribeTouchCancel;
+            zone.runOutsideAngular(function () {
+                unsubscribeMouseUp = renderer.listen('document', 'mouseup', function (event) {
+                    observer.next({ clientX: event.clientX, clientY: event.clientY, event: event });
+                });
+                unsubscribeTouchEnd = renderer.listen('document', 'touchend', function (event) {
+                    observer.next({ clientX: event.changedTouches[0].clientX, clientY: event.changedTouches[0].clientY, event: event });
+                });
+                unsubscribeTouchCancel = renderer.listen('document', 'touchcancel', function (event) {
+                    observer.next({ clientX: event.changedTouches[0].clientX, clientY: event.changedTouches[0].clientY, event: event });
+                });
+            });
+            return function () {
+                unsubscribeMouseUp();
+                unsubscribeTouchEnd();
+                unsubscribeTouchCancel();
+            };
+        }).share();
+    }
+    PointerEventListeners.getInstance = function (renderer, zone) {
+        if (!PointerEventListeners.instance) {
+            PointerEventListeners.instance = new PointerEventListeners(renderer, zone);
+        }
+        return PointerEventListeners.instance;
+    };
+    return PointerEventListeners;
+}());
+//# sourceMappingURL=resizable.directive.js.map
 
 /***/ }),
 
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/util/positioning.js":
+/***/ "../../../../angular-resizable-element/dist/esm/src/resizable.module.js":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export Positioning */
-/* harmony export (immutable) */ __webpack_exports__["a"] = positionElements;
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ResizableModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__resizable_directive__ = __webpack_require__("../../../../angular-resizable-element/dist/esm/src/resizable.directive.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__resizeHandle_directive__ = __webpack_require__("../../../../angular-resizable-element/dist/esm/src/resizeHandle.directive.js");
+
+
+
+var ResizableModule = (function () {
+    function ResizableModule() {
+    }
+    return ResizableModule;
+}());
+
+ResizableModule.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["M" /* NgModule */], args: [{
+                declarations: [__WEBPACK_IMPORTED_MODULE_1__resizable_directive__["a" /* Resizable */], __WEBPACK_IMPORTED_MODULE_2__resizeHandle_directive__["a" /* ResizeHandle */]],
+                exports: [__WEBPACK_IMPORTED_MODULE_1__resizable_directive__["a" /* Resizable */], __WEBPACK_IMPORTED_MODULE_2__resizeHandle_directive__["a" /* ResizeHandle */]]
+            },] },
+];
+/** @nocollapse */
+ResizableModule.ctorParameters = function () { return []; };
+//# sourceMappingURL=resizable.module.js.map
+
+/***/ }),
+
+/***/ "../../../../angular-resizable-element/dist/esm/src/resizeHandle.directive.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ResizeHandle; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+
+/**
+ * An element placed inside a `mwlResizable` directive to be used as a drag and resize handle
+ *
+ * For example
+ *
+ * ```
+ * &lt;div mwlResizable&gt;
+ *   &lt;div mwlResizeHandle [resizeEdges]="{bottom: true, right: true}"&gt;&lt;/div&gt;
+ * &lt;/div&gt;
+ * ```
+ */
+var ResizeHandle = (function () {
+    function ResizeHandle(renderer, element, zone) {
+        this.renderer = renderer;
+        this.element = element;
+        this.zone = zone;
+        /**
+         * The `Edges` object that contains the edges of the parent element that dragging the handle will trigger a resize on
+         */
+        this.resizeEdges = {};
+        this.eventListeners = {};
+    }
+    ResizeHandle.prototype.ngOnDestroy = function () {
+        this.unsubscribeEventListeners();
+    };
+    /**
+     * @private
+     */
+    ResizeHandle.prototype.onMousedown = function (event, mouseX, mouseY) {
+        var _this = this;
+        event.preventDefault();
+        this.zone.runOutsideAngular(function () {
+            if (!_this.eventListeners.touchmove) {
+                _this.eventListeners.touchmove = _this.renderer.listen(_this.element.nativeElement, 'touchmove', function (event) {
+                    _this.onMousemove(event, event.targetTouches[0].clientX, event.targetTouches[0].clientY);
+                });
+            }
+            if (!_this.eventListeners.mousemove) {
+                _this.eventListeners.mousemove = _this.renderer.listen(_this.element.nativeElement, 'mousemove', function (event) {
+                    _this.onMousemove(event, event.clientX, event.clientY);
+                });
+            }
+            _this.resizable.mousedown.next({ mouseX: mouseX, mouseY: mouseY, edges: _this.resizeEdges });
+        });
+    };
+    /**
+     * @private
+     */
+    ResizeHandle.prototype.onMouseup = function (mouseX, mouseY) {
+        var _this = this;
+        this.zone.runOutsideAngular(function () {
+            _this.unsubscribeEventListeners();
+            _this.resizable.mouseup.next({ mouseX: mouseX, mouseY: mouseY, edges: _this.resizeEdges });
+        });
+    };
+    ResizeHandle.prototype.onMousemove = function (event, mouseX, mouseY) {
+        this.resizable.mousemove.next({ mouseX: mouseX, mouseY: mouseY, edges: this.resizeEdges, event: event });
+    };
+    ResizeHandle.prototype.unsubscribeEventListeners = function () {
+        var _this = this;
+        Object.keys(this.eventListeners).forEach(function (type) {
+            _this.eventListeners[type]();
+            delete _this.eventListeners[type];
+        });
+    };
+    return ResizeHandle;
+}());
+
+ResizeHandle.decorators = [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["u" /* Directive */], args: [{
+                selector: '[mwlResizeHandle]'
+            },] },
+];
+/** @nocollapse */
+ResizeHandle.ctorParameters = function () { return [
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["_3" /* Renderer2 */], },
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["v" /* ElementRef */], },
+    { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["R" /* NgZone */], },
+]; };
+ResizeHandle.propDecorators = {
+    'resizeEdges': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["F" /* Input */] },],
+    'onMousedown': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['touchstart', ['$event', '$event.touches[0].clientX', '$event.touches[0].clientY'],] }, { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['mousedown', ['$event', '$event.clientX', '$event.clientY'],] },],
+    'onMouseup': [{ type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['touchend', ['$event.changedTouches[0].clientX', '$event.changedTouches[0].clientY'],] }, { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['touchcancel', ['$event.changedTouches[0].clientX', '$event.changedTouches[0].clientY'],] }, { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* HostListener */], args: ['mouseup', ['$event.clientX', '$event.clientY'],] },],
+};
+//# sourceMappingURL=resizeHandle.directive.js.map
+
+/***/ }),
+
+/***/ "../../../../calendar-utils/dist/calendar-utils.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export DAYS_OF_WEEK */
+/* unused harmony export SECONDS_IN_DAY */
+/* unused harmony export SECONDS_IN_WEEK */
+/* unused harmony export getWeekViewEventOffset */
+/* harmony export (immutable) */ __webpack_exports__["e"] = getWeekViewHeader;
+/* harmony export (immutable) */ __webpack_exports__["d"] = getWeekView;
+/* harmony export (immutable) */ __webpack_exports__["c"] = getMonthView;
+/* harmony export (immutable) */ __webpack_exports__["a"] = getDayView;
+/* harmony export (immutable) */ __webpack_exports__["b"] = getDayViewHourGrid;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_date_fns_end_of_day__ = __webpack_require__("../../../../date-fns/end_of_day/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_date_fns_end_of_day___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_date_fns_end_of_day__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_date_fns_add_minutes__ = __webpack_require__("../../../../date-fns/add_minutes/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_date_fns_add_minutes___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_date_fns_add_minutes__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_date_fns_difference_in_days__ = __webpack_require__("../../../../date-fns/difference_in_days/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_date_fns_difference_in_days___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_date_fns_difference_in_days__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_date_fns_start_of_day__ = __webpack_require__("../../../../date-fns/start_of_day/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_date_fns_start_of_day___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_date_fns_start_of_day__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns_is_same_day__ = __webpack_require__("../../../../date-fns/is_same_day/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_date_fns_is_same_day___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_date_fns_is_same_day__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_get_day__ = __webpack_require__("../../../../date-fns/get_day/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_date_fns_get_day___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_date_fns_get_day__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_start_of_week__ = __webpack_require__("../../../../date-fns/start_of_week/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_date_fns_start_of_week___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_date_fns_start_of_week__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_add_days__ = __webpack_require__("../../../../date-fns/add_days/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_date_fns_add_days___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_date_fns_add_days__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_date_fns_end_of_week__ = __webpack_require__("../../../../date-fns/end_of_week/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_date_fns_end_of_week___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_date_fns_end_of_week__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_date_fns_difference_in_seconds__ = __webpack_require__("../../../../date-fns/difference_in_seconds/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9_date_fns_difference_in_seconds___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_9_date_fns_difference_in_seconds__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_date_fns_start_of_month__ = __webpack_require__("../../../../date-fns/start_of_month/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10_date_fns_start_of_month___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10_date_fns_start_of_month__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_date_fns_end_of_month__ = __webpack_require__("../../../../date-fns/end_of_month/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_date_fns_end_of_month___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_date_fns_end_of_month__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_date_fns_is_same_month__ = __webpack_require__("../../../../date-fns/is_same_month/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12_date_fns_is_same_month___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12_date_fns_is_same_month__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_date_fns_is_same_second__ = __webpack_require__("../../../../date-fns/is_same_second/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13_date_fns_is_same_second___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13_date_fns_is_same_second__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_date_fns_set_hours__ = __webpack_require__("../../../../date-fns/set_hours/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14_date_fns_set_hours___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14_date_fns_set_hours__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_date_fns_set_minutes__ = __webpack_require__("../../../../date-fns/set_minutes/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_date_fns_set_minutes___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_15_date_fns_set_minutes__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_date_fns_start_of_minute__ = __webpack_require__("../../../../date-fns/start_of_minute/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16_date_fns_start_of_minute___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_16_date_fns_start_of_minute__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_date_fns_difference_in_minutes__ = __webpack_require__("../../../../date-fns/difference_in_minutes/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17_date_fns_difference_in_minutes___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_17_date_fns_difference_in_minutes__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_date_fns_add_hours__ = __webpack_require__("../../../../date-fns/add_hours/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_date_fns_add_hours___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_18_date_fns_add_hours__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_date_fns_add_seconds__ = __webpack_require__("../../../../date-fns/add_seconds/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19_date_fns_add_seconds___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_19_date_fns_add_seconds__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_date_fns_max__ = __webpack_require__("../../../../date-fns/max/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20_date_fns_max___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_20_date_fns_max__);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var DAYS_OF_WEEK;
+(function (DAYS_OF_WEEK) {
+    DAYS_OF_WEEK[DAYS_OF_WEEK["SUNDAY"] = 0] = "SUNDAY";
+    DAYS_OF_WEEK[DAYS_OF_WEEK["MONDAY"] = 1] = "MONDAY";
+    DAYS_OF_WEEK[DAYS_OF_WEEK["TUESDAY"] = 2] = "TUESDAY";
+    DAYS_OF_WEEK[DAYS_OF_WEEK["WEDNESDAY"] = 3] = "WEDNESDAY";
+    DAYS_OF_WEEK[DAYS_OF_WEEK["THURSDAY"] = 4] = "THURSDAY";
+    DAYS_OF_WEEK[DAYS_OF_WEEK["FRIDAY"] = 5] = "FRIDAY";
+    DAYS_OF_WEEK[DAYS_OF_WEEK["SATURDAY"] = 6] = "SATURDAY";
+})(DAYS_OF_WEEK || (DAYS_OF_WEEK = {}));
+var DEFAULT_WEEKEND_DAYS = [DAYS_OF_WEEK.SUNDAY, DAYS_OF_WEEK.SATURDAY];
+var DAYS_IN_WEEK = 7;
+var HOURS_IN_DAY = 24;
+var MINUTES_IN_HOUR = 60;
+var SECONDS_IN_DAY = 60 * 60 * 24;
+var SECONDS_IN_WEEK = SECONDS_IN_DAY * DAYS_IN_WEEK;
+function getExcludedSeconds(_a) {
+    var startDate = _a.startDate, seconds = _a.seconds, excluded = _a.excluded, _b = _a.precision, precision = _b === void 0 ? 'days' : _b;
+    if (excluded.length < 1) {
+        return 0;
+    }
+    var endDate = __WEBPACK_IMPORTED_MODULE_19_date_fns_add_seconds___default()(startDate, seconds - 1);
+    var dayStart = __WEBPACK_IMPORTED_MODULE_5_date_fns_get_day___default()(startDate);
+    var dayEnd = __WEBPACK_IMPORTED_MODULE_5_date_fns_get_day___default()(__WEBPACK_IMPORTED_MODULE_19_date_fns_add_seconds___default()(endDate, 0));
+    var result = 0; // Calculated in seconds
+    var current = startDate;
+    var _loop_1 = function () {
+        var day = __WEBPACK_IMPORTED_MODULE_5_date_fns_get_day___default()(current);
+        if (excluded.some(function (excludedDay) { return excludedDay === day; })) {
+            result += calculateExcludedSeconds({ dayStart: dayStart, dayEnd: dayEnd, day: day, precision: precision, startDate: startDate, endDate: endDate });
+        }
+        current = __WEBPACK_IMPORTED_MODULE_7_date_fns_add_days___default()(current, 1);
+    };
+    while (current < endDate) {
+        _loop_1();
+    }
+    return result;
+}
+function calculateExcludedSeconds(_a) {
+    var precision = _a.precision, day = _a.day, dayStart = _a.dayStart, dayEnd = _a.dayEnd, startDate = _a.startDate, endDate = _a.endDate;
+    if (precision === 'minutes') {
+        if (day === dayStart) {
+            return __WEBPACK_IMPORTED_MODULE_9_date_fns_difference_in_seconds___default()(__WEBPACK_IMPORTED_MODULE_0_date_fns_end_of_day___default()(startDate), startDate) + 1;
+        }
+        else if (day === dayEnd) {
+            return __WEBPACK_IMPORTED_MODULE_9_date_fns_difference_in_seconds___default()(endDate, __WEBPACK_IMPORTED_MODULE_3_date_fns_start_of_day___default()(endDate)) + 1;
+        }
+    }
+    return SECONDS_IN_DAY;
+}
+function getWeekViewEventSpan(_a) {
+    var event = _a.event, offset = _a.offset, startOfWeekDate = _a.startOfWeekDate, excluded = _a.excluded, _b = _a.precision, precision = _b === void 0 ? 'days' : _b;
+    var span = SECONDS_IN_DAY;
+    var begin = __WEBPACK_IMPORTED_MODULE_20_date_fns_max___default()(event.start, startOfWeekDate);
+    if (event.end) {
+        switch (precision) {
+            case 'minutes':
+                span = __WEBPACK_IMPORTED_MODULE_9_date_fns_difference_in_seconds___default()(event.end, begin);
+                break;
+            default:
+                span = __WEBPACK_IMPORTED_MODULE_2_date_fns_difference_in_days___default()(__WEBPACK_IMPORTED_MODULE_7_date_fns_add_days___default()(event.end, 1), begin) * SECONDS_IN_DAY;
+                break;
+        }
+    }
+    var offsetSeconds = offset * SECONDS_IN_DAY;
+    var totalLength = offsetSeconds + span;
+    // the best way to detect if an event is outside the week-view
+    // is to check if the total span beginning (from startOfWeekDay or event start) exceeds 7days
+    if (totalLength > SECONDS_IN_WEEK) {
+        span = SECONDS_IN_WEEK - offsetSeconds;
+    }
+    span -= getExcludedSeconds({ startDate: begin, seconds: span, excluded: excluded, precision: precision });
+    return span / SECONDS_IN_DAY;
+}
+function getWeekViewEventOffset(_a) {
+    var event = _a.event, startOfWeek = _a.startOfWeek, _b = _a.excluded, excluded = _b === void 0 ? [] : _b, _c = _a.precision, precision = _c === void 0 ? 'days' : _c;
+    if (event.start < startOfWeek) {
+        return 0;
+    }
+    var offset = 0;
+    switch (precision) {
+        case 'days':
+            offset = __WEBPACK_IMPORTED_MODULE_2_date_fns_difference_in_days___default()(__WEBPACK_IMPORTED_MODULE_3_date_fns_start_of_day___default()(event.start), startOfWeek) * SECONDS_IN_DAY;
+            break;
+        case 'minutes':
+            offset = __WEBPACK_IMPORTED_MODULE_9_date_fns_difference_in_seconds___default()(event.start, startOfWeek);
+            break;
+    }
+    offset -= getExcludedSeconds({ startDate: startOfWeek, seconds: offset, excluded: excluded, precision: precision });
+    return offset / SECONDS_IN_DAY;
+}
+function isEventIsPeriod(_a) {
+    var event = _a.event, periodStart = _a.periodStart, periodEnd = _a.periodEnd;
+    var eventStart = event.start;
+    var eventEnd = event.end || event.start;
+    if (eventStart > periodStart && eventStart < periodEnd) {
+        return true;
+    }
+    if (eventEnd > periodStart && eventEnd < periodEnd) {
+        return true;
+    }
+    if (eventStart < periodStart && eventEnd > periodEnd) {
+        return true;
+    }
+    if (__WEBPACK_IMPORTED_MODULE_13_date_fns_is_same_second___default()(eventStart, periodStart) || __WEBPACK_IMPORTED_MODULE_13_date_fns_is_same_second___default()(eventStart, periodEnd)) {
+        return true;
+    }
+    if (__WEBPACK_IMPORTED_MODULE_13_date_fns_is_same_second___default()(eventEnd, periodStart) || __WEBPACK_IMPORTED_MODULE_13_date_fns_is_same_second___default()(eventEnd, periodEnd)) {
+        return true;
+    }
+    return false;
+}
+function getEventsInPeriod(_a) {
+    var events = _a.events, periodStart = _a.periodStart, periodEnd = _a.periodEnd;
+    return events.filter(function (event) { return isEventIsPeriod({ event: event, periodStart: periodStart, periodEnd: periodEnd }); });
+}
+function getWeekDay(_a) {
+    var date = _a.date, _b = _a.weekendDays, weekendDays = _b === void 0 ? DEFAULT_WEEKEND_DAYS : _b;
+    var today = __WEBPACK_IMPORTED_MODULE_3_date_fns_start_of_day___default()(new Date());
+    return {
+        date: date,
+        isPast: date < today,
+        isToday: __WEBPACK_IMPORTED_MODULE_4_date_fns_is_same_day___default()(date, today),
+        isFuture: date > today,
+        isWeekend: weekendDays.indexOf(__WEBPACK_IMPORTED_MODULE_5_date_fns_get_day___default()(date)) > -1
+    };
+}
+function getWeekViewHeader(_a) {
+    var viewDate = _a.viewDate, weekStartsOn = _a.weekStartsOn, _b = _a.excluded, excluded = _b === void 0 ? [] : _b, weekendDays = _a.weekendDays;
+    var start = __WEBPACK_IMPORTED_MODULE_6_date_fns_start_of_week___default()(viewDate, { weekStartsOn: weekStartsOn });
+    var days = [];
+    var _loop_2 = function (i) {
+        var date = __WEBPACK_IMPORTED_MODULE_7_date_fns_add_days___default()(start, i);
+        if (!excluded.some(function (e) { return date.getDay() === e; })) {
+            days.push(getWeekDay({ date: date, weekendDays: weekendDays }));
+        }
+    };
+    for (var i = 0; i < DAYS_IN_WEEK; i++) {
+        _loop_2(i);
+    }
+    return days;
+}
+function getWeekView(_a) {
+    var _b = _a.events, events = _b === void 0 ? [] : _b, viewDate = _a.viewDate, weekStartsOn = _a.weekStartsOn, _c = _a.excluded, excluded = _c === void 0 ? [] : _c, _d = _a.precision, precision = _d === void 0 ? 'days' : _d, _e = _a.absolutePositionedEvents, absolutePositionedEvents = _e === void 0 ? false : _e;
+    if (!events) {
+        events = [];
+    }
+    var startOfViewWeek = __WEBPACK_IMPORTED_MODULE_6_date_fns_start_of_week___default()(viewDate, { weekStartsOn: weekStartsOn });
+    var endOfViewWeek = __WEBPACK_IMPORTED_MODULE_8_date_fns_end_of_week___default()(viewDate, { weekStartsOn: weekStartsOn });
+    var maxRange = DAYS_IN_WEEK - excluded.length;
+    var eventsMapped = getEventsInPeriod({ events: events, periodStart: startOfViewWeek, periodEnd: endOfViewWeek }).map(function (event) {
+        var offset = getWeekViewEventOffset({ event: event, startOfWeek: startOfViewWeek, excluded: excluded, precision: precision });
+        var span = getWeekViewEventSpan({ event: event, offset: offset, startOfWeekDate: startOfViewWeek, excluded: excluded, precision: precision });
+        return { event: event, offset: offset, span: span };
+    }).filter(function (e) { return e.offset < maxRange; }).filter(function (e) { return e.span > 0; }).map(function (entry) { return ({
+        event: entry.event,
+        offset: entry.offset,
+        span: entry.span,
+        startsBeforeWeek: entry.event.start < startOfViewWeek,
+        endsAfterWeek: (entry.event.end || entry.event.start) > endOfViewWeek
+    }); }).sort(function (itemA, itemB) {
+        var startSecondsDiff = __WEBPACK_IMPORTED_MODULE_9_date_fns_difference_in_seconds___default()(itemA.event.start, itemB.event.start);
+        if (startSecondsDiff === 0) {
+            return __WEBPACK_IMPORTED_MODULE_9_date_fns_difference_in_seconds___default()(itemB.event.end || itemB.event.start, itemA.event.end || itemA.event.start);
+        }
+        return startSecondsDiff;
+    });
+    var eventRows = [];
+    var allocatedEvents = [];
+    eventsMapped.forEach(function (event, index) {
+        if (allocatedEvents.indexOf(event) === -1) {
+            allocatedEvents.push(event);
+            var rowSpan_1 = event.span + event.offset;
+            var otherRowEvents = eventsMapped.slice(index + 1).filter(function (nextEvent) {
+                if (nextEvent.offset >= rowSpan_1 &&
+                    rowSpan_1 + nextEvent.span <= DAYS_IN_WEEK &&
+                    allocatedEvents.indexOf(nextEvent) === -1) {
+                    var nextEventOffset = nextEvent.offset - rowSpan_1;
+                    if (!absolutePositionedEvents) {
+                        nextEvent.offset = nextEventOffset;
+                    }
+                    rowSpan_1 += nextEvent.span + nextEventOffset;
+                    allocatedEvents.push(nextEvent);
+                    return true;
+                }
+            });
+            eventRows.push({
+                row: [
+                    event
+                ].concat(otherRowEvents)
+            });
+        }
+    });
+    return eventRows;
+}
+function getMonthView(_a) {
+    var _b = _a.events, events = _b === void 0 ? [] : _b, viewDate = _a.viewDate, weekStartsOn = _a.weekStartsOn, _c = _a.excluded, excluded = _c === void 0 ? [] : _c, _d = _a.viewStart, viewStart = _d === void 0 ? __WEBPACK_IMPORTED_MODULE_10_date_fns_start_of_month___default()(viewDate) : _d, _e = _a.viewEnd, viewEnd = _e === void 0 ? __WEBPACK_IMPORTED_MODULE_11_date_fns_end_of_month___default()(viewDate) : _e, weekendDays = _a.weekendDays;
+    if (!events) {
+        events = [];
+    }
+    var start = __WEBPACK_IMPORTED_MODULE_6_date_fns_start_of_week___default()(viewStart, { weekStartsOn: weekStartsOn });
+    var end = __WEBPACK_IMPORTED_MODULE_8_date_fns_end_of_week___default()(viewEnd, { weekStartsOn: weekStartsOn });
+    var eventsInMonth = getEventsInPeriod({
+        events: events,
+        periodStart: start,
+        periodEnd: end
+    });
+    var initialViewDays = [];
+    var previousDate;
+    var _loop_3 = function (i) {
+        // hacky fix for https://github.com/mattlewis92/angular-calendar/issues/173
+        var date;
+        if (previousDate) {
+            date = __WEBPACK_IMPORTED_MODULE_3_date_fns_start_of_day___default()(__WEBPACK_IMPORTED_MODULE_18_date_fns_add_hours___default()(previousDate, HOURS_IN_DAY));
+            if (previousDate.getTime() === date.getTime()) {
+                date = __WEBPACK_IMPORTED_MODULE_3_date_fns_start_of_day___default()(__WEBPACK_IMPORTED_MODULE_18_date_fns_add_hours___default()(previousDate, HOURS_IN_DAY + 1));
+            }
+            previousDate = date;
+        }
+        else {
+            date = previousDate = start;
+        }
+        if (!excluded.some(function (e) { return date.getDay() === e; })) {
+            var day = getWeekDay({ date: date, weekendDays: weekendDays });
+            var events_1 = getEventsInPeriod({
+                events: eventsInMonth,
+                periodStart: __WEBPACK_IMPORTED_MODULE_3_date_fns_start_of_day___default()(date),
+                periodEnd: __WEBPACK_IMPORTED_MODULE_0_date_fns_end_of_day___default()(date)
+            });
+            day.inMonth = __WEBPACK_IMPORTED_MODULE_12_date_fns_is_same_month___default()(date, viewDate);
+            day.events = events_1;
+            day.badgeTotal = events_1.length;
+            initialViewDays.push(day);
+        }
+    };
+    for (var i = 0; i < __WEBPACK_IMPORTED_MODULE_2_date_fns_difference_in_days___default()(end, start) + 1; i++) {
+        _loop_3(i);
+    }
+    var days = [];
+    var totalDaysVisibleInWeek = DAYS_IN_WEEK - excluded.length;
+    if (totalDaysVisibleInWeek < DAYS_IN_WEEK) {
+        for (var i = 0; i < initialViewDays.length; i += totalDaysVisibleInWeek) {
+            var row = initialViewDays.slice(i, i + totalDaysVisibleInWeek);
+            var isRowInMonth = row.some(function (day) { return day.date.getMonth() === viewDate.getMonth(); });
+            if (isRowInMonth) {
+                days = days.concat(row);
+            }
+        }
+    }
+    else {
+        days = initialViewDays;
+    }
+    var rows = Math.floor(days.length / totalDaysVisibleInWeek);
+    var rowOffsets = [];
+    for (var i = 0; i < rows; i++) {
+        rowOffsets.push(i * totalDaysVisibleInWeek);
+    }
+    return {
+        rowOffsets: rowOffsets,
+        totalDaysVisibleInWeek: totalDaysVisibleInWeek,
+        days: days
+    };
+}
+function getDayView(_a) {
+    var _b = _a.events, events = _b === void 0 ? [] : _b, viewDate = _a.viewDate, hourSegments = _a.hourSegments, dayStart = _a.dayStart, dayEnd = _a.dayEnd, eventWidth = _a.eventWidth, segmentHeight = _a.segmentHeight;
+    if (!events) {
+        events = [];
+    }
+    var startOfView = __WEBPACK_IMPORTED_MODULE_15_date_fns_set_minutes___default()(__WEBPACK_IMPORTED_MODULE_14_date_fns_set_hours___default()(__WEBPACK_IMPORTED_MODULE_3_date_fns_start_of_day___default()(viewDate), dayStart.hour), dayStart.minute);
+    var endOfView = __WEBPACK_IMPORTED_MODULE_15_date_fns_set_minutes___default()(__WEBPACK_IMPORTED_MODULE_14_date_fns_set_hours___default()(__WEBPACK_IMPORTED_MODULE_16_date_fns_start_of_minute___default()(__WEBPACK_IMPORTED_MODULE_0_date_fns_end_of_day___default()(viewDate)), dayEnd.hour), dayEnd.minute);
+    var previousDayEvents = [];
+    var dayViewEvents = getEventsInPeriod({
+        events: events.filter(function (event) { return !event.allDay; }),
+        periodStart: startOfView,
+        periodEnd: endOfView
+    }).sort(function (eventA, eventB) {
+        return eventA.start.valueOf() - eventB.start.valueOf();
+    }).map(function (event) {
+        var eventStart = event.start;
+        var eventEnd = event.end || eventStart;
+        var startsBeforeDay = eventStart < startOfView;
+        var endsAfterDay = eventEnd > endOfView;
+        var hourHeightModifier = (hourSegments * segmentHeight) / MINUTES_IN_HOUR;
+        var top = 0;
+        if (eventStart > startOfView) {
+            top += __WEBPACK_IMPORTED_MODULE_17_date_fns_difference_in_minutes___default()(eventStart, startOfView);
+        }
+        top *= hourHeightModifier;
+        var startDate = startsBeforeDay ? startOfView : eventStart;
+        var endDate = endsAfterDay ? endOfView : eventEnd;
+        var height = __WEBPACK_IMPORTED_MODULE_17_date_fns_difference_in_minutes___default()(endDate, startDate);
+        if (!event.end) {
+            height = segmentHeight;
+        }
+        else {
+            height *= hourHeightModifier;
+        }
+        var bottom = top + height;
+        var overlappingPreviousEvents = previousDayEvents.filter(function (previousEvent) {
+            var previousEventTop = previousEvent.top;
+            var previousEventBottom = previousEvent.top + previousEvent.height;
+            if (top < previousEventBottom && previousEventBottom < bottom) {
+                return true;
+            }
+            else if (previousEventTop <= top && bottom <= previousEventBottom) {
+                return true;
+            }
+            return false;
+        });
+        var left = 0;
+        while (overlappingPreviousEvents.some(function (previousEvent) { return previousEvent.left === left; })) {
+            left += eventWidth;
+        }
+        var dayEvent = {
+            event: event,
+            height: height,
+            width: eventWidth,
+            top: top,
+            left: left,
+            startsBeforeDay: startsBeforeDay,
+            endsAfterDay: endsAfterDay
+        };
+        if (height > 0) {
+            previousDayEvents.push(dayEvent);
+        }
+        return dayEvent;
+    }).filter(function (dayEvent) { return dayEvent.height > 0; });
+    var width = Math.max.apply(Math, dayViewEvents.map(function (event) { return event.left + event.width; }));
+    var allDayEvents = getEventsInPeriod({
+        events: events.filter(function (event) { return event.allDay; }),
+        periodStart: __WEBPACK_IMPORTED_MODULE_3_date_fns_start_of_day___default()(startOfView),
+        periodEnd: __WEBPACK_IMPORTED_MODULE_0_date_fns_end_of_day___default()(endOfView)
+    });
+    return {
+        events: dayViewEvents,
+        width: width,
+        allDayEvents: allDayEvents
+    };
+}
+function getDayViewHourGrid(_a) {
+    var viewDate = _a.viewDate, hourSegments = _a.hourSegments, dayStart = _a.dayStart, dayEnd = _a.dayEnd;
+    var hours = [];
+    var startOfView = __WEBPACK_IMPORTED_MODULE_15_date_fns_set_minutes___default()(__WEBPACK_IMPORTED_MODULE_14_date_fns_set_hours___default()(__WEBPACK_IMPORTED_MODULE_3_date_fns_start_of_day___default()(viewDate), dayStart.hour), dayStart.minute);
+    var endOfView = __WEBPACK_IMPORTED_MODULE_15_date_fns_set_minutes___default()(__WEBPACK_IMPORTED_MODULE_14_date_fns_set_hours___default()(__WEBPACK_IMPORTED_MODULE_16_date_fns_start_of_minute___default()(__WEBPACK_IMPORTED_MODULE_0_date_fns_end_of_day___default()(viewDate)), dayEnd.hour), dayEnd.minute);
+    var segmentDuration = MINUTES_IN_HOUR / hourSegments;
+    var startOfViewDay = __WEBPACK_IMPORTED_MODULE_3_date_fns_start_of_day___default()(viewDate);
+    for (var i = 0; i < HOURS_IN_DAY; i++) {
+        var segments = [];
+        for (var j = 0; j < hourSegments; j++) {
+            var date = __WEBPACK_IMPORTED_MODULE_1_date_fns_add_minutes___default()(__WEBPACK_IMPORTED_MODULE_18_date_fns_add_hours___default()(startOfViewDay, i), j * segmentDuration);
+            if (date >= startOfView && date < endOfView) {
+                segments.push({
+                    date: date,
+                    isStart: j === 0
+                });
+            }
+        }
+        if (segments.length > 0) {
+            hours.push({ segments: segments });
+        }
+    }
+    return hours;
+}
+//# sourceMappingURL=calendar-utils.js.map
+
+/***/ }),
+
+/***/ "../../../../date-fns/add_days/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Day Helpers
+ * @summary Add the specified number of days to the given date.
+ *
+ * @description
+ * Add the specified number of days to the given date.
+ *
+ * @param {Date|String|Number} date - the date to be changed
+ * @param {Number} amount - the amount of days to be added
+ * @returns {Date} the new date with the days added
+ *
+ * @example
+ * // Add 10 days to 1 September 2014:
+ * var result = addDays(new Date(2014, 8, 1), 10)
+ * //=> Thu Sep 11 2014 00:00:00
+ */
+function addDays (dirtyDate, dirtyAmount) {
+  var date = parse(dirtyDate)
+  var amount = Number(dirtyAmount)
+  date.setDate(date.getDate() + amount)
+  return date
+}
+
+module.exports = addDays
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/add_hours/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var addMilliseconds = __webpack_require__("../../../../date-fns/add_milliseconds/index.js")
+
+var MILLISECONDS_IN_HOUR = 3600000
+
+/**
+ * @category Hour Helpers
+ * @summary Add the specified number of hours to the given date.
+ *
+ * @description
+ * Add the specified number of hours to the given date.
+ *
+ * @param {Date|String|Number} date - the date to be changed
+ * @param {Number} amount - the amount of hours to be added
+ * @returns {Date} the new date with the hours added
+ *
+ * @example
+ * // Add 2 hours to 10 July 2014 23:00:00:
+ * var result = addHours(new Date(2014, 6, 10, 23, 0), 2)
+ * //=> Fri Jul 11 2014 01:00:00
+ */
+function addHours (dirtyDate, dirtyAmount) {
+  var amount = Number(dirtyAmount)
+  return addMilliseconds(dirtyDate, amount * MILLISECONDS_IN_HOUR)
+}
+
+module.exports = addHours
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/add_milliseconds/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Millisecond Helpers
+ * @summary Add the specified number of milliseconds to the given date.
+ *
+ * @description
+ * Add the specified number of milliseconds to the given date.
+ *
+ * @param {Date|String|Number} date - the date to be changed
+ * @param {Number} amount - the amount of milliseconds to be added
+ * @returns {Date} the new date with the milliseconds added
+ *
+ * @example
+ * // Add 750 milliseconds to 10 July 2014 12:45:30.000:
+ * var result = addMilliseconds(new Date(2014, 6, 10, 12, 45, 30, 0), 750)
+ * //=> Thu Jul 10 2014 12:45:30.750
+ */
+function addMilliseconds (dirtyDate, dirtyAmount) {
+  var timestamp = parse(dirtyDate).getTime()
+  var amount = Number(dirtyAmount)
+  return new Date(timestamp + amount)
+}
+
+module.exports = addMilliseconds
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/add_minutes/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var addMilliseconds = __webpack_require__("../../../../date-fns/add_milliseconds/index.js")
+
+var MILLISECONDS_IN_MINUTE = 60000
+
+/**
+ * @category Minute Helpers
+ * @summary Add the specified number of minutes to the given date.
+ *
+ * @description
+ * Add the specified number of minutes to the given date.
+ *
+ * @param {Date|String|Number} date - the date to be changed
+ * @param {Number} amount - the amount of minutes to be added
+ * @returns {Date} the new date with the minutes added
+ *
+ * @example
+ * // Add 30 minutes to 10 July 2014 12:00:00:
+ * var result = addMinutes(new Date(2014, 6, 10, 12, 0), 30)
+ * //=> Thu Jul 10 2014 12:30:00
+ */
+function addMinutes (dirtyDate, dirtyAmount) {
+  var amount = Number(dirtyAmount)
+  return addMilliseconds(dirtyDate, amount * MILLISECONDS_IN_MINUTE)
+}
+
+module.exports = addMinutes
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/add_months/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+var getDaysInMonth = __webpack_require__("../../../../date-fns/get_days_in_month/index.js")
+
+/**
+ * @category Month Helpers
+ * @summary Add the specified number of months to the given date.
+ *
+ * @description
+ * Add the specified number of months to the given date.
+ *
+ * @param {Date|String|Number} date - the date to be changed
+ * @param {Number} amount - the amount of months to be added
+ * @returns {Date} the new date with the months added
+ *
+ * @example
+ * // Add 5 months to 1 September 2014:
+ * var result = addMonths(new Date(2014, 8, 1), 5)
+ * //=> Sun Feb 01 2015 00:00:00
+ */
+function addMonths (dirtyDate, dirtyAmount) {
+  var date = parse(dirtyDate)
+  var amount = Number(dirtyAmount)
+  var desiredMonth = date.getMonth() + amount
+  var dateWithDesiredMonth = new Date(0)
+  dateWithDesiredMonth.setFullYear(date.getFullYear(), desiredMonth, 1)
+  dateWithDesiredMonth.setHours(0, 0, 0, 0)
+  var daysInMonth = getDaysInMonth(dateWithDesiredMonth)
+  // Set the last day of the new month
+  // if the original date was the last day of the longer month
+  date.setMonth(desiredMonth, Math.min(daysInMonth, date.getDate()))
+  return date
+}
+
+module.exports = addMonths
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/add_seconds/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var addMilliseconds = __webpack_require__("../../../../date-fns/add_milliseconds/index.js")
+
+/**
+ * @category Second Helpers
+ * @summary Add the specified number of seconds to the given date.
+ *
+ * @description
+ * Add the specified number of seconds to the given date.
+ *
+ * @param {Date|String|Number} date - the date to be changed
+ * @param {Number} amount - the amount of seconds to be added
+ * @returns {Date} the new date with the seconds added
+ *
+ * @example
+ * // Add 30 seconds to 10 July 2014 12:45:00:
+ * var result = addSeconds(new Date(2014, 6, 10, 12, 45, 0), 30)
+ * //=> Thu Jul 10 2014 12:45:30
+ */
+function addSeconds (dirtyDate, dirtyAmount) {
+  var amount = Number(dirtyAmount)
+  return addMilliseconds(dirtyDate, amount * 1000)
+}
+
+module.exports = addSeconds
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/add_weeks/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var addDays = __webpack_require__("../../../../date-fns/add_days/index.js")
+
+/**
+ * @category Week Helpers
+ * @summary Add the specified number of weeks to the given date.
+ *
+ * @description
+ * Add the specified number of week to the given date.
+ *
+ * @param {Date|String|Number} date - the date to be changed
+ * @param {Number} amount - the amount of weeks to be added
+ * @returns {Date} the new date with the weeks added
+ *
+ * @example
+ * // Add 4 weeks to 1 September 2014:
+ * var result = addWeeks(new Date(2014, 8, 1), 4)
+ * //=> Mon Sep 29 2014 00:00:00
+ */
+function addWeeks (dirtyDate, dirtyAmount) {
+  var amount = Number(dirtyAmount)
+  var days = amount * 7
+  return addDays(dirtyDate, days)
+}
+
+module.exports = addWeeks
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/compare_asc/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Common Helpers
+ * @summary Compare the two dates and return -1, 0 or 1.
+ *
+ * @description
+ * Compare the two dates and return 1 if the first date is after the second,
+ * -1 if the first date is before the second or 0 if dates are equal.
+ *
+ * @param {Date|String|Number} dateLeft - the first date to compare
+ * @param {Date|String|Number} dateRight - the second date to compare
+ * @returns {Number} the result of the comparison
+ *
+ * @example
+ * // Compare 11 February 1987 and 10 July 1989:
+ * var result = compareAsc(
+ *   new Date(1987, 1, 11),
+ *   new Date(1989, 6, 10)
+ * )
+ * //=> -1
+ *
+ * @example
+ * // Sort the array of dates:
+ * var result = [
+ *   new Date(1995, 6, 2),
+ *   new Date(1987, 1, 11),
+ *   new Date(1989, 6, 10)
+ * ].sort(compareAsc)
+ * //=> [
+ * //   Wed Feb 11 1987 00:00:00,
+ * //   Mon Jul 10 1989 00:00:00,
+ * //   Sun Jul 02 1995 00:00:00
+ * // ]
+ */
+function compareAsc (dirtyDateLeft, dirtyDateRight) {
+  var dateLeft = parse(dirtyDateLeft)
+  var timeLeft = dateLeft.getTime()
+  var dateRight = parse(dirtyDateRight)
+  var timeRight = dateRight.getTime()
+
+  if (timeLeft < timeRight) {
+    return -1
+  } else if (timeLeft > timeRight) {
+    return 1
+  } else {
+    return 0
+  }
+}
+
+module.exports = compareAsc
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/difference_in_calendar_days/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var startOfDay = __webpack_require__("../../../../date-fns/start_of_day/index.js")
+
+var MILLISECONDS_IN_MINUTE = 60000
+var MILLISECONDS_IN_DAY = 86400000
+
+/**
+ * @category Day Helpers
+ * @summary Get the number of calendar days between the given dates.
+ *
+ * @description
+ * Get the number of calendar days between the given dates.
+ *
+ * @param {Date|String|Number} dateLeft - the later date
+ * @param {Date|String|Number} dateRight - the earlier date
+ * @returns {Number} the number of calendar days
+ *
+ * @example
+ * // How many calendar days are between
+ * // 2 July 2011 23:00:00 and 2 July 2012 00:00:00?
+ * var result = differenceInCalendarDays(
+ *   new Date(2012, 6, 2, 0, 0),
+ *   new Date(2011, 6, 2, 23, 0)
+ * )
+ * //=> 366
+ */
+function differenceInCalendarDays (dirtyDateLeft, dirtyDateRight) {
+  var startOfDayLeft = startOfDay(dirtyDateLeft)
+  var startOfDayRight = startOfDay(dirtyDateRight)
+
+  var timestampLeft = startOfDayLeft.getTime() -
+    startOfDayLeft.getTimezoneOffset() * MILLISECONDS_IN_MINUTE
+  var timestampRight = startOfDayRight.getTime() -
+    startOfDayRight.getTimezoneOffset() * MILLISECONDS_IN_MINUTE
+
+  // Round the number of days to the nearest integer
+  // because the number of milliseconds in a day is not constant
+  // (e.g. it's different in the day of the daylight saving time clock shift)
+  return Math.round((timestampLeft - timestampRight) / MILLISECONDS_IN_DAY)
+}
+
+module.exports = differenceInCalendarDays
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/difference_in_days/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+var differenceInCalendarDays = __webpack_require__("../../../../date-fns/difference_in_calendar_days/index.js")
+var compareAsc = __webpack_require__("../../../../date-fns/compare_asc/index.js")
+
+/**
+ * @category Day Helpers
+ * @summary Get the number of full days between the given dates.
+ *
+ * @description
+ * Get the number of full days between the given dates.
+ *
+ * @param {Date|String|Number} dateLeft - the later date
+ * @param {Date|String|Number} dateRight - the earlier date
+ * @returns {Number} the number of full days
+ *
+ * @example
+ * // How many full days are between
+ * // 2 July 2011 23:00:00 and 2 July 2012 00:00:00?
+ * var result = differenceInDays(
+ *   new Date(2012, 6, 2, 0, 0),
+ *   new Date(2011, 6, 2, 23, 0)
+ * )
+ * //=> 365
+ */
+function differenceInDays (dirtyDateLeft, dirtyDateRight) {
+  var dateLeft = parse(dirtyDateLeft)
+  var dateRight = parse(dirtyDateRight)
+
+  var sign = compareAsc(dateLeft, dateRight)
+  var difference = Math.abs(differenceInCalendarDays(dateLeft, dateRight))
+  dateLeft.setDate(dateLeft.getDate() - sign * difference)
+
+  // Math.abs(diff in full days - diff in calendar days) === 1 if last calendar day is not full
+  // If so, result must be decreased by 1 in absolute value
+  var isLastDayNotFull = compareAsc(dateLeft, dateRight) === -sign
+  return sign * (difference - isLastDayNotFull)
+}
+
+module.exports = differenceInDays
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/difference_in_milliseconds/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Millisecond Helpers
+ * @summary Get the number of milliseconds between the given dates.
+ *
+ * @description
+ * Get the number of milliseconds between the given dates.
+ *
+ * @param {Date|String|Number} dateLeft - the later date
+ * @param {Date|String|Number} dateRight - the earlier date
+ * @returns {Number} the number of milliseconds
+ *
+ * @example
+ * // How many milliseconds are between
+ * // 2 July 2014 12:30:20.600 and 2 July 2014 12:30:21.700?
+ * var result = differenceInMilliseconds(
+ *   new Date(2014, 6, 2, 12, 30, 21, 700),
+ *   new Date(2014, 6, 2, 12, 30, 20, 600)
+ * )
+ * //=> 1100
+ */
+function differenceInMilliseconds (dirtyDateLeft, dirtyDateRight) {
+  var dateLeft = parse(dirtyDateLeft)
+  var dateRight = parse(dirtyDateRight)
+  return dateLeft.getTime() - dateRight.getTime()
+}
+
+module.exports = differenceInMilliseconds
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/difference_in_minutes/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var differenceInMilliseconds = __webpack_require__("../../../../date-fns/difference_in_milliseconds/index.js")
+
+var MILLISECONDS_IN_MINUTE = 60000
+
+/**
+ * @category Minute Helpers
+ * @summary Get the number of minutes between the given dates.
+ *
+ * @description
+ * Get the number of minutes between the given dates.
+ *
+ * @param {Date|String|Number} dateLeft - the later date
+ * @param {Date|String|Number} dateRight - the earlier date
+ * @returns {Number} the number of minutes
+ *
+ * @example
+ * // How many minutes are between 2 July 2014 12:07:59 and 2 July 2014 12:20:00?
+ * var result = differenceInMinutes(
+ *   new Date(2014, 6, 2, 12, 20, 0),
+ *   new Date(2014, 6, 2, 12, 7, 59)
+ * )
+ * //=> 12
+ */
+function differenceInMinutes (dirtyDateLeft, dirtyDateRight) {
+  var diff = differenceInMilliseconds(dirtyDateLeft, dirtyDateRight) / MILLISECONDS_IN_MINUTE
+  return diff > 0 ? Math.floor(diff) : Math.ceil(diff)
+}
+
+module.exports = differenceInMinutes
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/difference_in_seconds/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var differenceInMilliseconds = __webpack_require__("../../../../date-fns/difference_in_milliseconds/index.js")
+
+/**
+ * @category Second Helpers
+ * @summary Get the number of seconds between the given dates.
+ *
+ * @description
+ * Get the number of seconds between the given dates.
+ *
+ * @param {Date|String|Number} dateLeft - the later date
+ * @param {Date|String|Number} dateRight - the earlier date
+ * @returns {Number} the number of seconds
+ *
+ * @example
+ * // How many seconds are between
+ * // 2 July 2014 12:30:07.999 and 2 July 2014 12:30:20.000?
+ * var result = differenceInSeconds(
+ *   new Date(2014, 6, 2, 12, 30, 20, 0),
+ *   new Date(2014, 6, 2, 12, 30, 7, 999)
+ * )
+ * //=> 12
+ */
+function differenceInSeconds (dirtyDateLeft, dirtyDateRight) {
+  var diff = differenceInMilliseconds(dirtyDateLeft, dirtyDateRight) / 1000
+  return diff > 0 ? Math.floor(diff) : Math.ceil(diff)
+}
+
+module.exports = differenceInSeconds
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/end_of_day/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Day Helpers
+ * @summary Return the end of a day for the given date.
+ *
+ * @description
+ * Return the end of a day for the given date.
+ * The result will be in the local timezone.
+ *
+ * @param {Date|String|Number} date - the original date
+ * @returns {Date} the end of a day
+ *
+ * @example
+ * // The end of a day for 2 September 2014 11:55:00:
+ * var result = endOfDay(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Tue Sep 02 2014 23:59:59.999
+ */
+function endOfDay (dirtyDate) {
+  var date = parse(dirtyDate)
+  date.setHours(23, 59, 59, 999)
+  return date
+}
+
+module.exports = endOfDay
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/end_of_month/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Month Helpers
+ * @summary Return the end of a month for the given date.
+ *
+ * @description
+ * Return the end of a month for the given date.
+ * The result will be in the local timezone.
+ *
+ * @param {Date|String|Number} date - the original date
+ * @returns {Date} the end of a month
+ *
+ * @example
+ * // The end of a month for 2 September 2014 11:55:00:
+ * var result = endOfMonth(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Tue Sep 30 2014 23:59:59.999
+ */
+function endOfMonth (dirtyDate) {
+  var date = parse(dirtyDate)
+  var month = date.getMonth()
+  date.setFullYear(date.getFullYear(), month + 1, 0)
+  date.setHours(23, 59, 59, 999)
+  return date
+}
+
+module.exports = endOfMonth
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/end_of_week/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Week Helpers
+ * @summary Return the end of a week for the given date.
+ *
+ * @description
+ * Return the end of a week for the given date.
+ * The result will be in the local timezone.
+ *
+ * @param {Date|String|Number} date - the original date
+ * @param {Object} [options] - the object with options
+ * @param {Number} [options.weekStartsOn=0] - the index of the first day of the week (0 - Sunday)
+ * @returns {Date} the end of a week
+ *
+ * @example
+ * // The end of a week for 2 September 2014 11:55:00:
+ * var result = endOfWeek(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Sat Sep 06 2014 23:59:59.999
+ *
+ * @example
+ * // If the week starts on Monday, the end of the week for 2 September 2014 11:55:00:
+ * var result = endOfWeek(new Date(2014, 8, 2, 11, 55, 0), {weekStartsOn: 1})
+ * //=> Sun Sep 07 2014 23:59:59.999
+ */
+function endOfWeek (dirtyDate, dirtyOptions) {
+  var weekStartsOn = dirtyOptions ? (Number(dirtyOptions.weekStartsOn) || 0) : 0
+
+  var date = parse(dirtyDate)
+  var day = date.getDay()
+  var diff = (day < weekStartsOn ? -7 : 0) + 6 - (day - weekStartsOn)
+
+  date.setDate(date.getDate() + diff)
+  date.setHours(23, 59, 59, 999)
+  return date
+}
+
+module.exports = endOfWeek
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/get_date/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Day Helpers
+ * @summary Get the day of the month of the given date.
+ *
+ * @description
+ * Get the day of the month of the given date.
+ *
+ * @param {Date|String|Number} date - the given date
+ * @returns {Number} the day of month
+ *
+ * @example
+ * // Which day of the month is 29 February 2012?
+ * var result = getDate(new Date(2012, 1, 29))
+ * //=> 29
+ */
+function getDate (dirtyDate) {
+  var date = parse(dirtyDate)
+  var dayOfMonth = date.getDate()
+  return dayOfMonth
+}
+
+module.exports = getDate
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/get_day/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Weekday Helpers
+ * @summary Get the day of the week of the given date.
+ *
+ * @description
+ * Get the day of the week of the given date.
+ *
+ * @param {Date|String|Number} date - the given date
+ * @returns {Number} the day of week
+ *
+ * @example
+ * // Which day of the week is 29 February 2012?
+ * var result = getDay(new Date(2012, 1, 29))
+ * //=> 3
+ */
+function getDay (dirtyDate) {
+  var date = parse(dirtyDate)
+  var day = date.getDay()
+  return day
+}
+
+module.exports = getDay
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/get_days_in_month/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Month Helpers
+ * @summary Get the number of days in a month of the given date.
+ *
+ * @description
+ * Get the number of days in a month of the given date.
+ *
+ * @param {Date|String|Number} date - the given date
+ * @returns {Number} the number of days in a month
+ *
+ * @example
+ * // How many days are in February 2000?
+ * var result = getDaysInMonth(new Date(2000, 1))
+ * //=> 29
+ */
+function getDaysInMonth (dirtyDate) {
+  var date = parse(dirtyDate)
+  var year = date.getFullYear()
+  var monthIndex = date.getMonth()
+  var lastDayOfMonth = new Date(0)
+  lastDayOfMonth.setFullYear(year, monthIndex + 1, 0)
+  lastDayOfMonth.setHours(0, 0, 0, 0)
+  return lastDayOfMonth.getDate()
+}
+
+module.exports = getDaysInMonth
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/get_iso_week/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+var startOfISOWeek = __webpack_require__("../../../../date-fns/start_of_iso_week/index.js")
+var startOfISOYear = __webpack_require__("../../../../date-fns/start_of_iso_year/index.js")
+
+var MILLISECONDS_IN_WEEK = 604800000
+
+/**
+ * @category ISO Week Helpers
+ * @summary Get the ISO week of the given date.
+ *
+ * @description
+ * Get the ISO week of the given date.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @param {Date|String|Number} date - the given date
+ * @returns {Number} the ISO week
+ *
+ * @example
+ * // Which week of the ISO-week numbering year is 2 January 2005?
+ * var result = getISOWeek(new Date(2005, 0, 2))
+ * //=> 53
+ */
+function getISOWeek (dirtyDate) {
+  var date = parse(dirtyDate)
+  var diff = startOfISOWeek(date).getTime() - startOfISOYear(date).getTime()
+
+  // Round the number of days to the nearest integer
+  // because the number of milliseconds in a week is not constant
+  // (e.g. it's different in the week of the daylight saving time clock shift)
+  return Math.round(diff / MILLISECONDS_IN_WEEK) + 1
+}
+
+module.exports = getISOWeek
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/get_iso_year/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+var startOfISOWeek = __webpack_require__("../../../../date-fns/start_of_iso_week/index.js")
+
+/**
+ * @category ISO Week-Numbering Year Helpers
+ * @summary Get the ISO week-numbering year of the given date.
+ *
+ * @description
+ * Get the ISO week-numbering year of the given date,
+ * which always starts 3 days before the year's first Thursday.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @param {Date|String|Number} date - the given date
+ * @returns {Number} the ISO week-numbering year
+ *
+ * @example
+ * // Which ISO-week numbering year is 2 January 2005?
+ * var result = getISOYear(new Date(2005, 0, 2))
+ * //=> 2004
+ */
+function getISOYear (dirtyDate) {
+  var date = parse(dirtyDate)
+  var year = date.getFullYear()
+
+  var fourthOfJanuaryOfNextYear = new Date(0)
+  fourthOfJanuaryOfNextYear.setFullYear(year + 1, 0, 4)
+  fourthOfJanuaryOfNextYear.setHours(0, 0, 0, 0)
+  var startOfNextYear = startOfISOWeek(fourthOfJanuaryOfNextYear)
+
+  var fourthOfJanuaryOfThisYear = new Date(0)
+  fourthOfJanuaryOfThisYear.setFullYear(year, 0, 4)
+  fourthOfJanuaryOfThisYear.setHours(0, 0, 0, 0)
+  var startOfThisYear = startOfISOWeek(fourthOfJanuaryOfThisYear)
+
+  if (date.getTime() >= startOfNextYear.getTime()) {
+    return year + 1
+  } else if (date.getTime() >= startOfThisYear.getTime()) {
+    return year
+  } else {
+    return year - 1
+  }
+}
+
+module.exports = getISOYear
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/get_month/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Month Helpers
+ * @summary Get the month of the given date.
+ *
+ * @description
+ * Get the month of the given date.
+ *
+ * @param {Date|String|Number} date - the given date
+ * @returns {Number} the month
+ *
+ * @example
+ * // Which month is 29 February 2012?
+ * var result = getMonth(new Date(2012, 1, 29))
+ * //=> 1
+ */
+function getMonth (dirtyDate) {
+  var date = parse(dirtyDate)
+  var month = date.getMonth()
+  return month
+}
+
+module.exports = getMonth
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/get_year/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Year Helpers
+ * @summary Get the year of the given date.
+ *
+ * @description
+ * Get the year of the given date.
+ *
+ * @param {Date|String|Number} date - the given date
+ * @returns {Number} the year
+ *
+ * @example
+ * // Which year is 2 July 2014?
+ * var result = getYear(new Date(2014, 6, 2))
+ * //=> 2014
+ */
+function getYear (dirtyDate) {
+  var date = parse(dirtyDate)
+  var year = date.getFullYear()
+  return year
+}
+
+module.exports = getYear
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/is_date/index.js":
+/***/ (function(module, exports) {
+
+/**
+ * @category Common Helpers
+ * @summary Is the given argument an instance of Date?
+ *
+ * @description
+ * Is the given argument an instance of Date?
+ *
+ * @param {*} argument - the argument to check
+ * @returns {Boolean} the given argument is an instance of Date
+ *
+ * @example
+ * // Is 'mayonnaise' a Date?
+ * var result = isDate('mayonnaise')
+ * //=> false
+ */
+function isDate (argument) {
+  return argument instanceof Date
+}
+
+module.exports = isDate
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/is_same_day/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var startOfDay = __webpack_require__("../../../../date-fns/start_of_day/index.js")
+
+/**
+ * @category Day Helpers
+ * @summary Are the given dates in the same day?
+ *
+ * @description
+ * Are the given dates in the same day?
+ *
+ * @param {Date|String|Number} dateLeft - the first date to check
+ * @param {Date|String|Number} dateRight - the second date to check
+ * @returns {Boolean} the dates are in the same day
+ *
+ * @example
+ * // Are 4 September 06:00:00 and 4 September 18:00:00 in the same day?
+ * var result = isSameDay(
+ *   new Date(2014, 8, 4, 6, 0),
+ *   new Date(2014, 8, 4, 18, 0)
+ * )
+ * //=> true
+ */
+function isSameDay (dirtyDateLeft, dirtyDateRight) {
+  var dateLeftStartOfDay = startOfDay(dirtyDateLeft)
+  var dateRightStartOfDay = startOfDay(dirtyDateRight)
+
+  return dateLeftStartOfDay.getTime() === dateRightStartOfDay.getTime()
+}
+
+module.exports = isSameDay
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/is_same_month/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Month Helpers
+ * @summary Are the given dates in the same month?
+ *
+ * @description
+ * Are the given dates in the same month?
+ *
+ * @param {Date|String|Number} dateLeft - the first date to check
+ * @param {Date|String|Number} dateRight - the second date to check
+ * @returns {Boolean} the dates are in the same month
+ *
+ * @example
+ * // Are 2 September 2014 and 25 September 2014 in the same month?
+ * var result = isSameMonth(
+ *   new Date(2014, 8, 2),
+ *   new Date(2014, 8, 25)
+ * )
+ * //=> true
+ */
+function isSameMonth (dirtyDateLeft, dirtyDateRight) {
+  var dateLeft = parse(dirtyDateLeft)
+  var dateRight = parse(dirtyDateRight)
+  return dateLeft.getFullYear() === dateRight.getFullYear() &&
+    dateLeft.getMonth() === dateRight.getMonth()
+}
+
+module.exports = isSameMonth
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/is_same_second/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var startOfSecond = __webpack_require__("../../../../date-fns/start_of_second/index.js")
+
+/**
+ * @category Second Helpers
+ * @summary Are the given dates in the same second?
+ *
+ * @description
+ * Are the given dates in the same second?
+ *
+ * @param {Date|String|Number} dateLeft - the first date to check
+ * @param {Date|String|Number} dateRight - the second date to check
+ * @returns {Boolean} the dates are in the same second
+ *
+ * @example
+ * // Are 4 September 2014 06:30:15.000 and 4 September 2014 06:30.15.500
+ * // in the same second?
+ * var result = isSameSecond(
+ *   new Date(2014, 8, 4, 6, 30, 15),
+ *   new Date(2014, 8, 4, 6, 30, 15, 500)
+ * )
+ * //=> true
+ */
+function isSameSecond (dirtyDateLeft, dirtyDateRight) {
+  var dateLeftStartOfSecond = startOfSecond(dirtyDateLeft)
+  var dateRightStartOfSecond = startOfSecond(dirtyDateRight)
+
+  return dateLeftStartOfSecond.getTime() === dateRightStartOfSecond.getTime()
+}
+
+module.exports = isSameSecond
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/max/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Common Helpers
+ * @summary Return the latest of the given dates.
+ *
+ * @description
+ * Return the latest of the given dates.
+ *
+ * @param {...(Date|String|Number)} dates - the dates to compare
+ * @returns {Date} the latest of the dates
+ *
+ * @example
+ * // Which of these dates is the latest?
+ * var result = max(
+ *   new Date(1989, 6, 10),
+ *   new Date(1987, 1, 11),
+ *   new Date(1995, 6, 2),
+ *   new Date(1990, 0, 1)
+ * )
+ * //=> Sun Jul 02 1995 00:00:00
+ */
+function max () {
+  var dirtyDates = Array.prototype.slice.call(arguments)
+  var dates = dirtyDates.map(function (dirtyDate) {
+    return parse(dirtyDate)
+  })
+  var latestTimestamp = Math.max.apply(null, dates)
+  return new Date(latestTimestamp)
+}
+
+module.exports = max
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/parse/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var isDate = __webpack_require__("../../../../date-fns/is_date/index.js")
+
+var MILLISECONDS_IN_HOUR = 3600000
+var MILLISECONDS_IN_MINUTE = 60000
+var DEFAULT_ADDITIONAL_DIGITS = 2
+
+var parseTokenDateTimeDelimeter = /[T ]/
+var parseTokenPlainTime = /:/
+
+// year tokens
+var parseTokenYY = /^(\d{2})$/
+var parseTokensYYY = [
+  /^([+-]\d{2})$/, // 0 additional digits
+  /^([+-]\d{3})$/, // 1 additional digit
+  /^([+-]\d{4})$/ // 2 additional digits
+]
+
+var parseTokenYYYY = /^(\d{4})/
+var parseTokensYYYYY = [
+  /^([+-]\d{4})/, // 0 additional digits
+  /^([+-]\d{5})/, // 1 additional digit
+  /^([+-]\d{6})/ // 2 additional digits
+]
+
+// date tokens
+var parseTokenMM = /^-(\d{2})$/
+var parseTokenDDD = /^-?(\d{3})$/
+var parseTokenMMDD = /^-?(\d{2})-?(\d{2})$/
+var parseTokenWww = /^-?W(\d{2})$/
+var parseTokenWwwD = /^-?W(\d{2})-?(\d{1})$/
+
+// time tokens
+var parseTokenHH = /^(\d{2}([.,]\d*)?)$/
+var parseTokenHHMM = /^(\d{2}):?(\d{2}([.,]\d*)?)$/
+var parseTokenHHMMSS = /^(\d{2}):?(\d{2}):?(\d{2}([.,]\d*)?)$/
+
+// timezone tokens
+var parseTokenTimezone = /([Z+-].*)$/
+var parseTokenTimezoneZ = /^(Z)$/
+var parseTokenTimezoneHH = /^([+-])(\d{2})$/
+var parseTokenTimezoneHHMM = /^([+-])(\d{2}):?(\d{2})$/
+
+/**
+ * @category Common Helpers
+ * @summary Convert the given argument to an instance of Date.
+ *
+ * @description
+ * Convert the given argument to an instance of Date.
+ *
+ * If the argument is an instance of Date, the function returns its clone.
+ *
+ * If the argument is a number, it is treated as a timestamp.
+ *
+ * If an argument is a string, the function tries to parse it.
+ * Function accepts complete ISO 8601 formats as well as partial implementations.
+ * ISO 8601: http://en.wikipedia.org/wiki/ISO_8601
+ *
+ * If all above fails, the function passes the given argument to Date constructor.
+ *
+ * @param {Date|String|Number} argument - the value to convert
+ * @param {Object} [options] - the object with options
+ * @param {0 | 1 | 2} [options.additionalDigits=2] - the additional number of digits in the extended year format
+ * @returns {Date} the parsed date in the local time zone
+ *
+ * @example
+ * // Convert string '2014-02-11T11:30:30' to date:
+ * var result = parse('2014-02-11T11:30:30')
+ * //=> Tue Feb 11 2014 11:30:30
+ *
+ * @example
+ * // Parse string '+02014101',
+ * // if the additional number of digits in the extended year format is 1:
+ * var result = parse('+02014101', {additionalDigits: 1})
+ * //=> Fri Apr 11 2014 00:00:00
+ */
+function parse (argument, dirtyOptions) {
+  if (isDate(argument)) {
+    // Prevent the date to lose the milliseconds when passed to new Date() in IE10
+    return new Date(argument.getTime())
+  } else if (typeof argument !== 'string') {
+    return new Date(argument)
+  }
+
+  var options = dirtyOptions || {}
+  var additionalDigits = options.additionalDigits
+  if (additionalDigits == null) {
+    additionalDigits = DEFAULT_ADDITIONAL_DIGITS
+  } else {
+    additionalDigits = Number(additionalDigits)
+  }
+
+  var dateStrings = splitDateString(argument)
+
+  var parseYearResult = parseYear(dateStrings.date, additionalDigits)
+  var year = parseYearResult.year
+  var restDateString = parseYearResult.restDateString
+
+  var date = parseDate(restDateString, year)
+
+  if (date) {
+    var timestamp = date.getTime()
+    var time = 0
+    var offset
+
+    if (dateStrings.time) {
+      time = parseTime(dateStrings.time)
+    }
+
+    if (dateStrings.timezone) {
+      offset = parseTimezone(dateStrings.timezone)
+    } else {
+      // get offset accurate to hour in timezones that change offset
+      offset = new Date(timestamp + time).getTimezoneOffset()
+      offset = new Date(timestamp + time + offset * MILLISECONDS_IN_MINUTE).getTimezoneOffset()
+    }
+
+    return new Date(timestamp + time + offset * MILLISECONDS_IN_MINUTE)
+  } else {
+    return new Date(argument)
+  }
+}
+
+function splitDateString (dateString) {
+  var dateStrings = {}
+  var array = dateString.split(parseTokenDateTimeDelimeter)
+  var timeString
+
+  if (parseTokenPlainTime.test(array[0])) {
+    dateStrings.date = null
+    timeString = array[0]
+  } else {
+    dateStrings.date = array[0]
+    timeString = array[1]
+  }
+
+  if (timeString) {
+    var token = parseTokenTimezone.exec(timeString)
+    if (token) {
+      dateStrings.time = timeString.replace(token[1], '')
+      dateStrings.timezone = token[1]
+    } else {
+      dateStrings.time = timeString
+    }
+  }
+
+  return dateStrings
+}
+
+function parseYear (dateString, additionalDigits) {
+  var parseTokenYYY = parseTokensYYY[additionalDigits]
+  var parseTokenYYYYY = parseTokensYYYYY[additionalDigits]
+
+  var token
+
+  // YYYY or ±YYYYY
+  token = parseTokenYYYY.exec(dateString) || parseTokenYYYYY.exec(dateString)
+  if (token) {
+    var yearString = token[1]
+    return {
+      year: parseInt(yearString, 10),
+      restDateString: dateString.slice(yearString.length)
+    }
+  }
+
+  // YY or ±YYY
+  token = parseTokenYY.exec(dateString) || parseTokenYYY.exec(dateString)
+  if (token) {
+    var centuryString = token[1]
+    return {
+      year: parseInt(centuryString, 10) * 100,
+      restDateString: dateString.slice(centuryString.length)
+    }
+  }
+
+  // Invalid ISO-formatted year
+  return {
+    year: null
+  }
+}
+
+function parseDate (dateString, year) {
+  // Invalid ISO-formatted year
+  if (year === null) {
+    return null
+  }
+
+  var token
+  var date
+  var month
+  var week
+
+  // YYYY
+  if (dateString.length === 0) {
+    date = new Date(0)
+    date.setUTCFullYear(year)
+    return date
+  }
+
+  // YYYY-MM
+  token = parseTokenMM.exec(dateString)
+  if (token) {
+    date = new Date(0)
+    month = parseInt(token[1], 10) - 1
+    date.setUTCFullYear(year, month)
+    return date
+  }
+
+  // YYYY-DDD or YYYYDDD
+  token = parseTokenDDD.exec(dateString)
+  if (token) {
+    date = new Date(0)
+    var dayOfYear = parseInt(token[1], 10)
+    date.setUTCFullYear(year, 0, dayOfYear)
+    return date
+  }
+
+  // YYYY-MM-DD or YYYYMMDD
+  token = parseTokenMMDD.exec(dateString)
+  if (token) {
+    date = new Date(0)
+    month = parseInt(token[1], 10) - 1
+    var day = parseInt(token[2], 10)
+    date.setUTCFullYear(year, month, day)
+    return date
+  }
+
+  // YYYY-Www or YYYYWww
+  token = parseTokenWww.exec(dateString)
+  if (token) {
+    week = parseInt(token[1], 10) - 1
+    return dayOfISOYear(year, week)
+  }
+
+  // YYYY-Www-D or YYYYWwwD
+  token = parseTokenWwwD.exec(dateString)
+  if (token) {
+    week = parseInt(token[1], 10) - 1
+    var dayOfWeek = parseInt(token[2], 10) - 1
+    return dayOfISOYear(year, week, dayOfWeek)
+  }
+
+  // Invalid ISO-formatted date
+  return null
+}
+
+function parseTime (timeString) {
+  var token
+  var hours
+  var minutes
+
+  // hh
+  token = parseTokenHH.exec(timeString)
+  if (token) {
+    hours = parseFloat(token[1].replace(',', '.'))
+    return (hours % 24) * MILLISECONDS_IN_HOUR
+  }
+
+  // hh:mm or hhmm
+  token = parseTokenHHMM.exec(timeString)
+  if (token) {
+    hours = parseInt(token[1], 10)
+    minutes = parseFloat(token[2].replace(',', '.'))
+    return (hours % 24) * MILLISECONDS_IN_HOUR +
+      minutes * MILLISECONDS_IN_MINUTE
+  }
+
+  // hh:mm:ss or hhmmss
+  token = parseTokenHHMMSS.exec(timeString)
+  if (token) {
+    hours = parseInt(token[1], 10)
+    minutes = parseInt(token[2], 10)
+    var seconds = parseFloat(token[3].replace(',', '.'))
+    return (hours % 24) * MILLISECONDS_IN_HOUR +
+      minutes * MILLISECONDS_IN_MINUTE +
+      seconds * 1000
+  }
+
+  // Invalid ISO-formatted time
+  return null
+}
+
+function parseTimezone (timezoneString) {
+  var token
+  var absoluteOffset
+
+  // Z
+  token = parseTokenTimezoneZ.exec(timezoneString)
+  if (token) {
+    return 0
+  }
+
+  // ±hh
+  token = parseTokenTimezoneHH.exec(timezoneString)
+  if (token) {
+    absoluteOffset = parseInt(token[2], 10) * 60
+    return (token[1] === '+') ? -absoluteOffset : absoluteOffset
+  }
+
+  // ±hh:mm or ±hhmm
+  token = parseTokenTimezoneHHMM.exec(timezoneString)
+  if (token) {
+    absoluteOffset = parseInt(token[2], 10) * 60 + parseInt(token[3], 10)
+    return (token[1] === '+') ? -absoluteOffset : absoluteOffset
+  }
+
+  return 0
+}
+
+function dayOfISOYear (isoYear, week, day) {
+  week = week || 0
+  day = day || 0
+  var date = new Date(0)
+  date.setUTCFullYear(isoYear, 0, 4)
+  var fourthOfJanuaryDay = date.getUTCDay() || 7
+  var diff = week * 7 + day + 1 - fourthOfJanuaryDay
+  date.setUTCDate(date.getUTCDate() + diff)
+  return date
+}
+
+module.exports = parse
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/set_date/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Day Helpers
+ * @summary Set the day of the month to the given date.
+ *
+ * @description
+ * Set the day of the month to the given date.
+ *
+ * @param {Date|String|Number} date - the date to be changed
+ * @param {Number} dayOfMonth - the day of the month of the new date
+ * @returns {Date} the new date with the day of the month setted
+ *
+ * @example
+ * // Set the 30th day of the month to 1 September 2014:
+ * var result = setDate(new Date(2014, 8, 1), 30)
+ * //=> Tue Sep 30 2014 00:00:00
+ */
+function setDate (dirtyDate, dirtyDayOfMonth) {
+  var date = parse(dirtyDate)
+  var dayOfMonth = Number(dirtyDayOfMonth)
+  date.setDate(dayOfMonth)
+  return date
+}
+
+module.exports = setDate
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/set_hours/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Hour Helpers
+ * @summary Set the hours to the given date.
+ *
+ * @description
+ * Set the hours to the given date.
+ *
+ * @param {Date|String|Number} date - the date to be changed
+ * @param {Number} hours - the hours of the new date
+ * @returns {Date} the new date with the hours setted
+ *
+ * @example
+ * // Set 4 hours to 1 September 2014 11:30:00:
+ * var result = setHours(new Date(2014, 8, 1, 11, 30), 4)
+ * //=> Mon Sep 01 2014 04:30:00
+ */
+function setHours (dirtyDate, dirtyHours) {
+  var date = parse(dirtyDate)
+  var hours = Number(dirtyHours)
+  date.setHours(hours)
+  return date
+}
+
+module.exports = setHours
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/set_minutes/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Minute Helpers
+ * @summary Set the minutes to the given date.
+ *
+ * @description
+ * Set the minutes to the given date.
+ *
+ * @param {Date|String|Number} date - the date to be changed
+ * @param {Number} minutes - the minutes of the new date
+ * @returns {Date} the new date with the minutes setted
+ *
+ * @example
+ * // Set 45 minutes to 1 September 2014 11:30:40:
+ * var result = setMinutes(new Date(2014, 8, 1, 11, 30, 40), 45)
+ * //=> Mon Sep 01 2014 11:45:40
+ */
+function setMinutes (dirtyDate, dirtyMinutes) {
+  var date = parse(dirtyDate)
+  var minutes = Number(dirtyMinutes)
+  date.setMinutes(minutes)
+  return date
+}
+
+module.exports = setMinutes
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/set_month/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+var getDaysInMonth = __webpack_require__("../../../../date-fns/get_days_in_month/index.js")
+
+/**
+ * @category Month Helpers
+ * @summary Set the month to the given date.
+ *
+ * @description
+ * Set the month to the given date.
+ *
+ * @param {Date|String|Number} date - the date to be changed
+ * @param {Number} month - the month of the new date
+ * @returns {Date} the new date with the month setted
+ *
+ * @example
+ * // Set February to 1 September 2014:
+ * var result = setMonth(new Date(2014, 8, 1), 1)
+ * //=> Sat Feb 01 2014 00:00:00
+ */
+function setMonth (dirtyDate, dirtyMonth) {
+  var date = parse(dirtyDate)
+  var month = Number(dirtyMonth)
+  var year = date.getFullYear()
+  var day = date.getDate()
+
+  var dateWithDesiredMonth = new Date(0)
+  dateWithDesiredMonth.setFullYear(year, month, 15)
+  dateWithDesiredMonth.setHours(0, 0, 0, 0)
+  var daysInMonth = getDaysInMonth(dateWithDesiredMonth)
+  // Set the last day of the new month
+  // if the original date was the last day of the longer month
+  date.setMonth(month, Math.min(day, daysInMonth))
+  return date
+}
+
+module.exports = setMonth
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/set_year/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Year Helpers
+ * @summary Set the year to the given date.
+ *
+ * @description
+ * Set the year to the given date.
+ *
+ * @param {Date|String|Number} date - the date to be changed
+ * @param {Number} year - the year of the new date
+ * @returns {Date} the new date with the year setted
+ *
+ * @example
+ * // Set year 2013 to 1 September 2014:
+ * var result = setYear(new Date(2014, 8, 1), 2013)
+ * //=> Sun Sep 01 2013 00:00:00
+ */
+function setYear (dirtyDate, dirtyYear) {
+  var date = parse(dirtyDate)
+  var year = Number(dirtyYear)
+  date.setFullYear(year)
+  return date
+}
+
+module.exports = setYear
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/start_of_day/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Day Helpers
+ * @summary Return the start of a day for the given date.
+ *
+ * @description
+ * Return the start of a day for the given date.
+ * The result will be in the local timezone.
+ *
+ * @param {Date|String|Number} date - the original date
+ * @returns {Date} the start of a day
+ *
+ * @example
+ * // The start of a day for 2 September 2014 11:55:00:
+ * var result = startOfDay(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Tue Sep 02 2014 00:00:00
+ */
+function startOfDay (dirtyDate) {
+  var date = parse(dirtyDate)
+  date.setHours(0, 0, 0, 0)
+  return date
+}
+
+module.exports = startOfDay
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/start_of_iso_week/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var startOfWeek = __webpack_require__("../../../../date-fns/start_of_week/index.js")
+
+/**
+ * @category ISO Week Helpers
+ * @summary Return the start of an ISO week for the given date.
+ *
+ * @description
+ * Return the start of an ISO week for the given date.
+ * The result will be in the local timezone.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @param {Date|String|Number} date - the original date
+ * @returns {Date} the start of an ISO week
+ *
+ * @example
+ * // The start of an ISO week for 2 September 2014 11:55:00:
+ * var result = startOfISOWeek(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Mon Sep 01 2014 00:00:00
+ */
+function startOfISOWeek (dirtyDate) {
+  return startOfWeek(dirtyDate, {weekStartsOn: 1})
+}
+
+module.exports = startOfISOWeek
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/start_of_iso_year/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var getISOYear = __webpack_require__("../../../../date-fns/get_iso_year/index.js")
+var startOfISOWeek = __webpack_require__("../../../../date-fns/start_of_iso_week/index.js")
+
+/**
+ * @category ISO Week-Numbering Year Helpers
+ * @summary Return the start of an ISO week-numbering year for the given date.
+ *
+ * @description
+ * Return the start of an ISO week-numbering year,
+ * which always starts 3 days before the year's first Thursday.
+ * The result will be in the local timezone.
+ *
+ * ISO week-numbering year: http://en.wikipedia.org/wiki/ISO_week_date
+ *
+ * @param {Date|String|Number} date - the original date
+ * @returns {Date} the start of an ISO year
+ *
+ * @example
+ * // The start of an ISO week-numbering year for 2 July 2005:
+ * var result = startOfISOYear(new Date(2005, 6, 2))
+ * //=> Mon Jan 03 2005 00:00:00
+ */
+function startOfISOYear (dirtyDate) {
+  var year = getISOYear(dirtyDate)
+  var fourthOfJanuary = new Date(0)
+  fourthOfJanuary.setFullYear(year, 0, 4)
+  fourthOfJanuary.setHours(0, 0, 0, 0)
+  var date = startOfISOWeek(fourthOfJanuary)
+  return date
+}
+
+module.exports = startOfISOYear
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/start_of_minute/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Minute Helpers
+ * @summary Return the start of a minute for the given date.
+ *
+ * @description
+ * Return the start of a minute for the given date.
+ * The result will be in the local timezone.
+ *
+ * @param {Date|String|Number} date - the original date
+ * @returns {Date} the start of a minute
+ *
+ * @example
+ * // The start of a minute for 1 December 2014 22:15:45.400:
+ * var result = startOfMinute(new Date(2014, 11, 1, 22, 15, 45, 400))
+ * //=> Mon Dec 01 2014 22:15:00
+ */
+function startOfMinute (dirtyDate) {
+  var date = parse(dirtyDate)
+  date.setSeconds(0, 0)
+  return date
+}
+
+module.exports = startOfMinute
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/start_of_month/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Month Helpers
+ * @summary Return the start of a month for the given date.
+ *
+ * @description
+ * Return the start of a month for the given date.
+ * The result will be in the local timezone.
+ *
+ * @param {Date|String|Number} date - the original date
+ * @returns {Date} the start of a month
+ *
+ * @example
+ * // The start of a month for 2 September 2014 11:55:00:
+ * var result = startOfMonth(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Mon Sep 01 2014 00:00:00
+ */
+function startOfMonth (dirtyDate) {
+  var date = parse(dirtyDate)
+  date.setDate(1)
+  date.setHours(0, 0, 0, 0)
+  return date
+}
+
+module.exports = startOfMonth
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/start_of_second/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Second Helpers
+ * @summary Return the start of a second for the given date.
+ *
+ * @description
+ * Return the start of a second for the given date.
+ * The result will be in the local timezone.
+ *
+ * @param {Date|String|Number} date - the original date
+ * @returns {Date} the start of a second
+ *
+ * @example
+ * // The start of a second for 1 December 2014 22:15:45.400:
+ * var result = startOfSecond(new Date(2014, 11, 1, 22, 15, 45, 400))
+ * //=> Mon Dec 01 2014 22:15:45.000
+ */
+function startOfSecond (dirtyDate) {
+  var date = parse(dirtyDate)
+  date.setMilliseconds(0)
+  return date
+}
+
+module.exports = startOfSecond
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/start_of_today/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var startOfDay = __webpack_require__("../../../../date-fns/start_of_day/index.js")
+
+/**
+ * @category Day Helpers
+ * @summary Return the start of today.
+ *
+ * @description
+ * Return the start of today.
+ *
+ * @returns {Date} the start of today
+ *
+ * @example
+ * // If today is 6 October 2014:
+ * var result = startOfToday()
+ * //=> Mon Oct 6 2014 00:00:00
+ */
+function startOfToday () {
+  return startOfDay(new Date())
+}
+
+module.exports = startOfToday
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/start_of_week/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var parse = __webpack_require__("../../../../date-fns/parse/index.js")
+
+/**
+ * @category Week Helpers
+ * @summary Return the start of a week for the given date.
+ *
+ * @description
+ * Return the start of a week for the given date.
+ * The result will be in the local timezone.
+ *
+ * @param {Date|String|Number} date - the original date
+ * @param {Object} [options] - the object with options
+ * @param {Number} [options.weekStartsOn=0] - the index of the first day of the week (0 - Sunday)
+ * @returns {Date} the start of a week
+ *
+ * @example
+ * // The start of a week for 2 September 2014 11:55:00:
+ * var result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Sun Aug 31 2014 00:00:00
+ *
+ * @example
+ * // If the week starts on Monday, the start of the week for 2 September 2014 11:55:00:
+ * var result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0), {weekStartsOn: 1})
+ * //=> Mon Sep 01 2014 00:00:00
+ */
+function startOfWeek (dirtyDate, dirtyOptions) {
+  var weekStartsOn = dirtyOptions ? (Number(dirtyOptions.weekStartsOn) || 0) : 0
+
+  var date = parse(dirtyDate)
+  var day = date.getDay()
+  var diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn
+
+  date.setDate(date.getDate() - diff)
+  date.setHours(0, 0, 0, 0)
+  return date
+}
+
+module.exports = startOfWeek
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/sub_days/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var addDays = __webpack_require__("../../../../date-fns/add_days/index.js")
+
+/**
+ * @category Day Helpers
+ * @summary Subtract the specified number of days from the given date.
+ *
+ * @description
+ * Subtract the specified number of days from the given date.
+ *
+ * @param {Date|String|Number} date - the date to be changed
+ * @param {Number} amount - the amount of days to be subtracted
+ * @returns {Date} the new date with the days subtracted
+ *
+ * @example
+ * // Subtract 10 days from 1 September 2014:
+ * var result = subDays(new Date(2014, 8, 1), 10)
+ * //=> Fri Aug 22 2014 00:00:00
+ */
+function subDays (dirtyDate, dirtyAmount) {
+  var amount = Number(dirtyAmount)
+  return addDays(dirtyDate, -amount)
+}
+
+module.exports = subDays
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/sub_months/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var addMonths = __webpack_require__("../../../../date-fns/add_months/index.js")
+
+/**
+ * @category Month Helpers
+ * @summary Subtract the specified number of months from the given date.
+ *
+ * @description
+ * Subtract the specified number of months from the given date.
+ *
+ * @param {Date|String|Number} date - the date to be changed
+ * @param {Number} amount - the amount of months to be subtracted
+ * @returns {Date} the new date with the months subtracted
+ *
+ * @example
+ * // Subtract 5 months from 1 February 2015:
+ * var result = subMonths(new Date(2015, 1, 1), 5)
+ * //=> Mon Sep 01 2014 00:00:00
+ */
+function subMonths (dirtyDate, dirtyAmount) {
+  var amount = Number(dirtyAmount)
+  return addMonths(dirtyDate, -amount)
+}
+
+module.exports = subMonths
+
+
+/***/ }),
+
+/***/ "../../../../date-fns/sub_weeks/index.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var addWeeks = __webpack_require__("../../../../date-fns/add_weeks/index.js")
+
+/**
+ * @category Week Helpers
+ * @summary Subtract the specified number of weeks from the given date.
+ *
+ * @description
+ * Subtract the specified number of weeks from the given date.
+ *
+ * @param {Date|String|Number} date - the date to be changed
+ * @param {Number} amount - the amount of weeks to be subtracted
+ * @returns {Date} the new date with the weeks subtracted
+ *
+ * @example
+ * // Subtract 4 weeks from 1 September 2014:
+ * var result = subWeeks(new Date(2014, 8, 1), 4)
+ * //=> Mon Aug 04 2014 00:00:00
+ */
+function subWeeks (dirtyDate, dirtyAmount) {
+  var amount = Number(dirtyAmount)
+  return addWeeks(dirtyDate, -amount)
+}
+
+module.exports = subWeeks
+
+
+/***/ }),
+
+/***/ "../../../../positioning/dist/positioning.js":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Positioning; });
+/* unused harmony export positionElements */
 // previous version:
 // https://github.com/angular-ui/bootstrap/blob/07c31d0731f7cb068a1932b8e01d2312b796b4ec/src/position/position.js
 var Positioning = (function () {
@@ -5924,242 +6007,3458 @@ var Positioning = (function () {
         targetElPosition.right = Math.round(targetElPosition.right);
         return targetElPosition;
     };
-    // get the availble placements of the target element in the viewport dependeing on the host element
-    Positioning.prototype.getAvailablePlacements = function (hostElement, targetElement) {
-        var availablePlacements = [];
-        var hostElemClientRect = hostElement.getBoundingClientRect();
-        var targetElemClientRect = targetElement.getBoundingClientRect();
-        var html = document.documentElement;
-        // left: check if target width can be placed between host left and viewport start and also height of target is
-        // inside viewport
-        if (targetElemClientRect.width < hostElemClientRect.left) {
-            // check for left only
-            if ((hostElemClientRect.top + hostElemClientRect.height / 2 - targetElement.offsetHeight / 2) > 0) {
-                availablePlacements.splice(availablePlacements.length, 1, 'left');
-            }
-            // check for left-top and left-bottom
-            this.setSecondaryPlacementForLeftRight(hostElemClientRect, targetElemClientRect, 'left', availablePlacements);
-        }
-        // top: target height is less than host top
-        if (targetElemClientRect.height < hostElemClientRect.top) {
-            availablePlacements.splice(availablePlacements.length, 1, 'top');
-            this.setSecondaryPlacementForTopBottom(hostElemClientRect, targetElemClientRect, 'top', availablePlacements);
-        }
-        // right: check if target width can be placed between host right and viewport end and also height of target is
-        // inside viewport
-        if ((window.innerWidth || html.clientWidth) - hostElemClientRect.right > targetElemClientRect.width) {
-            // check for right only
-            if ((hostElemClientRect.top + hostElemClientRect.height / 2 - targetElement.offsetHeight / 2) > 0) {
-                availablePlacements.splice(availablePlacements.length, 1, 'right');
-            }
-            // check for right-top and right-bottom
-            this.setSecondaryPlacementForLeftRight(hostElemClientRect, targetElemClientRect, 'right', availablePlacements);
-        }
-        // bottom: check if there is enough space between host bottom and viewport end for target height
-        if ((window.innerHeight || html.clientHeight) - hostElemClientRect.bottom > targetElemClientRect.height) {
-            availablePlacements.splice(availablePlacements.length, 1, 'bottom');
-            this.setSecondaryPlacementForTopBottom(hostElemClientRect, targetElemClientRect, 'bottom', availablePlacements);
-        }
-        return availablePlacements;
-    };
-    /**
-     * check if secondary placement for left and right are available i.e. left-top, left-bottom, right-top, right-bottom
-     * primaryplacement: left|right
-     * availablePlacementArr: array in which available placemets to be set
-     */
-    Positioning.prototype.setSecondaryPlacementForLeftRight = function (hostElemClientRect, targetElemClientRect, primaryPlacement, availablePlacementArr) {
-        var html = document.documentElement;
-        // check for left-bottom
-        if (targetElemClientRect.height <= hostElemClientRect.bottom) {
-            availablePlacementArr.splice(availablePlacementArr.length, 1, primaryPlacement + '-bottom');
-        }
-        if ((window.innerHeight || html.clientHeight) - hostElemClientRect.top >= targetElemClientRect.height) {
-            availablePlacementArr.splice(availablePlacementArr.length, 1, primaryPlacement + '-top');
-        }
-    };
-    /**
-     * check if secondary placement for top and bottom are available i.e. top-left, top-right, bottom-left, bottom-right
-     * primaryplacement: top|bottom
-     * availablePlacementArr: array in which available placemets to be set
-     */
-    Positioning.prototype.setSecondaryPlacementForTopBottom = function (hostElemClientRect, targetElemClientRect, primaryPlacement, availablePlacementArr) {
-        var html = document.documentElement;
-        // check for left-bottom
-        if ((window.innerHeight || html.clientHeight) - hostElemClientRect.left >= targetElemClientRect.width) {
-            availablePlacementArr.splice(availablePlacementArr.length, 1, primaryPlacement + '-left');
-        }
-        if (targetElemClientRect.width <= hostElemClientRect.right) {
-            availablePlacementArr.splice(availablePlacementArr.length, 1, primaryPlacement + '-right');
-        }
-    };
     return Positioning;
 }());
 
 var positionService = new Positioning();
-/*
- * Accept the placement array and applies the appropriate placement dependent on the viewport.
- * Returns the applied placement.
- * In case of auto placement, placements are selected in order 'top', 'bottom', 'left', 'right'.
- * */
 function positionElements(hostElement, targetElement, placement, appendToBody) {
-    var placementVals = Array.isArray(placement) ? placement : [placement];
-    // replace auto placement with other placements
-    var hasAuto = placementVals.findIndex(function (val) { return val === 'auto'; });
-    if (hasAuto >= 0) {
-        ['top', 'right', 'bottom', 'left'].forEach(function (obj) {
-            if (placementVals.find(function (val) { return val.search('^' + obj + '|^' + obj + '-') !== -1; }) == null) {
-                placementVals.splice(hasAuto++, 1, obj);
-            }
-        });
-    }
-    // coordinates where to position
-    var topVal = 0, leftVal = 0;
-    var appliedPlacement;
-    // get available placements
-    var availablePlacements = positionService.getAvailablePlacements(hostElement, targetElement);
-    var _loop_1 = function (item, index) {
-        // check if passed placement is present in the available placement or otherwise apply the last placement in the
-        // passed placement list
-        if ((availablePlacements.find(function (val) { return val === item; }) != null) || (placementVals.length === index + 1)) {
-            appliedPlacement = item;
-            var pos = positionService.positionElements(hostElement, targetElement, item, appendToBody);
-            topVal = pos.top;
-            leftVal = pos.left;
-            return "break";
-        }
-    };
-    // iterate over all the passed placements
-    for (var _i = 0, _a = toItemIndexes(placementVals); _i < _a.length; _i++) {
-        var _b = _a[_i], item = _b.item, index = _b.index;
-        var state_1 = _loop_1(item, index);
-        if (state_1 === "break")
-            break;
-    }
-    targetElement.style.top = topVal + "px";
-    targetElement.style.left = leftVal + "px";
-    return appliedPlacement;
-}
-// function to get index and item of an array
-function toItemIndexes(a) {
-    return a.map(function (item, index) { return ({ item: item, index: index }); });
+    var pos = positionService.positionElements(hostElement, targetElement, placement, appendToBody);
+    targetElement.style.top = pos.top + "px";
+    targetElement.style.left = pos.left + "px";
 }
 //# sourceMappingURL=positioning.js.map
 
 /***/ }),
 
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/util/triggers.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../../../../rrule/lib/nlp.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+ * rrule.js - Library for working with recurrence rules for calendar dates.
+ * https://github.com/jakubroztocil/rrule
+ *
+ * Copyright 2010, Jakub Roztocil and Lars Schoning
+ * Licenced under the BSD licence.
+ * https://github.com/jakubroztocil/rrule/blob/master/LICENCE
+ *
+ */
+
+/**
+ *
+ * Implementation of RRule.fromText() and RRule::toText().
+ *
+ *
+ * On the client side, this file needs to be included
+ * when those functions are used.
+ *
+ */
+/* global module, define */
+
+;(function (root, factory) {
+  if (typeof module === 'object' && module.exports) {
+    module.exports = factory()
+  } else if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+  } else {
+    root._getRRuleNLP = factory()
+  }
+}(typeof window === 'object' ? window : this, function () {
+  // =============================================================================
+  // Helper functions
+  // =============================================================================
+
+  /**
+   * Return true if a value is in an array
+   */
+  var contains = function (arr, val) {
+    return arr.indexOf(val) !== -1
+  }
+
+  return function (RRule) {
+    // =============================================================================
+    // ToText
+    // =============================================================================
+
+    /**
+     *
+     * @param {RRule} rrule
+     * Optional:
+     * @param {Function} gettext function
+     * @param {Object} language definition
+     * @constructor
+     */
+    var ToText = function (rrule, gettext, language) {
+      this.text = ''
+      this.language = language || ENGLISH
+      this.gettext = gettext || function (id) {
+        return id
+      }
+
+      this.rrule = rrule
+      this.freq = rrule.options.freq
+      this.options = rrule.options
+      this.origOptions = rrule.origOptions
+
+      if (this.origOptions.bymonthday) {
+        var bymonthday = [].concat(this.options.bymonthday)
+        var bynmonthday = [].concat(this.options.bynmonthday)
+
+        bymonthday.sort()
+        bynmonthday.sort()
+        bynmonthday.reverse()
+        // 1, 2, 3, .., -5, -4, -3, ..
+        this.bymonthday = bymonthday.concat(bynmonthday)
+        if (!this.bymonthday.length) this.bymonthday = null
+      }
+
+      if (this.origOptions.byweekday) {
+        var byweekday = !(this.origOptions.byweekday instanceof Array)
+          ? [this.origOptions.byweekday] : this.origOptions.byweekday
+        var days = String(byweekday)
+
+        this.byweekday = {
+          allWeeks: byweekday.filter(function (weekday) {
+            return !Boolean(weekday.n)
+          }),
+          someWeeks: byweekday.filter(function (weekday) {
+            return Boolean(weekday.n)
+          }),
+          isWeekdays: (
+            days.indexOf('MO') !== -1 &&
+            days.indexOf('TU') !== -1 &&
+            days.indexOf('WE') !== -1 &&
+            days.indexOf('TH') !== -1 &&
+            days.indexOf('FR') !== -1 &&
+            days.indexOf('SA') === -1 &&
+            days.indexOf('SU') === -1
+          )
+        }
+
+        var sortWeekDays = function (a, b) {
+          return a.weekday - b.weekday
+        }
+
+        this.byweekday.allWeeks.sort(sortWeekDays)
+        this.byweekday.someWeeks.sort(sortWeekDays)
+
+        if (!this.byweekday.allWeeks.length) this.byweekday.allWeeks = null
+        if (!this.byweekday.someWeeks.length) this.byweekday.someWeeks = null
+      } else {
+        this.byweekday = null
+      }
+    }
+
+    var common = [
+      'count', 'until', 'interval',
+      'byweekday', 'bymonthday', 'bymonth'
+    ]
+    ToText.IMPLEMENTED = []
+    ToText.IMPLEMENTED[RRule.HOURLY] = common
+    ToText.IMPLEMENTED[RRule.DAILY] = ['byhour'].concat(common)
+    ToText.IMPLEMENTED[RRule.WEEKLY] = common
+    ToText.IMPLEMENTED[RRule.MONTHLY] = common
+    ToText.IMPLEMENTED[RRule.YEARLY] = ['byweekno', 'byyearday'].concat(common)
+
+    /**
+     * Test whether the rrule can be fully converted to text.
+     * @param {RRule} rrule
+     * @return {Boolean}
+     */
+    ToText.isFullyConvertible = function (rrule) {
+      var canConvert = true
+
+      if (!(rrule.options.freq in ToText.IMPLEMENTED)) return false
+      if (rrule.origOptions.until && rrule.origOptions.count) return false
+
+      for (var key in rrule.origOptions) {
+        if (contains(['dtstart', 'wkst', 'freq'], key)) return true
+        if (!contains(ToText.IMPLEMENTED[rrule.options.freq], key)) return false
+      }
+
+      return canConvert
+    }
+
+    ToText.prototype = {
+      constructor: ToText,
+
+      isFullyConvertible: function () {
+        return ToText.isFullyConvertible(this.rrule)
+      },
+
+      /**
+       * Perform the conversion. Only some of the frequencies are supported.
+       * If some of the rrule's options aren't supported, they'll
+       * be omitted from the output an "(~ approximate)" will be appended.
+       * @return {*}
+       */
+      toString: function () {
+        var gettext = this.gettext
+
+        if (!(this.options.freq in ToText.IMPLEMENTED)) {
+          return gettext('RRule error: Unable to fully convert this rrule to text')
+        }
+
+        this.text = [gettext('every')]
+        this[RRule.FREQUENCIES[this.options.freq]]()
+
+        if (this.options.until) {
+          this.add(gettext('until'))
+          var until = this.options.until
+          this.add(this.language.monthNames[until.getMonth()])
+            .add(until.getDate() + ',')
+            .add(until.getFullYear())
+        } else if (this.options.count) {
+          this.add(gettext('for'))
+            .add(this.options.count)
+            .add(this.plural(this.options.count)
+              ? gettext('times') : gettext('time'))
+        }
+
+        if (!this.isFullyConvertible()) this.add(gettext('(~ approximate)'))
+
+        return this.text.join('')
+      },
+
+      HOURLY: function () {
+        var gettext = this.gettext
+
+        if (this.options.interval !== 1) this.add(this.options.interval)
+
+        this.add(this.plural(this.options.interval)
+          ? gettext('hours') : gettext('hour'))
+      },
+
+      DAILY: function () {
+        var gettext = this.gettext
+
+        if (this.options.interval !== 1) this.add(this.options.interval)
+
+        if (this.byweekday && this.byweekday.isWeekdays) {
+          this.add(this.plural(this.options.interval)
+            ? gettext('weekdays') : gettext('weekday'))
+        } else {
+          this.add(this.plural(this.options.interval)
+            ? gettext('days') : gettext('day'))
+        }
+
+        if (this.origOptions.bymonth) {
+          this.add(gettext('in'))
+          this._bymonth()
+        }
+
+        if (this.bymonthday) {
+          this._bymonthday()
+        } else if (this.byweekday) {
+          this._byweekday()
+        } else if (this.origOptions.byhour) {
+          this._byhour()
+        }
+      },
+
+      WEEKLY: function () {
+        var gettext = this.gettext
+
+        if (this.options.interval !== 1) {
+          this.add(this.options.interval)
+            .add(this.plural(this.options.interval)
+              ? gettext('weeks') : gettext('week'))
+        }
+
+        if (this.byweekday && this.byweekday.isWeekdays) {
+          if (this.options.interval === 1) {
+            this.add(this.plural(this.options.interval)
+              ? gettext('weekdays') : gettext('weekday'))
+          } else {
+            this.add(gettext('on')).add(gettext('weekdays'))
+          }
+        } else {
+          if (this.options.interval === 1) this.add(gettext('week'))
+
+          if (this.origOptions.bymonth) {
+            this.add(gettext('in'))
+            this._bymonth()
+          }
+
+          if (this.bymonthday) {
+            this._bymonthday()
+          } else if (this.byweekday) {
+            this._byweekday()
+          }
+        }
+      },
+
+      MONTHLY: function () {
+        var gettext = this.gettext
+
+        if (this.origOptions.bymonth) {
+          if (this.options.interval !== 1) {
+            this.add(this.options.interval).add(gettext('months'))
+            if (this.plural(this.options.interval)) this.add(gettext('in'))
+          } else {
+            // this.add(gettext('MONTH'))
+          }
+          this._bymonth()
+        } else {
+          if (this.options.interval !== 1) this.add(this.options.interval)
+          this.add(this.plural(this.options.interval)
+            ? gettext('months') : gettext('month'))
+        }
+        if (this.bymonthday) {
+          this._bymonthday()
+        } else if (this.byweekday && this.byweekday.isWeekdays) {
+          this.add(gettext('on')).add(gettext('weekdays'))
+        } else if (this.byweekday) {
+          this._byweekday()
+        }
+      },
+
+      YEARLY: function () {
+        var gettext = this.gettext
+
+        if (this.origOptions.bymonth) {
+          if (this.options.interval !== 1) {
+            this.add(this.options.interval)
+            this.add(gettext('years'))
+          } else {
+            // this.add(gettext('YEAR'))
+          }
+          this._bymonth()
+        } else {
+          if (this.options.interval !== 1) this.add(this.options.interval)
+          this.add(this.plural(this.options.interval)
+            ? gettext('years') : gettext('year'))
+        }
+
+        if (this.bymonthday) {
+          this._bymonthday()
+        } else if (this.byweekday) {
+          this._byweekday()
+        }
+
+        if (this.options.byyearday) {
+          this.add(gettext('on the'))
+            .add(this.list(this.options.byyearday, this.nth, gettext('and')))
+            .add(gettext('day'))
+        }
+
+        if (this.options.byweekno) {
+          this.add(gettext('in'))
+            .add(this.plural(this.options.byweekno.length) ? gettext('weeks') : gettext('week'))
+            .add(this.list(this.options.byweekno, null, gettext('and')))
+        }
+      },
+
+      _bymonthday: function () {
+        var gettext = this.gettext
+        if (this.byweekday && this.byweekday.allWeeks) {
+          this.add(gettext('on'))
+            .add(this.list(this.byweekday.allWeeks, this.weekdaytext, gettext('or')))
+            .add(gettext('the'))
+            .add(this.list(this.bymonthday, this.nth, gettext('or')))
+        } else {
+          this.add(gettext('on the'))
+            .add(this.list(this.bymonthday, this.nth, gettext('and')))
+        }
+      // this.add(gettext('DAY'))
+      },
+
+      _byweekday: function () {
+        var gettext = this.gettext
+        if (this.byweekday.allWeeks && !this.byweekday.isWeekdays) {
+          this.add(gettext('on'))
+            .add(this.list(this.byweekday.allWeeks, this.weekdaytext))
+        }
+
+        if (this.byweekday.someWeeks) {
+          if (this.byweekday.allWeeks) this.add(gettext('and'))
+
+          this.add(gettext('on the'))
+            .add(this.list(this.byweekday.someWeeks, this.weekdaytext, gettext('and')))
+        }
+      },
+
+      _byhour: function () {
+        var gettext = this.gettext
+
+        this.add(gettext('at'))
+          .add(this.list(this.origOptions.byhour, null, gettext('and')))
+      },
+
+      _bymonth: function () {
+        this.add(this.list(this.options.bymonth, this.monthtext, this.gettext('and')))
+      },
+
+      nth: function (n) {
+        var nth, npos
+        var gettext = this.gettext
+
+        if (n === -1) return gettext('last')
+
+        npos = Math.abs(n)
+        switch (npos) {
+          case 1:
+          case 21:
+          case 31:
+            nth = npos + gettext('st')
+            break
+          case 2:
+          case 22:
+            nth = npos + gettext('nd')
+            break
+          case 3:
+          case 23:
+            nth = npos + gettext('rd')
+            break
+          default:
+            nth = npos + gettext('th')
+        }
+
+        return n < 0 ? nth + ' ' + gettext('last') : nth
+      },
+
+      monthtext: function (m) {
+        return this.language.monthNames[m - 1]
+      },
+
+      weekdaytext: function (wday) {
+        var weekday = typeof wday === 'number' ? wday : wday.getJsWeekday()
+        return (wday.n ? this.nth(wday.n) + ' ' : '') +
+          this.language.dayNames[weekday]
+      },
+
+      plural: function (n) {
+        return n % 100 !== 1
+      },
+
+      add: function (s) {
+        this.text.push(' ')
+        this.text.push(s)
+        return this
+      },
+
+      list: function (arr, callback, finalDelim, delim) {
+        var delimJoin = function (array, delimiter, finalDelimiter) {
+          var list = ''
+
+          for (var i = 0; i < array.length; i++) {
+            if (i !== 0) {
+              if (i === array.length - 1) {
+                list += ' ' + finalDelimiter + ' '
+              } else {
+                list += delimiter + ' '
+              }
+            }
+            list += array[i]
+          }
+          return list
+        }
+
+        delim = delim || ','
+        callback = callback || function (o) {
+          return o
+        }
+        var self = this
+        var realCallback = function (arg) {
+          return callback.call(self, arg)
+        }
+
+        if (finalDelim) {
+          return delimJoin(arr.map(realCallback), delim, finalDelim)
+        } else {
+          return arr.map(realCallback).join(delim + ' ')
+        }
+      }
+    }
+
+    // =============================================================================
+    // fromText
+    // =============================================================================
+    /**
+     * Will be able to convert some of the below described rules from
+     * text format to a rule object.
+     *
+     *
+     * RULES
+     *
+     * Every ([n])
+     *       day(s)
+     *     | [weekday], ..., (and) [weekday]
+     *     | weekday(s)
+     *     | week(s)
+     *     | month(s)
+     *     | [month], ..., (and) [month]
+     *     | year(s)
+     *
+     *
+     * Plus 0, 1, or multiple of these:
+     *
+     * on [weekday], ..., (or) [weekday] the [monthday], [monthday], ... (or) [monthday]
+     *
+     * on [weekday], ..., (and) [weekday]
+     *
+     * on the [monthday], [monthday], ... (and) [monthday] (day of the month)
+     *
+     * on the [nth-weekday], ..., (and) [nth-weekday] (of the month/year)
+     *
+     *
+     * Plus 0 or 1 of these:
+     *
+     * for [n] time(s)
+     *
+     * until [date]
+     *
+     * Plus (.)
+     *
+     *
+     * Definitely no supported for parsing:
+     *
+     * (for year):
+     *     in week(s) [n], ..., (and) [n]
+     *
+     *     on the [yearday], ..., (and) [n] day of the year
+     *     on day [yearday], ..., (and) [n]
+     *
+     *
+     * NON-TERMINALS
+     *
+     * [n]: 1, 2 ..., one, two, three ..
+     * [month]: January, February, March, April, May, ... December
+     * [weekday]: Monday, ... Sunday
+     * [nth-weekday]: first [weekday], 2nd [weekday], ... last [weekday], ...
+     * [monthday]: first, 1., 2., 1st, 2nd, second, ... 31st, last day, 2nd last day, ..
+     * [date]:
+     *     [month] (0-31(,) ([year])),
+     *     (the) 0-31.(1-12.([year])),
+     *     (the) 0-31/(1-12/([year])),
+     *     [weekday]
+     *
+     * [year]: 0000, 0001, ... 01, 02, ..
+     *
+     * Definitely not supported for parsing:
+     *
+     * [yearday]: first, 1., 2., 1st, 2nd, second, ... 366th, last day, 2nd last day, ..
+     *
+     * @param {String} text
+     * @return {Object, Boolean} the rule, or null.
+     */
+    var fromText = function (text, language) {
+      return new RRule(parseText(text, language))
+    }
+
+    var parseText = function (text, language) {
+      var options = {}
+      var ttr = new Parser((language || ENGLISH).tokens)
+
+      if (!ttr.start(text)) return null
+
+      S()
+      return options
+
+      function S () {
+        // every [n]
+        var n
+
+        ttr.expect('every')
+        if ((n = ttr.accept('number'))) options.interval = parseInt(n[0], 10)
+        if (ttr.isDone()) throw new Error('Unexpected end')
+
+        switch (ttr.symbol) {
+          case 'day(s)':
+            options.freq = RRule.DAILY
+            if (ttr.nextSymbol()) {
+              AT()
+              F()
+            }
+            break
+
+          // FIXME Note: every 2 weekdays != every two weeks on weekdays.
+          // DAILY on weekdays is not a valid rule
+          case 'weekday(s)':
+            options.freq = RRule.WEEKLY
+            options.byweekday = [
+              RRule.MO,
+              RRule.TU,
+              RRule.WE,
+              RRule.TH,
+              RRule.FR
+            ]
+            ttr.nextSymbol()
+            F()
+            break
+
+          case 'week(s)':
+            options.freq = RRule.WEEKLY
+            if (ttr.nextSymbol()) {
+              ON()
+              F()
+            }
+            break
+
+          case 'hour(s)':
+            options.freq = RRule.HOURLY
+            if (ttr.nextSymbol()) {
+              ON()
+              F()
+            }
+            break
+
+          case 'month(s)':
+            options.freq = RRule.MONTHLY
+            if (ttr.nextSymbol()) {
+              ON()
+              F()
+            }
+            break
+
+          case 'year(s)':
+            options.freq = RRule.YEARLY
+            if (ttr.nextSymbol()) {
+              ON()
+              F()
+            }
+            break
+
+          case 'monday':
+          case 'tuesday':
+          case 'wednesday':
+          case 'thursday':
+          case 'friday':
+          case 'saturday':
+          case 'sunday':
+            options.freq = RRule.WEEKLY
+            options.byweekday = [RRule[ttr.symbol.substr(0, 2).toUpperCase()]]
+
+            if (!ttr.nextSymbol()) return
+
+            // TODO check for duplicates
+            while (ttr.accept('comma')) {
+              if (ttr.isDone()) throw new Error('Unexpected end')
+
+              var wkd
+              if (!(wkd = decodeWKD())) {
+                throw new Error('Unexpected symbol ' + ttr.symbol + ', expected weekday')
+              }
+
+              options.byweekday.push(RRule[wkd])
+              ttr.nextSymbol()
+            }
+            MDAYs()
+            F()
+            break
+
+          case 'january':
+          case 'february':
+          case 'march':
+          case 'april':
+          case 'may':
+          case 'june':
+          case 'july':
+          case 'august':
+          case 'september':
+          case 'october':
+          case 'november':
+          case 'december':
+            options.freq = RRule.YEARLY
+            options.bymonth = [decodeM()]
+
+            if (!ttr.nextSymbol()) return
+
+            // TODO check for duplicates
+            while (ttr.accept('comma')) {
+              if (ttr.isDone()) throw new Error('Unexpected end')
+
+              var m
+              if (!(m = decodeM())) {
+                throw new Error('Unexpected symbol ' + ttr.symbol + ', expected month')
+              }
+
+              options.bymonth.push(m)
+              ttr.nextSymbol()
+            }
+
+            ON()
+            F()
+            break
+
+          default:
+            throw new Error('Unknown symbol')
+
+        }
+      }
+
+      function ON () {
+        var on = ttr.accept('on')
+        var the = ttr.accept('the')
+        if (!(on || the)) return
+
+        do {
+          var nth, wkd, m
+
+          // nth <weekday> | <weekday>
+          if ((nth = decodeNTH())) {
+            // ttr.nextSymbol()
+
+            if ((wkd = decodeWKD())) {
+              ttr.nextSymbol()
+              if (!options.byweekday) options.byweekday = []
+              options.byweekday.push(RRule[wkd].nth(nth))
+            } else {
+              if (!options.bymonthday) options.bymonthday = []
+              options.bymonthday.push(nth)
+              ttr.accept('day(s)')
+            }
+            // <weekday>
+          } else if ((wkd = decodeWKD())) {
+            ttr.nextSymbol()
+            if (!options.byweekday) options.byweekday = []
+            options.byweekday.push(RRule[wkd])
+          } else if (ttr.symbol === 'weekday(s)') {
+            ttr.nextSymbol()
+            if (!options.byweekday) options.byweekday = []
+            options.byweekday.push(RRule.MO)
+            options.byweekday.push(RRule.TU)
+            options.byweekday.push(RRule.WE)
+            options.byweekday.push(RRule.TH)
+            options.byweekday.push(RRule.FR)
+          } else if (ttr.symbol === 'week(s)') {
+            ttr.nextSymbol()
+            var n
+            if (!(n = ttr.accept('number'))) {
+              throw new Error('Unexpected symbol ' + ttr.symbol + ', expected week number')
+            }
+            options.byweekno = [n[0]]
+            while (ttr.accept('comma')) {
+              if (!(n = ttr.accept('number'))) {
+                throw new Error('Unexpected symbol ' + ttr.symbol + '; expected monthday')
+              }
+              options.byweekno.push(n[0])
+            }
+          } else if ((m = decodeM())) {
+            ttr.nextSymbol()
+            if (!options.bymonth) options.bymonth = []
+            options.bymonth.push(m)
+          } else {
+            return
+          }
+        } while (ttr.accept('comma') || ttr.accept('the') || ttr.accept('on'))
+      }
+
+      function AT () {
+        var at = ttr.accept('at')
+        if (!at) return
+
+        do {
+          var n
+          if (!(n = ttr.accept('number'))) {
+            throw new Error('Unexpected symbol ' + ttr.symbol + ', expected hour')
+          }
+          options.byhour = [n[0]]
+          while (ttr.accept('comma')) {
+            if (!(n = ttr.accept('number'))) {
+              throw new Error('Unexpected symbol ' + ttr.symbol + '; expected hour')
+            }
+            options.byhour.push(n[0])
+          }
+        } while (ttr.accept('comma') || ttr.accept('at'))
+      }
+
+      function decodeM () {
+        switch (ttr.symbol) {
+          case 'january':
+            return 1
+          case 'february':
+            return 2
+          case 'march':
+            return 3
+          case 'april':
+            return 4
+          case 'may':
+            return 5
+          case 'june':
+            return 6
+          case 'july':
+            return 7
+          case 'august':
+            return 8
+          case 'september':
+            return 9
+          case 'october':
+            return 10
+          case 'november':
+            return 11
+          case 'december':
+            return 12
+          default:
+            return false
+        }
+      }
+
+      function decodeWKD () {
+        switch (ttr.symbol) {
+          case 'monday':
+          case 'tuesday':
+          case 'wednesday':
+          case 'thursday':
+          case 'friday':
+          case 'saturday':
+          case 'sunday':
+            return ttr.symbol.substr(0, 2).toUpperCase()
+          default:
+            return false
+        }
+      }
+
+      function decodeNTH () {
+        switch (ttr.symbol) {
+          case 'last':
+            ttr.nextSymbol()
+            return -1
+          case 'first':
+            ttr.nextSymbol()
+            return 1
+          case 'second':
+            ttr.nextSymbol()
+            return ttr.accept('last') ? -2 : 2
+          case 'third':
+            ttr.nextSymbol()
+            return ttr.accept('last') ? -3 : 3
+          case 'nth':
+            var v = parseInt(ttr.value[1], 10)
+            if (v < -366 || v > 366) throw new Error('Nth out of range: ' + v)
+
+            ttr.nextSymbol()
+            return ttr.accept('last') ? -v : v
+
+          default:
+            return false
+        }
+      }
+
+      function MDAYs () {
+        ttr.accept('on')
+        ttr.accept('the')
+
+        var nth
+        if (!(nth = decodeNTH())) return
+
+        options.bymonthday = [nth]
+        ttr.nextSymbol()
+
+        while (ttr.accept('comma')) {
+          if (!(nth = decodeNTH())) {
+            throw new Error('Unexpected symbol ' + ttr.symbol + '; expected monthday')
+          }
+
+          options.bymonthday.push(nth)
+          ttr.nextSymbol()
+        }
+      }
+
+      function F () {
+        if (ttr.symbol === 'until') {
+          var date = Date.parse(ttr.text)
+
+          if (!date) throw new Error('Cannot parse until date:' + ttr.text)
+          options.until = new Date(date)
+        } else if (ttr.accept('for')) {
+          options.count = ttr.value[0]
+          ttr.expect('number')
+          // ttr.expect('times')
+        }
+      }
+    }
+
+    // =============================================================================
+    // Parser
+    // =============================================================================
+
+    var Parser = function (rules) {
+      this.rules = rules
+    }
+
+    Parser.prototype.start = function (text) {
+      this.text = text
+      this.done = false
+      return this.nextSymbol()
+    }
+
+    Parser.prototype.isDone = function () {
+      return this.done && this.symbol == null
+    }
+
+    Parser.prototype.nextSymbol = function () {
+      var best, bestSymbol
+      var p = this
+
+      this.symbol = null
+      this.value = null
+      do {
+        if (this.done) return false
+
+        var match, rule
+        best = null
+        for (var name in this.rules) {
+          rule = this.rules[name]
+          if ((match = rule.exec(p.text))) {
+            if (best == null || match[0].length > best[0].length) {
+              best = match
+              bestSymbol = name
+            }
+          }
+        }
+
+        if (best != null) {
+          this.text = this.text.substr(best[0].length)
+
+          if (this.text === '') this.done = true
+        }
+
+        if (best == null) {
+          this.done = true
+          this.symbol = null
+          this.value = null
+          return
+        }
+      } while (bestSymbol === 'SKIP')
+
+      this.symbol = bestSymbol
+      this.value = best
+      return true
+    }
+
+    Parser.prototype.accept = function (name) {
+      if (this.symbol === name) {
+        if (this.value) {
+          var v = this.value
+          this.nextSymbol()
+          return v
+        }
+
+        this.nextSymbol()
+        return true
+      }
+
+      return false
+    }
+
+    Parser.prototype.expect = function (name) {
+      if (this.accept(name)) return true
+
+      throw new Error('expected ' + name + ' but found ' + this.symbol)
+    }
+
+    // =============================================================================
+    // i18n
+    // =============================================================================
+
+    var ENGLISH = {
+      dayNames: [
+        'Sunday', 'Monday', 'Tuesday', 'Wednesday',
+        'Thursday', 'Friday', 'Saturday'
+      ],
+      monthNames: [
+        'January', 'February', 'March', 'April', 'May',
+        'June', 'July', 'August', 'September', 'October',
+        'November', 'December'
+      ],
+      tokens: {
+        'SKIP': /^[ \r\n\t]+|^\.$/,
+        'number': /^[1-9][0-9]*/,
+        'numberAsText': /^(one|two|three)/i,
+        'every': /^every/i,
+        'day(s)': /^days?/i,
+        'weekday(s)': /^weekdays?/i,
+        'week(s)': /^weeks?/i,
+        'hour(s)': /^hours?/i,
+        'month(s)': /^months?/i,
+        'year(s)': /^years?/i,
+        'on': /^(on|in)/i,
+        'at': /^(at)/i,
+        'the': /^the/i,
+        'first': /^first/i,
+        'second': /^second/i,
+        'third': /^third/i,
+        'nth': /^([1-9][0-9]*)(\.|th|nd|rd|st)/i,
+        'last': /^last/i,
+        'for': /^for/i,
+        'time(s)': /^times?/i,
+        'until': /^(un)?til/i,
+        'monday': /^mo(n(day)?)?/i,
+        'tuesday': /^tu(e(s(day)?)?)?/i,
+        'wednesday': /^we(d(n(esday)?)?)?/i,
+        'thursday': /^th(u(r(sday)?)?)?/i,
+        'friday': /^fr(i(day)?)?/i,
+        'saturday': /^sa(t(urday)?)?/i,
+        'sunday': /^su(n(day)?)?/i,
+        'january': /^jan(uary)?/i,
+        'february': /^feb(ruary)?/i,
+        'march': /^mar(ch)?/i,
+        'april': /^apr(il)?/i,
+        'may': /^may/i,
+        'june': /^june?/i,
+        'july': /^july?/i,
+        'august': /^aug(ust)?/i,
+        'september': /^sep(t(ember)?)?/i,
+        'october': /^oct(ober)?/i,
+        'november': /^nov(ember)?/i,
+        'december': /^dec(ember)?/i,
+        'comma': /^(,\s*|(and|or)\s*)+/i
+      }
+    }
+
+    // =============================================================================
+    // Export
+    // =============================================================================
+
+    return {
+      fromText: fromText,
+      parseText: parseText,
+      isFullyConvertible: ToText.isFullyConvertible,
+      toText: function (rrule, gettext, language) {
+        return new ToText(rrule, gettext, language).toString()
+      }
+    }
+  }
+}))
+
+
+/***/ }),
+
+/***/ "../../../../rrule/lib/rrule.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+ * rrule.js - Library for working with recurrence rules for calendar dates.
+ * https://github.com/jakubroztocil/rrule
+ *
+ * Copyright 2010, Jakub Roztocil and Lars Schoning
+ * Licenced under the BSD licence.
+ * https://github.com/jakubroztocil/rrule/blob/master/LICENCE
+ *
+ * Based on:
+ * python-dateutil - Extensions to the standard Python datetime module.
+ * Copyright (c) 2003-2011 - Gustavo Niemeyer <gustavo@niemeyer.net>
+ * Copyright (c) 2012 - Tomi Pieviläinen <tomi.pievilainen@iki.fi>
+ * https://github.com/jakubroztocil/rrule/blob/master/LICENCE
+ *
+ */
+/* global module, define */
+
+;(function (root, factory) {
+  if (typeof module === 'object' && module.exports) {
+    module.exports = factory()
+  } else if (true) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__))
+  } else {
+    root.RRule = factory(root)
+    root.RRuleSet = root.RRule.RRuleSet
+    root.rrulestr = root.RRule.rrulestr
+  }
+}(typeof window === 'object' ? window : this, function (root) {
+  // =============================================================================
+  // Date utilities
+  // =============================================================================
+
+  /**
+   * General date-related utilities.
+   * Also handles several incompatibilities between JavaScript and Python
+   *
+   */
+  var dateutil = {
+    MONTH_DAYS: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+
+    /**
+     * Number of milliseconds of one day
+     */
+    ONE_DAY: 1000 * 60 * 60 * 24,
+
+    /**
+     * @see: <http://docs.python.org/library/datetime.html#datetime.MAXYEAR>
+     */
+    MAXYEAR: 9999,
+
+    /**
+     * Python uses 1-Jan-1 as the base for calculating ordinals but we don't
+     * want to confuse the JS engine with milliseconds > Number.MAX_NUMBER,
+     * therefore we use 1-Jan-1970 instead
+     */
+    ORDINAL_BASE: new Date(1970, 0, 1),
+
+    /**
+     * Python: MO-SU: 0 - 6
+     * JS: SU-SAT 0 - 6
+     */
+    PY_WEEKDAYS: [6, 0, 1, 2, 3, 4, 5],
+
+    /**
+     * py_date.timetuple()[7]
+     */
+    getYearDay: function (date) {
+      var dateNoTime = new Date(
+        date.getFullYear(), date.getMonth(), date.getDate())
+      return Math.ceil(
+        (dateNoTime - new Date(date.getFullYear(), 0, 1)) / dateutil.ONE_DAY) + 1
+    },
+
+    isLeapYear: function (year) {
+      if (year instanceof Date) year = year.getFullYear()
+      return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0)
+    },
+
+    /**
+     * @return {Number} the date's timezone offset in ms
+     */
+    tzOffset: function (date) {
+      return date.getTimezoneOffset() * 60 * 1000
+    },
+
+    /**
+     * @see: <http://www.mcfedries.com/JavaScript/DaysBetween.asp>
+     */
+    daysBetween: function (date1, date2) {
+      // The number of milliseconds in one day
+      // Convert both dates to milliseconds
+      var date1_ms = date1.getTime() - dateutil.tzOffset(date1)
+      var date2_ms = date2.getTime() - dateutil.tzOffset(date2)
+      // Calculate the difference in milliseconds
+      var difference_ms = Math.abs(date1_ms - date2_ms)
+      // Convert back to days and return
+      return Math.round(difference_ms / dateutil.ONE_DAY)
+    },
+
+    /**
+     * @see: <http://docs.python.org/library/datetime.html#datetime.date.toordinal>
+     */
+    toOrdinal: function (date) {
+      return dateutil.daysBetween(date, dateutil.ORDINAL_BASE)
+    },
+
+    /**
+     * @see - <http://docs.python.org/library/datetime.html#datetime.date.fromordinal>
+     */
+    fromOrdinal: function (ordinal) {
+      var millisecsFromBase = ordinal * dateutil.ONE_DAY
+      return new Date(dateutil.ORDINAL_BASE.getTime() -
+        dateutil.tzOffset(dateutil.ORDINAL_BASE) +
+        millisecsFromBase +
+        dateutil.tzOffset(new Date(millisecsFromBase)))
+    },
+
+    /**
+     * @see: <http://docs.python.org/library/calendar.html#calendar.monthrange>
+     */
+    monthRange: function (year, month) {
+      var date = new Date(year, month, 1)
+      return [dateutil.getWeekday(date), dateutil.getMonthDays(date)]
+    },
+
+    getMonthDays: function (date) {
+      var month = date.getMonth()
+      return month === 1 && dateutil.isLeapYear(date)
+        ? 29 : dateutil.MONTH_DAYS[month]
+    },
+
+    /**
+     * @return {Number} python-like weekday
+     */
+    getWeekday: function (date) {
+      return dateutil.PY_WEEKDAYS[date.getDay()]
+    },
+
+    /**
+     * @see: <http://docs.python.org/library/datetime.html#datetime.datetime.combine>
+     */
+    combine: function (date, time) {
+      time = time || date
+      return new Date(
+        date.getFullYear(), date.getMonth(), date.getDate(),
+        time.getHours(), time.getMinutes(), time.getSeconds(),
+        time.getMilliseconds())
+    },
+
+    clone: function (date) {
+      var dolly = new Date(date.getTime())
+      return dolly
+    },
+
+    cloneDates: function (dates) {
+      var clones = []
+      for (var i = 0; i < dates.length; i++) {
+        clones.push(dateutil.clone(dates[i]))
+      }
+      return clones
+    },
+
+    /**
+     * Sorts an array of Date or dateutil.Time objects
+     */
+    sort: function (dates) {
+      dates.sort(function (a, b) {
+        return a.getTime() - b.getTime()
+      })
+    },
+
+    timeToUntilString: function (time) {
+      var comp
+      var date = new Date(time)
+      var comps = [
+        date.getUTCFullYear(),
+        date.getUTCMonth() + 1,
+        date.getUTCDate(),
+        'T',
+        date.getUTCHours(),
+        date.getUTCMinutes(),
+        date.getUTCSeconds(),
+        'Z'
+      ]
+
+      for (var i = 0; i < comps.length; i++) {
+        comp = comps[i]
+        if (!/[TZ]/.test(comp) && comp < 10) comps[i] = '0' + String(comp)
+      }
+      return comps.join('')
+    },
+
+    untilStringToDate: function (until) {
+      var re = /^(\d{4})(\d{2})(\d{2})(T(\d{2})(\d{2})(\d{2})Z)?$/
+      var bits = re.exec(until)
+      if (!bits) throw new Error('Invalid UNTIL value: ' + until)
+      return new Date(Date.UTC(
+        bits[1],
+        bits[2] - 1,
+        bits[3],
+        bits[5] || 0,
+        bits[6] || 0,
+        bits[7] || 0))
+    }
+  }
+
+  dateutil.Time = function (hour, minute, second, millisecond) {
+    this.hour = hour
+    this.minute = minute
+    this.second = second
+    this.millisecond = millisecond || 0
+  }
+
+  dateutil.Time.prototype = {
+    constructor: dateutil.Time,
+    getHours: function () {
+      return this.hour
+    },
+    getMinutes: function () {
+      return this.minute
+    },
+    getSeconds: function () {
+      return this.second
+    },
+    getMilliseconds: function () {
+      return this.millisecond
+    },
+    getTime: function () {
+      return ((this.hour * 60 * 60) + (this.minute * 60) + this.second) * 1000 +
+        this.millisecond
+    }
+  }
+
+  // =============================================================================
+  // Helper functions
+  // =============================================================================
+
+  /**
+   * Simplified version of python's range()
+   */
+  var range = function (start, end) {
+    if (arguments.length === 1) {
+      end = start
+      start = 0
+    }
+    var rang = []
+    for (var i = start; i < end; i++) rang.push(i)
+    return rang
+  }
+
+  var repeat = function (value, times) {
+    var i = 0
+    var array = []
+
+    if (value instanceof Array) {
+      for (; i < times; i++) array[i] = [].concat(value)
+    } else {
+      for (; i < times; i++) array[i] = value
+    }
+    return array
+  }
+
+  /**
+   * Python like split
+   */
+  var split = function (str, sep, num) {
+    var splits = str.split(sep)
+    return num
+      ? splits.slice(0, num).concat([splits.slice(num).join(sep)]) : splits
+  }
+
+  /**
+   * closure/goog/math/math.js:modulo
+   * Copyright 2006 The Closure Library Authors.
+   * The % operator in JavaScript returns the remainder of a / b, but differs from
+   * some other languages in that the result will have the same sign as the
+   * dividend. For example, -1 % 8 == -1, whereas in some other languages
+   * (such as Python) the result would be 7. This function emulates the more
+   * correct modulo behavior, which is useful for certain applications such as
+   * calculating an offset index in a circular list.
+   *
+   * @param {number} a The dividend.
+   * @param {number} b The divisor.
+   * @return {number} a % b where the result is between 0 and b (either 0 <= x < b
+   *     or b < x <= 0, depending on the sign of b).
+   */
+  var pymod = function (a, b) {
+    var r = a % b
+    // If r and b differ in sign, add b to wrap the result to the correct sign.
+    return (r * b < 0) ? r + b : r
+  }
+
+  /**
+   * @see: <http://docs.python.org/library/functions.html#divmod>
+   */
+  var divmod = function (a, b) {
+    return {div: Math.floor(a / b), mod: pymod(a, b)}
+  }
+
+  /**
+   * Python-like boolean
+   * @return {Boolean} value of an object/primitive, taking into account
+   * the fact that in Python an empty list's/tuple's
+   * boolean value is False, whereas in JS it's true
+   */
+  var plb = function (obj) {
+    return (obj instanceof Array && obj.length === 0)
+      ? false : Boolean(obj)
+  }
+
+  /**
+   * Return true if a value is in an array
+   */
+  var contains = function (arr, val) {
+    return arr.indexOf(val) !== -1
+  }
+
+  // =============================================================================
+  // Date masks
+  // =============================================================================
+
+  // Every mask is 7 days longer to handle cross-year weekly periods.
+
+  var M365MASK = [].concat(
+    repeat(1, 31), repeat(2, 28), repeat(3, 31),
+    repeat(4, 30), repeat(5, 31), repeat(6, 30),
+    repeat(7, 31), repeat(8, 31), repeat(9, 30),
+    repeat(10, 31), repeat(11, 30), repeat(12, 31),
+    repeat(1, 7))
+
+  var M366MASK = [].concat(
+    repeat(1, 31), repeat(2, 29), repeat(3, 31),
+    repeat(4, 30), repeat(5, 31), repeat(6, 30),
+    repeat(7, 31), repeat(8, 31), repeat(9, 30),
+    repeat(10, 31), repeat(11, 30), repeat(12, 31),
+    repeat(1, 7))
+
+  var M28 = range(1, 29)
+  var M29 = range(1, 30)
+  var M30 = range(1, 31)
+  var M31 = range(1, 32)
+
+  var MDAY366MASK = [].concat(
+    M31, M29, M31,
+    M30, M31, M30,
+    M31, M31, M30,
+    M31, M30, M31,
+    M31.slice(0, 7))
+
+  var MDAY365MASK = [].concat(
+    M31, M28, M31,
+    M30, M31, M30,
+    M31, M31, M30,
+    M31, M30, M31,
+    M31.slice(0, 7))
+
+  M28 = range(-28, 0)
+  M29 = range(-29, 0)
+  M30 = range(-30, 0)
+  M31 = range(-31, 0)
+
+  var NMDAY366MASK = [].concat(
+    M31, M29, M31,
+    M30, M31, M30,
+    M31, M31, M30,
+    M31, M30, M31,
+    M31.slice(0, 7))
+
+  var NMDAY365MASK = [].concat(
+    M31, M28, M31,
+    M30, M31, M30,
+    M31, M31, M30,
+    M31, M30, M31,
+    M31.slice(0, 7))
+
+  var M366RANGE = [0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366]
+  var M365RANGE = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365]
+
+  var WDAYMASK = (function () {
+    for (var wdaymask = [], i = 0; i < 55; i++) wdaymask = wdaymask.concat(range(7))
+    return wdaymask
+  }())
+
+  // =============================================================================
+  // Weekday
+  // =============================================================================
+
+  var Weekday = function (weekday, n) {
+    if (n === 0) throw new Error("Can't create weekday with n == 0")
+    this.weekday = weekday
+    this.n = n
+  }
+
+  Weekday.prototype = {
+    constructor: Weekday,
+    // __call__ - Cannot call the object directly, do it through
+    // e.g. RRule.TH.nth(-1) instead,
+    nth: function (n) {
+      return this.n === n ? this : new Weekday(this.weekday, n)
+    },
+
+    // __eq__
+    equals: function (other) {
+      return this.weekday === other.weekday && this.n === other.n
+    },
+
+    // __repr__
+    toString: function () {
+      var s = ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'][this.weekday]
+      if (this.n) s = (this.n > 0 ? '+' : '') + String(this.n) + s
+      return s
+    },
+
+    getJsWeekday: function () {
+      return this.weekday === 6 ? 0 : this.weekday + 1
+    }
+
+  }
+
+  // =============================================================================
+  // RRule
+  // =============================================================================
+
+  /**
+   *
+   * @param {Object?} options - see <http://labix.org/python-dateutil/#head-cf004ee9a75592797e076752b2a889c10f445418>
+   *        The only required option is `freq`, one of RRule.YEARLY, RRule.MONTHLY, ...
+   * @constructor
+   */
+  var RRule = function (options, noCache) {
+    options = options || {}
+    // RFC string
+    this._string = null
+    this._cache = noCache ? null : {
+      all: false,
+      before: [],
+      after: [],
+      between: []
+    }
+
+    // used by toString()
+    this.origOptions = {}
+
+    var invalid = []
+    var keys = Object.keys(options)
+    var defaultKeys = Object.keys(RRule.DEFAULT_OPTIONS)
+
+    // Shallow copy for origOptions and check for invalid
+    keys.forEach(function (key) {
+      this.origOptions[key] = options[key]
+      if (!contains(defaultKeys, key)) invalid.push(key)
+    }, this)
+
+    if (invalid.length) throw new Error('Invalid options: ' + invalid.join(', '))
+
+    if (!RRule.FREQUENCIES[options.freq] && options.byeaster === null) {
+      throw new Error('Invalid frequency: ' + String(options.freq))
+    }
+
+    // Merge in default options
+    defaultKeys.forEach(function (key) {
+      if (!contains(keys, key)) options[key] = RRule.DEFAULT_OPTIONS[key]
+    })
+
+    var opts = this.options = options
+
+    if (opts.byeaster !== null) opts.freq = RRule.YEARLY
+    if (!opts.dtstart) opts.dtstart = new Date()
+
+    var millisecondModulo = opts.dtstart.getTime() % 1000
+    if (opts.wkst === null) {
+      opts.wkst = RRule.MO.weekday
+    } else if (typeof opts.wkst === 'number') {
+      // cool, just keep it like that
+    } else {
+      opts.wkst = opts.wkst.weekday
+    }
+
+    if (opts.bysetpos !== null) {
+      if (typeof opts.bysetpos === 'number') opts.bysetpos = [opts.bysetpos]
+
+      for (var i = 0; i < opts.bysetpos.length; i++) {
+        var v = opts.bysetpos[i]
+        if (v === 0 || !(v >= -366 && v <= 366)) {
+          throw new Error('bysetpos must be between 1 and 366,' +
+            ' or between -366 and -1')
+        }
+      }
+    }
+
+    if (!(plb(opts.byweekno) || plb(opts.byyearday) || plb(opts.bymonthday) ||
+      opts.byweekday !== null || opts.byeaster !== null)) {
+      switch (opts.freq) {
+        case RRule.YEARLY:
+          if (!opts.bymonth) opts.bymonth = opts.dtstart.getMonth() + 1
+          opts.bymonthday = opts.dtstart.getDate()
+          break
+        case RRule.MONTHLY:
+          opts.bymonthday = opts.dtstart.getDate()
+          break
+        case RRule.WEEKLY:
+          opts.byweekday = dateutil.getWeekday(opts.dtstart)
+          break
+      }
+    }
+
+    // bymonth
+    if (opts.bymonth !== null && !(opts.bymonth instanceof Array)) {
+      opts.bymonth = [opts.bymonth]
+    }
+    // byyearday
+    if (opts.byyearday !== null && !(opts.byyearday instanceof Array)) {
+      opts.byyearday = [opts.byyearday]
+    }
+
+    // bymonthday
+    if (opts.bymonthday === null) {
+      opts.bymonthday = []
+      opts.bynmonthday = []
+    } else if (opts.bymonthday instanceof Array) {
+      var bymonthday = []
+      var bynmonthday = []
+
+      for (i = 0; i < opts.bymonthday.length; i++) {
+        v = opts.bymonthday[i]
+        if (v > 0) {
+          bymonthday.push(v)
+        } else if (v < 0) {
+          bynmonthday.push(v)
+        }
+      }
+      opts.bymonthday = bymonthday
+      opts.bynmonthday = bynmonthday
+    } else {
+      if (opts.bymonthday < 0) {
+        opts.bynmonthday = [opts.bymonthday]
+        opts.bymonthday = []
+      } else {
+        opts.bynmonthday = []
+        opts.bymonthday = [opts.bymonthday]
+      }
+    }
+
+    // byweekno
+    if (opts.byweekno !== null && !(opts.byweekno instanceof Array)) {
+      opts.byweekno = [opts.byweekno]
+    }
+
+    // byweekday / bynweekday
+    if (opts.byweekday === null) {
+      opts.bynweekday = null
+    } else if (typeof opts.byweekday === 'number') {
+      opts.byweekday = [opts.byweekday]
+      opts.bynweekday = null
+    } else if (opts.byweekday instanceof Weekday) {
+      if (!opts.byweekday.n || opts.freq > RRule.MONTHLY) {
+        opts.byweekday = [opts.byweekday.weekday]
+        opts.bynweekday = null
+      } else {
+        opts.bynweekday = [
+          [opts.byweekday.weekday, opts.byweekday.n]
+        ]
+        opts.byweekday = null
+      }
+    } else {
+      var byweekday = []
+      var bynweekday = []
+
+      for (i = 0; i < opts.byweekday.length; i++) {
+        var wday = opts.byweekday[i]
+
+        if (typeof wday === 'number') {
+          byweekday.push(wday)
+        } else if (!wday.n || opts.freq > RRule.MONTHLY) {
+          byweekday.push(wday.weekday)
+        } else {
+          bynweekday.push([wday.weekday, wday.n])
+        }
+      }
+      opts.byweekday = plb(byweekday) ? byweekday : null
+      opts.bynweekday = plb(bynweekday) ? bynweekday : null
+    }
+
+    // byhour
+    if (opts.byhour === null) {
+      opts.byhour = (opts.freq < RRule.HOURLY) ? [opts.dtstart.getHours()] : null
+    } else if (typeof opts.byhour === 'number') {
+      opts.byhour = [opts.byhour]
+    }
+
+    // byminute
+    if (opts.byminute === null) {
+      opts.byminute = (opts.freq < RRule.MINUTELY)
+        ? [opts.dtstart.getMinutes()] : null
+    } else if (typeof opts.byminute === 'number') {
+      opts.byminute = [opts.byminute]
+    }
+
+    // bysecond
+    if (opts.bysecond === null) {
+      opts.bysecond = (opts.freq < RRule.SECONDLY)
+        ? [opts.dtstart.getSeconds()] : null
+    } else if (typeof opts.bysecond === 'number') {
+      opts.bysecond = [opts.bysecond]
+    }
+
+    if (opts.freq >= RRule.HOURLY) {
+      this.timeset = null
+    } else {
+      this.timeset = []
+      for (i = 0; i < opts.byhour.length; i++) {
+        var hour = opts.byhour[i]
+        for (var j = 0; j < opts.byminute.length; j++) {
+          var minute = opts.byminute[j]
+          for (var k = 0; k < opts.bysecond.length; k++) {
+            var second = opts.bysecond[k]
+            // python:
+            // datetime.time(hour, minute, second,
+            // tzinfo=self._tzinfo))
+            this.timeset.push(new dateutil.Time(hour, minute, second, millisecondModulo))
+          }
+        }
+      }
+      dateutil.sort(this.timeset)
+    }
+  }
+
+  // RRule class 'constants'
+
+  RRule.FREQUENCIES = [
+    'YEARLY', 'MONTHLY', 'WEEKLY', 'DAILY',
+    'HOURLY', 'MINUTELY', 'SECONDLY'
+  ]
+
+  RRule.YEARLY = 0
+  RRule.MONTHLY = 1
+  RRule.WEEKLY = 2
+  RRule.DAILY = 3
+  RRule.HOURLY = 4
+  RRule.MINUTELY = 5
+  RRule.SECONDLY = 6
+
+  RRule.MO = new Weekday(0)
+  RRule.TU = new Weekday(1)
+  RRule.WE = new Weekday(2)
+  RRule.TH = new Weekday(3)
+  RRule.FR = new Weekday(4)
+  RRule.SA = new Weekday(5)
+  RRule.SU = new Weekday(6)
+
+  RRule.DEFAULT_OPTIONS = {
+    freq: null,
+    dtstart: null,
+    interval: 1,
+    wkst: RRule.MO,
+    count: null,
+    until: null,
+    bysetpos: null,
+    bymonth: null,
+    bymonthday: null,
+    bynmonthday: null,
+    byyearday: null,
+    byweekno: null,
+    byweekday: null,
+    bynweekday: null,
+    byhour: null,
+    byminute: null,
+    bysecond: null,
+    byeaster: null
+  }
+
+  RRule.parseText = function (text, language) {
+    return getnlp().parseText(text, language)
+  }
+
+  RRule.fromText = function (text, language) {
+    return getnlp().fromText(text, language)
+  }
+
+  RRule.optionsToString = function (options) {
+    var key, value, strValues
+    var pairs = []
+    var keys = Object.keys(options)
+    var defaultKeys = Object.keys(RRule.DEFAULT_OPTIONS)
+
+    for (var i = 0; i < keys.length; i++) {
+      if (!contains(defaultKeys, keys[i])) continue
+
+      key = keys[i].toUpperCase()
+      value = options[keys[i]]
+      strValues = []
+
+      if (value === null || value instanceof Array && !value.length) continue
+
+      switch (key) {
+        case 'FREQ':
+          value = RRule.FREQUENCIES[options.freq]
+          break
+        case 'WKST':
+          value = value.toString()
+          break
+        case 'BYWEEKDAY':
+          /*
+          NOTE: BYWEEKDAY is a special case.
+          RRule() deconstructs the rule.options.byweekday array
+          into an array of Weekday arguments.
+          On the other hand, rule.origOptions is an array of Weekdays.
+          We need to handle both cases here.
+          It might be worth change RRule to keep the Weekdays.
+
+          Also, BYWEEKDAY (used by RRule) vs. BYDAY (RFC)
+
+          */
+          key = 'BYDAY'
+          if (!(value instanceof Array)) value = [value]
+
+          for (var wday, j = 0; j < value.length; j++) {
+            wday = value[j]
+            if (wday instanceof Weekday) {
+              // good
+            } else if (wday instanceof Array) {
+              wday = new Weekday(wday[0], wday[1])
+            } else {
+              wday = new Weekday(wday)
+            }
+            strValues[j] = wday.toString()
+          }
+          value = strValues
+          break
+        case 'DTSTART':
+        case 'UNTIL':
+          value = dateutil.timeToUntilString(value)
+          break
+        default:
+          if (value instanceof Array) {
+            for (j = 0; j < value.length; j++) strValues[j] = String(value[j])
+            value = strValues
+          } else {
+            value = String(value)
+          }
+
+      }
+      pairs.push([key, value])
+    }
+
+    var strings = []
+    for (i = 0; i < pairs.length; i++) {
+      var attr = pairs[i]
+      strings.push(attr[0] + '=' + attr[1].toString())
+    }
+    return strings.join(';')
+  }
+
+  RRule.prototype = {
+    constructor: RRule,
+
+    /**
+     * @param {Function} iterator - optional function that will be called
+     *                   on each date that is added. It can return false
+     *                   to stop the iteration.
+     * @return Array containing all recurrences.
+     */
+    all: function (iterator) {
+      if (iterator) {
+        return this._iter(new CallbackIterResult('all', {}, iterator))
+      } else {
+        var result = this._cacheGet('all')
+        if (result === false) {
+          result = this._iter(new IterResult('all', {}))
+          this._cacheAdd('all', result)
+        }
+        return result
+      }
+    },
+
+    /**
+     * Returns all the occurrences of the rrule between after and before.
+     * The inc keyword defines what happens if after and/or before are
+     * themselves occurrences. With inc == True, they will be included in the
+     * list, if they are found in the recurrence set.
+     * @return Array
+     */
+    between: function (after, before, inc, iterator) {
+      var args = {
+        before: before,
+        after: after,
+        inc: inc
+      }
+
+      if (iterator) {
+        return this._iter(new CallbackIterResult('between', args, iterator))
+      }
+      var result = this._cacheGet('between', args)
+      if (result === false) {
+        result = this._iter(new IterResult('between', args))
+        this._cacheAdd('between', result, args)
+      }
+      return result
+    },
+
+    /**
+     * Returns the last recurrence before the given datetime instance.
+     * The inc keyword defines what happens if dt is an occurrence.
+     * With inc == True, if dt itself is an occurrence, it will be returned.
+     * @return Date or null
+     */
+    before: function (dt, inc) {
+      var args = {dt: dt, inc: inc}
+      var result = this._cacheGet('before', args)
+      if (result === false) {
+        result = this._iter(new IterResult('before', args))
+        this._cacheAdd('before', result, args)
+      }
+      return result
+    },
+
+    /**
+     * Returns the first recurrence after the given datetime instance.
+     * The inc keyword defines what happens if dt is an occurrence.
+     * With inc == True, if dt itself is an occurrence, it will be returned.
+     * @return Date or null
+     */
+    after: function (dt, inc) {
+      var args = {dt: dt, inc: inc}
+      var result = this._cacheGet('after', args)
+      if (result === false) {
+        result = this._iter(new IterResult('after', args))
+        this._cacheAdd('after', result, args)
+      }
+      return result
+    },
+
+    /**
+     * Returns the number of recurrences in this set. It will have go trough
+     * the whole recurrence, if this hasn't been done before.
+     */
+    count: function () {
+      return this.all().length
+    },
+
+    /**
+     * Converts the rrule into its string representation
+     * @see <http://www.ietf.org/rfc/rfc2445.txt>
+     * @return String
+     */
+    toString: function () {
+      return RRule.optionsToString(this.origOptions)
+    },
+
+    /**
+    * Will convert all rules described in nlp:ToText
+    * to text.
+    */
+    toText: function (gettext, language) {
+      return getnlp().toText(this, gettext, language)
+    },
+
+    isFullyConvertibleToText: function () {
+      return getnlp().isFullyConvertible(this)
+    },
+
+    /**
+     * @param {String} what - all/before/after/between
+     * @param {Array,Date} value - an array of dates, one date, or null
+     * @param {Object?} args - _iter arguments
+     */
+    _cacheAdd: function (what, value, args) {
+      if (!this._cache) return
+
+      if (value) {
+        value = (value instanceof Date)
+          ? dateutil.clone(value) : dateutil.cloneDates(value)
+      }
+
+      if (what === 'all') {
+        this._cache.all = value
+      } else {
+        args._value = value
+        this._cache[what].push(args)
+      }
+    },
+
+    /**
+     * @return false - not in the cache
+     *         null  - cached, but zero occurrences (before/after)
+     *         Date  - cached (before/after)
+     *         []    - cached, but zero occurrences (all/between)
+     *         [Date1, DateN] - cached (all/between)
+     */
+    _cacheGet: function (what, args) {
+      if (!this._cache) return false
+
+      var cached = false
+      var argsKeys = args ? Object.keys(args) : []
+      var findCacheDiff = function (item) {
+        for (var key, i = 0; i < argsKeys.length; i++) {
+          key = argsKeys[i]
+          if (String(args[key]) !== String(item[key])) return true
+        }
+        return false
+      }
+
+      if (what === 'all') {
+        cached = this._cache.all
+      } else {
+        // Let's see whether we've already called the
+        // 'what' method with the same 'args'
+        for (var item, i = 0; i < this._cache[what].length; i++) {
+          item = this._cache[what][i]
+          if (argsKeys.length && findCacheDiff(item)) continue
+          cached = item._value
+          break
+        }
+      }
+
+      if (!cached && this._cache.all) {
+        // Not in the cache, but we already know all the occurrences,
+        // so we can find the correct dates from the cached ones.
+        var iterResult = new IterResult(what, args)
+        for (i = 0; i < this._cache.all.length; i++) {
+          if (!iterResult.accept(this._cache.all[i])) break
+        }
+        cached = iterResult.getValue()
+        this._cacheAdd(what, cached, args)
+      }
+
+      return cached instanceof Array
+        ? dateutil.cloneDates(cached)
+        : (cached instanceof Date ? dateutil.clone(cached) : cached)
+    },
+
+    /**
+     * @return a RRule instance with the same freq and options
+     *          as this one (cache is not cloned)
+     */
+    clone: function () {
+      return new RRule(this.origOptions)
+    },
+
+    _iter: function (iterResult) {
+      /* Since JavaScript doesn't have the python's yield operator (<1.7),
+         we use the IterResult object that tells us when to stop iterating.
+
+      */
+
+      var dtstart = this.options.dtstart
+      var dtstartMillisecondModulo = this.options.dtstart % 1000
+
+      var year = dtstart.getFullYear()
+      var month = dtstart.getMonth() + 1
+      var day = dtstart.getDate()
+      var hour = dtstart.getHours()
+      var minute = dtstart.getMinutes()
+      var second = dtstart.getSeconds()
+      var weekday = dateutil.getWeekday(dtstart)
+
+      // Some local variables to speed things up a bit
+      var freq = this.options.freq
+      var interval = this.options.interval
+      var wkst = this.options.wkst
+      var until = this.options.until
+      var bymonth = this.options.bymonth
+      var byweekno = this.options.byweekno
+      var byyearday = this.options.byyearday
+      var byweekday = this.options.byweekday
+      var byeaster = this.options.byeaster
+      var bymonthday = this.options.bymonthday
+      var bynmonthday = this.options.bynmonthday
+      var bysetpos = this.options.bysetpos
+      var byhour = this.options.byhour
+      var byminute = this.options.byminute
+      var bysecond = this.options.bysecond
+
+      var ii = new Iterinfo(this)
+      ii.rebuild(year, month)
+
+      var getdayset = {}
+      getdayset[RRule.YEARLY] = ii.ydayset
+      getdayset[RRule.MONTHLY] = ii.mdayset
+      getdayset[RRule.WEEKLY] = ii.wdayset
+      getdayset[RRule.DAILY] = ii.ddayset
+      getdayset[RRule.HOURLY] = ii.ddayset
+      getdayset[RRule.MINUTELY] = ii.ddayset
+      getdayset[RRule.SECONDLY] = ii.ddayset
+
+      getdayset = getdayset[freq]
+
+      var timeset
+      if (freq < RRule.HOURLY) {
+        timeset = this.timeset
+      } else {
+        var gettimeset = {}
+        gettimeset[RRule.HOURLY] = ii.htimeset
+        gettimeset[RRule.MINUTELY] = ii.mtimeset
+        gettimeset[RRule.SECONDLY] = ii.stimeset
+        gettimeset = gettimeset[freq]
+        if ((freq >= RRule.HOURLY && plb(byhour) && !contains(byhour, hour)) ||
+          (freq >= RRule.MINUTELY && plb(byminute) && !contains(byminute, minute)) ||
+          (freq >= RRule.SECONDLY && plb(bysecond) && !contains(bysecond, minute))) {
+          timeset = []
+        } else {
+          timeset = gettimeset.call(ii, hour, minute, second, dtstartMillisecondModulo)
+        }
+      }
+
+      var total = 0
+      var count = this.options.count
+      var i, j, k, dm, div, mod, tmp, pos, dayset, start, end, fixday, filtered
+
+      while (true) {
+        // Get dayset with the right frequency
+        tmp = getdayset.call(ii, year, month, day)
+        dayset = tmp[0]
+        start = tmp[1]
+        end = tmp[2]
+
+        // Do the "hard" work ;-)
+        filtered = false
+        for (j = start; j < end; j++) {
+          i = dayset[j]
+
+          filtered = (plb(bymonth) && !contains(bymonth, ii.mmask[i])) ||
+            (plb(byweekno) && !ii.wnomask[i]) ||
+            (plb(byweekday) && !contains(byweekday, ii.wdaymask[i])) ||
+            (plb(ii.nwdaymask) && !ii.nwdaymask[i]) ||
+            (byeaster !== null && !contains(ii.eastermask, i)) ||
+            ((plb(bymonthday) || plb(bynmonthday)) &&
+              !contains(bymonthday, ii.mdaymask[i]) &&
+              !contains(bynmonthday, ii.nmdaymask[i])) ||
+            (plb(byyearday) &&
+              ((i < ii.yearlen &&
+                !contains(byyearday, i + 1) &&
+                !contains(byyearday, -ii.yearlen + i)) ||
+              (i >= ii.yearlen &&
+                !contains(byyearday, i + 1 - ii.yearlen) &&
+                !contains(byyearday, -ii.nextyearlen + i - ii.yearlen))))
+
+          if (filtered) dayset[i] = null
+        }
+
+        // Output results
+        if (plb(bysetpos) && plb(timeset)) {
+          var daypos, timepos
+          var poslist = []
+
+          for (i, j = 0; j < bysetpos.length; j++) {
+            pos = bysetpos[j]
+
+            if (pos < 0) {
+              daypos = Math.floor(pos / timeset.length)
+              timepos = pymod(pos, timeset.length)
+            } else {
+              daypos = Math.floor((pos - 1) / timeset.length)
+              timepos = pymod((pos - 1), timeset.length)
+            }
+
+            try {
+              tmp = []
+              for (k = start; k < end; k++) {
+                var val = dayset[k]
+                if (val === null) continue
+                tmp.push(val)
+              }
+              if (daypos < 0) {
+                // we're trying to emulate python's aList[-n]
+                i = tmp.slice(daypos)[0]
+              } else {
+                i = tmp[daypos]
+              }
+
+              var time = timeset[timepos]
+              var date = dateutil.fromOrdinal(ii.yearordinal + i)
+              var res = dateutil.combine(date, time)
+              // XXX: can this ever be in the array?
+              // - compare the actual date instead?
+              if (!contains(poslist, res)) poslist.push(res)
+            } catch (e) {}
+          }
+
+          dateutil.sort(poslist)
+          for (j = 0; j < poslist.length; j++) {
+            res = poslist[j]
+            if (until && res > until) {
+              this._len = total
+              return iterResult.getValue()
+            } else if (res >= dtstart) {
+              ++total
+              if (!iterResult.accept(res)) return iterResult.getValue()
+              if (count) {
+                --count
+                if (!count) {
+                  this._len = total
+                  return iterResult.getValue()
+                }
+              }
+            }
+          }
+        } else {
+          for (j = start; j < end; j++) {
+            i = dayset[j]
+            if (i !== null) {
+              date = dateutil.fromOrdinal(ii.yearordinal + i)
+              for (k = 0; k < timeset.length; k++) {
+                time = timeset[k]
+                res = dateutil.combine(date, time)
+                if (until && res > until) {
+                  this._len = total
+                  return iterResult.getValue()
+                } else if (res >= dtstart) {
+                  ++total
+                  if (!iterResult.accept(res)) return iterResult.getValue()
+                  if (count) {
+                    --count
+                    if (!count) {
+                      this._len = total
+                      return iterResult.getValue()
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        // Handle frequency and interval
+        fixday = false
+        if (freq === RRule.YEARLY) {
+          year += interval
+          if (year > dateutil.MAXYEAR) {
+            this._len = total
+            return iterResult.getValue()
+          }
+          ii.rebuild(year, month)
+        } else if (freq === RRule.MONTHLY) {
+          month += interval
+          if (month > 12) {
+            div = Math.floor(month / 12)
+            mod = pymod(month, 12)
+            month = mod
+            year += div
+            if (month === 0) {
+              month = 12
+              --year
+            }
+            if (year > dateutil.MAXYEAR) {
+              this._len = total
+              return iterResult.getValue()
+            }
+          }
+          ii.rebuild(year, month)
+        } else if (freq === RRule.WEEKLY) {
+          if (wkst > weekday) {
+            day += -(weekday + 1 + (6 - wkst)) + interval * 7
+          } else {
+            day += -(weekday - wkst) + interval * 7
+          }
+          weekday = wkst
+          fixday = true
+        } else if (freq === RRule.DAILY) {
+          day += interval
+          fixday = true
+        } else if (freq === RRule.HOURLY) {
+          if (filtered) {
+            // Jump to one iteration before next day
+            hour += Math.floor((23 - hour) / interval) * interval
+          }
+          while (true) {
+            hour += interval
+            dm = divmod(hour, 24)
+            div = dm.div
+            mod = dm.mod
+            if (div) {
+              hour = mod
+              day += div
+              fixday = true
+            }
+            if (!plb(byhour) || contains(byhour, hour)) break
+          }
+          timeset = gettimeset.call(ii, hour, minute, second)
+        } else if (freq === RRule.MINUTELY) {
+          if (filtered) {
+            // Jump to one iteration before next day
+            minute += Math.floor(
+              (1439 - (hour * 60 + minute)) / interval) * interval
+          }
+
+          while (true) {
+            minute += interval
+            dm = divmod(minute, 60)
+            div = dm.div
+            mod = dm.mod
+            if (div) {
+              minute = mod
+              hour += div
+              dm = divmod(hour, 24)
+              div = dm.div
+              mod = dm.mod
+              if (div) {
+                hour = mod
+                day += div
+                fixday = true
+                filtered = false
+              }
+            }
+            if ((!plb(byhour) || contains(byhour, hour)) &&
+              (!plb(byminute) || contains(byminute, minute))) {
+              break
+            }
+          }
+          timeset = gettimeset.call(ii, hour, minute, second)
+        } else if (freq === RRule.SECONDLY) {
+          if (filtered) {
+            // Jump to one iteration before next day
+            second += Math.floor(
+                (86399 - (hour * 3600 + minute * 60 + second)) / interval) * interval
+          }
+          while (true) {
+            second += interval
+            dm = divmod(second, 60)
+            div = dm.div
+            mod = dm.mod
+            if (div) {
+              second = mod
+              minute += div
+              dm = divmod(minute, 60)
+              div = dm.div
+              mod = dm.mod
+              if (div) {
+                minute = mod
+                hour += div
+                dm = divmod(hour, 24)
+                div = dm.div
+                mod = dm.mod
+                if (div) {
+                  hour = mod
+                  day += div
+                  fixday = true
+                }
+              }
+            }
+            if ((!plb(byhour) || contains(byhour, hour)) &&
+              (!plb(byminute) || contains(byminute, minute)) &&
+              (!plb(bysecond) || contains(bysecond, second))) {
+              break
+            }
+          }
+          timeset = gettimeset.call(ii, hour, minute, second)
+        }
+
+        if (fixday && day > 28) {
+          var daysinmonth = dateutil.monthRange(year, month - 1)[1]
+          if (day > daysinmonth) {
+            while (day > daysinmonth) {
+              day -= daysinmonth
+              ++month
+              if (month === 13) {
+                month = 1
+                ++year
+                if (year > dateutil.MAXYEAR) {
+                  this._len = total
+                  return iterResult.getValue()
+                }
+              }
+              daysinmonth = dateutil.monthRange(year, month - 1)[1]
+            }
+            ii.rebuild(year, month)
+          }
+        }
+      }
+    }
+
+  }
+
+  RRule.parseString = function (rfcString) {
+    rfcString = rfcString.replace(/^\s+|\s+$/, '')
+    if (!rfcString.length) return null
+
+    var i, j, key, value, attr
+    var attrs = rfcString.split(';')
+    var options = {}
+
+    for (i = 0; i < attrs.length; i++) {
+      attr = attrs[i].split('=')
+      key = attr[0]
+      value = attr[1]
+      switch (key) {
+        case 'FREQ':
+          options.freq = RRule[value]
+          break
+        case 'WKST':
+          options.wkst = RRule[value]
+          break
+        case 'COUNT':
+        case 'INTERVAL':
+        case 'BYSETPOS':
+        case 'BYMONTH':
+        case 'BYMONTHDAY':
+        case 'BYYEARDAY':
+        case 'BYWEEKNO':
+        case 'BYHOUR':
+        case 'BYMINUTE':
+        case 'BYSECOND':
+          if (value.indexOf(',') !== -1) {
+            value = value.split(',')
+            for (j = 0; j < value.length; j++) {
+              if (/^[+-]?\d+$/.test(value[j])) value[j] = Number(value[j])
+            }
+          } else if (/^[+-]?\d+$/.test(value)) {
+            value = Number(value)
+          }
+          key = key.toLowerCase()
+          options[key] = value
+          break
+        case 'BYDAY': // => byweekday
+          var n, wday, day
+          var days = value.split(',')
+
+          options.byweekday = []
+          for (j = 0; j < days.length; j++) {
+            day = days[j]
+            if (day.length === 2) { // MO, TU, ...
+              wday = RRule[day] // wday instanceof Weekday
+              options.byweekday.push(wday)
+            } else { // -1MO, +3FR, 1SO, ...
+              day = day.match(/^([+-]?\d)([A-Z]{2})$/)
+              n = Number(day[1])
+              wday = day[2]
+              wday = RRule[wday].weekday
+              options.byweekday.push(new Weekday(wday, n))
+            }
+          }
+          break
+        case 'DTSTART':
+          options.dtstart = dateutil.untilStringToDate(value)
+          break
+        case 'UNTIL':
+          options.until = dateutil.untilStringToDate(value)
+          break
+        case 'BYEASTER':
+          options.byeaster = Number(value)
+          break
+        default:
+          throw new Error("Unknown RRULE property '" + key + "'")
+      }
+    }
+    return options
+  }
+
+  RRule.fromString = function (string) {
+    return new RRule(RRule.parseString(string))
+  }
+
+  // =============================================================================
+  // Iterinfo
+  // =============================================================================
+
+  var Iterinfo = function (rrule) {
+    this.rrule = rrule
+    this.lastyear = null
+    this.lastmonth = null
+    this.yearlen = null
+    this.nextyearlen = null
+    this.yearordinal = null
+    this.yearweekday = null
+    this.mmask = null
+    this.mrange = null
+    this.mdaymask = null
+    this.nmdaymask = null
+    this.wdaymask = null
+    this.wnomask = null
+    this.nwdaymask = null
+    this.eastermask = null
+  }
+
+  Iterinfo.prototype.easter = function (y, offset) {
+    offset = offset || 0
+
+    var a = y % 19
+    var b = Math.floor(y / 100)
+    var c = y % 100
+    var d = Math.floor(b / 4)
+    var e = b % 4
+    var f = Math.floor((b + 8) / 25)
+    var g = Math.floor((b - f + 1) / 3)
+    var h = Math.floor(19 * a + b - d - g + 15) % 30
+    var i = Math.floor(c / 4)
+    var k = c % 4
+    var l = Math.floor(32 + 2 * e + 2 * i - h - k) % 7
+    var m = Math.floor((a + 11 * h + 22 * l) / 451)
+    var month = Math.floor((h + l - 7 * m + 114) / 31)
+    var day = (h + l - 7 * m + 114) % 31 + 1
+    var date = Date.UTC(y, month - 1, day + offset)
+    var yearStart = Date.UTC(y, 0, 1)
+
+    return [Math.ceil((date - yearStart) / (1000 * 60 * 60 * 24))]
+  }
+
+  Iterinfo.prototype.rebuild = function (year, month) {
+    var rr = this.rrule
+
+    if (year !== this.lastyear) {
+      this.yearlen = dateutil.isLeapYear(year) ? 366 : 365
+      this.nextyearlen = dateutil.isLeapYear(year + 1) ? 366 : 365
+      var firstyday = new Date(year, 0, 1)
+
+      this.yearordinal = dateutil.toOrdinal(firstyday)
+      this.yearweekday = dateutil.getWeekday(firstyday)
+
+      var wday = dateutil.getWeekday(new Date(year, 0, 1))
+
+      if (this.yearlen === 365) {
+        this.mmask = [].concat(M365MASK)
+        this.mdaymask = [].concat(MDAY365MASK)
+        this.nmdaymask = [].concat(NMDAY365MASK)
+        this.wdaymask = WDAYMASK.slice(wday)
+        this.mrange = [].concat(M365RANGE)
+      } else {
+        this.mmask = [].concat(M366MASK)
+        this.mdaymask = [].concat(MDAY366MASK)
+        this.nmdaymask = [].concat(NMDAY366MASK)
+        this.wdaymask = WDAYMASK.slice(wday)
+        this.mrange = [].concat(M366RANGE)
+      }
+
+      if (!plb(rr.options.byweekno)) {
+        this.wnomask = null
+      } else {
+        this.wnomask = repeat(0, this.yearlen + 7)
+        var no1wkst, firstwkst, wyearlen
+        no1wkst = firstwkst = pymod(7 - this.yearweekday + rr.options.wkst, 7)
+        if (no1wkst >= 4) {
+          no1wkst = 0
+          // Number of days in the year, plus the days we got
+          // from last year.
+          wyearlen = this.yearlen + pymod(this.yearweekday - rr.options.wkst, 7)
+        } else {
+          // Number of days in the year, minus the days we
+          // left in last year.
+          wyearlen = this.yearlen - no1wkst
+        }
+        var div = Math.floor(wyearlen / 7)
+        var mod = pymod(wyearlen, 7)
+        var numweeks = Math.floor(div + (mod / 4))
+        for (var n, i, j = 0; j < rr.options.byweekno.length; j++) {
+          n = rr.options.byweekno[j]
+          if (n < 0) {
+            n += numweeks + 1
+          } if (!(n > 0 && n <= numweeks)) {
+            continue
+          } if (n > 1) {
+            i = no1wkst + (n - 1) * 7
+            if (no1wkst !== firstwkst) {
+              i -= 7 - firstwkst
+            }
+          } else {
+            i = no1wkst
+          }
+          for (var k = 0; k < 7; k++) {
+            this.wnomask[i] = 1
+            i++
+            if (this.wdaymask[i] === rr.options.wkst) break
+          }
+        }
+
+        if (contains(rr.options.byweekno, 1)) {
+          // Check week number 1 of next year as well
+          // orig-TODO : Check -numweeks for next year.
+          i = no1wkst + numweeks * 7
+          if (no1wkst !== firstwkst) i -= 7 - firstwkst
+          if (i < this.yearlen) {
+            // If week starts in next year, we
+            // don't care about it.
+            for (j = 0; j < 7; j++) {
+              this.wnomask[i] = 1
+              i += 1
+              if (this.wdaymask[i] === rr.options.wkst) break
+            }
+          }
+        }
+
+        if (no1wkst) {
+          // Check last week number of last year as
+          // well. If no1wkst is 0, either the year
+          // started on week start, or week number 1
+          // got days from last year, so there are no
+          // days from last year's last week number in
+          // this year.
+          var lnumweeks
+          if (!contains(rr.options.byweekno, -1)) {
+            var lyearweekday = dateutil.getWeekday(new Date(year - 1, 0, 1))
+            var lno1wkst = pymod(7 - lyearweekday + rr.options.wkst, 7)
+            var lyearlen = dateutil.isLeapYear(year - 1) ? 366 : 365
+            if (lno1wkst >= 4) {
+              lno1wkst = 0
+              lnumweeks = Math.floor(52 +
+                pymod(lyearlen + pymod(lyearweekday - rr.options.wkst, 7), 7) / 4)
+            } else {
+              lnumweeks = Math.floor(52 + pymod(this.yearlen - no1wkst, 7) / 4)
+            }
+          } else {
+            lnumweeks = -1
+          }
+          if (contains(rr.options.byweekno, lnumweeks)) {
+            for (i = 0; i < no1wkst; i++) this.wnomask[i] = 1
+          }
+        }
+      }
+    }
+
+    if (plb(rr.options.bynweekday) && (month !== this.lastmonth || year !== this.lastyear)) {
+      var ranges = []
+      if (rr.options.freq === RRule.YEARLY) {
+        if (plb(rr.options.bymonth)) {
+          for (j = 0; j < rr.options.bymonth.length; j++) {
+            month = rr.options.bymonth[j]
+            ranges.push(this.mrange.slice(month - 1, month + 1))
+          }
+        } else {
+          ranges = [[0, this.yearlen]]
+        }
+      } else if (rr.options.freq === RRule.MONTHLY) {
+        ranges = [this.mrange.slice(month - 1, month + 1)]
+      }
+      if (plb(ranges)) {
+        // Weekly frequency won't get here, so we may not
+        // care about cross-year weekly periods.
+        this.nwdaymask = repeat(0, this.yearlen)
+
+        for (j = 0; j < ranges.length; j++) {
+          var rang = ranges[j]
+          var first = rang[0]
+          var last = rang[1]
+          last -= 1
+          for (k = 0; k < rr.options.bynweekday.length; k++) {
+            wday = rr.options.bynweekday[k][0]
+            n = rr.options.bynweekday[k][1]
+            if (n < 0) {
+              i = last + (n + 1) * 7
+              i -= pymod(this.wdaymask[i] - wday, 7)
+            } else {
+              i = first + (n - 1) * 7
+              i += pymod(7 - this.wdaymask[i] + wday, 7)
+            }
+            if (first <= i && i <= last) this.nwdaymask[i] = 1
+          }
+        }
+      }
+
+      this.lastyear = year
+      this.lastmonth = month
+    }
+
+    if (rr.options.byeaster !== null) {
+      this.eastermask = this.easter(year, rr.options.byeaster)
+    }
+  }
+
+  Iterinfo.prototype.ydayset = function (year, month, day) {
+    return [range(this.yearlen), 0, this.yearlen]
+  }
+
+  Iterinfo.prototype.mdayset = function (year, month, day) {
+    var set = repeat(null, this.yearlen)
+    var start = this.mrange[month - 1]
+    var end = this.mrange[month]
+    for (var i = start; i < end; i++) set[i] = i
+    return [set, start, end]
+  }
+
+  Iterinfo.prototype.wdayset = function (year, month, day) {
+    // We need to handle cross-year weeks here.
+    var set = repeat(null, this.yearlen + 7)
+    var i = dateutil.toOrdinal(new Date(year, month - 1, day)) - this.yearordinal
+    var start = i
+    for (var j = 0; j < 7; j++) {
+      set[i] = i
+      ++i
+      if (this.wdaymask[i] === this.rrule.options.wkst) break
+    }
+    return [set, start, i]
+  }
+
+  Iterinfo.prototype.ddayset = function (year, month, day) {
+    var set = repeat(null, this.yearlen)
+    var i = dateutil.toOrdinal(new Date(year, month - 1, day)) - this.yearordinal
+    set[i] = i
+    return [set, i, i + 1]
+  }
+
+  Iterinfo.prototype.htimeset = function (hour, minute, second, millisecond) {
+    var set = []
+    var rr = this.rrule
+    for (var i = 0; i < rr.options.byminute.length; i++) {
+      minute = rr.options.byminute[i]
+      for (var j = 0; j < rr.options.bysecond.length; j++) {
+        second = rr.options.bysecond[j]
+        set.push(new dateutil.Time(hour, minute, second, millisecond))
+      }
+    }
+    dateutil.sort(set)
+    return set
+  }
+
+  Iterinfo.prototype.mtimeset = function (hour, minute, second, millisecond) {
+    var set = []
+    var rr = this.rrule
+    for (var j = 0; j < rr.options.bysecond.length; j++) {
+      second = rr.options.bysecond[j]
+      set.push(new dateutil.Time(hour, minute, second, millisecond))
+    }
+    dateutil.sort(set)
+    return set
+  }
+
+  Iterinfo.prototype.stimeset = function (hour, minute, second, millisecond) {
+    return [new dateutil.Time(hour, minute, second, millisecond)]
+  }
+
+  // =============================================================================
+  // Results
+  // =============================================================================
+
+  /**
+   * This class helps us to emulate python's generators, sorta.
+   */
+  var IterResult = function (method, args) {
+    this.init(method, args)
+  }
+
+  IterResult.prototype = {
+    constructor: IterResult,
+    init: function (method, args) {
+      this.method = method
+      this.args = args
+      this.minDate = null
+      this.maxDate = null
+      this._result = []
+
+      if (method === 'between') {
+        this.maxDate = args.inc
+          ? args.before : new Date(args.before.getTime() - 1)
+        this.minDate = args.inc
+          ? args.after : new Date(args.after.getTime() + 1)
+      } else if (method === 'before') {
+        this.maxDate = args.inc ? args.dt : new Date(args.dt.getTime() - 1)
+      } else if (method === 'after') {
+        this.minDate = args.inc ? args.dt : new Date(args.dt.getTime() + 1)
+      }
+    },
+
+    /**
+     * Possibly adds a date into the result.
+     *
+     * @param {Date} date - the date isn't necessarly added to the result
+     *                      list (if it is too late/too early)
+     * @return {Boolean} true if it makes sense to continue the iteration
+     *                   false if we're done.
+     */
+    accept: function (date) {
+      var tooEarly = this.minDate && date < this.minDate
+      var tooLate = this.maxDate && date > this.maxDate
+
+      if (this.method === 'between') {
+        if (tooEarly) return true
+        if (tooLate) return false
+      } else if (this.method === 'before') {
+        if (tooLate) return false
+      } else if (this.method === 'after') {
+        if (tooEarly) return true
+        this.add(date)
+        return false
+      }
+
+      return this.add(date)
+    },
+
+    /**
+     *
+     * @param {Date} date that is part of the result.
+     * @return {Boolean} whether we are interested in more values.
+     */
+    add: function (date) {
+      this._result.push(date)
+      return true
+    },
+
+    /**
+     * 'before' and 'after' return only one date, whereas 'all'
+     * and 'between' an array.
+     * @return {Date,Array?}
+     */
+    getValue: function () {
+      var res = this._result
+      switch (this.method) {
+        case 'all':
+        case 'between':
+          return res
+        case 'before':
+        case 'after':
+          return res.length ? res[res.length - 1] : null
+      }
+    },
+
+    clone: function () {
+      return new IterResult(this.method, this.args)
+    }
+  }
+
+  /**
+   * IterResult subclass that calls a callback function on each add,
+   * and stops iterating when the callback returns false.
+   */
+  var CallbackIterResult = function (method, args, iterator) {
+    var allowedMethods = ['all', 'between']
+    if (!contains(allowedMethods, method)) {
+      throw new Error('Invalid method "' + method +
+        '". Only all and between works with iterator.')
+    }
+    this.add = function (date) {
+      if (iterator(date, this._result.length)) {
+        this._result.push(date)
+        return true
+      }
+      return false
+    }
+
+    this.init(method, args)
+  }
+  CallbackIterResult.prototype = IterResult.prototype
+
+  /**
+   *
+   * @param {Boolean?} noCache
+   *  The same stratagy as RRule on cache, default to false
+   * @constructor
+   */
+
+  var RRuleSet = function (noCache) {
+    // Let RRuleSet cacheable
+    this._cache = noCache ? null : {
+      all: false,
+      before: [],
+      after: [],
+      between: []
+    }
+    this._rrule = []
+    this._rdate = []
+    this._exrule = []
+    this._exdate = []
+  }
+
+  RRuleSet.prototype = {
+    constructor: RRuleSet,
+
+    /**
+    * @param {RRule}
+    */
+    rrule: function (rrule) {
+      if (!(rrule instanceof RRule)) {
+        throw new TypeError(String(rrule) + ' is not RRule instance')
+      }
+      if (!contains(this._rrule.map(String), String(rrule))) {
+        this._rrule.push(rrule)
+      }
+    },
+
+    /**
+    * @param {Date}
+    */
+    rdate: function (date) {
+      if (!(date instanceof Date)) {
+        throw new TypeError(String(date) + ' is not Date instance')
+      }
+      if (!contains(this._rdate.map(Number), Number(date))) {
+        this._rdate.push(date)
+        dateutil.sort(this._rdate)
+      }
+    },
+
+    /**
+    * @param {RRule}
+    */
+    exrule: function (rrule) {
+      if (!(rrule instanceof RRule)) {
+        throw new TypeError(String(rrule) + ' is not RRule instance')
+      }
+      if (!contains(this._exrule.map(String), String(rrule))) {
+        this._exrule.push(rrule)
+      }
+    },
+
+    /**
+    * @param {Date}
+    */
+    exdate: function (date) {
+      if (!(date instanceof Date)) {
+        throw new TypeError(String(date) + ' is not Date instance')
+      }
+      if (!contains(this._exdate.map(Number), Number(date))) {
+        this._exdate.push(date)
+        dateutil.sort(this._exdate)
+      }
+    },
+
+    valueOf: function () {
+      var result = []
+      if (this._rrule.length) {
+        this._rrule.forEach(function (rrule) {
+          result.push('RRULE:' + rrule)
+        })
+      }
+      if (this._rdate.length) {
+        result.push('RDATE:' + this._rdate.map(function (rdate) {
+          return dateutil.timeToUntilString(rdate)
+        }).join(','))
+      }
+      if (this._exrule.length) {
+        this._exrule.forEach(function (exrule) {
+          result.push('EXRULE:' + exrule)
+        })
+      }
+      if (this._exdate.length) {
+        result.push('EXDATE:' + this._exdate.map(function (exdate) {
+          return dateutil.timeToUntilString(exdate)
+        }).join(','))
+      }
+      return result
+    },
+
+    /**
+    * to generate recurrence field sush as:
+    *   ["RRULE:FREQ=YEARLY;COUNT=2;BYDAY=TU;DTSTART=19970902T010000Z","RRULE:FREQ=YEARLY;COUNT=1;BYDAY=TH;DTSTART=19970902T010000Z"]
+    */
+    toString: function () {
+      return JSON.stringify(this.valueOf())
+    },
+
+    _iter: function (iterResult) {
+      var _exdateHash = {}
+      var _exrule = this._exrule
+      var _accept = iterResult.accept
+
+      function evalExdate (after, before) {
+        _exrule.forEach(function (rrule) {
+          rrule.between(after, before, true).forEach(function (date) {
+            _exdateHash[Number(date)] = true
+          })
+        })
+      }
+
+      this._exdate.forEach(function (date) {
+        _exdateHash[Number(date)] = true
+      })
+
+      iterResult.accept = function (date) {
+        var dt = Number(date)
+        if (!_exdateHash[dt]) {
+          evalExdate(new Date(dt - 1), new Date(dt + 1))
+          if (!_exdateHash[dt]) {
+            _exdateHash[dt] = true
+            return _accept.call(this, date)
+          }
+        }
+        return true
+      }
+
+      if (iterResult.method === 'between') {
+        evalExdate(iterResult.args.after, iterResult.args.before)
+        iterResult.accept = function (date) {
+          var dt = Number(date)
+          if (!_exdateHash[dt]) {
+            _exdateHash[dt] = true
+            return _accept.call(this, date)
+          }
+          return true
+        }
+      }
+
+      for (var i = 0; i < this._rdate.length; i++) {
+        if (!iterResult.accept(new Date(this._rdate[i]))) break
+      }
+
+      this._rrule.forEach(function (rrule) {
+        rrule._iter(iterResult)
+      })
+
+      var res = iterResult._result
+      dateutil.sort(res)
+      switch (iterResult.method) {
+        case 'all':
+        case 'between':
+          return res
+        case 'before':
+          return (res.length && res[res.length - 1]) || null
+        case 'after':
+          return (res.length && res[0]) || null
+        default:
+          return null
+      }
+    },
+
+    /**
+    * Create a new RRuleSet Object completely base on current instance
+    */
+    clone: function () {
+      var rrs = new RRuleSet(!!this._cache)
+      var i
+      for (i = 0; i < this._rrule.length; i++) {
+        rrs.rrule(this._rrule[i].clone())
+      }
+      for (i = 0; i < this._rdate.length; i++) {
+        rrs.rdate(new Date(this._rdate[i]))
+      }
+      for (i = 0; i < this._exrule.length; i++) {
+        rrs.exrule(this._exrule[i].clone())
+      }
+      for (i = 0; i < this._exdate.length; i++) {
+        rrs.exdate(new Date(this._exdate[i]))
+      }
+      return rrs
+    }
+  }
+
+  /**
+   * Inherts method from RRule
+   *  add Read interface and set RRuleSet cacheable
+   */
+  var RRuleSetMethods = ['all', 'between', 'before', 'after', 'count', '_cacheAdd', '_cacheGet']
+  RRuleSetMethods.forEach(function (method) {
+    RRuleSet.prototype[method] = RRule.prototype[method]
+  })
+
+  /**
+   * RRuleStr
+   *  To parse a set of rrule strings
+   */
+
+  var RRuleStr = function () {}
+
+  RRuleStr.DEFAULT_OPTIONS = {
+    dtstart: null,
+    cache: false,
+    unfold: false,
+    forceset: false,
+    compatible: false,
+    ignoretz: false,
+    tzinfos: null
+  }
+
+  RRuleStr._freq_map = {
+    'YEARLY': RRule.YEARLY,
+    'MONTHLY': RRule.MONTHLY,
+    'WEEKLY': RRule.WEEKLY,
+    'DAILY': RRule.DAILY,
+    'HOURLY': RRule.HOURLY,
+    'MINUTELY': RRule.MINUTELY,
+    'SECONDLY': RRule.SECONDLY
+  }
+
+  RRuleStr._weekday_map = {
+    'MO': 0,
+    'TU': 1,
+    'WE': 2,
+    'TH': 3,
+    'FR': 4,
+    'SA': 5,
+    'SU': 6
+  }
+
+  RRuleStr.prototype = {
+    constructor: RRuleStr,
+
+    _handle_int: function (rrkwargs, name, value, options) {
+      rrkwargs[name.toLowerCase()] = parseInt(value, 10)
+    },
+
+    _handle_int_list: function (rrkwargs, name, value, options) {
+      rrkwargs[name.toLowerCase()] = value.split(',').map(function (x) {
+        return parseInt(x, 10)
+      })
+    },
+
+    _handle_FREQ: function (rrkwargs, name, value, options) {
+      rrkwargs['freq'] = RRuleStr._freq_map[value]
+    },
+
+    _handle_UNTIL: function (rrkwargs, name, value, options) {
+      try {
+        rrkwargs['until'] = dateutil.untilStringToDate(value)
+      } catch (error) {
+        throw new Error('invalid until date')
+      }
+    },
+
+    _handle_WKST: function (rrkwargs, name, value, options) {
+      rrkwargs['wkst'] = RRuleStr._weekday_map[value]
+    },
+
+    _handle_BYWEEKDAY: function (rrkwargs, name, value, options) {
+      // Two ways to specify this: +1MO or MO(+1)
+      var splt, i, j, n, w, wday
+      var l = []
+      var wdays = value.split(',')
+
+      for (i = 0; i < wdays.length; i++) {
+        wday = wdays[i]
+        if (wday.indexOf('(') > -1) {
+          // If it's of the form TH(+1), etc.
+          splt = wday.split('(')
+          w = splt[0]
+          n = parseInt(splt.slice(1, -1), 10)
+        } else {
+          // # If it's of the form +1MO
+          for (j = 0; j < wday.length; j++) {
+            if ('+-0123456789'.indexOf(wday[j]) === -1) break
+          }
+          n = wday.slice(0, j) || null
+          w = wday.slice(j)
+
+          if (n) n = parseInt(n, 10)
+        }
+
+        var weekday = new Weekday(RRuleStr._weekday_map[w], n)
+        l.push(weekday)
+      }
+      rrkwargs['byweekday'] = l
+    },
+
+    _parseRfcRRule: function (line, options) {
+      options = options || {}
+      options.dtstart = options.dtstart || null
+      options.cache = options.cache || false
+      options.ignoretz = options.ignoretz || false
+      options.tzinfos = options.tzinfos || null
+
+      var name, value, parts
+      if (line.indexOf(':') !== -1) {
+        parts = line.split(':')
+        name = parts[0]
+        value = parts[1]
+
+        if (name !== 'RRULE') throw new Error('unknown parameter name')
+      } else {
+        value = line
+      }
+
+      var i
+      var rrkwargs = {}
+      var pairs = value.split(';')
+
+      for (i = 0; i < pairs.length; i++) {
+        parts = pairs[i].split('=')
+        name = parts[0].toUpperCase()
+        value = parts[1].toUpperCase()
+
+        try {
+          this['_handle_' + name](rrkwargs, name, value, {
+            ignoretz: options.ignoretz,
+            tzinfos: options.tzinfos
+          })
+        } catch (error) {
+          throw new Error("unknown parameter '" + name + "':" + value)
+        }
+      }
+      rrkwargs.dtstart = rrkwargs.dtstart || options.dtstart
+      return new RRule(rrkwargs, !options.cache)
+    },
+
+    _parseRfc: function (s, options) {
+      if (options.compatible) {
+        options.forceset = true
+        options.unfold = true
+      }
+
+      s = s && s.toUpperCase().trim()
+      if (!s) throw new Error('Invalid empty string')
+
+      var i = 0
+      var line, lines
+
+      // More info about 'unfold' option
+      // Go head to http://www.ietf.org/rfc/rfc2445.txt
+      if (options.unfold) {
+        lines = s.split('\n')
+        while (i < lines.length) {
+          // TODO
+          line = lines[i] = lines[i].replace(/\s+$/g, '')
+          if (!line) {
+            lines.splice(i, 1)
+          } else if (i > 0 && line[0] === ' ') {
+            lines[i - 1] += line.slice(1)
+            lines.splice(i, 1)
+          } else {
+            i += 1
+          }
+        }
+      } else {
+        lines = s.split(/\s/)
+      }
+
+      var rrulevals = []
+      var rdatevals = []
+      var exrulevals = []
+      var exdatevals = []
+      var name, value, parts, parms, parm, dtstart, rset, j, k, datestrs, datestr
+
+      if (!options.forceset && lines.length === 1 && (s.indexOf(':') === -1 ||
+        s.indexOf('RRULE:') === 0)) {
+        return this._parseRfcRRule(lines[0], {
+          cache: options.cache,
+          dtstart: options.dtstart,
+          ignoretz: options.ignoretz,
+          tzinfos: options.tzinfos
+        })
+      } else {
+        for (i = 0; i < lines.length; i++) {
+          line = lines[i]
+          if (!line) continue
+          if (line.indexOf(':') === -1) {
+            name = 'RRULE'
+            value = line
+          } else {
+            parts = split(line, ':', 1)
+            name = parts[0]
+            value = parts[1]
+          }
+          parms = name.split(';')
+          if (!parms) throw new Error('empty property name')
+          name = parms[0]
+          parms = parms.slice(1)
+
+          if (name === 'RRULE') {
+            for (j = 0; j < parms.length; j++) {
+              parm = parms[j]
+              throw new Error('unsupported RRULE parm: ' + parm)
+            }
+            rrulevals.push(value)
+          } else if (name === 'RDATE') {
+            for (j = 0; j < parms.length; j++) {
+              parm = parms[j]
+              if (parm !== 'VALUE=DATE-TIME') {
+                throw new Error('unsupported RDATE parm: ' + parm)
+              }
+            }
+            rdatevals.push(value)
+          } else if (name === 'EXRULE') {
+            for (j = 0; j < parms.length; j++) {
+              parm = parms[j]
+              throw new Error('unsupported EXRULE parm: ' + parm)
+            }
+            exrulevals.push(value)
+          } else if (name === 'EXDATE') {
+            for (j = 0; j < parms.length; j++) {
+              parm = parms[j]
+              if (parm !== 'VALUE=DATE-TIME') {
+                throw new Error('unsupported RDATE parm: ' + parm)
+              }
+            }
+            exdatevals.push(value)
+          } else if (name === 'DTSTART') {
+            dtstart = dateutil.untilStringToDate(value)
+          } else {
+            throw new Error('unsupported property: ' + name)
+          }
+        }
+
+        if (options.forceset || rrulevals.length > 1 || rdatevals.length ||
+          exrulevals.length || exdatevals.length) {
+          rset = new RRuleSet(!options.cache)
+          for (j = 0; j < rrulevals.length; j++) {
+            rset.rrule(this._parseRfcRRule(rrulevals[j], {
+              dtstart: options.dtstart || dtstart,
+              ignoretz: options.ignoretz,
+              tzinfos: options.tzinfos
+            }))
+          }
+          for (j = 0; j < rdatevals.length; j++) {
+            datestrs = rdatevals[j].split(',')
+            for (k = 0; k < datestrs.length; k++) {
+              datestr = datestrs[k]
+              rset.rdate(dateutil.untilStringToDate(datestr))
+            }
+          }
+          for (j = 0; j < exrulevals.length; j++) {
+            rset.exrule(this._parseRfcRRule(exrulevals[j], {
+              dtstart: options.dtstart || dtstart,
+              ignoretz: options.ignoretz,
+              tzinfos: options.tzinfos
+            }))
+          }
+          for (j = 0; j < exdatevals.length; j++) {
+            datestrs = exdatevals[j].split(',')
+            for (k = 0; k < datestrs.length; k++) {
+              datestr = datestrs[k]
+              rset.exdate(dateutil.untilStringToDate(datestr))
+            }
+          }
+
+          if (options.campatiable && options.dtstart) rset.rdate(dtstart)
+          return rset
+        } else {
+          return this._parseRfcRRule(rrulevals[0], {
+            dtstart: options.dtstart || dtstart,
+            cache: options.cache,
+            ignoretz: options.ignoretz,
+            tzinfos: options.tzinfos
+          })
+        }
+      }
+    },
+
+    parse: function (s, options) {
+      options = options || {}
+
+      var invalid = []
+      var keys = Object.keys(options)
+      var defaultKeys = Object.keys(RRuleStr.DEFAULT_OPTIONS)
+
+      keys.forEach(function (key) {
+        if (!contains(defaultKeys, key)) invalid.push(key)
+      }, this)
+
+      if (invalid.length) throw new Error('Invalid options: ' + invalid.join(', '))
+
+      // Merge in default options
+      defaultKeys.forEach(function (key) {
+        if (!contains(keys, key)) options[key] = RRuleStr.DEFAULT_OPTIONS[key]
+      })
+
+      return this._parseRfc(s, options)
+    }
+  }
+
+  RRuleStr.prototype._handle_DTSTART = function (rrkwargs, name, value, options) {
+    rrkwargs[name.toLowerCase()] = dateutil.untilStringToDate(value)
+  }
+
+  RRuleStr.prototype._handle_BYDAY = RRuleStr.prototype._handle_BYWEEKDAY
+  RRuleStr.prototype._handle_INTERVAL = RRuleStr.prototype._handle_int
+  RRuleStr.prototype._handle_COUNT = RRuleStr.prototype._handle_int
+
+  ;[
+    '_handle_BYSETPOS', '_handle_BYMONTH', '_handle_BYMONTHDAY',
+    '_handle_BYYEARDAY', '_handle_BYEASTER', '_handle_BYWEEKNO',
+    '_handle_BYHOUR', '_handle_BYMINUTE', '_handle_BYSECOND'
+  ].forEach(function (method) {
+    RRuleStr.prototype[method] = RRuleStr.prototype._handle_int_list
+  })
+
+  // =============================================================================
+  // Export
+  // =============================================================================
+
+  // Only one RRuleStr instance for all rrule string parsing work.
+  var rruleStr = new RRuleStr()
+  var rrulestr = function () {
+    return rruleStr.parse.apply(rruleStr, arguments)
+  }
+
+  RRule.RRule = RRule
+  RRule.RRuleSet = RRuleSet
+  RRule.rrulestr = rrulestr
+  return RRule
+
+  function getnlp () {
+    // Lazy, runtime import to avoid circular refs.
+    if (!getnlp._nlp) {
+      if (root && root._getRRuleNLP) {
+        getnlp._nlp = root._getRRuleNLP(RRule)
+      } else if (true) {
+        getnlp._nlp = __webpack_require__("../../../../rrule/lib/nlp.js")(RRule)
+      } else {
+        throw new Error('You need to include rrule/nlp.js for fromText/toText to work.')
+      }
+    }
+    return getnlp._nlp
+  }
+}))
+
+
+/***/ }),
+
+/***/ "../../../../rxjs/Scheduler.js":
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* unused harmony export Trigger */
-/* unused harmony export parseTriggers */
-/* harmony export (immutable) */ __webpack_exports__["a"] = listenToTriggers;
-var Trigger = (function () {
-    function Trigger(open, close) {
-        this.open = open;
-        this.close = close;
-        if (!close) {
-            this.close = open;
-        }
+
+/**
+ * An execution context and a data structure to order tasks and schedule their
+ * execution. Provides a notion of (potentially virtual) time, through the
+ * `now()` getter method.
+ *
+ * Each unit of work in a Scheduler is called an {@link Action}.
+ *
+ * ```ts
+ * class Scheduler {
+ *   now(): number;
+ *   schedule(work, delay?, state?): Subscription;
+ * }
+ * ```
+ *
+ * @class Scheduler
+ */
+var Scheduler = (function () {
+    function Scheduler(SchedulerAction, now) {
+        if (now === void 0) { now = Scheduler.now; }
+        this.SchedulerAction = SchedulerAction;
+        this.now = now;
     }
-    Trigger.prototype.isManual = function () { return this.open === 'manual' || this.close === 'manual'; };
-    return Trigger;
+    /**
+     * Schedules a function, `work`, for execution. May happen at some point in
+     * the future, according to the `delay` parameter, if specified. May be passed
+     * some context object, `state`, which will be passed to the `work` function.
+     *
+     * The given arguments will be processed an stored as an Action object in a
+     * queue of actions.
+     *
+     * @param {function(state: ?T): ?Subscription} work A function representing a
+     * task, or some unit of work to be executed by the Scheduler.
+     * @param {number} [delay] Time to wait before executing the work, where the
+     * time unit is implicit and defined by the Scheduler itself.
+     * @param {T} [state] Some contextual data that the `work` function uses when
+     * called by the Scheduler.
+     * @return {Subscription} A subscription in order to be able to unsubscribe
+     * the scheduled work.
+     */
+    Scheduler.prototype.schedule = function (work, delay, state) {
+        if (delay === void 0) { delay = 0; }
+        return new this.SchedulerAction(this, work).schedule(state, delay);
+    };
+    Scheduler.now = Date.now ? Date.now : function () { return +new Date(); };
+    return Scheduler;
 }());
-
-var DEFAULT_ALIASES = {
-    'hover': ['mouseenter', 'mouseleave']
-};
-function parseTriggers(triggers, aliases) {
-    if (aliases === void 0) { aliases = DEFAULT_ALIASES; }
-    var trimmedTriggers = (triggers || '').trim();
-    if (trimmedTriggers.length === 0) {
-        return [];
-    }
-    var parsedTriggers = trimmedTriggers.split(/\s+/).map(function (trigger) { return trigger.split(':'); }).map(function (triggerPair) {
-        var alias = aliases[triggerPair[0]] || triggerPair;
-        return new Trigger(alias[0], alias[1]);
-    });
-    var manualTriggers = parsedTriggers.filter(function (triggerPair) { return triggerPair.isManual(); });
-    if (manualTriggers.length > 1) {
-        throw 'Triggers parse error: only one manual trigger is allowed';
-    }
-    if (manualTriggers.length === 1 && parsedTriggers.length > 1) {
-        throw 'Triggers parse error: manual trigger can\'t be mixed with other triggers';
-    }
-    return parsedTriggers;
-}
-var noopFn = function () { };
-function listenToTriggers(renderer, nativeElement, triggers, openFn, closeFn, toggleFn) {
-    var parsedTriggers = parseTriggers(triggers);
-    var listeners = [];
-    if (parsedTriggers.length === 1 && parsedTriggers[0].isManual()) {
-        return noopFn;
-    }
-    parsedTriggers.forEach(function (trigger) {
-        if (trigger.open === trigger.close) {
-            listeners.push(renderer.listen(nativeElement, trigger.open, toggleFn));
-        }
-        else {
-            listeners.push(renderer.listen(nativeElement, trigger.open, openFn), renderer.listen(nativeElement, trigger.close, closeFn));
-        }
-    });
-    return function () { listeners.forEach(function (unsubscribeFn) { return unsubscribeFn(); }); };
-}
-//# sourceMappingURL=triggers.js.map
+exports.Scheduler = Scheduler;
+//# sourceMappingURL=Scheduler.js.map
 
 /***/ }),
 
-/***/ "../../../../@ng-bootstrap/ng-bootstrap/util/util.js":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ "../../../../rxjs/add/observable/merge.js":
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["h"] = toInteger;
-/* harmony export (immutable) */ __webpack_exports__["i"] = toString;
-/* harmony export (immutable) */ __webpack_exports__["a"] = getValueInRange;
-/* harmony export (immutable) */ __webpack_exports__["e"] = isString;
-/* harmony export (immutable) */ __webpack_exports__["d"] = isNumber;
-/* harmony export (immutable) */ __webpack_exports__["c"] = isInteger;
-/* harmony export (immutable) */ __webpack_exports__["b"] = isDefined;
-/* harmony export (immutable) */ __webpack_exports__["f"] = padNumber;
-/* harmony export (immutable) */ __webpack_exports__["g"] = regExpEscape;
-function toInteger(value) {
-    return parseInt("" + value, 10);
-}
-function toString(value) {
-    return (value !== undefined && value !== null) ? "" + value : '';
-}
-function getValueInRange(value, max, min) {
-    if (min === void 0) { min = 0; }
-    return Math.max(Math.min(value, max), min);
-}
-function isString(value) {
-    return typeof value === 'string';
-}
-function isNumber(value) {
-    return !isNaN(toInteger(value));
-}
-function isInteger(value) {
-    return typeof value === 'number' && isFinite(value) && Math.floor(value) === value;
-}
-function isDefined(value) {
-    return value !== undefined && value !== null;
-}
-function padNumber(value) {
-    if (isNumber(value)) {
-        return ("0" + value).slice(-2);
-    }
-    else {
-        return '';
-    }
-}
-function regExpEscape(text) {
-    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-}
-//# sourceMappingURL=util.js.map
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var merge_1 = __webpack_require__("../../../../rxjs/observable/merge.js");
+Observable_1.Observable.merge = merge_1.merge;
+//# sourceMappingURL=merge.js.map
 
 /***/ }),
 
-/***/ "../../../../rxjs/observable/FromEventObservable.js":
+/***/ "../../../../rxjs/add/operator/distinctUntilChanged.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var distinctUntilChanged_1 = __webpack_require__("../../../../rxjs/operator/distinctUntilChanged.js");
+Observable_1.Observable.prototype.distinctUntilChanged = distinctUntilChanged_1.distinctUntilChanged;
+//# sourceMappingURL=distinctUntilChanged.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/add/operator/filter.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var filter_1 = __webpack_require__("../../../../rxjs/operator/filter.js");
+Observable_1.Observable.prototype.filter = filter_1.filter;
+//# sourceMappingURL=filter.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/add/operator/mergeMap.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var mergeMap_1 = __webpack_require__("../../../../rxjs/operator/mergeMap.js");
+Observable_1.Observable.prototype.mergeMap = mergeMap_1.mergeMap;
+Observable_1.Observable.prototype.flatMap = mergeMap_1.mergeMap;
+//# sourceMappingURL=mergeMap.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/add/operator/pairwise.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var pairwise_1 = __webpack_require__("../../../../rxjs/operator/pairwise.js");
+Observable_1.Observable.prototype.pairwise = pairwise_1.pairwise;
+//# sourceMappingURL=pairwise.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/add/operator/takeLast.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var takeLast_1 = __webpack_require__("../../../../rxjs/operator/takeLast.js");
+Observable_1.Observable.prototype.takeLast = takeLast_1.takeLast;
+//# sourceMappingURL=takeLast.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/add/operator/takeUntil.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var takeUntil_1 = __webpack_require__("../../../../rxjs/operator/takeUntil.js");
+Observable_1.Observable.prototype.takeUntil = takeUntil_1.takeUntil;
+//# sourceMappingURL=takeUntil.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/add/operator/throttle.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
+var throttle_1 = __webpack_require__("../../../../rxjs/operator/throttle.js");
+Observable_1.Observable.prototype.throttle = throttle_1.throttle;
+//# sourceMappingURL=throttle.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/observable/IntervalObservable.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6169,155 +9468,103 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+var isNumeric_1 = __webpack_require__("../../../../rxjs/util/isNumeric.js");
 var Observable_1 = __webpack_require__("../../../../rxjs/Observable.js");
-var tryCatch_1 = __webpack_require__("../../../../rxjs/util/tryCatch.js");
-var isFunction_1 = __webpack_require__("../../../../rxjs/util/isFunction.js");
-var errorObject_1 = __webpack_require__("../../../../rxjs/util/errorObject.js");
-var Subscription_1 = __webpack_require__("../../../../rxjs/Subscription.js");
-var toString = Object.prototype.toString;
-function isNodeStyleEventEmitter(sourceObj) {
-    return !!sourceObj && typeof sourceObj.addListener === 'function' && typeof sourceObj.removeListener === 'function';
-}
-function isJQueryStyleEventEmitter(sourceObj) {
-    return !!sourceObj && typeof sourceObj.on === 'function' && typeof sourceObj.off === 'function';
-}
-function isNodeList(sourceObj) {
-    return !!sourceObj && toString.call(sourceObj) === '[object NodeList]';
-}
-function isHTMLCollection(sourceObj) {
-    return !!sourceObj && toString.call(sourceObj) === '[object HTMLCollection]';
-}
-function isEventTarget(sourceObj) {
-    return !!sourceObj && typeof sourceObj.addEventListener === 'function' && typeof sourceObj.removeEventListener === 'function';
-}
+var async_1 = __webpack_require__("../../../../rxjs/scheduler/async.js");
 /**
  * We need this JSDoc comment for affecting ESDoc.
  * @extends {Ignored}
  * @hide true
  */
-var FromEventObservable = (function (_super) {
-    __extends(FromEventObservable, _super);
-    function FromEventObservable(sourceObj, eventName, selector, options) {
+var IntervalObservable = (function (_super) {
+    __extends(IntervalObservable, _super);
+    function IntervalObservable(period, scheduler) {
+        if (period === void 0) { period = 0; }
+        if (scheduler === void 0) { scheduler = async_1.async; }
         _super.call(this);
-        this.sourceObj = sourceObj;
-        this.eventName = eventName;
-        this.selector = selector;
-        this.options = options;
+        this.period = period;
+        this.scheduler = scheduler;
+        if (!isNumeric_1.isNumeric(period) || period < 0) {
+            this.period = 0;
+        }
+        if (!scheduler || typeof scheduler.schedule !== 'function') {
+            this.scheduler = async_1.async;
+        }
     }
-    /* tslint:enable:max-line-length */
     /**
-     * Creates an Observable that emits events of a specific type coming from the
-     * given event target.
+     * Creates an Observable that emits sequential numbers every specified
+     * interval of time, on a specified IScheduler.
      *
-     * <span class="informal">Creates an Observable from DOM events, or Node
-     * EventEmitter events or others.</span>
+     * <span class="informal">Emits incremental numbers periodically in time.
+     * </span>
      *
-     * <img src="./img/fromEvent.png" width="100%">
+     * <img src="./img/interval.png" width="100%">
      *
-     * Creates an Observable by attaching an event listener to an "event target",
-     * which may be an object with `addEventListener` and `removeEventListener`,
-     * a Node.js EventEmitter, a jQuery style EventEmitter, a NodeList from the
-     * DOM, or an HTMLCollection from the DOM. The event handler is attached when
-     * the output Observable is subscribed, and removed when the Subscription is
-     * unsubscribed.
+     * `interval` returns an Observable that emits an infinite sequence of
+     * ascending integers, with a constant interval of time of your choosing
+     * between those emissions. The first emission is not sent immediately, but
+     * only after the first period has passed. By default, this operator uses the
+     * `async` IScheduler to provide a notion of time, but you may pass any
+     * IScheduler to it.
      *
-     * @example <caption>Emits clicks happening on the DOM document</caption>
-     * var clicks = Rx.Observable.fromEvent(document, 'click');
-     * clicks.subscribe(x => console.log(x));
+     * @example <caption>Emits ascending numbers, one every second (1000ms)</caption>
+     * var numbers = Rx.Observable.interval(1000);
+     * numbers.subscribe(x => console.log(x));
      *
-     * // Results in:
-     * // MouseEvent object logged to console everytime a click
-     * // occurs on the document.
+     * @see {@link timer}
+     * @see {@link delay}
      *
-     * @see {@link from}
-     * @see {@link fromEventPattern}
-     *
-     * @param {EventTargetLike} target The DOMElement, event target, Node.js
-     * EventEmitter, NodeList or HTMLCollection to attach the event handler to.
-     * @param {string} eventName The event name of interest, being emitted by the
-     * `target`.
-     * @param {EventListenerOptions} [options] Options to pass through to addEventListener
-     * @param {SelectorMethodSignature<T>} [selector] An optional function to
-     * post-process results. It takes the arguments from the event handler and
-     * should return a single value.
-     * @return {Observable<T>}
+     * @param {number} [period=0] The interval size in milliseconds (by default)
+     * or the time unit determined by the scheduler's clock.
+     * @param {Scheduler} [scheduler=async] The IScheduler to use for scheduling
+     * the emission of values, and providing a notion of "time".
+     * @return {Observable} An Observable that emits a sequential number each time
+     * interval.
      * @static true
-     * @name fromEvent
+     * @name interval
      * @owner Observable
      */
-    FromEventObservable.create = function (target, eventName, options, selector) {
-        if (isFunction_1.isFunction(options)) {
-            selector = options;
-            options = undefined;
-        }
-        return new FromEventObservable(target, eventName, selector, options);
+    IntervalObservable.create = function (period, scheduler) {
+        if (period === void 0) { period = 0; }
+        if (scheduler === void 0) { scheduler = async_1.async; }
+        return new IntervalObservable(period, scheduler);
     };
-    FromEventObservable.setupSubscription = function (sourceObj, eventName, handler, subscriber, options) {
-        var unsubscribe;
-        if (isNodeList(sourceObj) || isHTMLCollection(sourceObj)) {
-            for (var i = 0, len = sourceObj.length; i < len; i++) {
-                FromEventObservable.setupSubscription(sourceObj[i], eventName, handler, subscriber, options);
-            }
+    IntervalObservable.dispatch = function (state) {
+        var index = state.index, subscriber = state.subscriber, period = state.period;
+        subscriber.next(index);
+        if (subscriber.closed) {
+            return;
         }
-        else if (isEventTarget(sourceObj)) {
-            var source_1 = sourceObj;
-            sourceObj.addEventListener(eventName, handler, options);
-            unsubscribe = function () { return source_1.removeEventListener(eventName, handler); };
-        }
-        else if (isJQueryStyleEventEmitter(sourceObj)) {
-            var source_2 = sourceObj;
-            sourceObj.on(eventName, handler);
-            unsubscribe = function () { return source_2.off(eventName, handler); };
-        }
-        else if (isNodeStyleEventEmitter(sourceObj)) {
-            var source_3 = sourceObj;
-            sourceObj.addListener(eventName, handler);
-            unsubscribe = function () { return source_3.removeListener(eventName, handler); };
-        }
-        else {
-            throw new TypeError('Invalid event target');
-        }
-        subscriber.add(new Subscription_1.Subscription(unsubscribe));
+        state.index += 1;
+        this.schedule(state, period);
     };
-    FromEventObservable.prototype._subscribe = function (subscriber) {
-        var sourceObj = this.sourceObj;
-        var eventName = this.eventName;
-        var options = this.options;
-        var selector = this.selector;
-        var handler = selector ? function () {
-            var args = [];
-            for (var _i = 0; _i < arguments.length; _i++) {
-                args[_i - 0] = arguments[_i];
-            }
-            var result = tryCatch_1.tryCatch(selector).apply(void 0, args);
-            if (result === errorObject_1.errorObject) {
-                subscriber.error(errorObject_1.errorObject.e);
-            }
-            else {
-                subscriber.next(result);
-            }
-        } : function (e) { return subscriber.next(e); };
-        FromEventObservable.setupSubscription(sourceObj, eventName, handler, subscriber, options);
+    IntervalObservable.prototype._subscribe = function (subscriber) {
+        var index = 0;
+        var period = this.period;
+        var scheduler = this.scheduler;
+        subscriber.add(scheduler.schedule(IntervalObservable.dispatch, period, {
+            index: index, subscriber: subscriber, period: period
+        }));
     };
-    return FromEventObservable;
+    return IntervalObservable;
 }(Observable_1.Observable));
-exports.FromEventObservable = FromEventObservable;
-//# sourceMappingURL=FromEventObservable.js.map
+exports.IntervalObservable = IntervalObservable;
+//# sourceMappingURL=IntervalObservable.js.map
 
 /***/ }),
 
-/***/ "../../../../rxjs/observable/fromEvent.js":
+/***/ "../../../../rxjs/observable/interval.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var FromEventObservable_1 = __webpack_require__("../../../../rxjs/observable/FromEventObservable.js");
-exports.fromEvent = FromEventObservable_1.FromEventObservable.create;
-//# sourceMappingURL=fromEvent.js.map
+var IntervalObservable_1 = __webpack_require__("../../../../rxjs/observable/IntervalObservable.js");
+exports.interval = IntervalObservable_1.IntervalObservable.create;
+//# sourceMappingURL=interval.js.map
 
 /***/ }),
 
-/***/ "../../../../rxjs/operator/do.js":
+/***/ "../../../../rxjs/operator/distinctUntilChanged.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6328,131 +9575,867 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var Subscriber_1 = __webpack_require__("../../../../rxjs/Subscriber.js");
+var tryCatch_1 = __webpack_require__("../../../../rxjs/util/tryCatch.js");
+var errorObject_1 = __webpack_require__("../../../../rxjs/util/errorObject.js");
 /* tslint:enable:max-line-length */
 /**
- * Perform a side effect for every emission on the source Observable, but return
- * an Observable that is identical to the source.
+ * Returns an Observable that emits all items emitted by the source Observable that are distinct by comparison from the previous item.
  *
- * <span class="informal">Intercepts each emission on the source and runs a
- * function, but returns an output which is identical to the source as long as errors don't occur.</span>
+ * If a comparator function is provided, then it will be called for each item to test for whether or not that value should be emitted.
  *
- * <img src="./img/do.png" width="100%">
+ * If a comparator function is not provided, an equality check is used by default.
  *
- * Returns a mirrored Observable of the source Observable, but modified so that
- * the provided Observer is called to perform a side effect for every value,
- * error, and completion emitted by the source. Any errors that are thrown in
- * the aforementioned Observer or handlers are safely sent down the error path
- * of the output Observable.
+ * @example <caption>A simple example with numbers</caption>
+ * Observable.of(1, 1, 2, 2, 2, 1, 1, 2, 3, 3, 4)
+ *   .distinctUntilChanged()
+ *   .subscribe(x => console.log(x)); // 1, 2, 1, 2, 3, 4
  *
- * This operator is useful for debugging your Observables for the correct values
- * or performing other side effects.
+ * @example <caption>An example using a compare function</caption>
+ * interface Person {
+ *    age: number,
+ *    name: string
+ * }
  *
- * Note: this is different to a `subscribe` on the Observable. If the Observable
- * returned by `do` is not subscribed, the side effects specified by the
- * Observer will never happen. `do` therefore simply spies on existing
- * execution, it does not trigger an execution to happen like `subscribe` does.
+ * Observable.of<Person>(
+ *     { age: 4, name: 'Foo'},
+ *     { age: 7, name: 'Bar'},
+ *     { age: 5, name: 'Foo'})
+ *     { age: 6, name: 'Foo'})
+ *     .distinctUntilChanged((p: Person, q: Person) => p.name === q.name)
+ *     .subscribe(x => console.log(x));
  *
- * @example <caption>Map every click to the clientX position of that click, while also logging the click event</caption>
- * var clicks = Rx.Observable.fromEvent(document, 'click');
- * var positions = clicks
- *   .do(ev => console.log(ev))
- *   .map(ev => ev.clientX);
- * positions.subscribe(x => console.log(x));
+ * // displays:
+ * // { age: 4, name: 'Foo' }
+ * // { age: 7, name: 'Bar' }
+ * // { age: 5, name: 'Foo' }
  *
- * @see {@link map}
- * @see {@link subscribe}
+ * @see {@link distinct}
+ * @see {@link distinctUntilKeyChanged}
  *
- * @param {Observer|function} [nextOrObserver] A normal Observer object or a
- * callback for `next`.
- * @param {function} [error] Callback for errors in the source.
- * @param {function} [complete] Callback for the completion of the source.
- * @return {Observable} An Observable identical to the source, but runs the
- * specified Observer or callback(s) for each item.
- * @method do
- * @name do
+ * @param {function} [compare] Optional comparison function called to test if an item is distinct from the previous item in the source.
+ * @return {Observable} An Observable that emits items from the source Observable with distinct values.
+ * @method distinctUntilChanged
  * @owner Observable
  */
-function _do(nextOrObserver, error, complete) {
-    return this.lift(new DoOperator(nextOrObserver, error, complete));
+function distinctUntilChanged(compare, keySelector) {
+    return this.lift(new DistinctUntilChangedOperator(compare, keySelector));
 }
-exports._do = _do;
-var DoOperator = (function () {
-    function DoOperator(nextOrObserver, error, complete) {
-        this.nextOrObserver = nextOrObserver;
-        this.error = error;
-        this.complete = complete;
+exports.distinctUntilChanged = distinctUntilChanged;
+var DistinctUntilChangedOperator = (function () {
+    function DistinctUntilChangedOperator(compare, keySelector) {
+        this.compare = compare;
+        this.keySelector = keySelector;
     }
-    DoOperator.prototype.call = function (subscriber, source) {
-        return source.subscribe(new DoSubscriber(subscriber, this.nextOrObserver, this.error, this.complete));
+    DistinctUntilChangedOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new DistinctUntilChangedSubscriber(subscriber, this.compare, this.keySelector));
     };
-    return DoOperator;
+    return DistinctUntilChangedOperator;
 }());
 /**
  * We need this JSDoc comment for affecting ESDoc.
  * @ignore
  * @extends {Ignored}
  */
-var DoSubscriber = (function (_super) {
-    __extends(DoSubscriber, _super);
-    function DoSubscriber(destination, nextOrObserver, error, complete) {
+var DistinctUntilChangedSubscriber = (function (_super) {
+    __extends(DistinctUntilChangedSubscriber, _super);
+    function DistinctUntilChangedSubscriber(destination, compare, keySelector) {
         _super.call(this, destination);
-        var safeSubscriber = new Subscriber_1.Subscriber(nextOrObserver, error, complete);
-        safeSubscriber.syncErrorThrowable = true;
-        this.add(safeSubscriber);
-        this.safeSubscriber = safeSubscriber;
+        this.keySelector = keySelector;
+        this.hasKey = false;
+        if (typeof compare === 'function') {
+            this.compare = compare;
+        }
     }
-    DoSubscriber.prototype._next = function (value) {
-        var safeSubscriber = this.safeSubscriber;
-        safeSubscriber.next(value);
-        if (safeSubscriber.syncErrorThrown) {
-            this.destination.error(safeSubscriber.syncErrorValue);
+    DistinctUntilChangedSubscriber.prototype.compare = function (x, y) {
+        return x === y;
+    };
+    DistinctUntilChangedSubscriber.prototype._next = function (value) {
+        var keySelector = this.keySelector;
+        var key = value;
+        if (keySelector) {
+            key = tryCatch_1.tryCatch(this.keySelector)(value);
+            if (key === errorObject_1.errorObject) {
+                return this.destination.error(errorObject_1.errorObject.e);
+            }
+        }
+        var result = false;
+        if (this.hasKey) {
+            result = tryCatch_1.tryCatch(this.compare)(this.key, key);
+            if (result === errorObject_1.errorObject) {
+                return this.destination.error(errorObject_1.errorObject.e);
+            }
         }
         else {
+            this.hasKey = true;
+        }
+        if (Boolean(result) === false) {
+            this.key = key;
             this.destination.next(value);
         }
     };
-    DoSubscriber.prototype._error = function (err) {
-        var safeSubscriber = this.safeSubscriber;
-        safeSubscriber.error(err);
-        if (safeSubscriber.syncErrorThrown) {
-            this.destination.error(safeSubscriber.syncErrorValue);
-        }
-        else {
-            this.destination.error(err);
-        }
-    };
-    DoSubscriber.prototype._complete = function () {
-        var safeSubscriber = this.safeSubscriber;
-        safeSubscriber.complete();
-        if (safeSubscriber.syncErrorThrown) {
-            this.destination.error(safeSubscriber.syncErrorValue);
-        }
-        else {
-            this.destination.complete();
-        }
-    };
-    return DoSubscriber;
+    return DistinctUntilChangedSubscriber;
 }(Subscriber_1.Subscriber));
-//# sourceMappingURL=do.js.map
+//# sourceMappingURL=distinctUntilChanged.js.map
 
 /***/ }),
 
-/***/ "../../../../rxjs/operator/let.js":
+/***/ "../../../../rxjs/operator/pairwise.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Subscriber_1 = __webpack_require__("../../../../rxjs/Subscriber.js");
 /**
- * @param func
- * @return {Observable<R>}
- * @method let
+ * Groups pairs of consecutive emissions together and emits them as an array of
+ * two values.
+ *
+ * <span class="informal">Puts the current value and previous value together as
+ * an array, and emits that.</span>
+ *
+ * <img src="./img/pairwise.png" width="100%">
+ *
+ * The Nth emission from the source Observable will cause the output Observable
+ * to emit an array [(N-1)th, Nth] of the previous and the current value, as a
+ * pair. For this reason, `pairwise` emits on the second and subsequent
+ * emissions from the source Observable, but not on the first emission, because
+ * there is no previous value in that case.
+ *
+ * @example <caption>On every click (starting from the second), emit the relative distance to the previous click</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var pairs = clicks.pairwise();
+ * var distance = pairs.map(pair => {
+ *   var x0 = pair[0].clientX;
+ *   var y0 = pair[0].clientY;
+ *   var x1 = pair[1].clientX;
+ *   var y1 = pair[1].clientY;
+ *   return Math.sqrt(Math.pow(x0 - x1, 2) + Math.pow(y0 - y1, 2));
+ * });
+ * distance.subscribe(x => console.log(x));
+ *
+ * @see {@link buffer}
+ * @see {@link bufferCount}
+ *
+ * @return {Observable<Array<T>>} An Observable of pairs (as arrays) of
+ * consecutive values from the source Observable.
+ * @method pairwise
  * @owner Observable
  */
-function letProto(func) {
-    return func(this);
+function pairwise() {
+    return this.lift(new PairwiseOperator());
 }
-exports.letProto = letProto;
-//# sourceMappingURL=let.js.map
+exports.pairwise = pairwise;
+var PairwiseOperator = (function () {
+    function PairwiseOperator() {
+    }
+    PairwiseOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new PairwiseSubscriber(subscriber));
+    };
+    return PairwiseOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var PairwiseSubscriber = (function (_super) {
+    __extends(PairwiseSubscriber, _super);
+    function PairwiseSubscriber(destination) {
+        _super.call(this, destination);
+        this.hasPrev = false;
+    }
+    PairwiseSubscriber.prototype._next = function (value) {
+        if (this.hasPrev) {
+            this.destination.next([this.prev, value]);
+        }
+        else {
+            this.hasPrev = true;
+        }
+        this.prev = value;
+    };
+    return PairwiseSubscriber;
+}(Subscriber_1.Subscriber));
+//# sourceMappingURL=pairwise.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/operator/takeLast.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Subscriber_1 = __webpack_require__("../../../../rxjs/Subscriber.js");
+var ArgumentOutOfRangeError_1 = __webpack_require__("../../../../rxjs/util/ArgumentOutOfRangeError.js");
+var EmptyObservable_1 = __webpack_require__("../../../../rxjs/observable/EmptyObservable.js");
+/**
+ * Emits only the last `count` values emitted by the source Observable.
+ *
+ * <span class="informal">Remembers the latest `count` values, then emits those
+ * only when the source completes.</span>
+ *
+ * <img src="./img/takeLast.png" width="100%">
+ *
+ * `takeLast` returns an Observable that emits at most the last `count` values
+ * emitted by the source Observable. If the source emits fewer than `count`
+ * values then all of its values are emitted. This operator must wait until the
+ * `complete` notification emission from the source in order to emit the `next`
+ * values on the output Observable, because otherwise it is impossible to know
+ * whether or not more values will be emitted on the source. For this reason,
+ * all values are emitted synchronously, followed by the complete notification.
+ *
+ * @example <caption>Take the last 3 values of an Observable with many values</caption>
+ * var many = Rx.Observable.range(1, 100);
+ * var lastThree = many.takeLast(3);
+ * lastThree.subscribe(x => console.log(x));
+ *
+ * @see {@link take}
+ * @see {@link takeUntil}
+ * @see {@link takeWhile}
+ * @see {@link skip}
+ *
+ * @throws {ArgumentOutOfRangeError} When using `takeLast(i)`, it delivers an
+ * ArgumentOutOrRangeError to the Observer's `error` callback if `i < 0`.
+ *
+ * @param {number} count The maximum number of values to emit from the end of
+ * the sequence of values emitted by the source Observable.
+ * @return {Observable<T>} An Observable that emits at most the last count
+ * values emitted by the source Observable.
+ * @method takeLast
+ * @owner Observable
+ */
+function takeLast(count) {
+    if (count === 0) {
+        return new EmptyObservable_1.EmptyObservable();
+    }
+    else {
+        return this.lift(new TakeLastOperator(count));
+    }
+}
+exports.takeLast = takeLast;
+var TakeLastOperator = (function () {
+    function TakeLastOperator(total) {
+        this.total = total;
+        if (this.total < 0) {
+            throw new ArgumentOutOfRangeError_1.ArgumentOutOfRangeError;
+        }
+    }
+    TakeLastOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new TakeLastSubscriber(subscriber, this.total));
+    };
+    return TakeLastOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var TakeLastSubscriber = (function (_super) {
+    __extends(TakeLastSubscriber, _super);
+    function TakeLastSubscriber(destination, total) {
+        _super.call(this, destination);
+        this.total = total;
+        this.ring = new Array();
+        this.count = 0;
+    }
+    TakeLastSubscriber.prototype._next = function (value) {
+        var ring = this.ring;
+        var total = this.total;
+        var count = this.count++;
+        if (ring.length < total) {
+            ring.push(value);
+        }
+        else {
+            var index = count % total;
+            ring[index] = value;
+        }
+    };
+    TakeLastSubscriber.prototype._complete = function () {
+        var destination = this.destination;
+        var count = this.count;
+        if (count > 0) {
+            var total = this.count >= this.total ? this.total : this.count;
+            var ring = this.ring;
+            for (var i = 0; i < total; i++) {
+                var idx = (count++) % total;
+                destination.next(ring[idx]);
+            }
+        }
+        destination.complete();
+    };
+    return TakeLastSubscriber;
+}(Subscriber_1.Subscriber));
+//# sourceMappingURL=takeLast.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/operator/takeUntil.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var OuterSubscriber_1 = __webpack_require__("../../../../rxjs/OuterSubscriber.js");
+var subscribeToResult_1 = __webpack_require__("../../../../rxjs/util/subscribeToResult.js");
+/**
+ * Emits the values emitted by the source Observable until a `notifier`
+ * Observable emits a value.
+ *
+ * <span class="informal">Lets values pass until a second Observable,
+ * `notifier`, emits something. Then, it completes.</span>
+ *
+ * <img src="./img/takeUntil.png" width="100%">
+ *
+ * `takeUntil` subscribes and begins mirroring the source Observable. It also
+ * monitors a second Observable, `notifier` that you provide. If the `notifier`
+ * emits a value or a complete notification, the output Observable stops
+ * mirroring the source Observable and completes.
+ *
+ * @example <caption>Tick every second until the first click happens</caption>
+ * var interval = Rx.Observable.interval(1000);
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var result = interval.takeUntil(clicks);
+ * result.subscribe(x => console.log(x));
+ *
+ * @see {@link take}
+ * @see {@link takeLast}
+ * @see {@link takeWhile}
+ * @see {@link skip}
+ *
+ * @param {Observable} notifier The Observable whose first emitted value will
+ * cause the output Observable of `takeUntil` to stop emitting values from the
+ * source Observable.
+ * @return {Observable<T>} An Observable that emits the values from the source
+ * Observable until such time as `notifier` emits its first value.
+ * @method takeUntil
+ * @owner Observable
+ */
+function takeUntil(notifier) {
+    return this.lift(new TakeUntilOperator(notifier));
+}
+exports.takeUntil = takeUntil;
+var TakeUntilOperator = (function () {
+    function TakeUntilOperator(notifier) {
+        this.notifier = notifier;
+    }
+    TakeUntilOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new TakeUntilSubscriber(subscriber, this.notifier));
+    };
+    return TakeUntilOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var TakeUntilSubscriber = (function (_super) {
+    __extends(TakeUntilSubscriber, _super);
+    function TakeUntilSubscriber(destination, notifier) {
+        _super.call(this, destination);
+        this.notifier = notifier;
+        this.add(subscribeToResult_1.subscribeToResult(this, notifier));
+    }
+    TakeUntilSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this.complete();
+    };
+    TakeUntilSubscriber.prototype.notifyComplete = function () {
+        // noop
+    };
+    return TakeUntilSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+//# sourceMappingURL=takeUntil.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/operator/throttle.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var OuterSubscriber_1 = __webpack_require__("../../../../rxjs/OuterSubscriber.js");
+var subscribeToResult_1 = __webpack_require__("../../../../rxjs/util/subscribeToResult.js");
+exports.defaultThrottleConfig = {
+    leading: true,
+    trailing: false
+};
+/**
+ * Emits a value from the source Observable, then ignores subsequent source
+ * values for a duration determined by another Observable, then repeats this
+ * process.
+ *
+ * <span class="informal">It's like {@link throttleTime}, but the silencing
+ * duration is determined by a second Observable.</span>
+ *
+ * <img src="./img/throttle.png" width="100%">
+ *
+ * `throttle` emits the source Observable values on the output Observable
+ * when its internal timer is disabled, and ignores source values when the timer
+ * is enabled. Initially, the timer is disabled. As soon as the first source
+ * value arrives, it is forwarded to the output Observable, and then the timer
+ * is enabled by calling the `durationSelector` function with the source value,
+ * which returns the "duration" Observable. When the duration Observable emits a
+ * value or completes, the timer is disabled, and this process repeats for the
+ * next source value.
+ *
+ * @example <caption>Emit clicks at a rate of at most one click per second</caption>
+ * var clicks = Rx.Observable.fromEvent(document, 'click');
+ * var result = clicks.throttle(ev => Rx.Observable.interval(1000));
+ * result.subscribe(x => console.log(x));
+ *
+ * @see {@link audit}
+ * @see {@link debounce}
+ * @see {@link delayWhen}
+ * @see {@link sample}
+ * @see {@link throttleTime}
+ *
+ * @param {function(value: T): SubscribableOrPromise} durationSelector A function
+ * that receives a value from the source Observable, for computing the silencing
+ * duration for each source value, returned as an Observable or a Promise.
+ * @param {Object} config a configuration object to define `leading` and `trailing` behavior. Defaults
+ * to `{ leading: true, trailing: false }`.
+ * @return {Observable<T>} An Observable that performs the throttle operation to
+ * limit the rate of emissions from the source.
+ * @method throttle
+ * @owner Observable
+ */
+function throttle(durationSelector, config) {
+    if (config === void 0) { config = exports.defaultThrottleConfig; }
+    return this.lift(new ThrottleOperator(durationSelector, config.leading, config.trailing));
+}
+exports.throttle = throttle;
+var ThrottleOperator = (function () {
+    function ThrottleOperator(durationSelector, leading, trailing) {
+        this.durationSelector = durationSelector;
+        this.leading = leading;
+        this.trailing = trailing;
+    }
+    ThrottleOperator.prototype.call = function (subscriber, source) {
+        return source.subscribe(new ThrottleSubscriber(subscriber, this.durationSelector, this.leading, this.trailing));
+    };
+    return ThrottleOperator;
+}());
+/**
+ * We need this JSDoc comment for affecting ESDoc
+ * @ignore
+ * @extends {Ignored}
+ */
+var ThrottleSubscriber = (function (_super) {
+    __extends(ThrottleSubscriber, _super);
+    function ThrottleSubscriber(destination, durationSelector, _leading, _trailing) {
+        _super.call(this, destination);
+        this.destination = destination;
+        this.durationSelector = durationSelector;
+        this._leading = _leading;
+        this._trailing = _trailing;
+        this._hasTrailingValue = false;
+    }
+    ThrottleSubscriber.prototype._next = function (value) {
+        if (this.throttled) {
+            if (this._trailing) {
+                this._hasTrailingValue = true;
+                this._trailingValue = value;
+            }
+        }
+        else {
+            var duration = this.tryDurationSelector(value);
+            if (duration) {
+                this.add(this.throttled = subscribeToResult_1.subscribeToResult(this, duration));
+            }
+            if (this._leading) {
+                this.destination.next(value);
+                if (this._trailing) {
+                    this._hasTrailingValue = true;
+                    this._trailingValue = value;
+                }
+            }
+        }
+    };
+    ThrottleSubscriber.prototype.tryDurationSelector = function (value) {
+        try {
+            return this.durationSelector(value);
+        }
+        catch (err) {
+            this.destination.error(err);
+            return null;
+        }
+    };
+    ThrottleSubscriber.prototype._unsubscribe = function () {
+        var _a = this, throttled = _a.throttled, _trailingValue = _a._trailingValue, _hasTrailingValue = _a._hasTrailingValue, _trailing = _a._trailing;
+        this._trailingValue = null;
+        this._hasTrailingValue = false;
+        if (throttled) {
+            this.remove(throttled);
+            this.throttled = null;
+            throttled.unsubscribe();
+        }
+    };
+    ThrottleSubscriber.prototype._sendTrailing = function () {
+        var _a = this, destination = _a.destination, throttled = _a.throttled, _trailing = _a._trailing, _trailingValue = _a._trailingValue, _hasTrailingValue = _a._hasTrailingValue;
+        if (throttled && _trailing && _hasTrailingValue) {
+            destination.next(_trailingValue);
+            this._trailingValue = null;
+            this._hasTrailingValue = false;
+        }
+    };
+    ThrottleSubscriber.prototype.notifyNext = function (outerValue, innerValue, outerIndex, innerIndex, innerSub) {
+        this._sendTrailing();
+        this._unsubscribe();
+    };
+    ThrottleSubscriber.prototype.notifyComplete = function () {
+        this._sendTrailing();
+        this._unsubscribe();
+    };
+    return ThrottleSubscriber;
+}(OuterSubscriber_1.OuterSubscriber));
+//# sourceMappingURL=throttle.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/scheduler/Action.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Subscription_1 = __webpack_require__("../../../../rxjs/Subscription.js");
+/**
+ * A unit of work to be executed in a {@link Scheduler}. An action is typically
+ * created from within a Scheduler and an RxJS user does not need to concern
+ * themselves about creating and manipulating an Action.
+ *
+ * ```ts
+ * class Action<T> extends Subscription {
+ *   new (scheduler: Scheduler, work: (state?: T) => void);
+ *   schedule(state?: T, delay: number = 0): Subscription;
+ * }
+ * ```
+ *
+ * @class Action<T>
+ */
+var Action = (function (_super) {
+    __extends(Action, _super);
+    function Action(scheduler, work) {
+        _super.call(this);
+    }
+    /**
+     * Schedules this action on its parent Scheduler for execution. May be passed
+     * some context object, `state`. May happen at some point in the future,
+     * according to the `delay` parameter, if specified.
+     * @param {T} [state] Some contextual data that the `work` function uses when
+     * called by the Scheduler.
+     * @param {number} [delay] Time to wait before executing the work, where the
+     * time unit is implicit and defined by the Scheduler.
+     * @return {void}
+     */
+    Action.prototype.schedule = function (state, delay) {
+        if (delay === void 0) { delay = 0; }
+        return this;
+    };
+    return Action;
+}(Subscription_1.Subscription));
+exports.Action = Action;
+//# sourceMappingURL=Action.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/scheduler/AsyncAction.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var root_1 = __webpack_require__("../../../../rxjs/util/root.js");
+var Action_1 = __webpack_require__("../../../../rxjs/scheduler/Action.js");
+/**
+ * We need this JSDoc comment for affecting ESDoc.
+ * @ignore
+ * @extends {Ignored}
+ */
+var AsyncAction = (function (_super) {
+    __extends(AsyncAction, _super);
+    function AsyncAction(scheduler, work) {
+        _super.call(this, scheduler, work);
+        this.scheduler = scheduler;
+        this.work = work;
+        this.pending = false;
+    }
+    AsyncAction.prototype.schedule = function (state, delay) {
+        if (delay === void 0) { delay = 0; }
+        if (this.closed) {
+            return this;
+        }
+        // Always replace the current state with the new state.
+        this.state = state;
+        // Set the pending flag indicating that this action has been scheduled, or
+        // has recursively rescheduled itself.
+        this.pending = true;
+        var id = this.id;
+        var scheduler = this.scheduler;
+        //
+        // Important implementation note:
+        //
+        // Actions only execute once by default, unless rescheduled from within the
+        // scheduled callback. This allows us to implement single and repeat
+        // actions via the same code path, without adding API surface area, as well
+        // as mimic traditional recursion but across asynchronous boundaries.
+        //
+        // However, JS runtimes and timers distinguish between intervals achieved by
+        // serial `setTimeout` calls vs. a single `setInterval` call. An interval of
+        // serial `setTimeout` calls can be individually delayed, which delays
+        // scheduling the next `setTimeout`, and so on. `setInterval` attempts to
+        // guarantee the interval callback will be invoked more precisely to the
+        // interval period, regardless of load.
+        //
+        // Therefore, we use `setInterval` to schedule single and repeat actions.
+        // If the action reschedules itself with the same delay, the interval is not
+        // canceled. If the action doesn't reschedule, or reschedules with a
+        // different delay, the interval will be canceled after scheduled callback
+        // execution.
+        //
+        if (id != null) {
+            this.id = this.recycleAsyncId(scheduler, id, delay);
+        }
+        this.delay = delay;
+        // If this action has already an async Id, don't request a new one.
+        this.id = this.id || this.requestAsyncId(scheduler, this.id, delay);
+        return this;
+    };
+    AsyncAction.prototype.requestAsyncId = function (scheduler, id, delay) {
+        if (delay === void 0) { delay = 0; }
+        return root_1.root.setInterval(scheduler.flush.bind(scheduler, this), delay);
+    };
+    AsyncAction.prototype.recycleAsyncId = function (scheduler, id, delay) {
+        if (delay === void 0) { delay = 0; }
+        // If this action is rescheduled with the same delay time, don't clear the interval id.
+        if (delay !== null && this.delay === delay && this.pending === false) {
+            return id;
+        }
+        // Otherwise, if the action's delay time is different from the current delay,
+        // or the action has been rescheduled before it's executed, clear the interval id
+        return root_1.root.clearInterval(id) && undefined || undefined;
+    };
+    /**
+     * Immediately executes this action and the `work` it contains.
+     * @return {any}
+     */
+    AsyncAction.prototype.execute = function (state, delay) {
+        if (this.closed) {
+            return new Error('executing a cancelled action');
+        }
+        this.pending = false;
+        var error = this._execute(state, delay);
+        if (error) {
+            return error;
+        }
+        else if (this.pending === false && this.id != null) {
+            // Dequeue if the action didn't reschedule itself. Don't call
+            // unsubscribe(), because the action could reschedule later.
+            // For example:
+            // ```
+            // scheduler.schedule(function doWork(counter) {
+            //   /* ... I'm a busy worker bee ... */
+            //   var originalAction = this;
+            //   /* wait 100ms before rescheduling the action */
+            //   setTimeout(function () {
+            //     originalAction.schedule(counter + 1);
+            //   }, 100);
+            // }, 1000);
+            // ```
+            this.id = this.recycleAsyncId(this.scheduler, this.id, null);
+        }
+    };
+    AsyncAction.prototype._execute = function (state, delay) {
+        var errored = false;
+        var errorValue = undefined;
+        try {
+            this.work(state);
+        }
+        catch (e) {
+            errored = true;
+            errorValue = !!e && e || new Error(e);
+        }
+        if (errored) {
+            this.unsubscribe();
+            return errorValue;
+        }
+    };
+    AsyncAction.prototype._unsubscribe = function () {
+        var id = this.id;
+        var scheduler = this.scheduler;
+        var actions = scheduler.actions;
+        var index = actions.indexOf(this);
+        this.work = null;
+        this.state = null;
+        this.pending = false;
+        this.scheduler = null;
+        if (index !== -1) {
+            actions.splice(index, 1);
+        }
+        if (id != null) {
+            this.id = this.recycleAsyncId(scheduler, id, null);
+        }
+        this.delay = null;
+    };
+    return AsyncAction;
+}(Action_1.Action));
+exports.AsyncAction = AsyncAction;
+//# sourceMappingURL=AsyncAction.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/scheduler/AsyncScheduler.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+};
+var Scheduler_1 = __webpack_require__("../../../../rxjs/Scheduler.js");
+var AsyncScheduler = (function (_super) {
+    __extends(AsyncScheduler, _super);
+    function AsyncScheduler() {
+        _super.apply(this, arguments);
+        this.actions = [];
+        /**
+         * A flag to indicate whether the Scheduler is currently executing a batch of
+         * queued actions.
+         * @type {boolean}
+         */
+        this.active = false;
+        /**
+         * An internal ID used to track the latest asynchronous task such as those
+         * coming from `setTimeout`, `setInterval`, `requestAnimationFrame`, and
+         * others.
+         * @type {any}
+         */
+        this.scheduled = undefined;
+    }
+    AsyncScheduler.prototype.flush = function (action) {
+        var actions = this.actions;
+        if (this.active) {
+            actions.push(action);
+            return;
+        }
+        var error;
+        this.active = true;
+        do {
+            if (error = action.execute(action.state, action.delay)) {
+                break;
+            }
+        } while (action = actions.shift()); // exhaust the scheduler queue
+        this.active = false;
+        if (error) {
+            while (action = actions.shift()) {
+                action.unsubscribe();
+            }
+            throw error;
+        }
+    };
+    return AsyncScheduler;
+}(Scheduler_1.Scheduler));
+exports.AsyncScheduler = AsyncScheduler;
+//# sourceMappingURL=AsyncScheduler.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/scheduler/async.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var AsyncAction_1 = __webpack_require__("../../../../rxjs/scheduler/AsyncAction.js");
+var AsyncScheduler_1 = __webpack_require__("../../../../rxjs/scheduler/AsyncScheduler.js");
+/**
+ *
+ * Async Scheduler
+ *
+ * <span class="informal">Schedule task as if you used setTimeout(task, duration)</span>
+ *
+ * `async` scheduler schedules tasks asynchronously, by putting them on the JavaScript
+ * event loop queue. It is best used to delay tasks in time or to schedule tasks repeating
+ * in intervals.
+ *
+ * If you just want to "defer" task, that is to perform it right after currently
+ * executing synchronous code ends (commonly achieved by `setTimeout(deferredTask, 0)`),
+ * better choice will be the {@link asap} scheduler.
+ *
+ * @example <caption>Use async scheduler to delay task</caption>
+ * const task = () => console.log('it works!');
+ *
+ * Rx.Scheduler.async.schedule(task, 2000);
+ *
+ * // After 2 seconds logs:
+ * // "it works!"
+ *
+ *
+ * @example <caption>Use async scheduler to repeat task in intervals</caption>
+ * function task(state) {
+ *   console.log(state);
+ *   this.schedule(state + 1, 1000); // `this` references currently executing Action,
+ *                                   // which we reschedule with new state and delay
+ * }
+ *
+ * Rx.Scheduler.async.schedule(task, 3000, 0);
+ *
+ * // Logs:
+ * // 0 after 3s
+ * // 1 after 4s
+ * // 2 after 5s
+ * // 3 after 6s
+ *
+ * @static true
+ * @name async
+ * @owner Scheduler
+ */
+exports.async = new AsyncScheduler_1.AsyncScheduler(AsyncAction_1.AsyncAction);
+//# sourceMappingURL=async.js.map
+
+/***/ }),
+
+/***/ "../../../../rxjs/util/isNumeric.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var isArray_1 = __webpack_require__("../../../../rxjs/util/isArray.js");
+function isNumeric(val) {
+    // parseFloat NaNs numeric-cast false positives (null|true|false|"")
+    // ...but misinterprets leading-number strings, particularly hex literals ("0x...")
+    // subtraction forces infinities to NaN
+    // adding 1 corrects loss of precision from parseFloat (#15100)
+    return !isArray_1.isArray(val) && (val - parseFloat(val) + 1) >= 0;
+}
+exports.isNumeric = isNumeric;
+;
+//# sourceMappingURL=isNumeric.js.map
 
 /***/ })
 

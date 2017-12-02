@@ -5,19 +5,24 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
-import { HeaderComponent, SidebarComponent } from '../shared';
+import { HeaderComponent, SidebarComponent, AuthGuard, HistoryGuard, DoctorGuard, PatientGuard  } from '../shared';
+import {  PatientService, DoctorService, UserService, AuthenticationService } from '../services';
+
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
         CommonModule,
         NgbDropdownModule.forRoot(),
         LayoutRoutingModule,
-        TranslateModule
+        TranslateModule,
+        FormsModule
     ],
     declarations: [
         LayoutComponent,
         HeaderComponent,
         SidebarComponent,
-    ]
+    ],
+    providers: [AuthGuard, DoctorGuard, PatientGuard, HistoryGuard, AuthenticationService, PatientService, DoctorService, UserService]
 })
 export class LayoutModule { }
